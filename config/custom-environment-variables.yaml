@@ -1,0 +1,13 @@
+server:
+  endpointUri: 'ENDPOINTURI'
+  port: 'PORT'
+  adminPort: 'ADMIN_PORT'
+
+authentication:
+  username: 'USER'
+  password: 'PASSWD'
+
+# database:
+#   connectString: 'DBURL'
+#   user: 'DBUSER'
+#   password: 'DBPASSWD'

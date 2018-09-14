@@ -1,0 +1,28 @@
+server:
+  endpointUri: ${ENDPOINTURI}
+  basePath: /api/v1
+  port: ${PORT}
+  adminPort: ${ADMIN_PORT}
+  keyPath: /path/to/key.pem
+  certPath: /path/to/server.crt
+  secureProtocol: TLSv1_2_method
+
+authentication:
+  username: ${USER}
+  password: ${PASSWD}
+
+logger:
+  size: 10m
+  path: logs
+  pattern: YYYY-MM-DD
+  archive: true
+  colorize: true
+  jsonConsole: false
+
+# database:
+#   connectString: ${DBURL}
+#   user: ${DBUSER}
+#   password: ${DBPASSWD}
+#   poolMin: 30
+#   poolMax: 30
+#   poolIncrement: 0
