@@ -59,3 +59,14 @@ typings/
 
 # next.js build output
 .next
+
+# API
+config/*.yaml
+bin
+
+# Keytool Files
+*.pem
+*.cer
+*.crt
+*.keystore
+*.truststore
