@@ -1,0 +1,21 @@
+{
+  "devDependencies": {
+    "eslint": "^5.5.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "nodemon": "^1.18.4"
+  },
+  "dependencies": {
+    "app-root-path": "^2.1.0",
+    "config": "^2.0.1",
+    "express": "^4.16.3",
+    "express-basic-auth": "^1.1.5",
+    "express-healthcheck": "^0.1.0",
+    "express-winston": "^3.0.0",
+    "jsonapi-serializer": "^3.5.6",
+    "moment": "^2.22.2",
+    "simple-git": "^1.96.0",
+    "winston": "^3.1.0",
+    "winston-daily-rotate-file": "^3.3.2"
+  }
+}
