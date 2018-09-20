@@ -13,8 +13,9 @@ const notFound = description => error(404, 'Not found', description);
 const internalServerError = description => error(500, 'Internal Server Error', description);
 
 const errorHandler = (res, err) => {
+  const message = 'The application encountered an unexpected condition.';
   console.error(err.stack);
-  res.status(500).send(internalServerError('The application encountered an unexpected condition.'));
+  res.status(500).send(internalServerError(message));
 };
 
 module.exports = {
