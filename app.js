@@ -6,6 +6,7 @@ const git = require('simple-git/promise');
 const https = require('https');
 const moment = require('moment');
 
+const db = reqlib('/db/db');
 const { errorHandler } = reqlib('/errors/errors');
 const { authentication } = reqlib('/middlewares/authentication');
 const { logger } = reqlib('/middlewares/logger');
@@ -37,7 +38,7 @@ adminAppRouter.get('/', async (req, res) => {
         time: now.format('YYYY-MM-DD HH:mm:ssZZ'),
         unixTime: now.unix(),
         commit: commit.trim(),
-        documentation: 'swagger.yaml',
+        documentation: 'openapi.yaml',
       },
     };
     res.send(info);
@@ -45,6 +46,32 @@ adminAppRouter.get('/', async (req, res) => {
     errorHandler(res, err);
   }
 });
+
+// GET /express-api-skeleton
+appRouter.get('/express-api-skeleton', async (req, res) => {
+  try {
+    const result = await db.getApis();
+    res.send(result);
+  } catch (err) {
+    errorHandler(res, err);
+  }
+});
+
+// GET /express-api-skeleton/:id
+// appRouter.get('/express-api-skeleton/:id', async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const [osuId, term] = id.split('-');
+//     const result = await db.getStaffFeePrivilegesById({ osuId, term });
+//     if (!result) {
+//       res.status(404).send(notFound('A staff fee privilege record with the specified ID was not found.'));
+//     } else {
+//       res.send(result);
+//     }
+//   } catch (err) {
+//     errorHandler(res, err);
+//   }
+// });
 
 // Create and start HTTPS servers
 const httpsOptions = {

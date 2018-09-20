@@ -88,7 +88,7 @@ components:
           description: A unique ID of API
         type:
           type: string
-          example: api
+          example: apis
         links:
           $ref: '#/components/schemas/Links'
         attributes:
@@ -97,7 +97,7 @@ components:
               type: string
               description: Name of API
               example: Location Frontend API
-            repoURL:
+            repoUrl:
               type: string
               format: url
               description: Repository URL of API
