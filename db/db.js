@@ -8,15 +8,15 @@ const { endpointUri } = config.get('server');
 
 const apis = [
   {
-    id: '1',
-    name: 'Location Frontend API',
-    repoUrl: 'https://github.com/osu-mist/locations-frontend-api',
+    ID: '1',
+    NAME: 'Location Frontend API',
+    REPO_URL: 'https://github.com/osu-mist/locations-frontend-api',
   },
   {
-    id: '2',
-    name: 'Directory API',
-    repoUrl: 'https://github.com/osu-mist/directory-api',
-  }
+    ID: '2',
+    NAME: 'Directory API',
+    REPO_URL: 'https://github.com/osu-mist/directory-api',
+  },
 ];
 
 const getApis = () => new Promise((resolve, reject) => {
@@ -30,7 +30,7 @@ const getApis = () => new Promise((resolve, reject) => {
 
 const getApiById = id => new Promise((resolve, reject) => {
   try {
-    const api = _.find(apis, { id });
+    const api = _.find(apis, { ID: id });
     if (!api) {
       resolve(undefined);
     } else {

@@ -1,5 +1,29 @@
 {
+  "name": "express-api-skeleton",
+  "version": "1.0.0",
+  "description": "Skeleton for Express APIs",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "lint": "eslint .",
+    "test": "mocha tests/** --exit"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osu-mist/express-api-skeleton.git"
+  },
+  "author": "osu-mist",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/osu-mist/express-api-skeleton/issues"
+  },
+  "homepage": "https://github.com/osu-mist/express-api-skeleton#readme",
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-string": "^1.5.0",
     "eslint": "^5.5.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
@@ -7,7 +31,9 @@
   },
   "dependencies": {
     "app-root-path": "^2.1.0",
+    "camelcase": "^5.0.0",
     "config": "^2.0.1",
+    "decamelize": "^2.0.0",
     "express": "^4.16.3",
     "express-basic-auth": "^1.1.5",
     "express-healthcheck": "^0.1.0",

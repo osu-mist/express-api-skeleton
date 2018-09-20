@@ -1,4 +1,5 @@
 const appRoot = require('app-root-path');
+const decamelize = require('decamelize');
 const fs = require('fs');
 const yaml = require('js-yaml');
 const _ = require('lodash');
@@ -11,9 +12,14 @@ const ResourceSerializer = (rows, endpointUri) => {
   const resourceType = resourceProp.type.example;
   const resourceKeys = _.keys(resourceProp.attributes.properties);
 
+  // Adjust attribute keys to match oracledb column names
+  _.forEach(resourceKeys, (key, index) => {
+    resourceKeys[index] = decamelize(key).toUpperCase();
+  });
+
   return new JSONAPISerializer(resourceType, {
     attributes: resourceKeys,
-    id: 'id',
+    id: 'ID',
     keyForAttribute: 'camelCase',
     dataLinks: {
       self: row => `${endpointUri}/express-api-skeleton/${row.ID}`,
