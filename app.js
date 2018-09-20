@@ -7,7 +7,7 @@ const https = require('https');
 const moment = require('moment');
 
 const db = reqlib('/db/db');
-const { errorHandler } = reqlib('/errors/errors');
+const { notFound, errorHandler } = reqlib('/errors/errors');
 const { authentication } = reqlib('/middlewares/authentication');
 const { logger } = reqlib('/middlewares/logger');
 
@@ -58,20 +58,19 @@ appRouter.get('/express-api-skeleton', async (req, res) => {
 });
 
 // GET /express-api-skeleton/:id
-// appRouter.get('/express-api-skeleton/:id', async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const [osuId, term] = id.split('-');
-//     const result = await db.getStaffFeePrivilegesById({ osuId, term });
-//     if (!result) {
-//       res.status(404).send(notFound('A staff fee privilege record with the specified ID was not found.'));
-//     } else {
-//       res.send(result);
-//     }
-//   } catch (err) {
-//     errorHandler(res, err);
-//   }
-// });
+appRouter.get('/express-api-skeleton/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.getApiById(id);
+    if (!result) {
+      res.status(404).send(notFound('An API with the specified ID was not found.'));
+    } else {
+      res.send(result);
+    }
+  } catch (err) {
+    errorHandler(res, err);
+  }
+});
 
 // Create and start HTTPS servers
 const httpsOptions = {
