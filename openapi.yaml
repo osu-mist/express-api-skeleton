@@ -22,16 +22,50 @@ paths:
   /express-api-skeleton:
     get:
       summary: List all APIs
-      operationId: getAPIs
+      description: Get all APIs
+      operationId: getApis
       tags:
         - apis
       responses:
         200:
-          description: A array of APIs
+          description: Successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Resources'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+  /express-api-skeleton/{id}:
+    get:
+      summary: Info for a specific API
+      description: Get API by unique ID
+      operationId: getApiById
+      tags:
+        - apis
+      parameters:
+        - name: id
+          in: path
+          description: Unique API ID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+        404:
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
         500:
           description: Internal Server Error
           content:
