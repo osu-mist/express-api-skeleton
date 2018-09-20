@@ -1,34 +1,26 @@
 {
-  "name": "express-api-skeleton",
+  "name": "staff-fee-privilege-api",
   "version": "1.0.0",
-  "description": "Skeleton for Express APIs",
+  "description": "Report the people who used the staff fee privilege for each term",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "lint": "eslint .",
-    "test": "mocha tests/** --exit"
+    "start": "./node_modules/.bin/forever app.js",
+    "lint": "./node_modules/.bin/eslint .",
+    "test": "./node_modules/.bin/mocha tests/** --exit"
   },
   "pre-commit": [
     "lint"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/osu-mist/express-api-skeleton.git"
+    "url": "git+https://github.com/osu-mist/staff-fee-privilege-api.git"
   },
   "author": "osu-mist",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/osu-mist/express-api-skeleton/issues"
+    "url": "https://github.com/osu-mist/staff-fee-privilege-api/issues"
   },
-  "homepage": "https://github.com/osu-mist/express-api-skeleton#readme",
-  "devDependencies": {
-    "chai": "^4.1.2",
-    "chai-string": "^1.5.0",
-    "eslint": "^5.5.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "nodemon": "^1.18.4"
-  },
+  "homepage": "https://github.com/osu-mist/staff-fee-privilege-api#readme",
   "dependencies": {
     "app-root-path": "^2.1.0",
     "camelcase": "^5.0.0",
@@ -38,6 +30,7 @@
     "express-basic-auth": "^1.1.5",
     "express-healthcheck": "^0.1.0",
     "express-winston": "^3.0.0",
+    "forever": "^0.15.3",
     "js-yaml": "^3.12.0",
     "jsonapi-serializer": "^3.5.6",
     "lodash": "^4.17.11",
@@ -45,5 +38,13 @@
     "simple-git": "^1.96.0",
     "winston": "^3.1.0",
     "winston-daily-rotate-file": "^3.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-string": "^1.5.0",
+    "eslint": "^5.5.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0"
   }
 }

@@ -16,7 +16,7 @@ const apis = [
     ID: '2',
     NAME: 'Directory API',
     REPO_URL: 'https://github.com/osu-mist/directory-api',
-  },
+  }
 ];
 
 const getApis = () => new Promise((resolve, reject) => {
