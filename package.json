@@ -1,7 +1,7 @@
 {
-  "name": "staff-fee-privilege-api",
+  "name": "express-api-skeleton",
   "version": "1.0.0",
-  "description": "Report the people who used the staff fee privilege for each term",
+  "description": "Skeleton for Express APIs.",
   "main": "app.js",
   "scripts": {
     "start": "./node_modules/.bin/gulp run",
@@ -13,14 +13,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/osu-mist/staff-fee-privilege-api.git"
+    "url": "git+https://github.com/osu-mist/express-api-skeleton.git"
   },
   "author": "osu-mist",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/osu-mist/staff-fee-privilege-api/issues"
+    "url": "https://github.com/osu-mist/express-api-skeleton/issues"
   },
-  "homepage": "https://github.com/osu-mist/staff-fee-privilege-api#readme",
+  "homepage": "https://github.com/osu-mist/express-api-skeleton#readme",
   "dependencies": {
     "app-root-path": "^2.1.0",
     "camelcase": "^5.0.0",

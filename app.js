@@ -10,24 +10,38 @@ const db = reqlib('/db/db');
 const { notFound, errorHandler } = reqlib('/errors/errors');
 const { authentication } = reqlib('/middlewares/authentication');
 const { logger } = reqlib('/middlewares/logger');
+const api = reqlib('/package.json').name;
+const {
+  basePath,
+  port,
+  adminPort,
+  keyPath,
+  certPath,
+  secureProtocol,
+} = config.get('server');
 
-// Create Express application
-const serverConfig = config.get('server');
+/**
+ * Initialize Express applications and routers
+ */
 const app = express();
 const appRouter = express.Router();
 const adminApp = express();
 const adminAppRouter = express.Router();
 
-// Middlewares
+/**
+ * Middlewares
+ */
 if (logger) app.use(logger);
-app.use(serverConfig.basePath, appRouter);
+app.use(basePath, appRouter);
 appRouter.use(authentication);
 
-adminApp.use(serverConfig.basePath, adminAppRouter);
+adminApp.use(basePath, adminAppRouter);
 adminAppRouter.use(authentication);
 adminAppRouter.use('/healthcheck', require('express-healthcheck')());
 
-// GET /
+/**
+ * Get application information
+ */
 adminAppRouter.get('/', async (req, res) => {
   try {
     const commit = await git().revparse(['--short', 'HEAD']);
@@ -47,8 +61,10 @@ adminAppRouter.get('/', async (req, res) => {
   }
 });
 
-// GET /express-api-skeleton
-appRouter.get('/express-api-skeleton', async (req, res) => {
+/**
+ * Get APIs
+ */
+appRouter.get(`/${api}`, async (req, res) => {
   try {
     const result = await db.getApis();
     res.send(result);
@@ -57,8 +73,10 @@ appRouter.get('/express-api-skeleton', async (req, res) => {
   }
 });
 
-// GET /express-api-skeleton/:id
-appRouter.get('/express-api-skeleton/:id', async (req, res) => {
+/**
+ * Get API by unique ID
+ */
+appRouter.get(`/${api}/:id`, async (req, res) => {
   try {
     const { id } = req.params;
     const result = await db.getApiById(id);
@@ -72,16 +90,16 @@ appRouter.get('/express-api-skeleton/:id', async (req, res) => {
   }
 });
 
-// Create and start HTTPS servers
+/**
+ * Create and start HTTPS servers
+ */
 const httpsOptions = {
-  key: fs.readFileSync(serverConfig.keyPath),
-  cert: fs.readFileSync(serverConfig.certPath),
-  secureProtocol: serverConfig.secureProtocol,
+  key: fs.readFileSync(keyPath),
+  cert: fs.readFileSync(certPath),
+  secureProtocol,
 };
 const httpsServer = https.createServer(httpsOptions, app);
 const adminHttpsServer = https.createServer(httpsOptions, adminApp);
 
-httpsServer.listen(serverConfig.port);
-adminHttpsServer.listen(serverConfig.adminPort);
-
-module.exports = { app };
+httpsServer.listen(port);
+adminHttpsServer.listen(adminPort);
