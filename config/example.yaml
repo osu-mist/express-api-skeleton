@@ -16,13 +16,3 @@ logger:
   path: logs
   pattern: YYYY-MM-DD
   archive: true
-  colorize: true
-  jsonConsole: false
-
-# database:
-#   connectString: ${DBURL}
-#   user: ${DBUSER}
-#   password: ${DBPASSWD}
-#   poolMin: 30
-#   poolMax: 30
-#   poolIncrement: 0
