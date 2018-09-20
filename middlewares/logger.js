@@ -7,7 +7,7 @@ const loggerConfig = config.get('logger');
 
 // Transport for daily rotate file
 const dailyRotateFileTransport = new (winston.transports.DailyRotateFile)({
-  filename: 'staff-fee-privilege-%DATE%.log',
+  filename: 'express-api-skeleton-%DATE%.log',
   datePattern: loggerConfig.pattern,
   maxSize: loggerConfig.size,
   zippedArchive: loggerConfig.archive,
@@ -16,14 +16,16 @@ const dailyRotateFileTransport = new (winston.transports.DailyRotateFile)({
 
 // Transport for console output
 const consoleTransport = new winston.transports.Console({
-  json: loggerConfig.jsonConsole,
-  colorize: loggerConfig.colorize,
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.colorize(),
+    winston.format.simple(),
+  ),
 });
 
 const logger = expressWinston.logger({
   transports: [dailyRotateFileTransport, consoleTransport],
   expressFormat: true,
-  colorize: loggerConfig.colorize,
 });
 
 module.exports = { logger };
