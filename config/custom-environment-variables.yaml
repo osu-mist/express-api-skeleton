@@ -6,8 +6,3 @@ server:
 authentication:
   username: 'USER'
   password: 'PASSWD'
-
-# database:
-#   connectString: 'DBURL'
-#   user: 'DBUSER'
-#   password: 'DBPASSWD'
