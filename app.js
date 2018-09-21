@@ -21,7 +21,7 @@ const {
 } = config.get('server');
 
 /**
- * Initialize Express applications and routers
+ * @summary Initialize Express applications and routers
  */
 const app = express();
 const appRouter = express.Router();
@@ -29,7 +29,7 @@ const adminApp = express();
 const adminAppRouter = express.Router();
 
 /**
- * Middlewares
+ * @summary Middlewares
  */
 if (logger) app.use(logger);
 app.use(basePath, appRouter);
@@ -40,7 +40,7 @@ adminAppRouter.use(authentication);
 adminAppRouter.use('/healthcheck', require('express-healthcheck')());
 
 /**
- * Get application information
+ * @summary Get application information
  */
 adminAppRouter.get('/', async (req, res) => {
   try {
@@ -62,7 +62,7 @@ adminAppRouter.get('/', async (req, res) => {
 });
 
 /**
- * Get APIs
+ * @summary Get APIs
  */
 appRouter.get(`/${api}`, async (req, res) => {
   try {
@@ -74,7 +74,7 @@ appRouter.get(`/${api}`, async (req, res) => {
 });
 
 /**
- * Get API by unique ID
+ * @summary Get API by unique ID
  */
 appRouter.get(`/${api}/:id`, async (req, res) => {
   try {
@@ -91,7 +91,7 @@ appRouter.get(`/${api}/:id`, async (req, res) => {
 });
 
 /**
- * Create and start HTTPS servers
+ * @summary Create and start HTTPS servers
  */
 const httpsOptions = {
   key: fs.readFileSync(keyPath),

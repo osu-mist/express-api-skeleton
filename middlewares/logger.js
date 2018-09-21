@@ -5,7 +5,10 @@ require('winston-daily-rotate-file');
 
 const loggerConfig = config.get('logger');
 
-// Transport for daily rotate file
+/**
+ * @summary Return a transport for daily rotate file
+ * @returns A transport for daily rotate file
+ */
 const dailyRotateFileTransport = new (winston.transports.DailyRotateFile)({
   filename: 'express-api-skeleton-%DATE%.log',
   datePattern: loggerConfig.pattern,
@@ -14,7 +17,10 @@ const dailyRotateFileTransport = new (winston.transports.DailyRotateFile)({
   dirname: loggerConfig.path,
 });
 
-// Transport for console output
+/**
+ * @summary Return a transport for console output
+ * @returns A transport for daily rotate file
+ */
 const consoleTransport = new winston.transports.Console({
   format: winston.format.combine(
     winston.format.timestamp(),
@@ -23,6 +29,9 @@ const consoleTransport = new winston.transports.Console({
   ),
 });
 
+/**
+ * @summary Create logger middleware
+ */
 const logger = expressWinston.logger({
   transports: [dailyRotateFileTransport, consoleTransport],
   expressFormat: true,

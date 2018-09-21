@@ -1,8 +1,8 @@
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 /**
- * Return a JSON API error object
- * @function error
+ * @summary Return a JSON API error object
+ * @function
  * @param {string} status status
  * @param {string} title title
  * @param {string} description description
@@ -15,39 +15,38 @@ const error = (status, title, description) => new JSONAPIError({
 });
 
 /**
- * Return a Bad Request error object
- * @function badRequest
+ * @summary Return a Bad Request error object
+ * @function
  * @param {string} description
  * @returns {Object} Bad Rquest error object
  */
 const badRequest = description => error(400, 'Bad request', description);
 
 /**
- * Return a Unauthorized error object
- * @function
+ * @summary Return a Unauthorized error object
  * @returns {Object} Unauthorized error object
  */
 const unauthorized = () => error(401, 'Unauthorized', 'Unauthorized');
 
 /**
- * Return a Not Found error object
- * @function notFound
+ * @summary Return a Not Found error object
+ * @function
  * @param {string} description
  * @returns {Object} Not Found error object
  */
 const notFound = description => error(404, 'Not found', description);
 
 /**
- * Return a Internal Server Error error object
- * @function internalServerError
+ * @summary Return a Internal Server Error error object
+ * @function
  * @param {string} description
  * @returns {Object} Internal Server Error error object
  */
 const internalServerError = description => error(500, 'Internal Server Error', description);
 
 /**
- * Function to handle unexpected errors
- * @function errorHandler
+ * @summary Function to handle unexpected errors
+ * @function
  * @param res response
  * @param err error
  */

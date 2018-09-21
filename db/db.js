@@ -7,7 +7,8 @@ const { ResourceSerializer } = reqlib('/serializers/jsonapi');
 const { endpointUri } = config.get('server');
 
 /**
- * Fake resource data
+ * @summary Fake resource data
+ * @constant
  */
 const apis = [
   {
@@ -23,8 +24,7 @@ const apis = [
 ];
 
 /**
- * Return a list of APIs
- * @function
+ * @summary Return a list of APIs
  * @returns {Promise} Promise object represents a list of APIs
  */
 const getApis = () => new Promise((resolve, reject) => {
@@ -37,8 +37,7 @@ const getApis = () => new Promise((resolve, reject) => {
 });
 
 /**
- * Return a specific API by unique ID
- * @function
+ * @summary Return a specific API by unique ID
  * @param {string} id
  * @returns {Promise} Promise object represents a specific API
  */
