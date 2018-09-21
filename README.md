@@ -54,7 +54,7 @@ Run the application:
   $ gulp run
 
   # Run the app without running linting and testing tasks (only for development)
-  $ nodemon app.js
+  $ gulp start
   ```
 
 ## Running the tests
@@ -64,11 +64,11 @@ Run the application:
 Run [ESLint](https://eslint.org/) to check the code:
 
 ```shell
-# Using npm
-$ npm run lint
-
 # Using gulp
 $ gulp lint
+
+# Using npm
+$ npm run lint
 ```
 
 _Note: We are following [Airbnb's style](https://github.com/airbnb/javascript) as the JavaScript style guide_
@@ -78,11 +78,11 @@ _Note: We are following [Airbnb's style](https://github.com/airbnb/javascript) a
 Run unit tests:
 
 ```shell
-# Using npm
-$ npm test
-
 # Using gulp
 $ gulp test
+
+# Using npm
+$ npm test
 ```
 
 ## Docker
