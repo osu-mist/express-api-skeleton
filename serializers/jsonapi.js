@@ -5,7 +5,7 @@ const yaml = require('js-yaml');
 const _ = require('lodash');
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 
-const openapi = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
+const swagger = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
 
 /**
  * @summary Serializer to JSON API
@@ -15,13 +15,13 @@ const openapi = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8')
  * @returns Serialized resource object
  */
 const ResourceSerializer = (rows, endpointUri) => {
-  const resourceProp = openapi.components.schemas.Resource.properties;
+  const resourceProp = swagger.definitions.Resource.properties;
   const resourceType = resourceProp.type.example;
   const resourceKeys = _.keys(resourceProp.attributes.properties);
 
   /**
    * The column name getting from database is usually UPPER_CASE.
-   * This block of code is to make the camelCase keys defined in openapi.yaml be
+   * This block of code is to make the camelCase keys defined in swagger.yaml be
    * UPPER_CASE so that the serializer can correctly match the corresponding columns
    * from the raw data rows.
    */

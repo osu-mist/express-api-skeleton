@@ -1,48 +1,73 @@
 const JSONAPIError = require('jsonapi-serializer').Error;
+const _ = require('lodash');
 
 /**
- * @summary Return a JSON API error object
+ * @summary Construct error object
  * @function
- * @param {string} status status
- * @param {string} title title
- * @param {string} description description
- * @returns {Object} JSON API error object
+ * @param {string} status the HTTP status code
+ * @param {string} title a short, human-readable summary of the problem
+ * @param {string} code an application-specific error code
+ * @param {string} detail a human-readable explanation
+ * @returns {Object} an error object
  */
-const error = (status, title, description) => new JSONAPIError({
+const error = (status, title, code, detail) => ({
   status,
   title,
-  detail: description,
+  code,
+  detail,
+  links: { about: `https://developer.oregonstate.edu/documentation/error-reference#${code}` },
 });
 
 /**
- * @summary Return a Bad Request error object
+ * @summary [400] Return a Bad Request error object
  * @function
- * @param {string} description
+ * @param {[string]} details an array of bad request details
  * @returns {Object} Bad Rquest error object
  */
-const badRequest = description => error(400, 'Bad request', description);
+const badRequest = (details) => {
+  const badRequests = [];
+  _.forEach(details, detail => badRequests.push(error('400', 'Bad Request', '1400', detail)));
+  return new JSONAPIError(badRequests);
+};
 
 /**
- * @summary Return a Unauthorized error object
+ * @summary [401] Return a Unauthorized error object
+ * @function
  * @returns {Object} Unauthorized error object
  */
-const unauthorized = () => error(401, 'Unauthorized', 'Unauthorized');
+const unauthorized = () => new JSONAPIError(error('401', 'Unauthorized', 'Unauthorized'));
 
 /**
- * @summary Return a Not Found error object
+ * @summary [403] Return a Forbidden error object
  * @function
- * @param {string} description
+ * @param {string} detail
+ * @returns {Object} Unauthorized error object
+ */
+const forbidden = detail => new JSONAPIError(error('403', 'Forbidden', detail));
+
+/**
+ * @summary [404] Return a Not Found error object
+ * @function
+ * @param {string} detail
  * @returns {Object} Not Found error object
  */
-const notFound = description => error(404, 'Not found', description);
+const notFound = detail => new JSONAPIError(error('404', 'Not found', detail));
 
 /**
- * @summary Return a Internal Server Error error object
+ * @summary [409] Return a Conflict error object
  * @function
- * @param {string} description
+ * @param {string} detail
+ * @returns {Object} Conflict error object
+ */
+const conflict = detail => new JSONAPIError(error('409', 'Conflict', detail));
+
+/**
+ * @summary [500] Return a Internal Server Error error object
+ * @function
+ * @param {string} detail
  * @returns {Object} Internal Server Error error object
  */
-const internalServerError = description => error(500, 'Internal Server Error', description);
+const internalServerError = detail => new JSONAPIError(error('500', 'Internal Server Error', detail));
 
 /**
  * @summary Function to handle unexpected errors
@@ -51,14 +76,16 @@ const internalServerError = description => error(500, 'Internal Server Error', d
  * @param err error
  */
 const errorHandler = (res, err) => {
-  const description = 'The application encountered an unexpected condition.';
+  const detail = 'The application encountered an unexpected condition.';
   console.error(err.stack);
-  res.status(500).send(internalServerError(description));
+  res.status(500).send(internalServerError(detail));
 };
 
 module.exports = {
   badRequest,
   unauthorized,
+  forbidden,
   notFound,
+  conflict,
   errorHandler,
 };

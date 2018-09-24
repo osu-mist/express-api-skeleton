@@ -96,14 +96,17 @@ definitions:
   Error:
     properties:
       status:
-        type: integer
-        format: int32
+        type: string
         description: HTTP status code
         example: 404
       title:
         type: string
         description: A short, user readable summary of the error
         example: Not Found
+      code:
+        type: string
+        description: An application-specific error code
+        example: 1404
       detail:
         type: string
         description: A long description of the error that may contain instance-specific details

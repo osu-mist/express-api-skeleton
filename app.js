@@ -52,7 +52,7 @@ adminAppRouter.get('/', async (req, res) => {
         time: now.format('YYYY-MM-DD HH:mm:ssZZ'),
         unixTime: now.unix(),
         commit: commit.trim(),
-        documentation: 'openapi.yaml',
+        documentation: 'swagger.yaml',
       },
     };
     res.send(info);
