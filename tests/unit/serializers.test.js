@@ -9,7 +9,7 @@ const { ResourceSerializer } = reqlib('/serializers/jsonapi');
 const { assert } = chai;
 chai.use(chaiString);
 
-describe('Test staff-fee-privillege serializer', () => {
+describe('Test JSON API serializer', () => {
   const rows = [{
     ID: '1',
     NAME: 'Location Frontend API',
