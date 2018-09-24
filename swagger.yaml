@@ -1,0 +1,124 @@
+swagger: '2.0'
+info:
+  title: Express API Skeleton
+  description: Skeleton for Express APIs
+  version: v1
+  license:
+    name: GNU Affero General Public License Version 3
+    url: http://www.gnu.org/licenses/agpl-3.0.en.html
+  contact:
+    name: IS Data Architecture Team
+    url: https://is.oregonstate.edu/data-architecture
+    email: isdataarchitecture@oregonstate.edu
+host: api.oregonstate.edu
+schemes:
+  - https
+basePath: /v1
+externalDocs:
+  description: GitHub Repository
+  url: https://github.com/osu-mist/express-api-skeleton
+produces:
+  - application/json
+paths:
+  /express-api-skeleton:
+    get:
+      summary: List all APIs
+      description: Get all APIs
+      operationId: getApis
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Resources'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Errors'
+  /express-api-skeleton/{id}:
+    get:
+      summary: Info for a specific API
+      description: Get API by unique ID
+      operationId: getApiById
+      parameters:
+        - name: id
+          in: path
+          description: Unique API ID
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Resource'
+        404:
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/Errors'
+
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Errors'
+definitions:
+  Links:
+    properties:
+      self:
+        type: string
+        format: url
+        description: Self link of resource
+  Resource:
+    properties:
+      id:
+        type: string
+        description: A unique ID of API
+      type:
+        type: string
+        example: apis
+      links:
+        $ref: '#/definitions/Links'
+      attributes:
+        properties:
+          name:
+            type: string
+            description: Name of API
+            example: Location Frontend API
+          repoUrl:
+            type: string
+            format: url
+            description: Repository URL of API
+            example: https://github.com/osu-mist/locations-frontend-api
+  Resources:
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Resource'
+  Error:
+    properties:
+      status:
+        type: integer
+        format: int32
+        description: HTTP status code
+        example: 404
+      title:
+        type: string
+        description: A short, user readable summary of the error
+        example: Not Found
+      detail:
+        type: string
+        description: A long description of the error that may contain instance-specific details
+        example: The resource requested by the API call was not found
+      links:
+        properties:
+          about:
+            type: string
+            format: url
+            description: A link to further information about the error
+            example: https://developer.oregonstate.edu/documentation/error-reference#1404
+  Errors:
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/Error'
+
