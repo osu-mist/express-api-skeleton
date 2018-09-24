@@ -1,24 +1,25 @@
-const reqlib = require('app-root-path').require;
+const appRoot = require('app-root-path');
 const config = require('config');
 const express = require('express');
 const fs = require('fs');
+const yaml = require('js-yaml');
 const git = require('simple-git/promise');
 const https = require('https');
 const moment = require('moment');
 
-const db = reqlib('/db/db');
-const { notFound, errorHandler } = reqlib('/errors/errors');
-const { authentication } = reqlib('/middlewares/authentication');
-const { logger } = reqlib('/middlewares/logger');
-const api = reqlib('/package.json').name;
+const db = appRoot.require('/db/db');
+const { notFound, errorHandler } = appRoot.require('/errors/errors');
+const { authentication } = appRoot.require('/middlewares/authentication');
+const { logger } = appRoot.require('/middlewares/logger');
+const api = appRoot.require('/package.json').name;
 const {
-  basePath,
   port,
   adminPort,
   keyPath,
   certPath,
   secureProtocol,
 } = config.get('server');
+const { basePath } = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
 
 /**
  * @summary Initialize Express applications and routers
@@ -32,10 +33,10 @@ const adminAppRouter = express.Router();
  * @summary Middlewares
  */
 if (logger) app.use(logger);
-app.use(basePath, appRouter);
+app.use(`/api${basePath}`, appRouter);
 appRouter.use(authentication);
 
-adminApp.use(basePath, adminAppRouter);
+adminApp.use(`/api${basePath}`, adminAppRouter);
 adminAppRouter.use(authentication);
 adminAppRouter.use('/healthcheck', require('express-healthcheck')());
 

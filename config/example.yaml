@@ -1,6 +1,5 @@
 server:
   endpointUri: ${ENDPOINTURI}
-  basePath: /api/v1
   port: ${PORT}
   adminPort: ${ADMIN_PORT}
   keyPath: /path/to/key.pem
