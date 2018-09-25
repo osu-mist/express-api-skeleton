@@ -127,6 +127,18 @@ The following instructions show you how to connect the API to an Oracle database
         $ git submodule update --init
         ```
 
+4. Install [node-oracledb](https://oracle.github.io/node-oracledb/):
+
+    ```shell
+    # Using yarn (recommended)
+    $ yarn add node-oracledb
+
+    # Using npm
+    $ npm install node-oracledb
+    ```
+
+5. Copy [db/oracledb-example.js](db/oracledb-example.js) to `db/db.js` and modify as necessary.
+
 ## Docker
 
 [Dockerfile](Dockerfile) is also provided. To run the app in a container, install [Docker](https://www.docker.com/) first, then:
