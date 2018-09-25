@@ -91,7 +91,18 @@ The following instructions show you how to connect the API to an Oracle database
 
 1. Install [Oracle Instant Client](http://www.oracle.com/technetwork/database/database-technologies/instant-client/overview/index.html) by following [here](https://oracle.github.io/odpi/doc/installation.html).
 
-2. Define `database` section in the `/config/defualt.yaml` be like:
+
+2. Install [node-oracledb](https://oracle.github.io/node-oracledb/) via package management:
+
+    ```shell
+    # Using yarn (recommended)
+    $ yarn add node-oracledb
+
+    # Using npm
+    $ npm install node-oracledb
+    ```
+
+3. Define `database` section in the `/config/defualt.yaml` be like:
 
     ```yaml
     database:
@@ -113,7 +124,7 @@ The following instructions show you how to connect the API to an Oracle database
 
     > Note: To avoid `ORA-02396: exceeded maximum idle time` and prevent deadlocks, the [best practice](https://github.com/oracle/node-oracledb/issues/928#issuecomment-398238519) is to keep `poolMin` the same as `poolMax`. Also, ensure [increasing the number of worker threads](https://github.com/oracle/node-oracledb/blob/node-oracledb-v1/doc/api.md#-82-connections-and-number-of-threads) available to node-oracledb. The thread pool size should be at least equal to the maximum number of connections and less than 128.
 
-3. If the SQL codes/queries contain intellectual property like Banner table names, put them into `./contrib` folder and use [git-submodule](https://git-scm.com/docs/git-submodule) to manage submodules:
+4. If the SQL codes/queries contain intellectual property like Banner table names, put them into `./contrib` folder and use [git-submodule](https://git-scm.com/docs/git-submodule) to manage submodules:
 
     * Add the given repository as a submodule at `./contrib`:
 
@@ -126,16 +137,6 @@ The following instructions show you how to connect the API to an Oracle database
         ```shell
         $ git submodule update --init
         ```
-
-4. Install [node-oracledb](https://oracle.github.io/node-oracledb/):
-
-    ```shell
-    # Using yarn (recommended)
-    $ yarn add node-oracledb
-
-    # Using npm
-    $ npm install node-oracledb
-    ```
 
 5. Copy [db/oracledb-example.js](db/oracledb-example.js) to `db/db.js` and modify as necessary.
 
