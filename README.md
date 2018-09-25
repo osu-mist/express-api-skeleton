@@ -1,6 +1,6 @@
-# Express API Skeleton
+# Express API Skeleton ![version](https://img.shields.io/badge/version-v1-blue.svg) [![swagger](https://img.shields.io/badge/swagger-2.0-green.svg)](./swagger.yaml)
 
-Skeleton for Express APIs.
+Skeleton for Express APIs. API definition is contained in the [Swagger specification](./swagger.yaml).
 
 ## Getting Started
 
@@ -85,13 +85,53 @@ $ gulp test
 $ npm test
 ```
 
+## Base project off the skeleton
+
+### Base a new project off the skeleton
+
+1. Clone the skeleton:
+
+    ```shell
+    $ git clone --origin skeleton git@github.com:osu-mist/express-api-skeleton.git <my-api>
+    ```
+
+2. Rename project by modifying [package.json](./package.json).
+
+### Base an existing project off / Incorporate updates from the skeleton
+
+1. Add the skeleton as a remote:
+
+    ```shell
+    $ git remote add skeleton git@github.com:osu-mist/express-api-skeleton.git
+    ```
+
+2. Fetch updates from the skeleton:
+
+    ```shell
+    $ git fetch skeleton
+    ```
+
+3. Merge the skeleton into your codebase:
+
+    ```shell
+    $ git checkout feature/CO-1234-branch
+    $ git merge skeleton/master
+    $ git commit -v
+    ```
+
 ## Getting data source from HTTP endpoints
 
 The following instructions show you how to get data from HTTP endpoints.
 
 1. Configure data source (e.g. `httpDataSource`) section in the `/config/defualt.yaml`.
 
-2. Copy [db/http-datasource-example.js](db/http-datasource-example.js) to `db/db.js` and modify as necessary. Note that it is not necessary to use [request-promise-native](https://www.npmjs.com/package/request-promise-native) to send HTTP request like the example does. Feel free to pick whatever package suits your needs. Don't forget to change [serializers/jsonapi.js](serializers/jsonapi.js) to serialize data properly. The following are some other popular HTTP package could be used:
+2. Rename [db/http-datasource-example.js](db/http-datasource-example.js) to `db/db.js` and modify as necessary:
+
+    ```shell
+    $ git mv db/http-datasource-example.js db/db.js
+    ```
+
+    > Note: that it is not necessary to use [request-promise-native](https://www.npmjs.com/package/request-promise-native) to send HTTP request like the example does. Feel free to pick and install whatever package suits your needs. Don't forget to change [serializers/jsonapi.js](serializers/jsonapi.js) to serialize data properly. The following are some popular HTTP package could be used:
 
     * [request](https://www.npmjs.com/package/request)
     * [request-promise](https://www.npmjs.com/package/request-promise) (uses [Bluebird](https://github.com/petkaantonov/bluebird) Promises)
@@ -153,7 +193,11 @@ The following instructions show you how to connect the API to an Oracle database
         $ git submodule update --init
         ```
 
-5. Copy [db/oracledb-example.js](db/oracledb-example.js) to `db/db.js` and modify as necessary.
+5. Copy [db/oracledb-example.js](db/oracledb-example.js) to `db/db.js` and modify as necessary:
+
+    ```shell
+    $ git mv db/oracledb-example.js db/db.js
+    ```
 
 ## Docker
 
