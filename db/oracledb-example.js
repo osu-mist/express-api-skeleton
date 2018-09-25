@@ -13,19 +13,19 @@ const dbConfig = config.get('database');
 const { endpointUri } = config.get('server');
 
 /**
- * Increase 1 extra thread for every 5 pools but no more than 128
+ * @summary Increase 1 extra thread for every 5 pools but no more than 128
  */
 const threadPoolSize = dbConfig.poolMax + (dbConfig.poolMax / 5);
 process.env.UV_THREADPOOL_SIZE = threadPoolSize > 128 ? 128 : threadPoolSize;
 
 /**
- * Create a pool of connection
+ * @summary Create a pool of connection
  * @returns {Promise} Promise object represents a pool of connections
  */
 const poolPromise = oracledb.createPool(dbConfig);
 
 /**
- * Get a connection from created pool
+ * @summary Get a connection from created pool
  * @function
  * @returns {Promise} Promise object represents a connection from created pool
  */
@@ -38,6 +38,7 @@ const getConnection = () => new Promise(async (resolve, reject) => {
 
 /**
  * @summary Return a list of APIs
+ * @function
  * @returns {Promise} Promise object represents a list of APIs
  */
 const getApis = () => new Promise(async (resolve, reject) => {
@@ -55,6 +56,7 @@ const getApis = () => new Promise(async (resolve, reject) => {
 
 /**
  * @summary Return a specific API by unique ID
+ * @function
  * @param {string} id
  * @returns {Promise} Promise object represents a specific API
  */

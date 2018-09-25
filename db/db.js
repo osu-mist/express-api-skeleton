@@ -25,6 +25,7 @@ const apis = [
 
 /**
  * @summary Return a list of APIs
+ * @function
  * @returns {Promise} Promise object represents a list of APIs
  */
 const getApis = () => new Promise((resolve, reject) => {
@@ -38,6 +39,7 @@ const getApis = () => new Promise((resolve, reject) => {
 
 /**
  * @summary Return a specific API by unique ID
+ * @function
  * @param {string} id
  * @returns {Promise} Promise object represents a specific API
  */
