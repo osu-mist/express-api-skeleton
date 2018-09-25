@@ -105,13 +105,13 @@ The following instructions show you how to connect the API to an Oracle database
 
     **Options for database configuration**:
 
-        | Option | Description |
-        | ------ | ----------- |
-        | **poolMin** | The minimum number of connections a connection pool maintains, even when there is no activity to the target database. |
-        | **poolMax** | The maximum number of connections that can be open in the connection pool. |
-        | **poolIncrement** | The number of connections that are opened whenever a connection request exceeds the number of currently open connections. |
+    | Option | Description |
+    | ------ | ----------- |
+    | **poolMin** | The minimum number of connections a connection pool maintains, even when there is no activity to the target database. |
+    | **poolMax** | The maximum number of connections that can be open in the connection pool. |
+    | **poolIncrement** | The number of connections that are opened whenever a connection request exceeds the number of currently open connections. |
 
-        > Note: To avoid `ORA-02396: exceeded maximum idle time` and prevent deadlocks, the [best practice](https://github.com/oracle/node-oracledb/issues/928#issuecomment-398238519) is to keep `poolMin` the same as `poolMax`. Also, ensure [increasing the number of worker threads](https://github.com/oracle/node-oracledb/blob/node-oracledb-v1/doc/api.md#-82-connections-and-number-of-threads) available to node-oracledb. The thread pool size should be at least equal to the maximum number of connections and less than 128.
+    > Note: To avoid `ORA-02396: exceeded maximum idle time` and prevent deadlocks, the [best practice](https://github.com/oracle/node-oracledb/issues/928#issuecomment-398238519) is to keep `poolMin` the same as `poolMax`. Also, ensure [increasing the number of worker threads](https://github.com/oracle/node-oracledb/blob/node-oracledb-v1/doc/api.md#-82-connections-and-number-of-threads) available to node-oracledb. The thread pool size should be at least equal to the maximum number of connections and less than 128.
 
 
 ## Docker
