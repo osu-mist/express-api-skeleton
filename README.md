@@ -14,7 +14,7 @@ Skeleton for Express APIs.
     $ openssl x509 -req -days 365 -in csr.pem -signkey key.pem -out server.crt
     ```
 
-3. Copy [config/example.yaml](config/example.yaml) to `config/default.yaml`. Modify as necessary, being careful to avoid committing sensitive data.
+3. Copy [config/example.yaml](config/example.yaml) to `config/default.yaml`. Modify as necessary, being careful to avoid committing sensitive data. If you want to configure application through [custom environment variables](https://github.com/lorenwest/node-config/wiki/Environment-Variables#custom-environment-variables), mapping the environment variable names into your configuration structure from `config/custom-environment-variables.yaml`:
 
     * **Environment variables**: Sensitive data and data that changes per environment has been moved into environment variables. Below is a list of the variables along with a definition:
 
@@ -85,17 +85,48 @@ $ gulp test
 $ npm test
 ```
 
+## Connecting to Oracle Database
+
+The following instructions show you how to connect the API to an Oracle database
+
+1. Install [Oracle Instant Client](http://www.oracle.com/technetwork/database/database-technologies/instant-client/overview/index.html) by following [here](https://oracle.github.io/odpi/doc/installation.html).
+
+2. Define `database` section in the `/config/defualt.yaml` be like:
+
+    ```yaml
+    database:
+      connectString: ${DBURL}
+      user: ${DBUSER}
+      password: ${DBPASSWD}
+      poolMin: 30
+      poolMax: 30
+      poolIncrement: 0
+    ```
+
+    **Options for database configuration**:
+
+        | Option | Description |
+        | ------ | ----------- |
+        | **poolMin** | The minimum number of connections a connection pool maintains, even when there is no activity to the target database. |
+        | **poolMax** | The maximum number of connections that can be open in the connection pool. |
+        | **poolIncrement** | The number of connections that are opened whenever a connection request exceeds the number of currently open connections. |
+
+        > Note: To avoid `ORA-02396: exceeded maximum idle time` and prevent deadlocks, the [best practice](https://github.com/oracle/node-oracledb/issues/928#issuecomment-398238519) is to keep `poolMin` the same as `poolMax`. Also, ensure [increasing the number of worker threads](https://github.com/oracle/node-oracledb/blob/node-oracledb-v1/doc/api.md#-82-connections-and-number-of-threads) available to node-oracledb. The thread pool size should be at least equal to the maximum number of connections and less than 128.
+
+
 ## Docker
 
 [Dockerfile](Dockerfile) is also provided. To run the app in a container, install [Docker](https://www.docker.com/) first, then:
 
-1. Build the docker image:
+1. If the API is requrired [node-oracledb](https://oracle.github.io/node-oracledb/) to connect to an Oracle database, download an [Oracle Instant Client 12.2 Basic Light zip (64 bits)](http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html) and place into `./bin` folder.
+
+2. Build the docker image:
 
   ```shell
   $ docker build -t express-api-skeleton .
   ```
 
-2. Run the app in a container:
+3. Run the app in a container:
 
   ```shell
   $ docker run -d \
