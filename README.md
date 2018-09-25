@@ -16,24 +16,24 @@ Skeleton for Express APIs.
 
 3. Copy [config/example.yaml](config/example.yaml) to `config/default.yaml`. Modify as necessary, being careful to avoid committing sensitive data. If you want to configure application through [custom environment variables](https://github.com/lorenwest/node-config/wiki/Environment-Variables#custom-environment-variables), mapping the environment variable names into your configuration structure from `config/custom-environment-variables.yaml`:
 
-    * **Environment variables**: Sensitive data and data that changes per environment has been moved into environment variables. Below is a list of the variables along with a definition:
+    **Environment variables**: Sensitive data and data that changes per environment has been moved into environment variables. Below is a list of the variables along with a definition:
 
-        | Environment variable | Description |
-        | -------------------- | ----------- |
-        | **${PORT}** | The port used by the API. |
-        | **${ADMIN_PORT}** | The port used by the **ADMIN** endpoint. |
-        | **${USER}** | The HTTP Basic username used to authenticate API calls. |
-        | **${PASSWD}** | The HTTP Basic password used to authenticate API calls. |
-        | **${ENDPOINTURI}** | API endpoint URI. |
+    | Environment variable | Description |
+    | -------------------- | ----------- |
+    | **${PORT}** | The port used by the API. |
+    | **${ADMIN_PORT}** | The port used by the **ADMIN** endpoint. |
+    | **${USER}** | The HTTP Basic username used to authenticate API calls. |
+    | **${PASSWD}** | The HTTP Basic password used to authenticate API calls. |
+    | **${ENDPOINTURI}** | API endpoint URI. |
 
-    * **Options for logger configuration**:
+    **Options for logger configuration**:
 
-        | Option | Description |
-        | ------ | ----------- |
-        | **size** | Maximum size of the file after which it will rotate. This can be a number of bytes, or units of kb, mb, and gb. If using the units, add 'k', 'm', or 'g' as the suffix. The units need to directly follow the number. |
-        | **path** | The directory name to save log files to. |
-        | **pattern** | A string representing the [moment.js date format](https://momentjs.com/docs/#/displaying/format/) to be used for rotating. The meta characters used in this string will dictate the frequency of the file rotation. For example, if your datePattern is simply 'HH' you will end up with 24 log files that are picked up and appended to every day. |
-        | **archive** | A boolean to define whether or not to gzip archived log files. |
+    | Option | Description |
+    | ------ | ----------- |
+    | **size** | Maximum size of the file after which it will rotate. This can be a number of bytes, or units of kb, mb, and gb. If using the units, add 'k', 'm', or 'g' as the suffix. The units need to directly follow the number. |
+    | **path** | The directory name to save log files to. |
+    | **pattern** | A string representing the [moment.js date format](https://momentjs.com/docs/#/displaying/format/) to be used for rotating. The meta characters used in this string will dictate the frequency of the file rotation. For example, if your datePattern is simply 'HH' you will end up with 24 log files that are picked up and appended to every day. |
+    | **archive** | A boolean to define whether or not to gzip archived log files. |
 
 ### Installing
 
@@ -113,6 +113,19 @@ The following instructions show you how to connect the API to an Oracle database
 
     > Note: To avoid `ORA-02396: exceeded maximum idle time` and prevent deadlocks, the [best practice](https://github.com/oracle/node-oracledb/issues/928#issuecomment-398238519) is to keep `poolMin` the same as `poolMax`. Also, ensure [increasing the number of worker threads](https://github.com/oracle/node-oracledb/blob/node-oracledb-v1/doc/api.md#-82-connections-and-number-of-threads) available to node-oracledb. The thread pool size should be at least equal to the maximum number of connections and less than 128.
 
+3. If the SQL codes/queries contain intellectual property like Banner table names, put them into `./contrib` folder and use [git-submodule](https://git-scm.com/docs/git-submodule) to manage submodules:
+
+    * Add the given repository as a submodule at `./contrib`:
+
+        ```shell
+        $ git submodule add <contrib_repo_git_url> contrib
+        ```
+
+    * Fetch the submodule from the contrib repository:
+
+        ```shell
+        $ git submodule update --init
+        ```
 
 ## Docker
 
