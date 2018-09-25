@@ -16,7 +16,7 @@ Skeleton for Express APIs.
 
 3. Copy [config/example.yaml](config/example.yaml) to `config/default.yaml`. Modify as necessary, being careful to avoid committing sensitive data. If you want to configure application through [custom environment variables](https://github.com/lorenwest/node-config/wiki/Environment-Variables#custom-environment-variables), mapping the environment variable names into your configuration structure from `config/custom-environment-variables.yaml`:
 
-    **Environment variables**: Sensitive data and data that changes per environment has been moved into environment variables. Below is a list of the variables along with a definition:
+    **Environment variables**: Sensitive data and data that changes per environment have been moved into environment variables. Below is a list of the variables along with a definition:
 
     | Environment variable | Description |
     | -------------------- | ----------- |
@@ -50,7 +50,7 @@ $ npm install
 Run the application:
 
   ```shell
-  # Run linting and testing tasks before start the app
+  # Run linting and testing tasks before starting the app
   $ gulp run
 
   # Run the app without running linting and testing tasks (only for development)
@@ -91,7 +91,7 @@ The following instructions show you how to get data from HTTP endpoints.
 
 1. Configure data source (e.g. `httpDataSource`) section in the `/config/defualt.yaml`.
 
-2. Copy [db/http-datasource-example.js](db/http-datasource-example.js) to `db/db.js` and modify as necessary. Note that it is not necessary to use [request-promise-native](https://www.npmjs.com/package/request-promise-native) to send HTTP request like the example does. Feel free to pick whatever package suit your needs. Don't forget to change [serializers/jsonapi.js](serializers/jsonapi.js) to serialize data properly. The following are some other popular HTTP package could be used:
+2. Copy [db/http-datasource-example.js](db/http-datasource-example.js) to `db/db.js` and modify as necessary. Note that it is not necessary to use [request-promise-native](https://www.npmjs.com/package/request-promise-native) to send HTTP request like the example does. Feel free to pick whatever package suits your needs. Don't forget to change [serializers/jsonapi.js](serializers/jsonapi.js) to serialize data properly. The following are some other popular HTTP package could be used:
 
     * [request](https://www.npmjs.com/package/request)
     * [request-promise](https://www.npmjs.com/package/request-promise) (uses [Bluebird](https://github.com/petkaantonov/bluebird) Promises)
@@ -159,7 +159,7 @@ The following instructions show you how to connect the API to an Oracle database
 
 [Dockerfile](Dockerfile) is also provided. To run the app in a container, install [Docker](https://www.docker.com/) first, then:
 
-1. If the API is requrired [node-oracledb](https://oracle.github.io/node-oracledb/) to connect to an Oracle database, download an [Oracle Instant Client 12.2 Basic Light zip (64 bits)](http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html) and place into `./bin` folder.
+1. If the API is required [node-oracledb](https://oracle.github.io/node-oracledb/) to connect to an Oracle database, download an [Oracle Instant Client 12.2 Basic Light zip (64 bits)](http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html) and place into `./bin` folder.
 
 2. Build the docker image:
 
