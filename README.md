@@ -85,9 +85,24 @@ $ gulp test
 $ npm test
 ```
 
-## Connecting to Oracle Database
+## Getting data source from HTTP endpoints
 
-The following instructions show you how to connect the API to an Oracle database
+The following instructions show you how to get data from HTTP endpoints.
+
+1. Configure data source (e.g. `httpDataSource`) section in the `/config/defualt.yaml`.
+
+2. Copy [db/http-datasource-example.js](db/http-datasource-example.js) to `db/db.js` and modify as necessary. Note that it is not necessary to use [request-promise-native](https://www.npmjs.com/package/request-promise-native) to send HTTP request like the example does. Choose whatever package suit your needs. Don't forget to change [serializers/jsonapi.js](serializers/jsonapi.js) to serialize data properly. The following are some other popular HTTP package could be used:
+
+    * [request](https://www.npmjs.com/package/request)
+    * [request-promise](https://www.npmjs.com/package/request-promise) (uses [Bluebird](https://github.com/petkaantonov/bluebird) Promises)
+    * [request-promise-native](https://www.npmjs.com/package/request-promise-native) (uses native ES6 Promises)
+    * [request-promise-any](https://www.npmjs.com/package/request-promise-any) (uses [any-promise](https://www.npmjs.com/package/any-promise) Promises)
+    * [axios](https://www.npmjs.com/package/axios)
+    * [node-fetch](https://www.npmjs.com/package/node-fetch)
+
+## Getting data source from the Oracle Database
+
+The following instructions show you how to connect the API to an Oracle database.
 
 1. Install [Oracle Instant Client](http://www.oracle.com/technetwork/database/database-technologies/instant-client/overview/index.html) by following [here](https://oracle.github.io/odpi/doc/installation.html).
 
