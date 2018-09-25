@@ -10,9 +10,9 @@ info:
     name: IS Data Architecture Team
     url: https://is.oregonstate.edu/data-architecture
     email: isdataarchitecture@oregonstate.edu
-host: api.oregonstate.edu
 schemes:
   - https
+host: api.oregonstate.edu
 basePath: /v1
 externalDocs:
   description: GitHub Repository
