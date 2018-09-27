@@ -13,9 +13,9 @@ const { paginatedLink } = appRoot.require('/serializers/uri-builder');
 const paginate = (rows, page) => {
   const { number, size } = page;
   const pageNumber = parseInt(number, 10);
+  const pageSize = size ? parseInt(size, 10) : 10;
   const nextPage = pageNumber + 1;
   const prevPage = pageNumber - 1;
-  const pageSize = parseInt(size, 10);
   const totalPages = Math.ceil(rows.length / pageSize);
   const paginatedRows = _.slice(rows, (pageNumber - 1) * pageSize, pageNumber * pageSize);
   const isOutOfBounds = pageNumber < 1 || pageNumber > totalPages;

@@ -72,9 +72,10 @@ appRouter.get(`/${api}`, async (req, res) => {
     const { page } = req.query;
     if (page.size > MAX_PAGE_SIZE) {
       res.status(400).send(badRequest([`page[size] cannot exceed ${MAX_PAGE_SIZE}.`]));
+    } else {
+      const result = await db.getApis(page);
+      res.send(result);
     }
-    const result = await db.getApis(page);
-    res.send(result);
   } catch (err) {
     errorHandler(res, err);
   }
