@@ -17,7 +17,7 @@ const swagger = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8')
  * @param {string} endpointUri Endpoint URI for creating self link
  * @returns {Object} Serialized resource object
  */
-const ResourceSerializer = (rows, page) => {
+const resourceSerializer = (rows, page) => {
   const resourceProp = swagger.definitions.Resource.properties;
   const resourceType = resourceProp.type.example;
   const resourceKeys = _.keys(resourceProp.attributes.properties);
@@ -45,4 +45,4 @@ const ResourceSerializer = (rows, page) => {
   }).serialize(paginatedRows);
 };
 
-module.exports = { ResourceSerializer };
+module.exports = { resourceSerializer };

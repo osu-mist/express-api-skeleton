@@ -80,6 +80,7 @@ parameters:
     type: integer
     required: false
     description: Page number of results
+    default: 1
   pageSize:
     name: page[size]
     in: query

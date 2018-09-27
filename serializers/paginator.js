@@ -12,7 +12,7 @@ const { paginatedLink } = appRoot.require('/serializers/uri-builder');
  */
 const paginate = (rows, page) => {
   const { number, size } = page;
-  const pageNumber = parseInt(number, 10);
+  const pageNumber = number ? parseInt(number, 10) : 1;
   const pageSize = size ? parseInt(size, 10) : 10;
   const nextPage = pageNumber + 1;
   const prevPage = pageNumber - 1;

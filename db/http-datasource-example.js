@@ -3,7 +3,7 @@ const config = require('config');
 const _ = require('lodash');
 const rp = require('request-promise-native');
 
-const { ResourceSerializer } = reqlib('/serializers/jsonapi');
+const { resourceSerializer } = reqlib('/serializers/jsonapi');
 
 const { endpointUri } = config.get('server');
 const { sourceUri } = config.get('httpDataSource');
@@ -17,7 +17,7 @@ const getApis = () => new Promise(async (resolve, reject) => {
   try {
     const options = { uri: sourceUri, json: true };
     const apis = await rp(options);
-    const jsonapi = ResourceSerializer(apis, endpointUri);
+    const jsonapi = resourceSerializer(apis, endpointUri);
     resolve(jsonapi);
   } catch (err) {
     reject(err);
@@ -37,7 +37,7 @@ const getApiById = id => new Promise(async (resolve, reject) => {
     if (!api) {
       resolve(undefined);
     } else {
-      const jsonapi = ResourceSerializer(api, endpointUri);
+      const jsonapi = resourceSerializer(api, endpointUri);
       resolve(jsonapi);
     }
   } catch (err) {
