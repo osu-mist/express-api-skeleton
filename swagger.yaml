@@ -63,7 +63,6 @@ paths:
           description: Resource not found
           schema:
             $ref: '#/definitions/Errors'
-
         500:
           description: Internal Server Error
           schema:
@@ -154,4 +153,3 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Error'
-
