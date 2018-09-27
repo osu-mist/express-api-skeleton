@@ -29,12 +29,20 @@ describe('Test paginator', () => {
     done();
   });
 
-  it('should return default page number and size', (done) => {
+  it('should use default page number and size if not given', (done) => {
     const page = {};
     const { paginationLinks } = paginate(rows, page);
     const { query } = url.parse(paginationLinks.first, true);
     assert.equal(query['page[number]'], 1);
     assert.equal(query['page[size]'], 10);
+    done();
+  });
+
+  it('prev and next should be null if given number is out of bounds', (done) => {
+    const page = { number: 100 };
+    const { paginationLinks } = paginate(rows, page);
+    assert.isNull(paginationLinks.prev);
+    assert.isNull(paginationLinks.next);
     done();
   });
 });
