@@ -1,7 +1,7 @@
 const reqlib = require('app-root-path').require;
 const _ = require('lodash');
 
-const { resourceSerializer } = reqlib('/serializers/jsonapi');
+const { resourcesSerializer, resourceSerializer } = reqlib('/serializers/jsonapi');
 
 const rows = reqlib('/tests/unit/mock-data.json').apis;
 
@@ -13,7 +13,7 @@ const rows = reqlib('/tests/unit/mock-data.json').apis;
  */
 const getApis = page => new Promise((resolve, reject) => {
   try {
-    const jsonapi = resourceSerializer(rows, page);
+    const jsonapi = resourcesSerializer(rows, page);
     resolve(jsonapi);
   } catch (err) {
     reject(err);
