@@ -34,6 +34,10 @@ paths:
           description: Successful response
           schema:
             $ref: '#/definitions/Resources'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Errors'
         500:
           description: Internal Server Error
           schema:
