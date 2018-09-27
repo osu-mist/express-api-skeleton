@@ -8,8 +8,8 @@ const { username, password } = config.authentication;
 
 /**
  * @summary Return a basicAuth middleware
- * @param {Object} config configuration
- * @returns {Object} basicAuth middleware
+ * @param {Object} config Configuration
+ * @returns {Object} BasicAuth middleware
  */
 const authentication = basicAuth({
   users: { [username]: password },

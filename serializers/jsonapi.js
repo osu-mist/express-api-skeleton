@@ -5,16 +5,19 @@ const yaml = require('js-yaml');
 const _ = require('lodash');
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 
+const { selfLink } = appRoot.require('/serializers/uri-builder');
+const { paginate } = appRoot.require('/serializers/paginator');
+
 const swagger = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
 
 /**
  * @summary Serializer to JSON API
  * @function
- * @param {[Object]} rows data rows from datasource
- * @param {string} endpointUri endpoint URI for creating self link
- * @returns Serialized resource object
+ * @param {[Object]} rows Data rows from datasource
+ * @param {string} endpointUri Endpoint URI for creating self link
+ * @returns {Object} Serialized resource object
  */
-const ResourceSerializer = (rows, endpointUri) => {
+const ResourceSerializer = (rows, page) => {
   const resourceProp = swagger.definitions.Resource.properties;
   const resourceType = resourceProp.type.example;
   const resourceKeys = _.keys(resourceProp.attributes.properties);
@@ -29,14 +32,17 @@ const ResourceSerializer = (rows, endpointUri) => {
     resourceKeys[index] = decamelize(key).toUpperCase();
   });
 
+  const { paginatedRows, paginationLinks } = paginate(rows, page);
+
   return new JSONAPISerializer(resourceType, {
     attributes: resourceKeys,
     id: 'ID',
     keyForAttribute: 'camelCase',
     dataLinks: {
-      self: row => `${endpointUri}/express-api-skeleton/${row.ID}`,
+      self: row => selfLink(row.ID),
     },
-  }).serialize(rows);
+    topLevelLinks: paginationLinks,
+  }).serialize(paginatedRows);
 };
 
 module.exports = { ResourceSerializer };

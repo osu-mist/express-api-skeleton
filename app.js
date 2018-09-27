@@ -7,8 +7,10 @@ const git = require('simple-git/promise');
 const https = require('https');
 const moment = require('moment');
 
+const MAX_PAGE_SIZE = 10000;
+
 const db = appRoot.require('/db/db');
-const { notFound, errorHandler } = appRoot.require('/errors/errors');
+const { badRequest, notFound, errorHandler } = appRoot.require('/errors/errors');
 const { authentication } = appRoot.require('/middlewares/authentication');
 const { logger } = appRoot.require('/middlewares/logger');
 const api = appRoot.require('/package.json').name;
@@ -67,7 +69,11 @@ adminAppRouter.get('/', async (req, res) => {
  */
 appRouter.get(`/${api}`, async (req, res) => {
   try {
-    const result = await db.getApis();
+    const { page } = req.query;
+    if (page.size > MAX_PAGE_SIZE) {
+      res.status(400).send(badRequest([`page[size] cannot exceed ${MAX_PAGE_SIZE}.`]));
+    }
+    const result = await db.getApis(page);
     res.send(result);
   } catch (err) {
     errorHandler(res, err);

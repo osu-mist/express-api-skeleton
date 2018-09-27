@@ -1,16 +1,13 @@
 const reqlib = require('app-root-path').require;
-const config = require('config');
 const _ = require('lodash');
 
 const { ResourceSerializer } = reqlib('/serializers/jsonapi');
-
-const { endpointUri } = config.get('server');
 
 /**
  * @summary Fake resource data
  * @constant
  */
-const apis = [
+const rows = [
   {
     ID: '1',
     NAME: 'Location Frontend API',
@@ -21,16 +18,57 @@ const apis = [
     NAME: 'Directory API',
     REPO_URL: 'https://github.com/osu-mist/directory-api',
   },
+  {
+    ID: '3',
+    NAME: 'Directory API',
+    REPO_URL: 'https://github.com/osu-mist/directory-api',
+  },
+  {
+    ID: '4',
+    NAME: 'Directory API',
+    REPO_URL: 'https://github.com/osu-mist/directory-api',
+  },
+  {
+    ID: '5',
+    NAME: 'Directory API',
+    REPO_URL: 'https://github.com/osu-mist/directory-api',
+  },
+  {
+    ID: '6',
+    NAME: 'Directory API',
+    REPO_URL: 'https://github.com/osu-mist/directory-api',
+  },
+  {
+    ID: '7',
+    NAME: 'Directory API',
+    REPO_URL: 'https://github.com/osu-mist/directory-api',
+  },
+  {
+    ID: '8',
+    NAME: 'Directory API',
+    REPO_URL: 'https://github.com/osu-mist/directory-api',
+  },
+  {
+    ID: '9',
+    NAME: 'Directory API',
+    REPO_URL: 'https://github.com/osu-mist/directory-api',
+  },
+  {
+    ID: '10',
+    NAME: 'Directory API',
+    REPO_URL: 'https://github.com/osu-mist/directory-api',
+  },
 ];
 
 /**
  * @summary Return a list of APIs
  * @function
+ * @param {Object} page Pagination query parameter
  * @returns {Promise} Promise object represents a list of APIs
  */
-const getApis = () => new Promise((resolve, reject) => {
+const getApis = page => new Promise((resolve, reject) => {
   try {
-    const jsonapi = ResourceSerializer(apis, endpointUri);
+    const jsonapi = ResourceSerializer(rows, page);
     resolve(jsonapi);
   } catch (err) {
     reject(err);
@@ -45,11 +83,11 @@ const getApis = () => new Promise((resolve, reject) => {
  */
 const getApiById = id => new Promise((resolve, reject) => {
   try {
-    const api = _.find(apis, { ID: id });
-    if (!api) {
+    const row = _.find(rows, { ID: id });
+    if (!row) {
       resolve(undefined);
     } else {
-      const jsonapi = ResourceSerializer(api, endpointUri);
+      const jsonapi = ResourceSerializer(row);
       resolve(jsonapi);
     }
   } catch (err) {

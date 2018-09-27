@@ -4,11 +4,11 @@ const _ = require('lodash');
 /**
  * @summary Construct error object
  * @function
- * @param {string} status the HTTP status code
- * @param {string} title a short, human-readable summary of the problem
- * @param {string} code an application-specific error code
- * @param {string} detail a human-readable explanation
- * @returns {Object} an error object
+ * @param {string} status The HTTP status code
+ * @param {string} title A short, human-readable summary of the problem
+ * @param {string} code An application-specific error code
+ * @param {string} detail A human-readable explanation
+ * @returns {Object} An error object
  */
 const error = (status, title, code, detail) => ({
   status,
@@ -21,7 +21,7 @@ const error = (status, title, code, detail) => ({
 /**
  * @summary [400] Return a Bad Request error object
  * @function
- * @param {[string]} details an array of bad request details
+ * @param {[string]} details An array of bad request details
  * @returns {Object} Bad Rquest error object
  */
 const badRequest = (details) => {
@@ -72,8 +72,8 @@ const internalServerError = detail => new JSONAPIError(error('500', 'Internal Se
 /**
  * @summary Function to handle unexpected errors
  * @function
- * @param res response
- * @param err error
+ * @param res Response
+ * @param err Error
  */
 const errorHandler = (res, err) => {
   const detail = 'The application encountered an unexpected condition.';
