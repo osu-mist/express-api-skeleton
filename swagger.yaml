@@ -90,12 +90,30 @@ parameters:
     default: 10
     maximum: 10000
 definitions:
-  Links:
+  SelfLink:
     properties:
       self:
         type: string
         format: url
         description: Self link of resource
+  PaginationLinks:
+    properties:
+      first:
+        type: string
+        format: url
+        description: The first page of data
+      last:
+        type: string
+        format: url
+        description: The last page of data
+      prev:
+        type: string
+        format: url
+        description: The previous page of data
+      next:
+        type: string
+        format: url
+        description: The next page of data
   Resource:
     properties:
       id:
@@ -105,7 +123,7 @@ definitions:
         type: string
         example: apis
       links:
-        $ref: '#/definitions/Links'
+        $ref: '#/definitions/SelfLink'
       attributes:
         properties:
           name:
@@ -119,6 +137,8 @@ definitions:
             example: https://github.com/osu-mist/locations-frontend-api
   Resources:
     properties:
+      links:
+        $ref: '#/definitions/PaginationLinks'
       data:
         type: array
         items:
