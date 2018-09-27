@@ -3,62 +3,7 @@ const _ = require('lodash');
 
 const { ResourceSerializer } = reqlib('/serializers/jsonapi');
 
-/**
- * @summary Fake resource data
- * @constant
- */
-const rows = [
-  {
-    ID: '1',
-    NAME: 'Location Frontend API',
-    REPO_URL: 'https://github.com/osu-mist/locations-frontend-api',
-  },
-  {
-    ID: '2',
-    NAME: 'Directory API',
-    REPO_URL: 'https://github.com/osu-mist/directory-api',
-  },
-  {
-    ID: '3',
-    NAME: 'Directory API',
-    REPO_URL: 'https://github.com/osu-mist/directory-api',
-  },
-  {
-    ID: '4',
-    NAME: 'Directory API',
-    REPO_URL: 'https://github.com/osu-mist/directory-api',
-  },
-  {
-    ID: '5',
-    NAME: 'Directory API',
-    REPO_URL: 'https://github.com/osu-mist/directory-api',
-  },
-  {
-    ID: '6',
-    NAME: 'Directory API',
-    REPO_URL: 'https://github.com/osu-mist/directory-api',
-  },
-  {
-    ID: '7',
-    NAME: 'Directory API',
-    REPO_URL: 'https://github.com/osu-mist/directory-api',
-  },
-  {
-    ID: '8',
-    NAME: 'Directory API',
-    REPO_URL: 'https://github.com/osu-mist/directory-api',
-  },
-  {
-    ID: '9',
-    NAME: 'Directory API',
-    REPO_URL: 'https://github.com/osu-mist/directory-api',
-  },
-  {
-    ID: '10',
-    NAME: 'Directory API',
-    REPO_URL: 'https://github.com/osu-mist/directory-api',
-  },
-];
+const rows = reqlib('/tests/unit/mock-data.json').apis;
 
 /**
  * @summary Return a list of APIs
