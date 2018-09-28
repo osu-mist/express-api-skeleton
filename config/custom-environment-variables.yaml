@@ -1,5 +1,5 @@
 server:
-  endpointUri: 'ENDPOINTURI'
+  hostname: 'HOSTNAME'
   port: 'PORT'
   adminPort: 'ADMIN_PORT'
 

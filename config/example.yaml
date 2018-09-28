@@ -1,5 +1,6 @@
 server:
-  endpointUri: ${ENDPOINTURI}
+  protocol: https
+  hostname: ${HOSTNAME}
   port: ${PORT}
   adminPort: ${ADMIN_PORT}
   keyPath: /path/to/key.pem
