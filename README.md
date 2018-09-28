@@ -20,11 +20,11 @@ Skeleton for Express APIs. API definition is contained in the [Swagger specifica
 
     | Environment variable | Description |
     | -------------------- | ----------- |
+    | **${HOSTNAME}** | API hostname. |
     | **${PORT}** | The port used by the API. |
     | **${ADMIN_PORT}** | The port used by the **ADMIN** endpoint. |
     | **${USER}** | The HTTP Basic username used to authenticate API calls. |
     | **${PASSWD}** | The HTTP Basic password used to authenticate API calls. |
-    | **${ENDPOINTURI}** | API endpoint URI. |
 
     **Options for logger configuration**:
 
