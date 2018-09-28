@@ -74,7 +74,7 @@ appRouter.get(`/${api}`, async (req, res) => {
     /**
      * Return 400 bad request if page[size] is out of bounds.
      */
-    if (page && (page.size > MAX_PAGE_SIZE || page.size <= 0)) {
+    if (page && (page.size <= 0 || page.size > MAX_PAGE_SIZE)) {
       res.status(400).send(badRequest([`page[size] should between 1 to ${MAX_PAGE_SIZE}.`]));
     } else {
       const result = await db.getApis(page);
