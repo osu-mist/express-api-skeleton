@@ -206,19 +206,19 @@ The following instructions show you how to connect the API to an Oracle database
 
 2. Build the docker image:
 
-  ```shell
-  $ docker build -t express-api-skeleton .
-  ```
+    ```shell
+    $ docker build -t express-api-skeleton .
+    ```
 
 3. Run the app in a container:
 
-  ```shell
-  $ docker run -d \
-               -p 8080:8080 \
-               -p 8081:8081 \
-               -v path/to/keytools/:/usr/src/express-api-skeleton/keytools:ro \
-               -v "$PWD"/config:/usr/src/express-api-skeleton/config:ro \
-               -v "$PWD"/logs:/usr/src/express-api-skeleton/logs \
-               --name express-api-skeleton \
-               express-api-skeleton
-  ```
+    ```shell
+    $ docker run -d \
+                -p 8080:8080 \
+                -p 8081:8081 \
+                -v path/to/keytools/:/usr/src/express-api-skeleton/keytools:ro \
+                -v "$PWD"/config:/usr/src/express-api-skeleton/config:ro \
+                -v "$PWD"/logs:/usr/src/express-api-skeleton/logs \
+                --name express-api-skeleton \
+                express-api-skeleton
+    ```
