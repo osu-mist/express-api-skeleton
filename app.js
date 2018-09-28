@@ -70,8 +70,12 @@ adminAppRouter.get('/', async (req, res) => {
 appRouter.get(`/${api}`, async (req, res) => {
   try {
     const { page } = req.query;
-    if (page.size > MAX_PAGE_SIZE) {
-      res.status(400).send(badRequest([`page[size] cannot exceed ${MAX_PAGE_SIZE}.`]));
+
+    /**
+     * Return 400 bad request if page[size] is out of bounds.
+     */
+    if (page && (page.size > MAX_PAGE_SIZE || page.size <= 0)) {
+      res.status(400).send(badRequest([`page[size] should between 1 to ${MAX_PAGE_SIZE}.`]));
     } else {
       const result = await db.getApis(page);
       res.send(result);

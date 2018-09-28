@@ -9,9 +9,9 @@ const { selfLink } = appRoot.require('/serializers/uri-builder');
 const { paginate } = appRoot.require('/serializers/paginator');
 
 const swagger = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
-const resourceProp = swagger.definitions.Resource.properties;
-const resourceType = resourceProp.type.example;
-const resourceKeys = _.keys(resourceProp.attributes.properties);
+const apiResourceProp = swagger.definitions.ApiResource.properties;
+const apiResourceType = apiResourceProp.type.example;
+const apiResourceKeys = _.keys(apiResourceProp.attributes.properties);
 
 /**
  * The column name getting from database is usually UPPER_CASE.
@@ -19,22 +19,22 @@ const resourceKeys = _.keys(resourceProp.attributes.properties);
  * UPPER_CASE so that the serializer can correctly match the corresponding columns
  * from the raw data rows.
  */
-_.forEach(resourceKeys, (key, index) => {
-  resourceKeys[index] = decamelize(key).toUpperCase();
+_.forEach(apiResourceKeys, (key, index) => {
+  apiResourceKeys[index] = decamelize(key).toUpperCase();
 });
 
 /**
- * @summary Serializer resources to JSON API
+ * @summary Serializer apiResources to JSON API
  * @function
  * @param {[Object]} rows Data rows from datasource
  * @param {Object} page Pagination query parameters
- * @returns {Object} Serialized resources object
+ * @returns {Object} Serialized apiResources object
  */
-const resourcesSerializer = (rows, page) => {
+const apiResourcesSerializer = (rows, page) => {
   const { paginatedRows, paginationLinks } = paginate(rows, page);
 
-  return new JSONAPISerializer(resourceType, {
-    attributes: resourceKeys,
+  return new JSONAPISerializer(apiResourceType, {
+    attributes: apiResourceKeys,
     id: 'ID',
     keyForAttribute: 'camelCase',
     dataLinks: {
@@ -45,14 +45,14 @@ const resourcesSerializer = (rows, page) => {
 };
 
 /**
- * @summary Serializer resource to JSON API
+ * @summary Serializer apiResource to JSON API
  * @function
  * @param {Object} row Data row from datasource
  * @param {string} endpointUri Endpoint URI for creating self link
- * @returns {Object} Serialized resource object
+ * @returns {Object} Serialized apiResource object
  */
-const resourceSerializer = row => new JSONAPISerializer(resourceType, {
-  attributes: resourceKeys,
+const apiResourceSerializer = row => new JSONAPISerializer(apiResourceType, {
+  attributes: apiResourceKeys,
   id: 'ID',
   keyForAttribute: 'camelCase',
   dataLinks: {
@@ -60,4 +60,4 @@ const resourceSerializer = row => new JSONAPISerializer(resourceType, {
   },
 }).serialize(row);
 
-module.exports = { resourcesSerializer, resourceSerializer };
+module.exports = { apiResourcesSerializer, apiResourceSerializer };

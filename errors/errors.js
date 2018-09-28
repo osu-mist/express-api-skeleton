@@ -22,11 +22,16 @@ const error = (status, title, code, detail) => ({
  * @summary [400] Return a Bad Request error object
  * @function
  * @param {[string]} details An array of bad request details
- * @returns {Object} Bad Rquest error object
+ * @returns {Object} Bad Request error object
  */
 const badRequest = (details) => {
   const badRequests = [];
-  _.forEach(details, detail => badRequests.push(error('400', 'Bad Request', '1400', detail)));
+  _.forEach(details, detail => badRequests.push(error(
+    '400',
+    'Bad Request',
+    '1400',
+    detail,
+  )));
   return new JSONAPIError(badRequests);
 };
 
@@ -35,7 +40,12 @@ const badRequest = (details) => {
  * @function
  * @returns {Object} Unauthorized error object
  */
-const unauthorized = () => new JSONAPIError(error('401', 'Unauthorized', 'Unauthorized'));
+const unauthorized = () => new JSONAPIError(error(
+  '401',
+  'Unauthorized',
+  '1401',
+  'Unauthorized',
+));
 
 /**
  * @summary [403] Return a Forbidden error object
@@ -43,7 +53,12 @@ const unauthorized = () => new JSONAPIError(error('401', 'Unauthorized', 'Unauth
  * @param {string} detail
  * @returns {Object} Unauthorized error object
  */
-const forbidden = detail => new JSONAPIError(error('403', 'Forbidden', detail));
+const forbidden = detail => new JSONAPIError(error(
+  '403',
+  'Forbidden',
+  '1403',
+  detail,
+));
 
 /**
  * @summary [404] Return a Not Found error object
@@ -51,7 +66,12 @@ const forbidden = detail => new JSONAPIError(error('403', 'Forbidden', detail));
  * @param {string} detail
  * @returns {Object} Not Found error object
  */
-const notFound = detail => new JSONAPIError(error('404', 'Not found', detail));
+const notFound = detail => new JSONAPIError(error(
+  '404',
+  'Not found',
+  '1404',
+  detail,
+));
 
 /**
  * @summary [409] Return a Conflict error object
@@ -59,7 +79,12 @@ const notFound = detail => new JSONAPIError(error('404', 'Not found', detail));
  * @param {string} detail
  * @returns {Object} Conflict error object
  */
-const conflict = detail => new JSONAPIError(error('409', 'Conflict', detail));
+const conflict = detail => new JSONAPIError(error(
+  '409',
+  'Conflict',
+  '1409',
+  detail,
+));
 
 /**
  * @summary [500] Return a Internal Server Error error object
@@ -67,7 +92,12 @@ const conflict = detail => new JSONAPIError(error('409', 'Conflict', detail));
  * @param {string} detail
  * @returns {Object} Internal Server Error error object
  */
-const internalServerError = detail => new JSONAPIError(error('500', 'Internal Server Error', detail));
+const internalServerError = detail => new JSONAPIError(error(
+  '500',
+  'Internal Server Error',
+  '1500',
+  detail,
+));
 
 /**
  * @summary Function to handle unexpected errors

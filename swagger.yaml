@@ -23,6 +23,8 @@ paths:
   /express-api-skeleton:
     get:
       summary: List all APIs
+      tags:
+        - apis
       description: Get all APIs
       operationId: getApis
       parameters:
@@ -33,7 +35,7 @@ paths:
         200:
           description: Successful response
           schema:
-            $ref: '#/definitions/Resources'
+            $ref: '#/definitions/ApiResources'
         400:
           description: Bad Request
           schema:
@@ -45,6 +47,8 @@ paths:
   /express-api-skeleton/{id}:
     get:
       summary: Info for a specific API
+      tags:
+        - apis
       description: Get API by unique ID
       operationId: getApiById
       parameters:
@@ -58,9 +62,9 @@ paths:
         200:
           description: Successful response
           schema:
-            $ref: '#/definitions/Resource'
+            $ref: '#/definitions/ApiResource'
         404:
-          description: Resource not found
+          description: ApiResource not found
           schema:
             $ref: '#/definitions/Errors'
         500:
@@ -73,7 +77,7 @@ parameters:
     in: header
     type: string
     required: true
-    description: Specific 'Bearer' and then your access token
+    description: '"Bearer [token]" where token is your OAuth2 access token'
   pageNumber:
     name: page[number]
     in: query
@@ -95,7 +99,7 @@ definitions:
       self:
         type: string
         format: url
-        description: Self link of resource
+        description: Self link of ApiResource
   PaginationLinks:
     properties:
       first:
@@ -114,7 +118,7 @@ definitions:
         type: string
         format: url
         description: The next page of data
-  Resource:
+  ApiResource:
     properties:
       id:
         type: string
@@ -135,20 +139,20 @@ definitions:
             format: url
             description: Repository URL of API
             example: https://github.com/osu-mist/locations-frontend-api
-  Resources:
+  ApiResources:
     properties:
       links:
         $ref: '#/definitions/PaginationLinks'
       data:
         type: array
         items:
-          $ref: '#/definitions/Resource'
+          $ref: '#/definitions/ApiResource'
   Error:
     properties:
       status:
         type: string
         description: HTTP status code
-        example: 404
+        example: 123
       title:
         type: string
         description: A short, user readable summary of the error
@@ -156,18 +160,17 @@ definitions:
       code:
         type: string
         description: An application-specific error code
-        example: 1404
+        example: 1234
       detail:
         type: string
         description: A long description of the error that may contain instance-specific details
-        example: The resource requested by the API call was not found
       links:
         properties:
           about:
             type: string
             format: url
             description: A link to further information about the error
-            example: https://developer.oregonstate.edu/documentation/error-reference#1404
+            example: https://developer.oregonstate.edu/documentation/error-reference#1234
   Errors:
     properties:
       errors:

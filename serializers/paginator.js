@@ -11,9 +11,8 @@ const { paginatedLink } = appRoot.require('/serializers/uri-builder');
  * @returns {*} Paginated data rows and pagination links
  */
 const paginate = (rows, page) => {
-  const { number, size } = page;
-  const pageNumber = number ? parseInt(number, 10) : 1;
-  const pageSize = size ? parseInt(size, 10) : 10;
+  const pageNumber = page && page.number ? parseInt(page.number, 10) : 1;
+  const pageSize = page && page.size ? parseInt(page.size, 10) : 10;
   const nextPage = pageNumber + 1;
   const prevPage = pageNumber - 1;
   const totalPages = Math.ceil(rows.length / pageSize);

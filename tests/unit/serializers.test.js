@@ -5,7 +5,7 @@ const chaiString = require('chai-string');
 const _ = require('lodash');
 const url = require('url');
 
-const { resourceSerializer } = reqlib('/serializers/jsonapi');
+const { apiResourceSerializer } = reqlib('/serializers/jsonapi');
 const { paginate } = reqlib('/serializers/paginator');
 const rows = reqlib('/tests/unit/mock-data.json').apis;
 
@@ -13,7 +13,7 @@ const { assert } = chai;
 chai.use(chaiString);
 
 describe('Test JSON API serializer', () => {
-  const jsonapi = resourceSerializer(rows, 'exampleUri');
+  const jsonapi = apiResourceSerializer(rows, 'exampleUri');
   it('keys should be camelCase', (done) => {
     const newKeys = _.keys(jsonapi.data[0].attributes);
     _.forEach(newKeys, key => assert.equal(key, camelCase(key)));

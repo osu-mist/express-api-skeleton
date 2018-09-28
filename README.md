@@ -121,9 +121,14 @@ $ npm test
 
 ## Getting data source from HTTP endpoints
 
-The following instructions show you how to get data from HTTP endpoints.
+The following instructions show you how to get data from external endpoints for use in the API.
 
-1. Configure data source (e.g. `httpDataSource`) section in the `/config/defualt.yaml`.
+1. Configure data source section in the `/config/default.yaml`. For example:
+
+    ```yaml
+    httpDataSource:
+        url: 'https://api.example.com'
+    ```
 
 2. Rename [db/http-datasource-example.js](db/http-datasource-example.js) to `db/db.js` and modify as necessary:
 
@@ -131,7 +136,7 @@ The following instructions show you how to get data from HTTP endpoints.
     $ git mv db/http-datasource-example.js db/db.js
     ```
 
-    > Note: that it is not necessary to use [request-promise-native](https://www.npmjs.com/package/request-promise-native) to send HTTP request like the example does. Feel free to pick and install whatever package suits your needs. Don't forget to change [serializers/jsonapi.js](serializers/jsonapi.js) to serialize data properly. The following are some popular HTTP package could be used:
+    > Note: that it is not necessary to use [request-promise-native](https://www.npmjs.com/package/request-promise-native) to send HTTP request like the example does. Feel free to pick and install whatever package suits your needs. Don't forget to change [serializers/jsonapi.js](serializers/jsonapi.js) to serialize data properly. The following are some popular HTTP packages that could be used:
     > * [request](https://www.npmjs.com/package/request)
     > * [request-promise](https://www.npmjs.com/package/request-promise) (uses [Bluebird](https://github.com/petkaantonov/bluebird) Promises)
     > * [request-promise-native](https://www.npmjs.com/package/request-promise-native) (uses native ES6 Promises)
@@ -143,7 +148,7 @@ The following instructions show you how to get data from HTTP endpoints.
 
 The following instructions show you how to connect the API to an Oracle database.
 
-1. Install [Oracle Instant Client](http://www.oracle.com/technetwork/database/database-technologies/instant-client/overview/index.html) by following [here](https://oracle.github.io/odpi/doc/installation.html).
+1. Install [Oracle Instant Client](http://www.oracle.com/technetwork/database/database-technologies/instant-client/overview/index.html) by following [this installation guide](https://oracle.github.io/odpi/doc/installation.html).
 
 
 2. Install [node-oracledb](https://oracle.github.io/node-oracledb/) via package management:
@@ -156,7 +161,7 @@ The following instructions show you how to connect the API to an Oracle database
     $ npm install node-oracledb
     ```
 
-3. Define `database` section in the `/config/defualt.yaml` be like:
+3. Define `database` section in the `/config/default.yaml` to be like:
 
     ```yaml
     database:
