@@ -44,7 +44,7 @@ const unauthorized = () => new JSONAPIError(error(
   '401',
   'Unauthorized',
   '1401',
-  'Unauthorized',
+  'Credentials are invalid',
 ));
 
 /**
