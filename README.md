@@ -71,7 +71,7 @@ $ gulp lint
 $ npm run lint
 ```
 
-_Note: We are following [Airbnb's style](https://github.com/airbnb/javascript) as the JavaScript style guide_
+> Note: We are following [Airbnb's style](https://github.com/airbnb/javascript) as the JavaScript style guide.
 
 ### Testing
 
