@@ -1,15 +1,15 @@
 server:
   protocol: https
-  hostname: ${HOSTNAME}
-  port: ${PORT}
-  adminPort: ${ADMIN_PORT}
+  hostname: ${API_HOSTNAME}
+  port: ${API_PORT}
+  adminPort: ${API_ADMIN_PORT}
   keyPath: /path/to/key.pem
   certPath: /path/to/server.crt
   secureProtocol: TLSv1_2_method
 
 authentication:
-  username: ${USER}
-  password: ${PASSWD}
+  username: ${API_USER}
+  password: ${API_PASSWD}
 
 logger:
   size: 10m
@@ -18,9 +18,9 @@ logger:
   archive: true
 
 database:
-  connectString: ${DBURL}
-  user: ${DBUSER}
-  password: ${DBPASSWD}
+  connectString: ${DB_URL}
+  user: ${DB_USER}
+  password: ${DB_PASSWD}
   poolMin: 30
   poolMax: 30
   poolIncrement: 0

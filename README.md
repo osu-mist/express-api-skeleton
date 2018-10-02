@@ -136,13 +136,7 @@ The following instructions show you how to get data from external endpoints for 
     $ git mv db/http-datasource-example.js db/db.js
     ```
 
-    > Note: that it is not necessary to use [request-promise-native](https://www.npmjs.com/package/request-promise-native) to send HTTP request like the example does. Feel free to pick and install whatever package suits your needs. Don't forget to change [serializers/jsonapi.js](serializers/jsonapi.js) to serialize data properly. The following are some popular HTTP packages that could be used:
-    > * [request](https://www.npmjs.com/package/request)
-    > * [request-promise](https://www.npmjs.com/package/request-promise) (uses [Bluebird](https://github.com/petkaantonov/bluebird) Promises)
-    > * [request-promise-native](https://www.npmjs.com/package/request-promise-native) (uses native ES6 Promises)
-    > * [request-promise-any](https://www.npmjs.com/package/request-promise-any) (uses [any-promise](https://www.npmjs.com/package/any-promise) Promises)
-    > * [axios](https://www.npmjs.com/package/axios)
-    > * [node-fetch](https://www.npmjs.com/package/node-fetch)
+3. Don't forget to change [serializers/jsonapi.js](serializers/jsonapi.js) to serialize data properly.
 
 ## Getting data source from the Oracle Database
 
