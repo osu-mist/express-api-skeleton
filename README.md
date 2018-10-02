@@ -20,11 +20,11 @@ Skeleton for Express APIs. API definition is contained in the [Swagger specifica
 
     | Environment variable | Description |
     | -------------------- | ----------- |
-    | **${HOSTNAME}** | API hostname. |
-    | **${PORT}** | The port used by the API. |
-    | **${ADMIN_PORT}** | The port used by the **ADMIN** endpoint. |
-    | **${USER}** | The HTTP Basic username used to authenticate API calls. |
-    | **${PASSWD}** | The HTTP Basic password used to authenticate API calls. |
+    | **${API_HOSTNAME}** | API hostname. |
+    | **${API_PORT}** | The port used by the API. |
+    | **${API_ADMIN_PORT}** | The port used by the **ADMIN** endpoint. |
+    | **${API_USER}** | The HTTP Basic username used to authenticate API calls. |
+    | **${API_PASSWD}** | The HTTP Basic password used to authenticate API calls. |
 
     **Options for logger configuration**:
 
@@ -159,9 +159,9 @@ The following instructions show you how to connect the API to an Oracle database
 
     ```yaml
     database:
-      connectString: ${DBURL}
-      user: ${DBUSER}
-      password: ${DBPASSWD}
+      connectString: ${DB_URL}
+      user: ${DB_USER}
+      password: ${DB_PASSWD}
       poolMin: 30
       poolMax: 30
       poolIncrement: 0
