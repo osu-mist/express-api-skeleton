@@ -17,6 +17,7 @@ const api = appRoot.require('/package.json').name;
 const {
   port,
   adminPort,
+  basePathPrefix,
   keyPath,
   certPath,
   secureProtocol,
@@ -35,10 +36,10 @@ const adminAppRouter = express.Router();
  * @summary Middlewares
  */
 if (logger) app.use(logger);
-app.use(`/api${basePath}`, appRouter);
+app.use(`${basePathPrefix}${basePath}`, appRouter);
 appRouter.use(authentication);
 
-adminApp.use(`/api${basePath}`, adminAppRouter);
+adminApp.use(`${basePathPrefix}${basePath}`, adminAppRouter);
 adminAppRouter.use(authentication);
 adminAppRouter.use('/healthcheck', require('express-healthcheck')());
 
