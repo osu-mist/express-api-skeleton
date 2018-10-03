@@ -7,8 +7,6 @@ const git = require('simple-git/promise');
 const https = require('https');
 const moment = require('moment');
 
-const MAX_PAGE_SIZE = 10000;
-
 const db = appRoot.require('/db/db');
 const { badRequest, notFound, errorHandler } = appRoot.require('/errors/errors');
 const { authentication } = appRoot.require('/middlewares/authentication');
@@ -69,17 +67,20 @@ adminAppRouter.get('/', async (req, res) => {
  */
 appRouter.get(`/${api}`, async (req, res) => {
   try {
-    const { page } = req.query;
+    const { isPaginated, maxPageSize } = config.get('pagination');
+    const params = req.query;
 
-    /**
-     * Return 400 bad request if page[size] is out of bounds.
-     */
-    if (page && (page.size <= 0 || page.size > MAX_PAGE_SIZE)) {
-      res.status(400).send(badRequest([`page[size] should between 1 to ${MAX_PAGE_SIZE}.`]));
-    } else {
-      const result = await db.getApis(page);
-      res.send(result);
+    if (isPaginated) {
+      /**
+       * Return 400 bad request if page[size] is out of bounds.
+       */
+      const { page } = params;
+      if (page && (page.size <= 0 || page.size > maxPageSize)) {
+        res.status(400).send(badRequest([`page[size] should between 1 to ${maxPageSize}.`]));
+      }
     }
+    const result = await db.getApis(params);
+    res.send(result);
   } catch (err) {
     errorHandler(res, err);
   }

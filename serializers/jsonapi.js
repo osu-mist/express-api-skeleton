@@ -1,4 +1,5 @@
 const appRoot = require('app-root-path');
+const config = require('config');
 const decamelize = require('decamelize');
 const fs = require('fs');
 const yaml = require('js-yaml');
@@ -23,25 +24,46 @@ _.forEach(apiResourceKeys, (key, index) => {
   apiResourceKeys[index] = decamelize(key).toUpperCase();
 });
 
+const serializerOptions = {
+  attributes: apiResourceKeys,
+  id: 'ID',
+  keyForAttribute: 'camelCase',
+  dataLinks: { self: row => selfLink(row.ID) },
+};
+
 /**
  * @summary Serializer apiResources to JSON API
  * @function
  * @param {[Object]} rows Data rows from datasource
- * @param {Object} page Pagination query parameters
+ * @param {Object} params Query parameters
  * @returns {Object} Serialized apiResources object
  */
-const apiResourcesSerializer = (rows, page) => {
-  const { paginatedRows, paginationLinks } = paginate(rows, page);
+const apiResourcesSerializer = (rows, params) => {
+  const { page } = params;
+  const { isPaginated } = config.get('pagination');
 
-  return new JSONAPISerializer(apiResourceType, {
-    attributes: apiResourceKeys,
-    id: 'ID',
-    keyForAttribute: 'camelCase',
-    dataLinks: {
-      self: row => selfLink(row.ID),
-    },
-    topLevelLinks: paginationLinks,
-  }).serialize(paginatedRows);
+  /**
+   * Add pagination links and meta information to options if pagination is enabled
+   */
+  if (isPaginated && page) {
+    const {
+      paginatedRows,
+      paginationLinks,
+      totalPages,
+      pageNumber,
+      pageSize,
+    } = paginate(rows, page);
+
+    serializerOptions.topLevelLinks = paginationLinks;
+    serializerOptions.meta = {
+      totalPages,
+      currentPageNumber: pageNumber,
+      currentPageSize: pageSize,
+    };
+    rows = paginatedRows;
+  }
+
+  return new JSONAPISerializer(apiResourceType, serializerOptions).serialize(rows);
 };
 
 /**
@@ -51,13 +73,9 @@ const apiResourcesSerializer = (rows, page) => {
  * @param {string} endpointUri Endpoint URI for creating self link
  * @returns {Object} Serialized apiResource object
  */
-const apiResourceSerializer = row => new JSONAPISerializer(apiResourceType, {
-  attributes: apiResourceKeys,
-  id: 'ID',
-  keyForAttribute: 'camelCase',
-  dataLinks: {
-    self: selfLink(row.ID),
-  },
-}).serialize(row);
+const apiResourceSerializer = row => new JSONAPISerializer(
+  apiResourceType,
+  serializerOptions,
+).serialize(row);
 
 module.exports = { apiResourcesSerializer, apiResourceSerializer };

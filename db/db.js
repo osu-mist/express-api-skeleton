@@ -8,12 +8,12 @@ const rows = reqlib('/tests/unit/mock-data.json').apis;
 /**
  * @summary Return a list of APIs
  * @function
- * @param {Object} page Pagination query parameter
+ * @param {Object} params Query parameters
  * @returns {Promise} Promise object represents a list of APIs
  */
-const getApis = page => new Promise((resolve, reject) => {
+const getApis = params => new Promise((resolve, reject) => {
   try {
-    const jsonapi = apiResourcesSerializer(rows, page);
+    const jsonapi = apiResourcesSerializer(rows, params);
     resolve(jsonapi);
   } catch (err) {
     reject(err);
