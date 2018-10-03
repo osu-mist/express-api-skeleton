@@ -68,21 +68,29 @@ adminAppRouter.get('/', async (req, res) => {
 appRouter.get(`/${api}`, async (req, res) => {
   try {
     const { isPaginated, maxPageSize } = config.get('pagination');
-    const params = req.query;
+    const { query } = req;
 
-    if (isPaginated) {
-      /**
-       * Return 400 bad request if page[size] is out of bounds.
-       */
-      const { page } = params;
-      if (page && (page.size <= 0 || page.size > maxPageSize)) {
-        res.status(400).send(badRequest([`page[size] should between 1 to ${maxPageSize}.`]));
+    if (isPaginated && query.page) {
+      const { size, number } = query.page;
+      const isInvalidPageSize = Number.isInteger(size) || size <= 0 || size > maxPageSize;
+      const isInvalidPageNumber = number <= 0;
+      const errorMessages = [];
+
+      if (isInvalidPageSize || isInvalidPageNumber) {
+        if (isInvalidPageSize) {
+          errorMessages.push(`page[size] should an integer between 1 to ${maxPageSize}.`);
+        }
+        if (isInvalidPageNumber) {
+          errorMessages.push('page[number] should an integer starts at 1.');
+        }
+        return res.status(400).send(badRequest(errorMessages));
       }
     }
-    const result = await db.getApis(params);
-    res.send(result);
+
+    const result = await db.getApis(query);
+    return res.send(result);
   } catch (err) {
-    errorHandler(res, err);
+    return errorHandler(res, err);
   }
 });
 

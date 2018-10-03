@@ -35,11 +35,11 @@ const serializerOptions = {
  * @summary Serializer apiResources to JSON API
  * @function
  * @param {[Object]} rows Data rows from datasource
- * @param {Object} params Query parameters
+ * @param {Object} query Query parameters
  * @returns {Object} Serialized apiResources object
  */
-const apiResourcesSerializer = (rows, params) => {
-  const { page } = params;
+const apiResourcesSerializer = (rows, query) => {
+  const { page } = query;
   const { isPaginated } = config.get('pagination');
 
   /**
