@@ -9,8 +9,8 @@ const { apiResourceSerializer } = reqlib('/serializers/jsonapi');
 const { paginate } = reqlib('/serializers/paginator');
 const rows = reqlib('/tests/unit/mock-data.json').apis;
 
-const { assert } = chai;
 const DEFAULT_PAGE_SIZE = 25;
+const { assert } = chai;
 chai.use(chaiString);
 
 describe('Test JSON API serializer', () => {
