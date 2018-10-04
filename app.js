@@ -72,7 +72,7 @@ appRouter.get(`/${api}`, async (req, res) => {
     const { query } = req;
 
     /**
-     * Return 400 erros if API is paginated and page[size]/page[number] are not valid
+     * Return 400 errors if API is paginated and page[size]/page[number] are not valid
      */
     if (isPaginated && query.page) {
       _.forEach(query.page, (value, key) => {
