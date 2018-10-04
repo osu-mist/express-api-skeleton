@@ -39,12 +39,11 @@ const serializerOptions = {
  * @returns {Object} Serialized apiResources object
  */
 const apiResourcesSerializer = (rows, query) => {
-  const { page } = query;
-  const { isPaginated } = config.get('pagination');
-
   /**
    * Add pagination links and meta information to options if pagination is enabled
    */
+  const { page } = query;
+  const { isPaginated } = config.get('pagination');
   if (isPaginated && page) {
     const {
       paginatedRows,
@@ -56,6 +55,7 @@ const apiResourcesSerializer = (rows, query) => {
 
     serializerOptions.topLevelLinks = paginationLinks;
     serializerOptions.meta = {
+      totalResults: rows.length,
       totalPages,
       currentPageNumber: pageNumber,
       currentPageSize: pageSize,

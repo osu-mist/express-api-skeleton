@@ -1,9 +1,12 @@
 const appRoot = require('app-root-path');
 const config = require('config');
+const fs = require('fs');
+const yaml = require('js-yaml');
 const url = require('url');
 
 const { protocol, hostname } = config.get('server');
 const api = appRoot.require('/package.json').name;
+const { basePath } = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
 
 /**
  * @summary Self link builder
@@ -14,7 +17,7 @@ const api = appRoot.require('/package.json').name;
 const selfLink = id => url.format({
   protocol,
   hostname,
-  pathname: `/${api}/${id}`,
+  pathname: `${basePath}/${api}/${id}`,
 });
 
 /**
@@ -27,7 +30,7 @@ const selfLink = id => url.format({
 const paginatedLink = (pageNumber, pageSize) => url.format({
   protocol,
   hostname,
-  pathname: `/${api}`,
+  pathname: `${basePath}/${api}`,
   query: {
     'page[number]': pageNumber,
     'page[size]': pageSize,

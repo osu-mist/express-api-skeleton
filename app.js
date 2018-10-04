@@ -71,6 +71,9 @@ appRouter.get(`/${api}`, async (req, res) => {
     const { isPaginated, maxPageSize } = config.get('pagination');
     const { query } = req;
 
+    /**
+     * Return 400 erros if API is paginated and page[size]/page[number] are not valid
+     */
     if (isPaginated && query.page) {
       _.forEach(query.page, (value, key) => {
         query.page[key] = parseInt(value, 10);

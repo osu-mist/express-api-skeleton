@@ -96,6 +96,10 @@ parameters:
 definitions:
   Meta:
     properties:
+      totalResults:
+        type: integer
+        description: Total number of results
+        example: 10
       totalPage:
         type: integer
         description: Total number of pagess
