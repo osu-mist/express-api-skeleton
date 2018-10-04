@@ -3,6 +3,7 @@ const config = require('config');
 const express = require('express');
 const fs = require('fs');
 const yaml = require('js-yaml');
+const _ = require('lodash');
 const git = require('simple-git/promise');
 const https = require('https');
 const moment = require('moment');
@@ -71,19 +72,18 @@ appRouter.get(`/${api}`, async (req, res) => {
     const { query } = req;
 
     if (isPaginated && query.page) {
+      _.forEach(query.page, (value, key) => {
+        query.page[key] = parseInt(value, 10);
+      });
       const { size, number } = query.page;
-      const isInvalidPageSize = Number.isInteger(size) || size <= 0 || size > maxPageSize;
-      const isInvalidPageNumber = number <= 0;
-      const errorMessages = [];
+      const isInvalidSize = size && (!Number.isInteger(size) || size <= 0 || size > maxPageSize);
+      const isInvalidNumber = number && (!Number.isInteger(number) || number <= 0);
+      const errors = [];
 
-      if (isInvalidPageSize || isInvalidPageNumber) {
-        if (isInvalidPageSize) {
-          errorMessages.push(`page[size] should an integer between 1 to ${maxPageSize}.`);
-        }
-        if (isInvalidPageNumber) {
-          errorMessages.push('page[number] should an integer starts at 1.');
-        }
-        return res.status(400).send(badRequest(errorMessages));
+      if (isInvalidSize || isInvalidNumber) {
+        if (isInvalidSize) errors.push(`page[size] should an integer between 1 to ${maxPageSize}.`);
+        if (isInvalidNumber) errors.push('page[number] should an integer starts at 1.');
+        return res.status(400).send(badRequest(errors));
       }
     }
 
