@@ -26,14 +26,6 @@ Skeleton for Express APIs. API definition is contained in the [Swagger specifica
     | **${API_USER}** | The HTTP Basic username used to authenticate API calls. |
     | **${API_PASSWD}** | The HTTP Basic password used to authenticate API calls. |
 
-    **Options for pagination configuration**:
-
-    | Option | Description |
-    | ------ | ----------- |
-    | **isPaginated** | Whether the API supports pagination or not. |
-    | **maxPageSize** | Maximum number of results per page. |
-    | **defaultPageSize** | Default number of results per page if `page[size]` is not given. |
-
     **Options for logger configuration**:
 
     | Option | Description |
