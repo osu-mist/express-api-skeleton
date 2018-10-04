@@ -3,6 +3,7 @@ server:
   hostname: ${API_HOSTNAME}
   port: ${API_PORT}
   adminPort: ${API_ADMIN_PORT}
+  basePathPrefix: /api
   keyPath: /path/to/key.pem
   certPath: /path/to/server.crt
   secureProtocol: TLSv1_2_method
