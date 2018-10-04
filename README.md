@@ -14,7 +14,8 @@ Skeleton for Express APIs. API definition is contained in the [Swagger specifica
     $ openssl x509 -req -days 365 -in csr.pem -signkey key.pem -out server.crt
     ```
 
-3. Copy [config/default-example.yaml](config/default-example.yaml) to `config/default.yaml`. Modify as necessary, being careful to avoid committing sensitive data. If you want to configure application through [custom environment variables](https://github.com/lorenwest/node-config/wiki/Environment-Variables#custom-environment-variables), copy [config/custom-environment-variables-example.yaml](config/custom-environment-variables-example.yaml) as `config/custom-environment-variables.yaml` and map the environment variable names into your configuration structure.
+3. Document API design in [swagger.yaml](./swagger.yaml). Please keep in mind that swagger documentation is mainly for client's view. If there is any difference between client should expect and our server should provide, directly implement the feature in the API.
+4. Copy [config/default-example.yaml](config/default-example.yaml) to `config/default.yaml`. Modify as necessary, being careful to avoid committing sensitive data. If you want to configure application through [custom environment variables](https://github.com/lorenwest/node-config/wiki/Environment-Variables#custom-environment-variables), copy [config/custom-environment-variables-example.yaml](config/custom-environment-variables-example.yaml) as `config/custom-environment-variables.yaml` and map the environment variable names into your configuration structure.
 
     **Environment variables**: Sensitive data and data that changes per environment have been moved into environment variables. Below is a list of the variables along with a definition:
 
@@ -213,11 +214,11 @@ The following instructions show you how to connect the API to an Oracle database
 
     ```shell
     $ docker run -d \
-                -p 8080:8080 \
-                -p 8081:8081 \
-                -v path/to/keytools/:/usr/src/express-api-skeleton/keytools:ro \
-                -v "$PWD"/config:/usr/src/express-api-skeleton/config:ro \
-                -v "$PWD"/logs:/usr/src/express-api-skeleton/logs \
-                --name express-api-skeleton \
-                express-api-skeleton
+                 -p 8080:8080 \
+                 -p 8081:8081 \
+                 -v path/to/keytools/:/usr/src/express-api-skeleton/keytools:ro \
+                 -v "$PWD"/config:/usr/src/express-api-skeleton/config:ro \
+                 -v "$PWD"/logs:/usr/src/express-api-skeleton/logs \
+                 --name express-api-skeleton \
+                 express-api-skeleton
     ```
