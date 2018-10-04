@@ -11,11 +11,6 @@ authentication:
   username: ${API_USER}
   password: ${API_PASSWD}
 
-pagination:
-  isPaginated: true
-  maxPageSize: 500
-  defaultPageSize: 25
-
 logger:
   size: 10m
   path: logs

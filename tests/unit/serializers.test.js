@@ -1,4 +1,3 @@
-const config = require('config');
 const reqlib = require('app-root-path').require;
 const camelCase = require('camelcase');
 const chai = require('chai');
@@ -10,8 +9,8 @@ const { apiResourceSerializer } = reqlib('/serializers/jsonapi');
 const { paginate } = reqlib('/serializers/paginator');
 const rows = reqlib('/tests/unit/mock-data.json').apis;
 
-const { defaultPageSize } = config.get('pagination');
 const { assert } = chai;
+const DEFAULT_PAGE_SIZE = 25;
 chai.use(chaiString);
 
 describe('Test JSON API serializer', () => {
@@ -36,7 +35,7 @@ describe('Test paginator', () => {
       const { paginationLinks } = paginate(rows, page);
       const { query } = url.parse(paginationLinks.first, true);
       assert.equal(query['page[number]'], 1);
-      assert.equal(query['page[size]'], defaultPageSize);
+      assert.equal(query['page[size]'], DEFAULT_PAGE_SIZE);
     });
     done();
   });

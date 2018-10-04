@@ -4,8 +4,9 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const url = require('url');
 
-const { protocol, hostname } = config.get('server');
 const api = appRoot.require('/package.json').name;
+
+const { protocol, hostname } = config.get('server');
 const { basePath } = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
 
 /**

@@ -1,5 +1,4 @@
 const appRoot = require('app-root-path');
-const config = require('config');
 const decamelize = require('decamelize');
 const fs = require('fs');
 const yaml = require('js-yaml');
@@ -43,8 +42,7 @@ const apiResourcesSerializer = (rows, query) => {
    * Add pagination links and meta information to options if pagination is enabled
    */
   const { page } = query;
-  const { isPaginated } = config.get('pagination');
-  if (isPaginated && page) {
+  if (page) {
     const {
       paginatedRows,
       paginationLinks,

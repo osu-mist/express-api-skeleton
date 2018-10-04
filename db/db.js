@@ -2,7 +2,6 @@ const reqlib = require('app-root-path').require;
 const _ = require('lodash');
 
 const { apiResourcesSerializer, apiResourceSerializer } = reqlib('/serializers/jsonapi');
-
 const rows = reqlib('/tests/unit/mock-data.json').apis;
 
 /**

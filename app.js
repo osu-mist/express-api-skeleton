@@ -3,7 +3,6 @@ const config = require('config');
 const express = require('express');
 const fs = require('fs');
 const yaml = require('js-yaml');
-const _ = require('lodash');
 const git = require('simple-git/promise');
 const https = require('https');
 const moment = require('moment');
@@ -13,6 +12,7 @@ const { badRequest, notFound, errorHandler } = appRoot.require('/errors/errors')
 const { authentication } = appRoot.require('/middlewares/authentication');
 const { logger } = appRoot.require('/middlewares/logger');
 const api = appRoot.require('/package.json').name;
+
 const {
   port,
   adminPort,
@@ -68,29 +68,25 @@ adminAppRouter.get('/', async (req, res) => {
  */
 appRouter.get(`/${api}`, async (req, res) => {
   try {
-    const { isPaginated, maxPageSize } = config.get('pagination');
-    const { query } = req;
-
+    const MAX_PAGE_SIZE = 500;
+    const { page } = req.query;
     /**
-     * Return 400 errors if API is paginated and page[size]/page[number] are not valid
+     * Return 400 errors if page[size]/page[number] are not valid
      */
-    if (isPaginated && query.page) {
-      _.forEach(query.page, (value, key) => {
-        query.page[key] = parseInt(value, 10);
-      });
-      const { size, number } = query.page;
-      const isInvalidSize = size && (!Number.isInteger(size) || size <= 0 || size > maxPageSize);
-      const isInvalidNumber = number && (!Number.isInteger(number) || number <= 0);
+    if (page) {
+      const { size, number } = page;
+      const isInvalidSize = (size !== '') && (size <= 0 || size > MAX_PAGE_SIZE);
+      const isInvalidNumber = (number !== '') && number <= 0;
       const errors = [];
 
       if (isInvalidSize || isInvalidNumber) {
-        if (isInvalidSize) errors.push(`page[size] should an integer between 1 to ${maxPageSize}.`);
+        if (isInvalidSize) errors.push(`page[size] should an integer between 1 to ${MAX_PAGE_SIZE}.`);
         if (isInvalidNumber) errors.push('page[number] should an integer starts at 1.');
         return res.status(400).send(badRequest(errors));
       }
     }
 
-    const result = await db.getApis(query);
+    const result = await db.getApis(req.query);
     return res.send(result);
   } catch (err) {
     return errorHandler(res, err);
