@@ -2,18 +2,17 @@ const reqlib = require('app-root-path').require;
 const _ = require('lodash');
 
 const { apiResourcesSerializer, apiResourceSerializer } = reqlib('/serializers/jsonapi');
-
 const rows = reqlib('/tests/unit/mock-data.json').apis;
 
 /**
  * @summary Return a list of APIs
  * @function
- * @param {Object} page Pagination query parameter
+ * @param {Object} query Query parameters
  * @returns {Promise} Promise object represents a list of APIs
  */
-const getApis = page => new Promise((resolve, reject) => {
+const getApis = query => new Promise((resolve, reject) => {
   try {
-    const jsonapi = apiResourcesSerializer(rows, page);
+    const jsonapi = apiResourcesSerializer(rows, query);
     resolve(jsonapi);
   } catch (err) {
     reject(err);

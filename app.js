@@ -7,13 +7,12 @@ const git = require('simple-git/promise');
 const https = require('https');
 const moment = require('moment');
 
-const MAX_PAGE_SIZE = 10000;
-
 const db = appRoot.require('/db/db');
 const { badRequest, notFound, errorHandler } = appRoot.require('/errors/errors');
 const { authentication } = appRoot.require('/middlewares/authentication');
 const { logger } = appRoot.require('/middlewares/logger');
 const api = appRoot.require('/package.json').name;
+
 const {
   port,
   adminPort,
@@ -70,19 +69,28 @@ adminAppRouter.get('/', async (req, res) => {
  */
 appRouter.get(`/${api}`, async (req, res) => {
   try {
+    const MAX_PAGE_SIZE = 500;
     const { page } = req.query;
-
     /**
-     * Return 400 bad request if page[size] is out of bounds.
+     * Return 400 errors if page[size]/page[number] are not valid
      */
-    if (page && (page.size <= 0 || page.size > MAX_PAGE_SIZE)) {
-      res.status(400).send(badRequest([`page[size] should between 1 to ${MAX_PAGE_SIZE}.`]));
-    } else {
-      const result = await db.getApis(page);
-      res.send(result);
+    if (page) {
+      const { size, number } = page;
+      const isInvalidSize = (size !== '') && (size <= 0 || size > MAX_PAGE_SIZE);
+      const isInvalidNumber = (number !== '') && number <= 0;
+      const errors = [];
+
+      if (isInvalidSize || isInvalidNumber) {
+        if (isInvalidSize) errors.push(`page[size] should an integer between 1 to ${MAX_PAGE_SIZE}.`);
+        if (isInvalidNumber) errors.push('page[number] should an integer starts at 1.');
+        return res.status(400).send(badRequest(errors));
+      }
     }
+
+    const result = await db.getApis(req.query);
+    return res.send(result);
   } catch (err) {
-    errorHandler(res, err);
+    return errorHandler(res, err);
   }
 });
 

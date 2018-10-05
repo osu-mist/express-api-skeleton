@@ -9,6 +9,7 @@ const { apiResourceSerializer } = reqlib('/serializers/jsonapi');
 const { paginate } = reqlib('/serializers/paginator');
 const rows = reqlib('/tests/unit/mock-data.json').apis;
 
+const DEFAULT_PAGE_SIZE = 25;
 const { assert } = chai;
 chai.use(chaiString);
 
@@ -30,11 +31,12 @@ describe('Test paginator', () => {
   });
 
   it('should use default page number and size if not given', (done) => {
-    const page = {};
-    const { paginationLinks } = paginate(rows, page);
-    const { query } = url.parse(paginationLinks.first, true);
-    assert.equal(query['page[number]'], 1);
-    assert.equal(query['page[size]'], 10);
+    _.forEach([{}, { size: '', number: '' }], (page) => {
+      const { paginationLinks } = paginate(rows, page);
+      const { query } = url.parse(paginationLinks.first, true);
+      assert.equal(query['page[number]'], 1);
+      assert.equal(query['page[size]'], DEFAULT_PAGE_SIZE);
+    });
     done();
   });
 
