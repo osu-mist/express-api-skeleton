@@ -77,7 +77,7 @@ parameters:
     in: header
     type: string
     required: true
-    description: '"Bearer [token]" where token is your OAuth2 access token'
+    description: '"Bearer [token]" where [token] is your OAuth2 access token'
   pageNumber:
     name: page[number]
     in: query
