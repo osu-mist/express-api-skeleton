@@ -1,0 +1,13 @@
+server:
+  hostname: 'API_HOSTNAME'
+  port: 'API_PORT'
+  adminPort: 'API_ADMIN_PORT'
+
+authentication:
+  username: 'API_USER'
+  password: 'API_PASSWD'
+
+database:
+  connectString: 'DB_URL'
+  user: 'DB_USER'
+  password: 'DB_PASSWD'

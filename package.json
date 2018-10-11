@@ -1,0 +1,53 @@
+{
+  "name": "express-api-skeleton",
+  "version": "1.0.0",
+  "description": "Skeleton for Express APIs.",
+  "main": "app.js",
+  "scripts": {
+    "start": "./node_modules/.bin/gulp run",
+    "lint": "./node_modules/.bin/gulp lint",
+    "test": "./node_modules/.bin/gulp test"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osu-mist/express-api-skeleton.git"
+  },
+  "author": "osu-mist",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/osu-mist/express-api-skeleton/issues"
+  },
+  "homepage": "https://github.com/osu-mist/express-api-skeleton#readme",
+  "dependencies": {
+    "app-root-path": "^2.1.0",
+    "camelcase": "^5.0.0",
+    "config": "^2.0.1",
+    "decamelize": "^2.0.0",
+    "express": "^4.16.3",
+    "express-basic-auth": "^1.1.5",
+    "express-healthcheck": "^0.1.0",
+    "express-winston": "^3.0.0",
+    "js-yaml": "^3.12.0",
+    "jsonapi-serializer": "^3.5.6",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
+    "simple-git": "^1.96.0",
+    "winston": "^3.1.0",
+    "winston-daily-rotate-file": "^3.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-string": "^1.5.0",
+    "eslint": "^5.6.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "forever-monitor": "^1.7.1",
+    "gulp": "4.0.0",
+    "gulp-eslint": "^5.0.0",
+    "gulp-mocha": "^6.0.0",
+    "pre-commit": "^1.2.2"
+  }
+}

@@ -1,0 +1,199 @@
+swagger: '2.0'
+info:
+  title: Express API Skeleton
+  description: Skeleton for Express APIs
+  version: v1
+  license:
+    name: GNU Affero General Public License Version 3
+    url: http://www.gnu.org/licenses/agpl-3.0.en.html
+  contact:
+    name: IS Data Architecture Team
+    url: https://is.oregonstate.edu/data-architecture
+    email: isdataarchitecture@oregonstate.edu
+schemes:
+  - https
+host: api.oregonstate.edu
+basePath: /v1
+externalDocs:
+  description: GitHub Repository
+  url: https://github.com/osu-mist/express-api-skeleton
+produces:
+  - application/json
+paths:
+  /express-api-skeleton:
+    get:
+      summary: List all APIs
+      tags:
+        - apis
+      description: Get all APIs
+      operationId: getApis
+      parameters:
+        - $ref: '#/parameters/authorization'
+        - $ref: '#/parameters/pageNumber'
+        - $ref: '#/parameters/pageSize'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ApiResources'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Errors'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Errors'
+  /express-api-skeleton/{id}:
+    get:
+      summary: Info for a specific API
+      tags:
+        - apis
+      description: Get API by unique ID
+      operationId: getApiById
+      parameters:
+        - $ref: '#/parameters/authorization'
+        - name: id
+          in: path
+          description: Unique API ID
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/ApiResource'
+        404:
+          description: ApiResource not found
+          schema:
+            $ref: '#/definitions/Errors'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Errors'
+parameters:
+  authorization:
+    name: Authorization
+    in: header
+    type: string
+    required: true
+    description: '"Bearer [token]" where [token] is your OAuth2 access token'
+  pageNumber:
+    name: page[number]
+    in: query
+    type: integer
+    required: false
+    description: Page number of results
+    default: 1
+  pageSize:
+    name: page[size]
+    in: query
+    type: integer
+    required: false
+    description: Number of results to return
+    default: 25
+    maximum: 500
+definitions:
+  Meta:
+    properties:
+      totalResults:
+        type: integer
+        description: Total number of results
+        example: 10
+      totalPage:
+        type: integer
+        description: Total number of pagess
+        example: 10
+      currentPageNumber:
+        type: integer
+        description: Page number of the returned results
+        example: 1
+      currentPageSize:
+        type: integer
+        description: Number of results per page
+        example: 25
+  SelfLink:
+    properties:
+      self:
+        type: string
+        format: url
+        description: Self link of ApiResource
+  PaginationLinks:
+    properties:
+      first:
+        type: string
+        format: url
+        description: The first page of data
+      last:
+        type: string
+        format: url
+        description: The last page of data
+      prev:
+        type: string
+        format: url
+        description: The previous page of data
+      next:
+        type: string
+        format: url
+        description: The next page of data
+  ApiResource:
+    properties:
+      id:
+        type: string
+        description: A unique ID of API
+      type:
+        type: string
+        example: apis
+      links:
+        $ref: '#/definitions/SelfLink'
+      attributes:
+        properties:
+          name:
+            type: string
+            description: Name of API
+            example: Location Frontend API
+          repoUrl:
+            type: string
+            format: url
+            description: Repository URL of API
+            example: https://github.com/osu-mist/locations-frontend-api
+  ApiResources:
+    properties:
+      links:
+        $ref: '#/definitions/PaginationLinks'
+      meta:
+        $ref: '#/definitions/Meta'
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/ApiResource'
+  Error:
+    properties:
+      status:
+        type: string
+        description: HTTP status code
+        example: 123
+      title:
+        type: string
+        description: A short, user readable summary of the error
+        example: Not Found
+      code:
+        type: string
+        description: An application-specific error code
+        example: 1234
+      detail:
+        type: string
+        description: A long description of the error that may contain instance-specific details
+      links:
+        properties:
+          about:
+            type: string
+            format: url
+            description: A link to further information about the error
+            example: https://developer.oregonstate.edu/documentation/error-reference#1234
+  Errors:
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/Error'

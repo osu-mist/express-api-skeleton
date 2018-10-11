@@ -1,0 +1,54 @@
+{
+  "apis": [
+    {
+      "ID": "1",
+      "NAME": "Location Frontend API",
+      "REPO_URL": "https://github.com/osu-mist/locations-frontend-api"
+    },
+    {
+      "ID": "2",
+      "NAME": "Directory API",
+      "REPO_URL": "https://github.com/osu-mist/directory-api"
+    },
+    {
+      "ID": "3",
+      "NAME": "Beaver Bus API",
+      "REPO_URL": "https://github.com/osu-mist/beaver-bus-api"
+    },
+    {
+      "ID": "4",
+      "NAME": "Persons API",
+      "REPO_URL": "https://github.com/osu-mist/persons-api"
+    },
+    {
+      "ID": "5",
+      "NAME": "Staff Fee Privilege API",
+      "REPO_URL": "https://github.com/osu-mist/staff-fee-privilege-api"
+    },
+    {
+      "ID": "6",
+      "NAME": "Students API",
+      "REPO_URL": "https://github.com/osu-mist/students-api"
+    },
+    {
+      "ID": "7",
+      "NAME": "HR API",
+      "REPO_URL": "https://github.com/osu-mist/hr-api"
+    },
+    {
+      "ID": "8",
+      "NAME": "Textbooks API",
+      "REPO_URL": "https://github.com/osu-mist/textbooks-api"
+    },
+    {
+      "ID": "9",
+      "NAME": "Identify API",
+      "REPO_URL": "https://github.com/osu-mist/identify-api"
+    },
+    {
+      "ID": "10",
+      "NAME": "Terms API",
+      "REPO_URL": "https://github.com/osu-mist/terms-api"
+    }
+  ]
+}
