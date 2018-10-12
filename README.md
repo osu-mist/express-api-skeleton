@@ -134,7 +134,7 @@ The following instructions show you how to get data from external endpoints for 
 2. Rename [db/http-datasource-example.js](db/http-datasource-example.js) to `db/db.js` and modify as necessary:
 
     ```shell
-    $ git mv db/http-datasource-example.js db/db.js
+    $ git mv --force db/http-datasource-example.js db/db.js
     ```
 
 3. Don't forget to change [serializers/jsonapi.js](serializers/jsonapi.js) to serialize data properly.
@@ -146,14 +146,14 @@ The following instructions show you how to connect the API to an Oracle database
 1. Install [Oracle Instant Client](http://www.oracle.com/technetwork/database/database-technologies/instant-client/overview/index.html) by following [this installation guide](https://oracle.github.io/odpi/doc/installation.html).
 
 
-2. Install [node-oracledb](https://oracle.github.io/node-oracledb/) via package management:
+2. Install [oracledb](https://www.npmjs.com/package/oracledb) via package management:
 
     ```shell
     # Using yarn (recommended)
-    $ yarn add node-oracledb
+    $ yarn add oracledb
 
     # Using npm
-    $ npm install node-oracledb
+    $ npm install oracledb
     ```
 
 3. Define `database` section in the `/config/default.yaml` to be like:
@@ -195,7 +195,7 @@ The following instructions show you how to connect the API to an Oracle database
 5. Copy [db/oracledb-example.js](db/oracledb-example.js) to `db/db.js` and modify as necessary:
 
     ```shell
-    $ git mv db/oracledb-example.js db/db.js
+    $ git mv --force db/oracledb-example.js db/db.js
     ```
 
 ## Docker
