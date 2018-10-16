@@ -21,8 +21,7 @@ const {
   certPath,
   secureProtocol,
 } = config.get('server');
-const { basePath } = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
-
+const { basePath, info: { title } } = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
 /**
  * @summary Initialize Express applications and routers
  */
@@ -51,7 +50,7 @@ adminAppRouter.get('/', async (req, res) => {
     const now = moment();
     const info = {
       meta: {
-        name: 'express-api-skeleton',
+        name: title,
         time: now.format('YYYY-MM-DD HH:mm:ssZZ'),
         unixTime: now.unix(),
         commit: commit.trim(),
