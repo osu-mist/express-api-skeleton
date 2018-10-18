@@ -22,20 +22,28 @@ const selfLink = id => url.format({
 });
 
 /**
+ * @summary Top level query link builder
+ * @function
+ * @param {object} query
+ * @returns A url formatted with query parameters in the query object.
+ */
+const querySelfLink = query => url.format({
+  protocol,
+  hostname,
+  pathname: `${basePath}/${api}`,
+  query,
+});
+
+/**
  * @summary Paginated link builder
  * @function
  * @param {number} pageNumber Page number of results
  * @param {number} pageSize Number of results to return
  * @returns A paginated link URL
  */
-const paginatedLink = (pageNumber, pageSize) => url.format({
-  protocol,
-  hostname,
-  pathname: `${basePath}/${api}`,
-  query: {
-    'page[number]': pageNumber,
-    'page[size]': pageSize,
-  },
+const paginatedLink = (pageNumber, pageSize) => querySelfLink({
+  'page[number]': pageNumber,
+  'page[size]': pageSize,
 });
 
-module.exports = { selfLink, paginatedLink };
+module.exports = { selfLink, paginatedLink, querySelfLink };
