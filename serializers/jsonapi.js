@@ -5,7 +5,7 @@ const yaml = require('js-yaml');
 const _ = require('lodash');
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 
-const { selfLink } = appRoot.require('/serializers/uri-builder');
+const { paginatedLink, selfLink } = appRoot.require('/serializers/uri-builder');
 const { paginate } = appRoot.require('/serializers/paginator');
 
 const swagger = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
@@ -45,11 +45,19 @@ const apiResourcesSerializer = (rows, query) => {
   if (page) {
     const {
       paginatedRows,
-      paginationLinks,
       totalPages,
       pageNumber,
       pageSize,
+      nextPage,
+      prevPage,
     } = paginate(rows, page);
+
+    const paginationLinks = {
+      first: paginatedLink(pageNumber, pageSize),
+      last: paginatedLink(totalPages, pageSize),
+      next: paginatedLink(nextPage, pageSize),
+      prev: paginatedLink(prevPage, pageSize),
+    };
 
     serializerOptions.topLevelLinks = paginationLinks;
     serializerOptions.meta = {
