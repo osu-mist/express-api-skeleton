@@ -7,7 +7,7 @@ const DEFAULT_PAGE_SIZE = 25;
  * @function
  * @param {[Object]} rows Data rows
  * @param {Object} page Pagination query parameter
- * @returns {*} Paginated data rows and pagination links
+ * @returns {*} Paginated data rows
  */
 const paginate = (rows, page) => {
   const pageNumber = page && page.number ? parseInt(page.number, 10) : 1;
