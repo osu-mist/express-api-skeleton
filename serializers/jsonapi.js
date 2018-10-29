@@ -52,14 +52,12 @@ const apiResourcesSerializer = (rows, query) => {
       prevPage,
     } = paginate(rows, page);
 
-    const paginationLinks = {
+    serializerOptions.topLevelLinks = {
       first: paginatedLink(pageNumber, pageSize),
       last: paginatedLink(totalPages, pageSize),
       next: paginatedLink(nextPage, pageSize),
       prev: paginatedLink(prevPage, pageSize),
     };
-
-    serializerOptions.topLevelLinks = paginationLinks;
     serializerOptions.meta = {
       totalResults: rows.length,
       totalPages,

@@ -16,7 +16,7 @@ const paginate = (rows, page) => {
   const paginatedRows = _.slice(rows, (pageNumber - 1) * pageSize, pageNumber * pageSize);
   const isOutOfBounds = pageNumber < 1 || pageNumber > totalPages;
   const nextPage = isOutOfBounds || pageNumber >= totalPages ? null : pageNumber + 1;
-  const prevPage = isOutOfBounds || pageNumber <= 0 ? pageNumber - 1 : pageNumber - 1;
+  const prevPage = isOutOfBounds || pageNumber <= 0 ? null : pageNumber - 1;
 
   return {
     paginatedRows,
