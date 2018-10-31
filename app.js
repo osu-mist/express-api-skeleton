@@ -3,12 +3,10 @@ const config = require('config');
 const express = require('express');
 const fs = require('fs');
 const yaml = require('js-yaml');
-const git = require('simple-git/promise');
 const https = require('https');
-const moment = require('moment');
 
-const db = appRoot.require('/db/db-example');
-const { badRequest, notFound, errorHandler } = appRoot.require('/errors/errors');
+const adminResources = appRoot.require('resources/admin-resources');
+const apiResources = appRoot.require('resources/api-resources');
 const { authentication } = appRoot.require('/middlewares/authentication');
 const { logger } = appRoot.require('/middlewares/logger');
 const api = appRoot.require('/package.json').name;
@@ -21,7 +19,7 @@ const {
   certPath,
   secureProtocol,
 } = config.get('server');
-const { basePath, info: { title } } = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
+const { basePath } = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
 /**
  * @summary Initialize Express applications and routers
  */
@@ -31,84 +29,23 @@ const adminApp = express();
 const adminAppRouter = express.Router();
 
 /**
- * @summary Middlewares
+ * @summary Middlewares for routers, logger and authentication
  */
-if (logger) app.use(logger);
-app.use(`${basePathPrefix}${basePath}`, appRouter);
+const baseEndpoint = `${basePathPrefix}${basePath}`;
+app.use(baseEndpoint, appRouter);
+adminApp.use(baseEndpoint, adminAppRouter);
+
+appRouter.use(logger);
 appRouter.use(authentication);
-
-adminApp.use(`${basePathPrefix}${basePath}`, adminAppRouter);
 adminAppRouter.use(authentication);
-adminAppRouter.use('/healthcheck', require('express-healthcheck')());
 
 /**
- * @summary Get application information
+ * @summary Middlewares sub-stack that handles HTTP requests to paths
  */
-adminAppRouter.get('/', async (req, res) => {
-  try {
-    const commit = await git().revparse(['--short', 'HEAD']);
-    const now = moment();
-    const info = {
-      meta: {
-        name: title,
-        time: now.format('YYYY-MM-DD HH:mm:ssZZ'),
-        unixTime: now.unix(),
-        commit: commit.trim(),
-        documentation: 'swagger.yaml',
-      },
-    };
-    res.send(info);
-  } catch (err) {
-    errorHandler(res, err);
-  }
-});
+adminAppRouter.get('/', adminResources.getApplicationInfo);
 
-/**
- * @summary Get APIs
- */
-appRouter.get(`/${api}`, async (req, res) => {
-  try {
-    const MAX_PAGE_SIZE = 500;
-    const { page } = req.query;
-    /**
-     * Return 400 errors if page[size]/page[number] are not valid
-     */
-    if (page) {
-      const { size, number } = page;
-      const isInvalidSize = (size !== '') && (size <= 0 || size > MAX_PAGE_SIZE);
-      const isInvalidNumber = (number !== '') && number <= 0;
-      const errors = [];
-
-      if (isInvalidSize || isInvalidNumber) {
-        if (isInvalidSize) errors.push(`page[size] should an integer between 1 to ${MAX_PAGE_SIZE}.`);
-        if (isInvalidNumber) errors.push('page[number] should an integer starts at 1.');
-        return res.status(400).send(badRequest(errors));
-      }
-    }
-
-    const result = await db.getApis(req.query);
-    return res.send(result);
-  } catch (err) {
-    return errorHandler(res, err);
-  }
-});
-
-/**
- * @summary Get API by unique ID
- */
-appRouter.get(`/${api}/:id`, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await db.getApiById(id);
-    if (!result) {
-      res.status(404).send(notFound('An API with the specified ID was not found.'));
-    } else {
-      res.send(result);
-    }
-  } catch (err) {
-    errorHandler(res, err);
-  }
-});
+appRouter.get(`/${api}`, apiResources.getApis);
+appRouter.get(`/${api}/:id`, apiResources.getApiById);
 
 /**
  * @summary Create and start HTTPS servers
