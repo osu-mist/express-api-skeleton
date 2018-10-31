@@ -7,7 +7,7 @@ const git = require('simple-git/promise');
 const https = require('https');
 const moment = require('moment');
 
-const db = appRoot.require('/db/db');
+const db = appRoot.require('/db/db-example');
 const { badRequest, notFound, errorHandler } = appRoot.require('/errors/errors');
 const { authentication } = appRoot.require('/middlewares/authentication');
 const { logger } = appRoot.require('/middlewares/logger');

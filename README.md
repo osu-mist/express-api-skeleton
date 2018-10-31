@@ -131,13 +131,19 @@ The following instructions show you how to get data from external endpoints for 
         url: 'https://api.example.com'
     ```
 
-2. Rename [db/http-datasource-example.js](db/http-datasource-example.js) to `db/db.js` and modify as necessary:
+2. Rename [db/http-datasource-example.js](db/http-datasource-example.js) to `db/http-datasource.js` and modify as necessary:
 
     ```shell
-    $ git mv --force db/http-datasource-example.js db/db.js
+    $ git mv db/http-datasource-example.js db/http-datasource.js
     ```
 
-3. Don't forget to change [serializers/jsonapi.js](serializers/jsonapi.js) to serialize data properly.
+3. Make sure to require the correct path for the new db file at [app.js](https://github.com/osu-mist/express-api-skeleton/blob/master/app.js):
+
+    ```js
+    const db = appRoot.require('/db/http-datasource');
+    ```
+
+4. Don't forget to change [serializers/jsonapi.js](serializers/jsonapi.js) to serialize data properly.
 
 ## Getting data source from the Oracle Database
 
@@ -192,10 +198,16 @@ The following instructions show you how to connect the API to an Oracle database
         $ git submodule update --init
         ```
 
-5. Copy [db/oracledb-example.js](db/oracledb-example.js) to `db/db.js` and modify as necessary:
+5. Copy [db/oracledb-example.js](db/oracledb-example.js) to `db/oracledb.js` and modify as necessary:
 
     ```shell
-    $ git mv --force db/oracledb-example.js db/db.js
+    $ git mv db/oracledb-example.js db/oracledb.js
+    ```
+
+6. Make sure to require the correct path for the new db file at [app.js](https://github.com/osu-mist/express-api-skeleton/blob/master/app.js):
+
+    ```js
+    const db = appRoot.require('/db/oracledb');
     ```
 
 ## Docker
