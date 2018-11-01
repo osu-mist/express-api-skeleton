@@ -222,7 +222,7 @@ The following instructions show you how to connect the API to an Oracle database
     COPY . /usr/src/<my-api>
     ```
 
-2. If the API is required [node-oracledb](https://oracle.github.io/node-oracledb/) to connect to an Oracle database, download an [Oracle Instant Client 12.2 Basic Light zip (64 bits)](http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html) and place into `./bin` folder. In addition, uncomment [the following codes](Dockerfile#L8-L15) from the Dockerfile.
+2. If the API is required [node-oracledb](https://oracle.github.io/node-oracledb/) to connect to an Oracle database, download an [Oracle Instant Client 12.2 Basic Light zip (64 bits)](http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html) and place into `./bin` folder. In addition, uncomment [the following codes](Dockerfile#L8-L15) from the Dockerfile:
 
     ```Dockerfile
     # Install Oracle Instant Client
