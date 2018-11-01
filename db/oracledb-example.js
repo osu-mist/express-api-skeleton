@@ -47,9 +47,9 @@ const getApis = () => new Promise(async (resolve, reject) => {
     const { rows } = await connection.execute(contrib.getApis());
     const jsonapi = apiResourceSerializer(rows, endpointUri);
     resolve(jsonapi);
-    connection.close();
   } catch (err) {
     reject(err);
+  } finally {
     connection.close();
   }
 });
@@ -75,9 +75,9 @@ const getApiById = id => new Promise(async (resolve, reject) => {
       const jsonapi = apiResourceSerializer(row, endpointUri);
       resolve(jsonapi);
     }
-    connection.close();
   } catch (err) {
     reject(err);
+  } finally {
     connection.close();
   }
 });
