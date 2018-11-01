@@ -98,7 +98,7 @@ $ npm test
 
 2. Rename project by modifying [package.json](./package.json).
 
-3. Update and rename [api-resources.js](resources/api-resources.js) and [api-resources-serializer.js](serializer/api-resources-serializer.js) properly.
+3. Update and rename [api-resources.js](resources/api-resources.js) and [api-resources-serializer.js](serializers/api-resources-serializer.js) properly.
 
 ### Base an existing project off / Incorporate updates from the skeleton
 
