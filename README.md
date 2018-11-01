@@ -1,4 +1,4 @@
-# Express API Skeleton ![version](https://img.shields.io/badge/version-v1-blue.svg) [![swagger](https://img.shields.io/badge/swagger-2.0-green.svg)](./swagger.yaml)
+# Express API Skeleton ![version](https://img.shields.io/badge/version-v1-blue.svg) [![swagger](https://img.shields.io/badge/swagger-2.0-green.svg)](./swagger.yaml) ![node](https://img.shields.io/badge/node-10.13-brightgreen.svg)
 
 Skeleton for Express APIs. API definition is contained in the [Swagger specification](./swagger.yaml).
 
