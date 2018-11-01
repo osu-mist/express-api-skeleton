@@ -4,7 +4,7 @@ const _ = require('lodash');
 const oracledb = require('oracledb');
 
 const contrib = reqlib('/contrib/contrib');
-const { apiResourceSerializer } = reqlib('/serializers/jsonapi');
+const { apiResourceSerializer } = reqlib('/serializers/api-resources-serializer');
 
 process.on('SIGINT', () => process.exit());
 
@@ -64,11 +64,10 @@ const getApiById = id => new Promise(async (resolve, reject) => {
   const connection = await getConnection();
   try {
     const { rows } = await connection.execute(contrib.getApiById(id), id);
+
     if (_.isEmpty(rows)) {
-      /** Should return 404 if nothing found */
       resolve(undefined);
     } else if (rows.length > 1) {
-      /** Should return 500 if get multiple results */
       reject(new Error('Expect a single object but got multiple results.'));
     } else {
       const [row] = rows;
