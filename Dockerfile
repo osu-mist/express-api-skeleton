@@ -4,6 +4,9 @@ FROM node:10:13
 WORKDIR /usr/src/express-api-skeleton
 COPY . /usr/src/express-api-skeleton
 
+# The following lines are commented out by default since not all APIs require
+# Oracle Instant Client. Uncomment the codes if you needed.
+
 # Install Oracle Instant Client
 # RUN apt-get update && apt-get install -y libaio1 unzip
 # RUN mkdir -p /opt/oracle

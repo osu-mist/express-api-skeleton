@@ -133,16 +133,16 @@ The following instructions show you how to get data from external endpoints for 
         url: 'https://api.example.com'
     ```
 
-2. Rename [db/http-datasource-example.js](db/http-datasource-example.js) to `db/http-datasource.js` and modify as necessary:
+2. Copy [db/http/apis-dao-example.js](db/http/apis-dao-example.js) to `db/http/<resources>-dao.js` and modify as necessary:
 
     ```shell
-    $ git mv db/http-datasource-example.js db/http-datasource.js
+    $ cp db/http/apis-dao-example.js db/http/<resources>-dao.js
     ```
 
 3. Make sure to require the correct path for the new db file at [resources files](resources/api-resources.js#L3):
 
     ```js
-    const db = appRoot.require('/db/http-datasource');
+    const db = appRoot.require('/db/http/<resources>-dao');
     ```
 
 ## Getting data source from the Oracle Database
@@ -198,16 +198,22 @@ The following instructions show you how to connect the API to an Oracle database
         $ git submodule update --init
         ```
 
-5. Copy [db/oracledb-example.js](db/oracledb-example.js) to `db/oracledb.js` and modify as necessary:
+5. Rename [db/oracledb/connection-example.js](db/oracledb/connection-example.js) to `db/oracledb/connection.js`:
 
     ```shell
-    $ git mv db/oracledb-example.js db/oracledb.js
+    $ git mv db/oracledb/connection-example.js db/oracledb/connection.js
     ```
 
-6. Make sure to require the correct path for the new db file at [resources files](resources/api-resources.js#L3):
+6. Copy [db/oracledb/apis-dao-example.js](db/oracledb/apis-dao-example.js) to `db/oracledb/<resources>-dao.js` and modify as necessary:
+
+    ```shell
+    $ cp db/oracledb/apis-dao.js db/oracledb/<resources>-dao.js
+    ```
+
+7. Make sure to require the correct path for the new db file at [resources files](resources/api-resources.js#L3):
 
     ```js
-    const db = appRoot.require('/db/oracledb');
+    const db = appRoot.require('/db/oracledb/<resources>-dao');
     ```
 
 ## Docker
@@ -222,7 +228,7 @@ The following instructions show you how to connect the API to an Oracle database
     COPY . /usr/src/<my-api>
     ```
 
-2. If the API is required [node-oracledb](https://oracle.github.io/node-oracledb/) to connect to an Oracle database, download an [Oracle Instant Client 12.2 Basic Light zip (64 bits)](http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html) and place into `./bin` folder. In addition, uncomment [the following codes](Dockerfile#L8-L15) from the Dockerfile:
+2. If the API is required [node-oracledb](https://oracle.github.io/node-oracledb/) to connect to an Oracle database, download an [Oracle Instant Client 12.2 Basic Light zip (64 bits)](http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html) and place into `./bin` folder. In addition, uncomment [the following code](Dockerfile#L8-L15) from the Dockerfile:
 
     ```Dockerfile
     # Install Oracle Instant Client

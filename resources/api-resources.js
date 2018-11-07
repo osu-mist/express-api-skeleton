@@ -1,6 +1,6 @@
 const appRoot = require('app-root-path');
 
-const db = appRoot.require('/db/db-example');
+const db = appRoot.require('/db/json/apis-dao-example');
 const { badRequest, notFound, errorHandler } = appRoot.require('/errors/errors');
 
 /**

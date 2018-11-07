@@ -1,40 +1,12 @@
-const reqlib = require('app-root-path').require;
 const config = require('config');
+const reqlib = require('app-root-path').require;
 const _ = require('lodash');
-const oracledb = require('oracledb');
 
 const contrib = reqlib('/contrib/contrib');
+const { getConnection } = reqlib('/db/oracledb/connection');
 const { apiResourceSerializer } = reqlib('/serializers/api-resources-serializer');
 
-process.on('SIGINT', () => process.exit());
-
-oracledb.outFormat = oracledb.OBJECT;
-const dbConfig = config.get('database');
 const { endpointUri } = config.get('server');
-
-/**
- * @summary Increase 1 extra thread for every 5 pools but no more than 128
- */
-const threadPoolSize = dbConfig.poolMax + (dbConfig.poolMax / 5);
-process.env.UV_THREADPOOL_SIZE = threadPoolSize > 128 ? 128 : threadPoolSize;
-
-/**
- * @summary Create a pool of connection
- * @returns {Promise} Promise object represents a pool of connections
- */
-const poolPromise = oracledb.createPool(dbConfig);
-
-/**
- * @summary Get a connection from created pool
- * @function
- * @returns {Promise} Promise object represents a connection from created pool
- */
-const getConnection = () => new Promise(async (resolve, reject) => {
-  poolPromise.then(async (pool) => {
-    const connection = await pool.getConnection();
-    resolve(connection);
-  }).catch(err => reject(err));
-});
 
 /**
  * @summary Return a list of APIs
