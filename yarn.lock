@@ -1140,10 +1140,6 @@ express-basic-auth@^1.1.5:
   dependencies:
     basic-auth "^1.1.0"
 
-express-healthcheck@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/express-healthcheck/-/express-healthcheck-0.1.0.tgz#cabec78129c4cb90cd7fb894dfae21b82e27cb07"
-
 express-winston@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/express-winston/-/express-winston-3.0.0.tgz#4aaf495709bec875f81ae6c3fa99f550e4a544d9"

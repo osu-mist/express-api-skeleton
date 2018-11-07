@@ -1,4 +1,4 @@
-# Express API Skeleton ![version](https://img.shields.io/badge/version-v1-blue.svg) [![swagger](https://img.shields.io/badge/swagger-2.0-green.svg)](./swagger.yaml)
+# Express API Skeleton ![version](https://img.shields.io/badge/version-v1-blue.svg) [![swagger](https://img.shields.io/badge/swagger-2.0-green.svg)](./swagger.yaml) ![node](https://img.shields.io/badge/node-10.13-brightgreen.svg)
 
 Skeleton for Express APIs. API definition is contained in the [Swagger specification](./swagger.yaml).
 
@@ -98,6 +98,8 @@ $ npm test
 
 2. Rename project by modifying [package.json](./package.json).
 
+3. Update and rename [api-resources.js](resources/api-resources.js) and [api-resources-serializer.js](serializers/api-resources-serializer.js) properly.
+
 ### Base an existing project off / Incorporate updates from the skeleton
 
 1. Add the skeleton as a remote:
@@ -131,13 +133,17 @@ The following instructions show you how to get data from external endpoints for 
         url: 'https://api.example.com'
     ```
 
-2. Rename [db/http-datasource-example.js](db/http-datasource-example.js) to `db/db.js` and modify as necessary:
+2. Copy [db/http/apis-dao-example.js](db/http/apis-dao-example.js) to `db/http/<resources>-dao.js` and modify as necessary:
 
     ```shell
-    $ git mv --force db/http-datasource-example.js db/db.js
+    $ cp db/http/apis-dao-example.js db/http/<resources>-dao.js
     ```
 
-3. Don't forget to change [serializers/jsonapi.js](serializers/jsonapi.js) to serialize data properly.
+3. Make sure to require the correct path for the new db file at [resources files](resources/api-resources.js#L3):
+
+    ```js
+    const db = appRoot.require('/db/http/<resources>-dao');
+    ```
 
 ## Getting data source from the Oracle Database
 
@@ -192,33 +198,65 @@ The following instructions show you how to connect the API to an Oracle database
         $ git submodule update --init
         ```
 
-5. Copy [db/oracledb-example.js](db/oracledb-example.js) to `db/db.js` and modify as necessary:
+5. Rename [db/oracledb/connection-example.js](db/oracledb/connection-example.js) to `db/oracledb/connection.js`:
 
     ```shell
-    $ git mv --force db/oracledb-example.js db/db.js
+    $ git mv db/oracledb/connection-example.js db/oracledb/connection.js
+    ```
+
+6. Copy [db/oracledb/apis-dao-example.js](db/oracledb/apis-dao-example.js) to `db/oracledb/<resources>-dao.js` and modify as necessary:
+
+    ```shell
+    $ cp db/oracledb/apis-dao.js db/oracledb/<resources>-dao.js
+    ```
+
+7. Make sure to require the correct path for the new db file at [resources files](resources/api-resources.js#L3):
+
+    ```js
+    const db = appRoot.require('/db/oracledb/<resources>-dao');
     ```
 
 ## Docker
 
 [Dockerfile](Dockerfile) is also provided. To run the app in a container, install [Docker](https://www.docker.com/) first, then:
 
-1. If the API is required [node-oracledb](https://oracle.github.io/node-oracledb/) to connect to an Oracle database, download an [Oracle Instant Client 12.2 Basic Light zip (64 bits)](http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html) and place into `./bin` folder.
+1. Modify `WORKDIR` from the [Dockerfile](Dockerfile#L4-L5):
 
-2. Build the docker image:
-
-    ```shell
-    $ docker build -t express-api-skeleton .
+    ```Dockerfile
+    # Copy folder to workspace
+    WORKDIR /usr/src/<my-api>
+    COPY . /usr/src/<my-api>
     ```
 
-3. Run the app in a container:
+2. If the API requires [node-oracledb](https://oracle.github.io/node-oracledb/) to connect to an Oracle database, download an [Oracle Instant Client 12.2 Basic Light zip (64 bits)](http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html) and place into `./bin` folder. In addition, uncomment [the following code](Dockerfile#L11-L18) from the Dockerfile:
+
+    ```Dockerfile
+    # Install Oracle Instant Client
+    RUN apt-get update && apt-get install -y libaio1 unzip
+    RUN mkdir -p /opt/oracle
+    RUN unzip bin/instantclient-basiclite-linux.x64-12.2.0.1.0.zip -d /opt/oracle
+    RUN cd /opt/oracle/instantclient_12_2 \
+        && ln -s libclntsh.so.12.1 libclntsh.so \
+        && ln -s libocci.so.12.1 libocci.so
+    RUN echo /opt/oracle/instantclient_12_2 > /etc/ld.so.conf.d/oracle-instantclient.conf \
+        && ldconfig
+    ```
+
+3. Build the docker image:
+
+    ```shell
+    $ docker build -t <my-api> .
+    ```
+
+4. Run the app in a container:
 
     ```shell
     $ docker run -d \
                  -p 8080:8080 \
                  -p 8081:8081 \
-                 -v path/to/keytools/:/usr/src/express-api-skeleton/keytools:ro \
-                 -v "$PWD"/config:/usr/src/express-api-skeleton/config:ro \
-                 -v "$PWD"/logs:/usr/src/express-api-skeleton/logs \
-                 --name express-api-skeleton \
-                 express-api-skeleton
+                 -v path/to/keytools/:/usr/src/<my-api>/keytools:ro \
+                 -v "$PWD"/config:/usr/src/<my-api>/config:ro \
+                 -v "$PWD"/logs:/usr/src/<my-api>/logs \
+                 --name <my-api> \
+                 <my-api>
     ```

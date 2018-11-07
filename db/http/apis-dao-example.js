@@ -1,9 +1,8 @@
 const reqlib = require('app-root-path').require;
 const config = require('config');
-const _ = require('lodash');
 const rp = require('request-promise-native');
 
-const { apiResourceSerializer } = reqlib('/serializers/jsonapi');
+const { apiResourceSerializer } = reqlib('/serializers/api-resources-serializer');
 
 const { endpointUri } = config.get('server');
 const { sourceUri } = config.get('httpDataSource');
