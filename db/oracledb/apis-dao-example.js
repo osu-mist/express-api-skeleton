@@ -1,10 +1,10 @@
+const appRoot = require('app-root-path');
 const config = require('config');
-const reqlib = require('app-root-path').require;
 const _ = require('lodash');
 
-const contrib = reqlib('/contrib/contrib');
-const { getConnection } = reqlib('/db/oracledb/connection');
-const { apiResourceSerializer } = reqlib('/serializers/api-resources-serializer');
+const contrib = appRoot.require('contrib/contrib');
+const { getConnection } = appRoot.require('db/connection');
+const { apiResourceSerializer } = appRoot.require('serializers/api-resources-serializer');
 
 const { endpointUri } = config.get('server');
 

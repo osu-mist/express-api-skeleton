@@ -1,6 +1,6 @@
 const appRoot = require('app-root-path');
 
-const { paginatedLink, selfLink } = appRoot.require('/serializers/uri-builder');
+const { paginatedLink, selfLink } = appRoot.require('serializers/uri-builder');
 
 /**
  * @summary Generate JSON API serializer options
@@ -8,13 +8,13 @@ const { paginatedLink, selfLink } = appRoot.require('/serializers/uri-builder');
  * @param {[Object]} serializerArgs JSON API serializer arguments
  * @returns {Object} JSON API serializer options
  */
-const serializerOptions = (serializerArgs) => {
+const serializerOptions = (serializerArgs, path) => {
   const { identifierField, resourceKeys, pagination } = serializerArgs;
   const options = {
     attributes: resourceKeys,
     id: identifierField,
     keyForAttribute: 'camelCase',
-    dataLinks: { self: row => selfLink(row[identifierField]) },
+    dataLinks: { self: row => selfLink(row[identifierField], path) },
   };
 
   if (pagination) {
@@ -28,10 +28,10 @@ const serializerOptions = (serializerArgs) => {
     } = pagination;
 
     options.topLevelLinks = {
-      first: paginatedLink(pageNumber, pageSize),
-      last: paginatedLink(totalPages, pageSize),
-      next: paginatedLink(nextPage, pageSize),
-      prev: paginatedLink(prevPage, pageSize),
+      first: paginatedLink(pageNumber, pageSize, path),
+      last: paginatedLink(totalPages, pageSize, path),
+      next: paginatedLink(nextPage, pageSize, path),
+      prev: paginatedLink(prevPage, pageSize, path),
     };
     options.meta = {
       totalResults,

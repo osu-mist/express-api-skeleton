@@ -1,11 +1,12 @@
-const reqlib = require('app-root-path').require;
+const appRoot = require('app-root-path');
 const _ = require('lodash');
 
 const {
   apiResourcesSerializer,
   apiResourceSerializer,
-} = reqlib('/serializers/api-resources-serializer');
-const rows = reqlib('/tests/unit/mock-data.json').apis;
+} = appRoot.require('serializers/api-resources-serializer');
+
+const rows = appRoot.require('/tests/unit/mock-data.json').pets;
 
 /**
  * @summary Return a list of APIs

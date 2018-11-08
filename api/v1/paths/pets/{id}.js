@@ -2,8 +2,9 @@ const appRoot = require('app-root-path');
 const fs = require('fs');
 const yaml = require('js-yaml');
 
-const db = appRoot.require('/db/json/apis-dao-example');
-const { notFound, errorHandler } = appRoot.require('/errors/errors');
+const db = appRoot.require('db/json/apis-dao-example');
+const { notFound, errorHandler } = appRoot.require('errors/errors');
+
 const { paths } = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
 
 /**
@@ -23,6 +24,6 @@ const get = async (req, res) => {
   }
 };
 
-get.apiDoc = paths['/express-api-skeleton/{id}'].get;
+get.apiDoc = paths['/pets/{id}'].get;
 
 module.exports = { get };

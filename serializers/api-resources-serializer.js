@@ -5,13 +5,14 @@ const yaml = require('js-yaml');
 const _ = require('lodash');
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 
-const { paginate } = appRoot.require('/serializers/paginator');
-const { serializerOptions } = appRoot.require('/serializers/jsonapi');
+const { paginate } = require('./paginator');
+const { serializerOptions } = require('./jsonapi');
 
-const swagger = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
-const apiResourceProp = swagger.definitions.ApiResource.properties;
+const openapi = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
+const apiResourceProp = openapi.definitions.PetResource.properties;
 const apiResourceType = apiResourceProp.type.example;
 const apiResourceKeys = _.keys(apiResourceProp.attributes.properties);
+const path = 'express-api-skeleton';
 
 /**
  * The column name getting from database is usually UPPER_CASE.
@@ -49,7 +50,7 @@ const apiResourcesSerializer = (rows, query) => {
 
   return new JSONAPISerializer(
     apiResourceType,
-    serializerOptions(serializerArgs),
+    serializerOptions(serializerArgs, path),
   ).serialize(rows);
 };
 
@@ -62,7 +63,7 @@ const apiResourcesSerializer = (rows, query) => {
  */
 const apiResourceSerializer = row => new JSONAPISerializer(
   apiResourceType,
-  serializerOptions(serializerArgs),
+  serializerOptions(serializerArgs, path),
 ).serialize(row);
 
 module.exports = { apiResourcesSerializer, apiResourceSerializer };

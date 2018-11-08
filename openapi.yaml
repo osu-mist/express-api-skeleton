@@ -20,13 +20,13 @@ externalDocs:
 produces:
   - application/json
 paths:
-  /express-api-skeleton:
+  /pets:
     get:
-      summary: List all APIs
+      summary: List all pets
       tags:
-        - apis
-      description: Get all APIs
-      operationId: getApis
+        - pets
+      description: Get all pets
+      operationId: getPets
       parameters:
         - $ref: '#/parameters/authorization'
         - $ref: '#/parameters/pageNumber'
@@ -35,7 +35,7 @@ paths:
         200:
           description: Successful response
           schema:
-            $ref: '#/definitions/ApiResources'
+            $ref: '#/definitions/PetResources'
         400:
           description: Bad Request
           schema:
@@ -44,13 +44,13 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/Errors'
-  /express-api-skeleton/{id}:
+  /pets/{id}:
     get:
-      summary: Info for a specific API
+      summary: Info for a specific pet
       tags:
-        - apis
-      description: Get API by unique ID
-      operationId: getApiById
+        - pets
+      description: Get pet by unique ID
+      operationId: getPetById
       parameters:
         - $ref: '#/parameters/authorization'
         - name: id
@@ -62,9 +62,9 @@ paths:
         200:
           description: Successful response
           schema:
-            $ref: '#/definitions/ApiResource'
+            $ref: '#/definitions/PetResource'
         404:
-          description: ApiResource not found
+          description: PetResource not found
           schema:
             $ref: '#/definitions/Errors'
         500:
@@ -117,7 +117,7 @@ definitions:
       self:
         type: string
         format: url
-        description: Self link of ApiResource
+        description: Self link of PetResource
   PaginationLinks:
     properties:
       first:
@@ -136,28 +136,31 @@ definitions:
         type: string
         format: url
         description: The next page of data
-  ApiResource:
+  PetResource:
     properties:
       id:
         type: string
-        description: A unique ID of API
+        description: A unique ID of pet
       type:
         type: string
-        example: apis
+        example: pets
       links:
         $ref: '#/definitions/SelfLink'
       attributes:
         properties:
           name:
             type: string
-            description: Name of API
-            example: Location Frontend API
-          repoUrl:
+            description: Name of pet
+            example: Hedwig
+          owner:
             type: string
-            format: url
-            description: Repository URL of API
-            example: https://github.com/osu-mist/locations-frontend-api
-  ApiResources:
+            description: Name of owner
+            example: Harry Potter
+          species:
+            type: string
+            description: Species of pet
+            example: Owl
+  PetResources:
     properties:
       links:
         $ref: '#/definitions/PaginationLinks'
@@ -166,7 +169,7 @@ definitions:
       data:
         type: array
         items:
-          $ref: '#/definitions/ApiResource'
+          $ref: '#/definitions/PetResource'
   Error:
     properties:
       status:

@@ -8,9 +8,9 @@ const yaml = require('js-yaml');
 const moment = require('moment');
 const git = require('simple-git/promise');
 
-const { errorHandler } = appRoot.require('/errors/errors');
-const { authentication } = appRoot.require('/middlewares/authentication');
-const { logger } = appRoot.require('/middlewares/logger');
+const { errorHandler } = appRoot.require('errors/errors');
+const { authentication } = appRoot.require('middlewares/authentication');
+const { logger } = appRoot.require('middlewares/logger');
 
 const serverConfig = config.get('server');
 const openapi = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));

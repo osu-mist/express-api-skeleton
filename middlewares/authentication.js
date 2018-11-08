@@ -1,8 +1,8 @@
-const reqlib = require('app-root-path').require;
+const appRoot = require('app-root-path');
 const config = require('config');
 const basicAuth = require('express-basic-auth');
 
-const { unauthorized } = reqlib('/errors/errors');
+const { unauthorized } = appRoot.require('errors/errors');
 
 const { username, password } = config.authentication;
 
