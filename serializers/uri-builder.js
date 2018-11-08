@@ -8,7 +8,7 @@ const url = require('url');
 const api = appRoot.require('/package.json').name;
 
 const { protocol, hostname } = config.get('server');
-const { basePath } = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
+const { basePath } = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
 
 /**
  * @summary Self link builder

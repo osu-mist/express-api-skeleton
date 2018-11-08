@@ -1,18 +1,19 @@
 const appRoot = require('app-root-path');
 const config = require('config');
 const express = require('express');
+const { initialize } = require('express-openapi');
 const fs = require('fs');
-const yaml = require('js-yaml');
 const https = require('https');
+const yaml = require('js-yaml');
+const moment = require('moment');
+const git = require('simple-git/promise');
 
-const adminResources = appRoot.require('resources/admin-resources');
-const apiResources = appRoot.require('resources/api-resources');
+const { errorHandler } = appRoot.require('/errors/errors');
 const { authentication } = appRoot.require('/middlewares/authentication');
 const { logger } = appRoot.require('/middlewares/logger');
-const api = appRoot.require('/package.json').name;
 
 const serverConfig = config.get('server');
-const { basePath } = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
+const openapi = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'))
 
 /**
  * @summary Initialize Express applications and routers
@@ -36,7 +37,7 @@ const adminHttpsServer = https.createServer(httpsOptions, adminApp);
 /**
  * @summary Middlewares for routers, logger and authentication
  */
-const baseEndpoint = `${serverConfig.basePathPrefix}${basePath}`;
+const baseEndpoint = `${serverConfig.basePathPrefix}`;
 app.use(baseEndpoint, appRouter);
 adminApp.use(baseEndpoint, adminAppRouter);
 
@@ -47,10 +48,35 @@ adminAppRouter.use(authentication);
 /**
  * @summary Middlewares sub-stack that handles HTTP requests to paths
  */
-adminAppRouter.get('/', adminResources.getApplicationInfo);
+adminAppRouter.get(`${openapi.basePath}`, async (req, res) => {
+  try {
+    const commit = await git().revparse(['--short', 'HEAD']);
+    const now = moment();
+    const info = {
+      meta: {
+        name: openapi.info.title,
+        time: now.format('YYYY-MM-DD HH:mm:ssZZ'),
+        unixTime: now.unix(),
+        commit: commit.trim(),
+        documentation: 'swagger.yaml',
+      },
+    };
+    res.send(info);
+  } catch (err) {
+    errorHandler(res, err);
+  }
+});
 
-appRouter.get(`/${api}`, apiResources.getApis);
-appRouter.get(`/${api}/:id`, apiResources.getApiById);
+/**
+ * @summary Initialize API with OpenAP specification
+ */
+initialize({
+  app: appRouter,
+  apiDoc: openapi,
+  paths: './api/v1/paths',
+});
+
+console.log(adminAppRouter.stack);
 
 /**
  * @summary Start servers and listen on ports

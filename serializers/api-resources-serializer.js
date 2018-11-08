@@ -8,7 +8,7 @@ const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 const { paginate } = appRoot.require('/serializers/paginator');
 const { serializerOptions } = appRoot.require('/serializers/jsonapi');
 
-const swagger = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
+const swagger = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
 const apiResourceProp = swagger.definitions.ApiResource.properties;
 const apiResourceType = apiResourceProp.type.example;
 const apiResourceKeys = _.keys(apiResourceProp.attributes.properties);

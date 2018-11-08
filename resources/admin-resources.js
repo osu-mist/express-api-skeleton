@@ -6,7 +6,7 @@ const git = require('simple-git/promise');
 
 const { errorHandler } = appRoot.require('/errors/errors');
 
-const { info: { title } } = yaml.safeLoad(fs.readFileSync(`${appRoot}/swagger.yaml`, 'utf8'));
+const { info: { title } } = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
 
 /**
  * @summary Get application information
