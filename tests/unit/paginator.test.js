@@ -3,7 +3,7 @@ const chai = require('chai');
 const chaiString = require('chai-string');
 const _ = require('lodash');
 
-const { paginate } = appRoot.require('/serializers/paginator');
+const { paginate } = appRoot.require('/utils/paginator');
 const rows = appRoot.require('/tests/unit/mock-data.json').pets;
 
 const DEFAULT_PAGE_SIZE = 25;

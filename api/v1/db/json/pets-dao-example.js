@@ -13,12 +13,9 @@ const { SerializedPet, SerializedPets } = require('../../serializers/pets-serial
 const getPets = query => new Promise((resolve, reject) => {
   try {
     let rawPets = appRoot.require('/tests/unit/mock-data.json').pets;
-
     const { species } = query;
 
-    if (species) {
-      rawPets = _.filter(rawPets, { 'SPECIES': capitalize(species) });
-    }
+    rawPets = species ? _.filter(rawPets, { SPECIES: capitalize(species) }) : rawPets;
 
     const serializedPet = SerializedPets(rawPets, query);
     resolve(serializedPet);
@@ -30,7 +27,7 @@ const getPets = query => new Promise((resolve, reject) => {
 /**
  * @summary Return a specific pet by unique ID
  * @function
- * @param {string} id
+ * @param {string} id Unique pet ID
  * @returns {Promise} Promise object represents a specific pet
  */
 const getPetById = id => new Promise((resolve, reject) => {

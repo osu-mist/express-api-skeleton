@@ -25,7 +25,7 @@ const getPets = () => new Promise(async (resolve, reject) => {
 /**
  * @summary Return a specific pet by unique ID
  * @function
- * @param {string} id
+ * @param {string} id Unique pet ID
  * @returns {Promise} Promise object represents a specific pet
  */
 const getPetById = id => new Promise(async (resolve, reject) => {

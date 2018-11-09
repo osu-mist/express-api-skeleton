@@ -60,7 +60,7 @@ paths:
         - $ref: '#/parameters/authorization'
         - name: id
           in: path
-          description: Unique API ID
+          description: Unique Pet ID
           required: true
           type: string
       responses:

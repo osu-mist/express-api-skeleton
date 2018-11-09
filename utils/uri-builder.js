@@ -11,25 +11,27 @@ const { basePath } = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'u
 /**
  * @summary Self link builder
  * @function
- * @param {string} id
+ * @param {string} id resource ID
+ * @param {string} resourcePath resource path
  * @returns A self link URL
  */
-const selfLink = (id, path) => url.format({
+const selfLink = (id, resourcePath) => url.format({
   protocol,
   hostname,
-  pathname: `${basePath}/${path}/${id}`,
+  pathname: `${basePath}/${resourcePath}/${id}`,
 });
 
 /**
  * @summary Top level query link builder
  * @function
  * @param {object} query
+ * @param {string} resourcePath resource path
  * @returns A decoded url formatted with query parameters in the query object.
  */
-const querySelfLink = (query, path) => decodeUriComponent(url.format({
+const querySelfLink = (query, resourcePath) => decodeUriComponent(url.format({
   protocol,
   hostname,
-  pathname: `${basePath}/${path}`,
+  pathname: `${basePath}/${resourcePath}`,
   query,
 }));
 
@@ -38,11 +40,12 @@ const querySelfLink = (query, path) => decodeUriComponent(url.format({
  * @function
  * @param {number} pageNumber Page number of results
  * @param {number} pageSize Number of results to return
+ * @param {string} resourcePath resource path
  * @returns A decoded paginated link URL
  */
-const paginatedLink = (pageNumber, pageSize, path) => querySelfLink({
+const paginatedLink = (pageNumber, pageSize, resourcePath) => querySelfLink({
   'page[number]': pageNumber,
   'page[size]': pageSize,
-}, path);
+}, resourcePath);
 
 module.exports = { selfLink, paginatedLink, querySelfLink };

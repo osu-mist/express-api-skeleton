@@ -15,7 +15,7 @@ const get = async (req, res) => {
     const { id } = req.params;
     const result = await petsDAO.getPetById(id);
     if (!result) {
-      res.status(404).send(notFound('An API with the specified ID was not found.'));
+      res.status(404).send(notFound('A pet with the specified ID was not found.'));
     } else {
       res.send(result);
     }

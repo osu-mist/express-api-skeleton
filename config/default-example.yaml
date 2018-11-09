@@ -22,6 +22,6 @@ database:
   connectString: ${DB_URL}
   user: ${DB_USER}
   password: ${DB_PASSWD}
-  poolMin: 30
-  poolMax: 30
+  poolMin: 4
+  poolMax: 4
   poolIncrement: 0

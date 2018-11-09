@@ -12,7 +12,7 @@ const openpet = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8')
 const petResourceProp = openpet.definitions.PetResource.properties;
 const petResourceType = petResourceProp.type.example;
 const petResourceKeys = _.keys(petResourceProp.attributes.properties);
-const path = 'pets';
+const petResourcePath = 'pets';
 
 /**
  * The column name getting from database is usually UPPER_CASE.
@@ -50,7 +50,7 @@ const SerializedPets = (rawPets, query) => {
 
   return new JSONAPISerializer(
     petResourceType,
-    serializerOptions(serializerArgs, path),
+    serializerOptions(serializerArgs, petResourcePath),
   ).serialize(rawPets);
 };
 
@@ -63,7 +63,7 @@ const SerializedPets = (rawPets, query) => {
  */
 const SerializedPet = rawPet => new JSONAPISerializer(
   petResourceType,
-  serializerOptions(serializerArgs, path),
+  serializerOptions(serializerArgs, petResourcePath),
 ).serialize(rawPet);
 
 module.exports = { SerializedPets, SerializedPet };

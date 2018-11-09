@@ -46,7 +46,7 @@ appRouter.use(authentication);
 adminAppRouter.use(authentication);
 
 /**
- * @summary Middlewares sub-stack that handles HTTP requests to paths
+ * @summary Return API meta information at amdin endpoint
  */
 adminAppRouter.get(`${openapi.basePath}`, async (req, res) => {
   try {
