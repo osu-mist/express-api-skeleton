@@ -1,0 +1,69 @@
+const appRoot = require('app-root-path');
+const decamelize = require('decamelize');
+const fs = require('fs');
+const yaml = require('js-yaml');
+const _ = require('lodash');
+const JSONAPISerializer = require('jsonapi-serializer').Serializer;
+
+const { paginate } = appRoot.require('utils/paginator');
+const { serializerOptions } = appRoot.require('utils/jsonapi');
+
+const openpet = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
+const petResourceProp = openpet.definitions.PetResource.properties;
+const petResourceType = petResourceProp.type.example;
+const petResourceKeys = _.keys(petResourceProp.attributes.properties);
+const path = 'pets';
+
+/**
+ * The column name getting from database is usually UPPER_CASE.
+ * This block of code is to make the camelCase keys defined in swagger.yaml be
+ * UPPER_CASE so that the serializer can correctly match the corresponding columns
+ * from the raw data rows.
+ */
+_.forEach(petResourceKeys, (key, index) => {
+  petResourceKeys[index] = decamelize(key).toUpperCase();
+});
+
+const serializerArgs = {
+  identifierField: 'ID',
+  resourceKeys: petResourceKeys,
+};
+
+/**
+ * @summary Serializer petResources to JSON API
+ * @function
+ * @param {[Object]} rawPets Raw data rows from datasource
+ * @param {Object} query Query parameters
+ * @returns {Object} Serialized petResources object
+ */
+const SerializedPets = (rawPets, query) => {
+  /**
+   * Add pagination links and meta information to options if pagination is enabled
+   */
+  const { page } = query;
+  if (page) {
+    const pagination = paginate(rawPets, page);
+    pagination.totalResults = rawPets.length;
+    serializerArgs.pagination = pagination;
+    rawPets = pagination.paginatedRows;
+  }
+
+  return new JSONAPISerializer(
+    petResourceType,
+    serializerOptions(serializerArgs, path),
+  ).serialize(rawPets);
+};
+
+/**
+ * @summary Serializer petResource to JSON API
+ * @function
+ * @param {Object} rawPet Raw data row from datasource
+ * @param {string} endpointUri Endpoint URI for creating self link
+ * @returns {Object} Serialized petResource object
+ */
+const SerializedPet = rawPet => new JSONAPISerializer(
+  petResourceType,
+  serializerOptions(serializerArgs, path),
+).serialize(rawPet);
+
+module.exports = { SerializedPets, SerializedPet };

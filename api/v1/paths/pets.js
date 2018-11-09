@@ -2,13 +2,13 @@ const appRoot = require('app-root-path');
 const fs = require('fs');
 const yaml = require('js-yaml');
 
-const db = appRoot.require('db/json/apis-dao-example');
 const { badRequest, errorHandler } = appRoot.require('errors/errors');
+const petsDAO = require('../db/json/pets-dao-example');
 
 const { paths } = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
 
 /**
- * @summary Get APIs
+ * @summary Get pets
  */
 const get = async (req, res) => {
   try {
@@ -30,7 +30,7 @@ const get = async (req, res) => {
       }
     }
 
-    const result = await db.getApis(req.query);
+    const result = await petsDAO.getPets(req.query);
     res.send(result);
   } catch (err) {
     errorHandler(res, err);

@@ -1,6 +1,6 @@
 const appRoot = require('app-root-path');
 
-const { paginatedLink, selfLink } = appRoot.require('serializers/uri-builder');
+const { paginatedLink, selfLink } = appRoot.require('utils/uri-builder');
 
 /**
  * @summary Generate JSON API serializer options

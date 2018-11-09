@@ -76,8 +76,6 @@ initialize({
   paths: './api/v1/paths',
 });
 
-console.log(adminAppRouter.stack);
-
 /**
  * @summary Start servers and listen on ports
  */
