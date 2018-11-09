@@ -31,6 +31,11 @@ paths:
         - $ref: '#/parameters/authorization'
         - $ref: '#/parameters/pageNumber'
         - $ref: '#/parameters/pageSize'
+        - in: query
+          name: species
+          description: Search by pet species
+          required: false
+          type: string
       responses:
         200:
           description: Successful response

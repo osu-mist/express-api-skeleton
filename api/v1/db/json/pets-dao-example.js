@@ -1,5 +1,6 @@
 const appRoot = require('app-root-path');
 const _ = require('lodash');
+const capitalize = require('capitalize');
 
 const { SerializedPet, SerializedPets } = require('../../serializers/pets-serializer');
 
@@ -11,7 +12,14 @@ const { SerializedPet, SerializedPets } = require('../../serializers/pets-serial
  */
 const getPets = query => new Promise((resolve, reject) => {
   try {
-    const rawPets = appRoot.require('/tests/unit/mock-data.json').pets;
+    let rawPets = appRoot.require('/tests/unit/mock-data.json').pets;
+
+    const { species } = query;
+
+    if (species) {
+      rawPets = _.filter(rawPets, { 'SPECIES': capitalize(species) });
+    }
+
     const serializedPet = SerializedPets(rawPets, query);
     resolve(serializedPet);
   } catch (err) {
