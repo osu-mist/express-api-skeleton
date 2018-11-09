@@ -24,8 +24,8 @@ const get = async (req, res) => {
       const errors = [];
 
       if (isInvalidSize || isInvalidNumber) {
-        if (isInvalidSize) errors.push(`page[size] should an integer between 1 to ${MAX_PAGE_SIZE}.`);
-        if (isInvalidNumber) errors.push('page[number] should an integer starts at 1.');
+        if (isInvalidSize) errors.push(`page[size] should be an integer between 1 to ${MAX_PAGE_SIZE}.`);
+        if (isInvalidNumber) errors.push('page[number] should be an integer starts at 1.');
         res.status(400).send(badRequest(errors));
       }
     }
