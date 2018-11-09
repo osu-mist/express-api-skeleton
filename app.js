@@ -68,12 +68,12 @@ adminAppRouter.get(`${openapi.basePath}`, async (req, res) => {
 });
 
 /**
- * @summary Initialize API with OpenAP specification
+ * @summary Initialize API with OpenAPI specification
  */
 initialize({
   app: appRouter,
   apiDoc: openapi,
-  paths: './api/v1/paths',
+  paths: `${appRoot}/api/v1/paths`,
 });
 
 /**
