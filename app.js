@@ -58,7 +58,7 @@ adminAppRouter.get(`${openapi.basePath}`, async (req, res) => {
         time: now.format('YYYY-MM-DD HH:mm:ssZZ'),
         unixTime: now.unix(),
         commit: commit.trim(),
-        documentation: 'swagger.yaml',
+        documentation: 'openapi.yaml',
       },
     };
     res.send(info);
