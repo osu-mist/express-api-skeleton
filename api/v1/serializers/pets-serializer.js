@@ -8,8 +8,8 @@ const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 const { paginate } = appRoot.require('utils/paginator');
 const { serializerOptions } = appRoot.require('utils/jsonapi');
 
-const openpet = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
-const petResourceProp = openpet.definitions.PetResource.properties;
+const openapi = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
+const petResourceProp = openapi.definitions.PetResource.properties;
 const petResourceType = petResourceProp.type.example;
 const petResourceKeys = _.keys(petResourceProp.attributes.properties);
 const petResourcePath = 'pets';
