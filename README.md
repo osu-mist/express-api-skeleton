@@ -103,7 +103,11 @@ $ npm test
     * The path handler for `/api/v1/pets` should go to [api/v1/paths/pet.js](api/v1/paths/pet.js)
     * The path handler for `/api/v1/pets/{id}` should go to [api/v1/paths/pet/{id}.js](api/v1/paths/pet/{id}.js)
 
-4. Modify and rename [resource serializers](api/v1/serializers) as needed.
+4. Copy [api/v1/serializers/pets-serializers.js](api/v1/serializers/pets-serializers.js) to `api/v1/serializers/<resources>-serializers.js` and modify as necessary:
+
+    ```shell
+    $ cp api/v1/serializers/pets-serializers.js api/v1/serializers/<resources>-serializers.js
+    ```
 
 ### Base an existing project off / Incorporate updates from the skeleton
 
