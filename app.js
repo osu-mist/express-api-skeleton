@@ -4,16 +4,15 @@ const express = require('express');
 const { initialize } = require('express-openapi');
 const fs = require('fs');
 const https = require('https');
-const yaml = require('js-yaml');
 const moment = require('moment');
 const git = require('simple-git/promise');
 
 const { errorHandler } = appRoot.require('errors/errors');
 const { authentication } = appRoot.require('middlewares/authentication');
 const { logger } = appRoot.require('middlewares/logger');
+const { openapi } = appRoot.require('utils/load-openapi');
 
 const serverConfig = config.get('server');
-const openapi = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
 
 /**
  * @summary Initialize Express applications and routers

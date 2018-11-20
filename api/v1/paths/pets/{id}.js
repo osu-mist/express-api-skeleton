@@ -1,11 +1,8 @@
 const appRoot = require('app-root-path');
-const fs = require('fs');
-const yaml = require('js-yaml');
 
 const { notFound, errorHandler } = appRoot.require('errors/errors');
+const { openapi: { paths } } = appRoot.require('utils/load-openapi');
 const petsDAO = require('../../db/json/pets-dao-example');
-
-const { paths } = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
 
 /**
  * @summary Get pet by unique ID

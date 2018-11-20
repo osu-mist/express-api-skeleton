@@ -1,12 +1,11 @@
 const appRoot = require('app-root-path');
 const config = require('config');
-const fs = require('fs');
-const yaml = require('js-yaml');
 const decodeUriComponent = require('decode-uri-component');
 const url = require('url');
 
+const { openapi: { basePath } } = appRoot.require('utils/load-openapi');
+
 const { protocol, hostname } = config.get('server');
-const { basePath } = yaml.safeLoad(fs.readFileSync(`${appRoot}/openapi.yaml`, 'utf8'));
 
 /**
  * @summary Self link builder
