@@ -70,3 +70,23 @@ bin
 *.crt
 *.keystore
 *.truststore
+
+# Mac OS X
+.DS_Store
+
+# Integration tests configuration
+src/test/integration/configuration.json
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
