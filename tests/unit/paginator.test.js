@@ -1,10 +1,10 @@
-const reqlib = require('app-root-path').require;
+const appRoot = require('app-root-path');
 const chai = require('chai');
 const chaiString = require('chai-string');
 const _ = require('lodash');
 
-const { paginate } = reqlib('/serializers/paginator');
-const rows = reqlib('/tests/unit/mock-data.json').apis;
+const { paginate } = appRoot.require('/utils/paginator');
+const rows = appRoot.require('/tests/unit/mock-data.json').pets;
 
 const DEFAULT_PAGE_SIZE = 25;
 const { assert } = chai;

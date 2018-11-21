@@ -50,6 +50,15 @@ ajv@^6.0.1, ajv@^6.5.3:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
+ajv@^6.5.2, ajv@^6.5.4:
+  version "6.5.5"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.5.5.tgz#cf97cdade71c6399a92c6d6c4177381291b781a1"
+  dependencies:
+    fast-deep-equal "^2.0.1"
+    fast-json-stable-stringify "^2.0.0"
+    json-schema-traverse "^0.4.1"
+    uri-js "^4.2.2"
+
 ansi-colors@^1.0.1:
   version "1.1.0"
   resolved "http://registry.npmjs.org/ansi-colors/-/ansi-colors-1.1.0.tgz#6374b4dd5d4718ff3ce27a671a3b1cad077132a9"
@@ -399,6 +408,10 @@ callsites@^0.2.0:
 camelcase@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-3.0.0.tgz#32fc4b9fcdaf845fcdf7e73bb97cac2261f0ab0a"
+
+capitalize@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/capitalize/-/capitalize-2.0.0.tgz#61859dd952aba244f03541b23e11470ada097f4b"
 
 chai-string@^1.5.0:
   version "1.5.0"
@@ -831,6 +844,12 @@ diff@3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
 
+difunc@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/difunc/-/difunc-0.0.4.tgz#09322073e67f82effd2f22881985e7d3e441b3ac"
+  dependencies:
+    esprima "^4.0.0"
+
 doctrine@1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-1.5.0.tgz#379dce730f6166f76cefa4e6707a159b02c5a6fa"
@@ -1140,6 +1159,18 @@ express-basic-auth@^1.1.5:
   dependencies:
     basic-auth "^1.1.0"
 
+express-normalize-query-params-middleware@^0.5.0:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/express-normalize-query-params-middleware/-/express-normalize-query-params-middleware-0.5.1.tgz#dbe1e8139aecb234fb6adb5c0059c75db9733d2a"
+
+express-openapi@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/express-openapi/-/express-openapi-3.1.0.tgz#8c116ee77a343d9943acee4e79e88147c04b7fc0"
+  dependencies:
+    express-normalize-query-params-middleware "^0.5.0"
+    openapi-framework "0.8.2"
+    openapi-types "^1.3.2"
+
 express-winston@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/express-winston/-/express-winston-3.0.0.tgz#4aaf495709bec875f81ae6c3fa99f550e4a544d9"
@@ -1417,6 +1448,10 @@ fs-mkdirp-stream@^1.0.0:
     graceful-fs "^4.1.11"
     through2 "^2.0.3"
 
+fs-routes@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/fs-routes/-/fs-routes-2.0.0.tgz#946791d62b1e0bde5d3f219a8ac9d50d43c9a762"
+
 fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
@@ -1509,9 +1544,9 @@ glob-watcher@^5.0.0:
     just-debounce "^1.0.0"
     object.defaults "^1.1.0"
 
-glob@7.1.2:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.2.tgz#c19c9df9a028702d678612384a6552404c636d15"
+glob@*, glob@^7.0.3, glob@^7.0.5, glob@^7.1.1, glob@^7.1.2:
+  version "7.1.3"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.3.tgz#3960832d3f1574108342dafd3a67b332c0969df1"
   dependencies:
     fs.realpath "^1.0.0"
     inflight "^1.0.4"
@@ -1520,9 +1555,9 @@ glob@7.1.2:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@^7.0.3, glob@^7.0.5, glob@^7.1.1, glob@^7.1.2:
-  version "7.1.3"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.3.tgz#3960832d3f1574108342dafd3a67b332c0969df1"
+glob@7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.2.tgz#c19c9df9a028702d678612384a6552404c636d15"
   dependencies:
     fs.realpath "^1.0.0"
     inflight "^1.0.4"
@@ -1869,6 +1904,10 @@ is-descriptor@^1.0.0, is-descriptor@^1.0.2:
     is-data-descriptor "^1.0.0"
     kind-of "^6.0.2"
 
+is-dir@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/is-dir/-/is-dir-1.0.0.tgz#41d37f495fccacc05a4778d66e83024c292ba3ff"
+
 is-dotfile@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/is-dotfile/-/is-dotfile-1.0.3.tgz#a6a2f32ffd2dfb04f5ca25ecd0f6b83cf798a1e1"
@@ -2047,7 +2086,7 @@ js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
 
-js-yaml@^3.12.0:
+js-yaml@^3.10.0, js-yaml@^3.12.0:
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.12.0.tgz#eaed656ec8344f10f527c6bfa1b6e2244de167d1"
   dependencies:
@@ -2189,6 +2228,10 @@ locate-path@^2.0.0:
 lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+
+lodash.merge@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.1.tgz#adc25d9cb99b9391c59624f379fbba60d7111d54"
 
 lodash@^4.16.3, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5:
   version "4.17.11"
@@ -2612,6 +2655,75 @@ onetime@^2.0.0:
   resolved "https://registry.yarnpkg.com/onetime/-/onetime-2.0.1.tgz#067428230fd67443b2794b22bba528b6867962d4"
   dependencies:
     mimic-fn "^1.0.0"
+
+openapi-default-setter@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/openapi-default-setter/-/openapi-default-setter-2.0.3.tgz#8a3f26742180d2f16cb380365efdc7f5366e4143"
+  dependencies:
+    openapi-types "^1.3.1"
+
+openapi-framework@0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/openapi-framework/-/openapi-framework-0.8.2.tgz#e4c674852311b1ea7eb487f505329278688aad8d"
+  dependencies:
+    difunc "0.0.4"
+    fs-routes "2.0.0"
+    glob "*"
+    is-dir "^1.0.0"
+    js-yaml "^3.10.0"
+    openapi-default-setter "2.0.3"
+    openapi-request-coercer "2.1.0"
+    openapi-request-validator "3.0.1"
+    openapi-response-validator "3.0.1"
+    openapi-schema-validator "3.0.2"
+    openapi-security-handler "2.0.3"
+    openapi-types "^1.3.1"
+
+openapi-jsonschema-parameters@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/openapi-jsonschema-parameters/-/openapi-jsonschema-parameters-1.0.3.tgz#e60abffac0e85fa4dd6c629f7b20370125646f5f"
+  dependencies:
+    openapi-types "^1.3.1"
+
+openapi-request-coercer@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/openapi-request-coercer/-/openapi-request-coercer-2.1.0.tgz#6ffd0fc2fddbc2ba5df5125822a748c1745eb331"
+  dependencies:
+    openapi-types "^1.3.1"
+
+openapi-request-validator@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/openapi-request-validator/-/openapi-request-validator-3.0.1.tgz#decc351a4f7e410e39e24a3c6f7adb145026b8de"
+  dependencies:
+    ajv "^6.5.4"
+    openapi-jsonschema-parameters "^1.0.3"
+    openapi-types "^1.3.1"
+
+openapi-response-validator@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/openapi-response-validator/-/openapi-response-validator-3.0.1.tgz#4cc3381e9e2f61fff416e24d0e5766df3c291000"
+  dependencies:
+    ajv "^6.5.4"
+    openapi-types "^1.3.1"
+
+openapi-schema-validator@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/openapi-schema-validator/-/openapi-schema-validator-3.0.2.tgz#f346feda011a2a46e65838edff07933c4754abbe"
+  dependencies:
+    ajv "^6.5.2"
+    lodash.merge "^4.6.1"
+    openapi-types "^1.3.1"
+    swagger-schema-official "2.0.0-bab6bed"
+
+openapi-security-handler@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/openapi-security-handler/-/openapi-security-handler-2.0.3.tgz#52a6220eeb1fa5d818fc262ad6b9688c32dfda12"
+  dependencies:
+    openapi-types "^1.3.1"
+
+openapi-types@^1.3.1, openapi-types@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/openapi-types/-/openapi-types-1.3.2.tgz#08026d8cfac10088c16386378e541644a8239a96"
 
 optimist@0.2:
   version "0.2.8"
@@ -3416,6 +3528,10 @@ sver-compat@^1.5.0:
   dependencies:
     es6-iterator "^2.0.1"
     es6-symbol "^3.1.1"
+
+swagger-schema-official@2.0.0-bab6bed:
+  version "2.0.0-bab6bed"
+  resolved "https://registry.yarnpkg.com/swagger-schema-official/-/swagger-schema-official-2.0.0-bab6bed.tgz#70070468d6d2977ca5237b2e519ca7d06a2ea3fd"
 
 table@^4.0.3:
   version "4.0.3"

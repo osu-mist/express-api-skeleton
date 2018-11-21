@@ -1,4 +1,4 @@
-FROM node:10:13
+FROM node:10.13
 
 # Copy folder to workspace
 WORKDIR /usr/src/express-api-skeleton

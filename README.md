@@ -1,6 +1,6 @@
-# Express API Skeleton ![version](https://img.shields.io/badge/version-v1-blue.svg) [![swagger](https://img.shields.io/badge/swagger-2.0-green.svg)](./swagger.yaml) ![node](https://img.shields.io/badge/node-10.13-brightgreen.svg)
+# Express API Skeleton ![version](https://img.shields.io/badge/version-v1-blue.svg) [![openapi](https://img.shields.io/badge/openapi-2.0-green.svg)](./openapi.yaml) ![node](https://img.shields.io/badge/node-10.13-brightgreen.svg)
 
-Skeleton for Express APIs. API definition is contained in the [Swagger specification](./swagger.yaml).
+Skeleton for Express APIs. API definition is contained in the [OpenAPI specification](./openapi.yaml).
 
 ## Getting Started
 
@@ -14,7 +14,7 @@ Skeleton for Express APIs. API definition is contained in the [Swagger specifica
     $ openssl x509 -req -days 365 -in csr.pem -signkey key.pem -out server.crt
     ```
 
-3. Document API design in [swagger.yaml](./swagger.yaml). Please keep in mind that swagger documentation is mainly for the client's view. Directly implement the feature in the API if there is any difference between what the client should expect and what our server should provide.
+3. Document API design in [openapi.yaml](./openapi.yaml). Please keep in mind that openapi documentation is mainly for the client's view. Directly implement the feature in the API if there is any difference between what the client should expect and what our server should provide.
 4. Copy [config/default-example.yaml](config/default-example.yaml) to `config/default.yaml`. Modify as necessary, being careful to avoid committing sensitive data. If you want to configure application through [custom environment variables](https://github.com/lorenwest/node-config/wiki/Environment-Variables#custom-environment-variables), copy [config/custom-environment-variables-example.yaml](config/custom-environment-variables-example.yaml) as `config/custom-environment-variables.yaml` and map the environment variable names into your configuration structure.
 
     **Environment variables**: Sensitive data and data that changes per environment have been moved into environment variables. Below is a list of the variables along with a definition:
@@ -98,7 +98,16 @@ $ npm test
 
 2. Rename project by modifying [package.json](./package.json).
 
-3. Update and rename [api-resources.js](resources/api-resources.js) and [api-resources-serializer.js](serializers/api-resources-serializer.js) properly.
+3. We use [express-openapi](https://www.npmjs.com/package/express-openapi) to generate API by inheriting openapi.yaml. Create path handlers and put them into corresponding directories. For example:
+
+    * The path handler for `/api/v1/pets` should go to [api/v1/paths/pet.js](api/v1/paths/pet.js)
+    * The path handler for `/api/v1/pets/{id}` should go to [api/v1/paths/pet/{id}.js](api/v1/paths/pet/{id}.js)
+
+4. Copy [api/v1/serializers/pets-serializers.js](api/v1/serializers/pets-serializers.js) to `api/v1/serializers/<resources>-serializers.js` and modify as necessary:
+
+    ```shell
+    $ cp api/v1/serializers/pets-serializers.js api/v1/serializers/<resources>-serializers.js
+    ```
 
 ### Base an existing project off / Incorporate updates from the skeleton
 
@@ -133,16 +142,16 @@ The following instructions show you how to get data from external endpoints for 
         url: 'https://api.example.com'
     ```
 
-2. Copy [db/http/apis-dao-example.js](db/http/apis-dao-example.js) to `db/http/<resources>-dao.js` and modify as necessary:
+2. Copy [api/v1/db/http/pets-dao-example.js](api/v1/db/http/pets-dao-example.js) to `api/v1/db/http/<resources>-dao.js` and modify as necessary:
 
     ```shell
-    $ cp db/http/apis-dao-example.js db/http/<resources>-dao.js
+    $ cp api/v1/db/http/pets-dao-example.js api/v1/db/http/<resources>-dao.js
     ```
 
-3. Make sure to require the correct path for the new db file at [resources files](resources/api-resources.js#L3):
+3. Make sure to require the correct path for the new DAO file at path handlers files:
 
     ```js
-    const db = appRoot.require('/db/http/<resources>-dao');
+    const petsDAO = require('../db/http/<resources>-dao');
     ```
 
 ## Getting data source from the Oracle Database
@@ -184,12 +193,12 @@ The following instructions show you how to connect the API to an Oracle database
 
     > Note: To avoid `ORA-02396: exceeded maximum idle time` and prevent deadlocks, the [best practice](https://github.com/oracle/node-oracledb/issues/928#issuecomment-398238519) is to keep `poolMin` the same as `poolMax`. Also, ensure [increasing the number of worker threads](https://github.com/oracle/node-oracledb/blob/node-oracledb-v1/doc/api.md#-82-connections-and-number-of-threads) available to node-oracledb. The thread pool size should be at least equal to the maximum number of connections and less than 128.
 
-4. If the SQL codes/queries contain intellectual property like Banner table names, put them into `./contrib` folder and use [git-submodule](https://git-scm.com/docs/git-submodule) to manage submodules:
+4. If the SQL codes/queries contain intellectual property like Banner table names, put them into `api/v1/db/oracledb/contrib` folder and use [git-submodule](https://git-scm.com/docs/git-submodule) to manage submodules:
 
-    * Add the given repository as a submodule at `./contrib`:
+    * Add the given repository as a submodule at `api/v1/db/oracledb/contrib`:
 
         ```shell
-        $ git submodule add <contrib_repo_git_url> contrib
+        $ git submodule add <contrib_repo_git_url> api/v1/db/oracledb/contrib
         ```
 
     * Fetch the submodule from the contrib repository:
@@ -198,22 +207,22 @@ The following instructions show you how to connect the API to an Oracle database
         $ git submodule update --init
         ```
 
-5. Rename [db/oracledb/connection-example.js](db/oracledb/connection-example.js) to `db/oracledb/connection.js`:
+5. Rename [api/v1/db/oracledb/connection-example.js](api/v1/db/oracledb/connection-example.js) to `api/v1/db/oracledb/connection.js`:
 
     ```shell
-    $ git mv db/oracledb/connection-example.js db/oracledb/connection.js
+    $ git mv api/v1/db/oracledb/connection-example.js api/v1/db/oracledb/connection.js
     ```
 
-6. Copy [db/oracledb/apis-dao-example.js](db/oracledb/apis-dao-example.js) to `db/oracledb/<resources>-dao.js` and modify as necessary:
+6. Copy [api/v1/db/oracledb/pets-dao-example.js](api/v1/db/oracledb/pets-dao-example.js) to `api/v1/db/oracledb/<resources>-dao.js` and modify as necessary:
 
     ```shell
-    $ cp db/oracledb/apis-dao.js db/oracledb/<resources>-dao.js
+    $ cp api/v1/db/oracledb/pets-dao-example.js api/v1/db/oracledb/<resources>-dao.js
     ```
 
-7. Make sure to require the correct path for the new db file at [resources files](resources/api-resources.js#L3):
+7. Make sure to require the correct path for the new DAO file at path handlers files:
 
     ```js
-    const db = appRoot.require('/db/oracledb/<resources>-dao');
+    const petsDAO = require('../db/oracledb/<resources>-dao');;
     ```
 
 ## Docker

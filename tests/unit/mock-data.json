@@ -1,54 +1,40 @@
 {
-  "apis": [
+  "pets": [
     {
       "ID": "1",
-      "NAME": "Location Frontend API",
-      "REPO_URL": "https://github.com/osu-mist/locations-frontend-api"
+      "NAME": "Furball",
+      "OWNER": "Tso-Liang Wu",
+      "SPECIES": "Cat"
     },
     {
       "ID": "2",
-      "NAME": "Directory API",
-      "REPO_URL": "https://github.com/osu-mist/directory-api"
+      "NAME": "Zeus",
+      "OWNER": "Jared Kosanovic",
+      "SPECIES": "Dog"
     },
     {
       "ID": "3",
-      "NAME": "Beaver Bus API",
-      "REPO_URL": "https://github.com/osu-mist/beaver-bus-api"
+      "NAME": "Mrs Norris",
+      "OWNER": "Argus Filch",
+      "SPECIES": "Cat"
     },
     {
       "ID": "4",
-      "NAME": "Persons API",
-      "REPO_URL": "https://github.com/osu-mist/persons-api"
+      "NAME": "Fang",
+      "OWNER": "Rubeus Hagrid",
+      "SPECIES": "Dog"
     },
     {
       "ID": "5",
-      "NAME": "Staff Fee Privilege API",
-      "REPO_URL": "https://github.com/osu-mist/staff-fee-privilege-api"
+      "NAME": "Fawkes",
+      "OWNER": "Albus Dumbledore",
+      "SPECIES": "Phoenix"
     },
     {
       "ID": "6",
-      "NAME": "Students API",
-      "REPO_URL": "https://github.com/osu-mist/students-api"
-    },
-    {
-      "ID": "7",
-      "NAME": "HR API",
-      "REPO_URL": "https://github.com/osu-mist/hr-api"
-    },
-    {
-      "ID": "8",
-      "NAME": "Textbooks API",
-      "REPO_URL": "https://github.com/osu-mist/textbooks-api"
-    },
-    {
-      "ID": "9",
-      "NAME": "Identify API",
-      "REPO_URL": "https://github.com/osu-mist/identify-api"
-    },
-    {
-      "ID": "10",
-      "NAME": "Terms API",
-      "REPO_URL": "https://github.com/osu-mist/terms-api"
+      "NAME": "Hedwig",
+      "OWNER": "Harry Potter",
+      "SPECIES": "Owl"
     }
   ]
 }
