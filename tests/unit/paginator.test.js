@@ -1,14 +1,11 @@
 const appRoot = require('app-root-path');
-const chai = require('chai');
-const chaiString = require('chai-string');
+const { assert } = require('chai');
 const _ = require('lodash');
 
 const { paginate } = appRoot.require('/utils/paginator');
 const rows = appRoot.require('/tests/unit/mock-data.json').pets;
 
 const DEFAULT_PAGE_SIZE = 25;
-const { assert } = chai;
-chai.use(chaiString);
 
 describe('Test paginator', () => {
   it('number of returned results should less then page size', (done) => {
