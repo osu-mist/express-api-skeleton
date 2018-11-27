@@ -1,4 +1,8 @@
+import pytest
+
+
+@pytest.mark.parametrize('endpoint', ['/pets'])
 class TestPets(object):
-    def test_get_successful_response(self, setup_auth):
-        print(setup_auth)
-        assert 1 == 1
+    def test_get_successful_response(self, session, base_url, endpoint):
+        res = session.get(f'{base_url}{endpoint}')
+        assert res.status_code == 200
