@@ -1,28 +1,33 @@
 import logging
-import pytest
+import json
+import unittest
+import yaml
+import utils
 
-from helpers import assert_response_time
+
+class integration_tests(unittest.TestCase):
+    # Setup class variables
+    @classmethod
+    def setup(cls, config_path, openapi_path):
+        with open(config_path) as config_file:
+            config = json.load(config_file)
+            cls.base_url = utils.setup_base_url(config)
+            cls.session = utils.setup_session(config)
+        with open(openapi_path) as openapi_file:
+            cls.openapi = yaml.load(openapi_file)
+
+    def test_pets(self):
+        print(utils.make_request(self, '/pets').json())
+        assert 1 == 1
 
 
-class TestPets(object):
-    @pytest.mark.parametrize('endpoint', ['/pets'])
-    def test_get_successful_response(self, session, base_url, endpoint):
-        response = session.get(f'{base_url}{endpoint}')
+if __name__ == '__main__':
+    arguments, argv = utils.parse_arguments()
 
-        logging.info('should respond 200')
-        assert response.status_code == 200
+    if arguments.debug:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)
 
-        max_elapsed_seconds = 3
-        logging.info(f'should respond in {max_elapsed_seconds} seconds')
-        assert_response_time(response, max_elapsed_seconds)
-
-    @pytest.mark.parametrize('endpoint', ['/pets/1', '/pets/2'])
-    def test_get_by_id_successful_response(self, session, base_url, endpoint):
-        response = session.get(f'{base_url}{endpoint}')
-
-        logging.info('should response 200')
-        assert response.status_code == 200
-
-        max_elapsed_seconds = 2
-        logging.info(f'should respond in {max_elapsed_seconds} seconds')
-        assert_response_time(response, max_elapsed_seconds)
+    integration_tests.setup(arguments.config_path, arguments.openapi_path)
+    unittest.main(argv=argv)
