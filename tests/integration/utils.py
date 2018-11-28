@@ -1,4 +1,5 @@
 import argparse
+import json
 import logging
 import requests
 import sys
@@ -53,12 +54,81 @@ def setup_session(config):
     return session
 
 
-def make_request(instance, endpoint, params=None):
-    requested_url = f'{instance.base_url}{endpoint}'
-    return instance.session.get(requested_url, params=params)
+def get_resource_schema(self, resource):
+    return self.openapi['definitions'][resource]['properties']
 
 
-def assert_response_time(instance, response, max_elapsed_seconds):
+def get_schema_attributes(schema):
+    return schema['attributes']['properties']
+
+
+# Helper method to make a web request and lightly validate the response
+def make_request(self, endpoint, expected_status_code,
+                 params=None,
+                 max_elapsed_seconds=5):
+
+    requested_url = f'{self.base_url}{endpoint}'
+    response = self.session.get(requested_url, params=params)
+
+    # Response status code should be as expected
+    status_code = response.status_code
+    self.assertEqual(status_code, expected_status_code)
+
+    # Response time should less then max_elapsed_seconds
     elapsed_seconds = response.elapsed.total_seconds()
     logging.debug(f'Request took {elapsed_seconds} second(s)')
-    instance.assertLess(elapsed_seconds, max_elapsed_seconds)
+    self.assertLess(elapsed_seconds, max_elapsed_seconds)
+
+    return response
+
+
+def get_attribute_type(attribute):
+    type = attribute['format'] if 'format' in attribute else attribute['type']
+    types_dict = {
+        'string': str,
+        'integer': int,
+        'int32': int,
+        'int64': int,
+        'float': float,
+        'double': float,
+        'boolean': bool,
+        'array': list,
+        'object': dict
+    }
+    return types_dict[type]
+
+
+def check_schema(self, response, schema):
+    status_code = response.status_code
+
+    # Response should in JSON format
+    try:
+        content = response.json()
+    except json.decoder.JSONDecodeError:
+        self.fail('Response not in JSON format')
+
+    # TODO: Add self-link testing
+    # Basic tests for successful/error response
+    if status_code == 200:
+        try:
+            for resource in content['data']:
+
+                # Check resource type
+                self.assertEqual(resource['type'], schema['type']['example'])
+
+                # Check resource attributes
+                actual_attributes = resource['attributes']
+                expected_attributes = get_schema_attributes(schema)
+
+                for field, actual_value in actual_attributes.items():
+                    expected_attribute = expected_attributes[field]
+                    expected_type = get_attribute_type(expected_attribute)
+                    self.assertIsInstance(actual_value, expected_type)
+
+        except KeyError as error:
+            self.fail(error)
+
+    elif status_code >= 400:
+        self.assertIn('errors', content)
+
+    return

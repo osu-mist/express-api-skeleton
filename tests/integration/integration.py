@@ -6,19 +6,25 @@ import utils
 
 
 class integration_tests(unittest.TestCase):
-    # Setup class variables
     @classmethod
     def setup(cls, config_path, openapi_path):
         with open(config_path) as config_file:
             config = json.load(config_file)
             cls.base_url = utils.setup_base_url(config)
             cls.session = utils.setup_session(config)
+
         with open(openapi_path) as openapi_file:
             cls.openapi = yaml.load(openapi_file)
 
-    def test_pets(self):
-        res = utils.make_request(self, '/pets')
-        utils.assert_response_time(self, res, 3)
+    @classmethod
+    def cleanup(cls):
+        cls.session.close()
+
+    def test_get_pets(self, endpoint='/pets'):
+        response = utils.make_request(self, endpoint, 200)
+
+        pet_schema = utils.get_resource_schema(self, 'PetResource')
+        utils.check_schema(self, response, pet_schema)
 
         assert 1 == 1
 
@@ -32,4 +38,5 @@ if __name__ == '__main__':
         logging.basicConfig(level=logging.INFO)
 
     integration_tests.setup(arguments.config_path, arguments.openapi_path)
-    unittest.main(argv=argv)
+    unittest.main(argv=argv, exit=False)
+    integration_tests.cleanup()
