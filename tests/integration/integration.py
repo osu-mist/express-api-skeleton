@@ -17,7 +17,9 @@ class integration_tests(unittest.TestCase):
             cls.openapi = yaml.load(openapi_file)
 
     def test_pets(self):
-        print(utils.make_request(self, '/pets').json())
+        res = utils.make_request(self, '/pets')
+        utils.assert_response_time(self, res, 3)
+
         assert 1 == 1
 
 

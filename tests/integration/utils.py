@@ -1,4 +1,5 @@
 import argparse
+import logging
 import requests
 import sys
 
@@ -55,3 +56,9 @@ def setup_session(config):
 def make_request(instance, endpoint, params=None):
     requested_url = f'{instance.base_url}{endpoint}'
     return instance.session.get(requested_url, params=params)
+
+
+def assert_response_time(instance, response, max_elapsed_seconds):
+    elapsed_seconds = response.elapsed.total_seconds()
+    logging.debug(f'Request took {elapsed_seconds} second(s)')
+    instance.assertLess(elapsed_seconds, max_elapsed_seconds)
