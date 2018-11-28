@@ -99,6 +99,19 @@ def get_attribute_type(attribute):
 
 
 def check_schema(self, response, schema):
+    def __check_resource_schema(resource):
+        # Check resource type
+        self.assertEqual(resource['type'], schema['type']['example'])
+
+        # Check resource attributes
+        actual_attributes = resource['attributes']
+        expected_attributes = get_schema_attributes(schema)
+
+        for field, actual_value in actual_attributes.items():
+            expected_attribute = expected_attributes[field]
+            expected_type = get_attribute_type(expected_attribute)
+            self.assertIsInstance(actual_value, expected_type)
+
     status_code = response.status_code
 
     # Response should in JSON format
@@ -111,20 +124,12 @@ def check_schema(self, response, schema):
     # Basic tests for successful/error response
     if status_code == 200:
         try:
-            for resource in content['data']:
-
-                # Check resource type
-                self.assertEqual(resource['type'], schema['type']['example'])
-
-                # Check resource attributes
-                actual_attributes = resource['attributes']
-                expected_attributes = get_schema_attributes(schema)
-
-                for field, actual_value in actual_attributes.items():
-                    expected_attribute = expected_attributes[field]
-                    expected_type = get_attribute_type(expected_attribute)
-                    self.assertIsInstance(actual_value, expected_type)
-
+            resource_data = content['data']
+            if isinstance(resource_data, list):
+                for resource in resource_data:
+                    __check_resource_schema(resource)
+            else:
+                __check_resource_schema(resource_data)
         except KeyError as error:
             self.fail(error)
 

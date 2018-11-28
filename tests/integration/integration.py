@@ -22,11 +22,13 @@ class integration_tests(unittest.TestCase):
 
     def test_get_pets(self, endpoint='/pets'):
         response = utils.make_request(self, endpoint, 200)
-
         pet_schema = utils.get_resource_schema(self, 'PetResource')
         utils.check_schema(self, response, pet_schema)
 
-        assert 1 == 1
+    def test_get_pet_by_id(self, endpoint='/pets/1'):
+        response = utils.make_request(self, endpoint, 200)
+        pet_schema = utils.get_resource_schema(self, 'PetResource')
+        utils.check_schema(self, response, pet_schema)
 
 
 if __name__ == '__main__':
