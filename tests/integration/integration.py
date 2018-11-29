@@ -12,7 +12,7 @@ class integration_tests(unittest.TestCase):
             config = json.load(config_file)
             cls.base_url = utils.setup_base_url(config)
             cls.session = utils.setup_session(config)
-            cls.test_cases = utils.setup_test_cases(config)
+            cls.test_cases = config['test_cases']
 
         with open(openapi_path) as openapi_file:
             cls.openapi = yaml.load(openapi_file)
@@ -21,12 +21,14 @@ class integration_tests(unittest.TestCase):
     def cleanup(cls):
         cls.session.close()
 
+    # Test case: GET /pets
     def test_get_all_pets(self, endpoint='/pets'):
         response = utils.make_request(self, endpoint, 200)
         pet_schema = utils.get_resource_schema(self, 'PetResource')
         utils.check_schema(self, response, pet_schema)
 
-    def test_get_pets_with_filters(self, endpoint='/pets'):
+    # Test case: GET /pets with species filter
+    def test_get_pets_with_filter(self, endpoint='/pets'):
         testing_species = ['dog', 'CAT', 'tUrTlE']
 
         for species in testing_species:
@@ -40,6 +42,7 @@ class integration_tests(unittest.TestCase):
                 actual_species = resource['attributes']['species']
                 self.assertEqual(actual_species.lower(), species.lower())
 
+    # Test case: GET /pets with pagination parameters
     def test_get_pets_pagination(self, endpoint='/pets'):
         testing_paginations = [
             {'number': 1, 'size': 25, 'expected_status_code': 200},
@@ -69,6 +72,7 @@ class integration_tests(unittest.TestCase):
                 except KeyError as error:
                     self.fail(error)
 
+    # Test case: GET /pets/{id}
     def test_get_pet_by_id(self, endpoint='/pets'):
         valid_pet_ids = self.test_cases['valid_pet_ids']
         invalid_pet_ids = self.test_cases['invalid_pet_ids']
@@ -87,6 +91,7 @@ class integration_tests(unittest.TestCase):
 if __name__ == '__main__':
     arguments, argv = utils.parse_arguments()
 
+    # Setup logging level
     if arguments.debug:
         logging.basicConfig(level=logging.DEBUG)
     else:

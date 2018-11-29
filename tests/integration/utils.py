@@ -5,6 +5,7 @@ import requests
 import sys
 
 
+# Handler for parsing command-line arguments
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -26,16 +27,13 @@ def parse_arguments():
     return arguments, sys.argv[:1] + unittest_args
 
 
+# Setup base URL from configuration file
 def setup_base_url(config):
     api = config['api']
     return api['local_base_url'] if config['local_test'] else api['base_url']
 
 
-def setup_test_cases(config):
-    test_cases = config['test_cases']
-    return test_cases
-
-
+# Setup request session from configuration file
 def setup_session(config):
     session = requests.Session()
 
@@ -59,22 +57,33 @@ def setup_session(config):
     return session
 
 
+# Get response content in JSON format
 def get_json_content(self, response):
-    # Response should in JSON format
     try:
         return response.json()
     except json.decoder.JSONDecodeError:
         self.fail('Response not in JSON format')
 
 
+# Get resource schema from OpenAPI specification
 def get_resource_schema(self, resource):
     return self.openapi['definitions'][resource]['properties']
 
 
-# Helper method to make a web request and lightly validate the response
+# Helper function to make a web request and lightly validate the response
 def make_request(self, endpoint, expected_status_code,
                  params=None,
                  max_elapsed_seconds=5):
+    '''
+    Keyword arguments:
+    * endpoint -- the endpoint to request
+    * expected_status_code -- expected HTTP status code
+    * params -- [optional] key-value pairs parameters (default: None)
+    * max_elapsed_seconds -- [optional] maximum elapsed times (default: 5)
+
+    Return:
+    A response object contains a server’s response to an HTTP request
+    '''
 
     requested_url = f'{self.base_url}{endpoint}'
     response = self.session.get(requested_url, params=params)
@@ -92,10 +101,13 @@ def make_request(self, endpoint, expected_status_code,
     return response
 
 
+# Check the schema of response match OpenAPI specification
 def check_schema(self, response, schema):
+    # Helper function to get attributes of the schema
     def __get_schema_attributes():
         return schema['attributes']['properties']
 
+    # Helper function to map between OpenAPI data types and python data types
     def __get_attribute_type(attribute):
         if 'properties' in attribute:
             return dict
@@ -120,6 +132,7 @@ def check_schema(self, response, schema):
         }
         return types_dict[openapi_type]
 
+    # Helper function to check resource object schema
     def __check_resource_schema(resource):
         # Check resource type
         self.assertEqual(resource['type'], schema['type']['example'])
@@ -129,12 +142,14 @@ def check_schema(self, response, schema):
         expected_attributes = __get_schema_attributes()
         __check_attributes_schema(actual_attributes, expected_attributes)
 
+    # Helper function to check error object schema
     def __check_error_schema(error):
         # Check error attributes
         actual_attributes = error
         expected_attributes = schema
         __check_attributes_schema(actual_attributes, expected_attributes)
 
+    # Helper function to check thorugh all attributes
     def __check_attributes_schema(actual_attributes, expected_attributes):
         for field, actual_value in actual_attributes.items():
             expected_attribute = expected_attributes[field]
