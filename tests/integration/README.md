@@ -19,9 +19,7 @@ This directory contains template files that run integration tests against the AP
 2. Run the integration test:
 
     ```shell
-    $ python integration.py -v \
-                            --config path/to/configuration.json \
-                            --openapi path/to/openapi.yaml
+    $ python integration.py -v --config path/to/configuration.json --openapi path/to/openapi.yaml
     ```
 
 ## Docker
