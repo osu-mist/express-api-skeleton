@@ -14,5 +14,9 @@
       "client_id": "client_id",
       "client_secret": "client_secret"
     }
+  },
+  "test_cases": {
+    "valid_pet_ids": ["1", "2", "3"],
+    "invalid_pet_ids": ["999", "-1", "invalid_id"]
   }
 }
