@@ -54,6 +54,7 @@ def setup_session(config):
         except KeyError:
             sys.exit('Error: invalid OAuth2 credentials')
         session.headers = {'Authorization': f'Bearer {token}'}
+
     return session
 
 
@@ -173,6 +174,6 @@ def check_schema(self, response, schema):
             errors_data = content['errors']
             self.assertIsInstance(errors_data, list)
             for error in errors_data:
-                    __check_error_schema(error)
+                __check_error_schema(error)
     except KeyError as error:
         self.fail(error)
