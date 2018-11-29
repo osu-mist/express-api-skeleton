@@ -31,6 +31,11 @@ def setup_base_url(config):
     return api['local_base_url'] if config['local_test'] else api['base_url']
 
 
+def setup_test_cases(config):
+    test_cases = config['test_cases']
+    return test_cases
+
+
 def setup_session(config):
     session = requests.Session()
 
@@ -54,12 +59,16 @@ def setup_session(config):
     return session
 
 
+def get_json_content(self, response):
+    # Response should in JSON format
+    try:
+        return response.json()
+    except json.decoder.JSONDecodeError:
+        self.fail('Response not in JSON format')
+
+
 def get_resource_schema(self, resource):
     return self.openapi['definitions'][resource]['properties']
-
-
-def get_schema_attributes(schema):
-    return schema['attributes']['properties']
 
 
 # Helper method to make a web request and lightly validate the response
@@ -69,6 +78,7 @@ def make_request(self, endpoint, expected_status_code,
 
     requested_url = f'{self.base_url}{endpoint}'
     response = self.session.get(requested_url, params=params)
+    logging.debug(f'Sent request to {requested_url}')
 
     # Response status code should be as expected
     status_code = response.status_code
@@ -83,6 +93,9 @@ def make_request(self, endpoint, expected_status_code,
 
 
 def check_schema(self, response, schema):
+    def __get_schema_attributes():
+        return schema['attributes']['properties']
+
     def __get_attribute_type(attribute):
         if 'properties' in attribute:
             return dict
@@ -113,7 +126,7 @@ def check_schema(self, response, schema):
 
         # Check resource attributes
         actual_attributes = resource['attributes']
-        expected_attributes = get_schema_attributes(schema)
+        expected_attributes = __get_schema_attributes()
         __check_attributes_schema(actual_attributes, expected_attributes)
 
     def __check_error_schema(error):
@@ -129,31 +142,22 @@ def check_schema(self, response, schema):
             self.assertIsInstance(actual_value, expected_type)
 
     status_code = response.status_code
-
-    # Response should in JSON format
-    try:
-        content = response.json()
-    except json.decoder.JSONDecodeError:
-        self.fail('Response not in JSON format')
+    content = get_json_content(self, response)
 
     # TODO: Add self-link testing
     # Basic tests for successful/error response
-    if status_code == 200:
-        try:
+    try:
+        if status_code == 200:
             resource_data = content['data']
             if isinstance(resource_data, list):
                 for resource in resource_data:
                     __check_resource_schema(resource)
             else:
                 __check_resource_schema(resource_data)
-        except KeyError as error:
-            self.fail(error)
-
-    elif status_code >= 400:
-        try:
+        elif status_code >= 400:
             errors_data = content['errors']
             self.assertIsInstance(errors_data, list)
             for error in errors_data:
                     __check_error_schema(error)
-        except KeyError as error:
-            self.fail(error)
+    except KeyError as error:
+        self.fail(error)
