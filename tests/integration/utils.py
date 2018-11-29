@@ -114,20 +114,19 @@ def check_schema(self, response, schema):
         # Check resource attributes
         actual_attributes = resource['attributes']
         expected_attributes = get_schema_attributes(schema)
+        __check_attributes_schema(actual_attributes, expected_attributes)
 
+    def __check_error_schema(error):
+        # Check error attributes
+        actual_attributes = error
+        expected_attributes = schema
+        __check_attributes_schema(actual_attributes, expected_attributes)
+
+    def __check_attributes_schema(actual_attributes, expected_attributes):
         for field, actual_value in actual_attributes.items():
             expected_attribute = expected_attributes[field]
             expected_type = __get_attribute_type(expected_attribute)
             self.assertIsInstance(actual_value, expected_type)
-
-    def __check_error_schema(error):
-            # Check error attributes
-            expected_attributes = schema
-
-            for field, actual_value in error.items():
-                expected_attribute = expected_attributes[field]
-                expected_type = __get_attribute_type(expected_attribute)
-                self.assertIsInstance(actual_value, expected_type)
 
     status_code = response.status_code
 
