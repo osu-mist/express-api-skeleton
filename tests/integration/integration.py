@@ -25,6 +25,24 @@ class integration_tests(unittest.TestCase):
         pet_schema = utils.get_resource_schema(self, 'PetResource')
         utils.check_schema(self, response, pet_schema)
 
+    def test_get_pets_with_filter(self, endpoint='/pets'):
+            params = {'species': 'cat'}
+            response = utils.make_request(self, endpoint, 200, params=params)
+            pet_schema = utils.get_resource_schema(self, 'PetResource')
+            utils.check_schema(self, response, pet_schema)
+
+    def test_get_pets_empty_data(self, endpoint='/pets'):
+        params = {'page[number]': 999}
+        response = utils.make_request(self, endpoint, 200, params=params)
+        pet_schema = utils.get_resource_schema(self, 'PetResource')
+        utils.check_schema(self, response, pet_schema)
+
+    def test_get_pets_bad_request(self, endpoint='/pets'):
+        params = {'page[size]': -1}
+        response = utils.make_request(self, endpoint, 400, params=params)
+        error_schema = utils.get_resource_schema(self, 'Error')
+        utils.check_schema(self, response, error_schema)
+
     def test_get_pet_by_id(self, endpoint='/pets/1'):
         response = utils.make_request(self, endpoint, 200)
         pet_schema = utils.get_resource_schema(self, 'PetResource')
