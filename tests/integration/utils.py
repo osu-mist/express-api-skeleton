@@ -82,23 +82,31 @@ def make_request(self, endpoint, expected_status_code,
     return response
 
 
-def get_attribute_type(attribute):
-    type = attribute['format'] if 'format' in attribute else attribute['type']
-    types_dict = {
-        'string': str,
-        'integer': int,
-        'int32': int,
-        'int64': int,
-        'float': float,
-        'double': float,
-        'boolean': bool,
-        'array': list,
-        'object': dict
-    }
-    return types_dict[type]
-
-
 def check_schema(self, response, schema):
+    def __get_attribute_type(attribute):
+        if 'properties' in attribute:
+            return dict
+        elif 'format' in attribute:
+            openapi_type = attribute['format']
+        elif 'type' in attribute:
+            openapi_type = attribute['type']
+        else:
+            logging.warn('OpenAPI property contains no type or properties')
+            return None
+
+        types_dict = {
+            'string': str,
+            'integer': int,
+            'int32': int,
+            'int64': int,
+            'float': float,
+            'double': float,
+            'boolean': bool,
+            'array': list,
+            'object': dict
+        }
+        return types_dict[openapi_type]
+
     def __check_resource_schema(resource):
         # Check resource type
         self.assertEqual(resource['type'], schema['type']['example'])
@@ -109,8 +117,17 @@ def check_schema(self, response, schema):
 
         for field, actual_value in actual_attributes.items():
             expected_attribute = expected_attributes[field]
-            expected_type = get_attribute_type(expected_attribute)
+            expected_type = __get_attribute_type(expected_attribute)
             self.assertIsInstance(actual_value, expected_type)
+
+    def __check_error_schema(error):
+            # Check error attributes
+            expected_attributes = schema
+
+            for field, actual_value in error.items():
+                expected_attribute = expected_attributes[field]
+                expected_type = __get_attribute_type(expected_attribute)
+                self.assertIsInstance(actual_value, expected_type)
 
     status_code = response.status_code
 
@@ -134,6 +151,10 @@ def check_schema(self, response, schema):
             self.fail(error)
 
     elif status_code >= 400:
-        self.assertIn('errors', content)
-
-    return
+        try:
+            errors_data = content['errors']
+            self.assertIsInstance(errors_data, list)
+            for error in errors_data:
+                    __check_error_schema(error)
+        except KeyError as error:
+            self.fail(error)
