@@ -1,6 +1,6 @@
 const appRoot = require('app-root-path');
 
-const { badRequest, errorHandler } = appRoot.require('errors/errors');
+const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 const { openapi: { paths } } = appRoot.require('utils/load-openapi');
 const petsDAO = require('../db/json/pets-dao-example');
 
@@ -23,14 +23,13 @@ const get = async (req, res) => {
       if (isInvalidSize || isInvalidNumber) {
         if (isInvalidSize) errors.push(`page[size] should be an integer ranging from 1 to ${MAX_PAGE_SIZE}.`);
         if (isInvalidNumber) errors.push('page[number] should be an integer greater than or equal to 1.');
-        res.status(400).send(badRequest(errors));
+        return errorBuilder(res, 400, errors);
       }
     }
-
     const result = await petsDAO.getPets(req.query);
-    res.send(result);
+    return res.send(result);
   } catch (err) {
-    errorHandler(res, err);
+    return errorHandler(res, err);
   }
 };
 

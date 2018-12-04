@@ -7,7 +7,7 @@ const https = require('https');
 const moment = require('moment');
 const git = require('simple-git/promise');
 
-const { errorHandler } = appRoot.require('errors/errors');
+const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 const { authentication } = appRoot.require('middlewares/authentication');
 const { logger } = appRoot.require('middlewares/logger');
 const { openapi } = appRoot.require('utils/load-openapi');
@@ -74,6 +74,11 @@ initialize({
   apiDoc: openapi,
   paths: `${appRoot}/api/v1/paths`,
 });
+
+/**
+ * @summary Return a 404 error if resource not found
+ */
+appRouter.use((req, res) => errorBuilder(res, 404, 'Resource not found.'));
 
 /**
  * @summary Start servers and listen on ports
