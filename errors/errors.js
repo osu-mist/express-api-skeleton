@@ -100,7 +100,7 @@ const internalServerError = detail => new JSONAPIError(error(
 ));
 
 /**
- * @summary Function to build a error response
+ * @summary Function to build an error response
  * @function
  * @param res Response
  * @param status The HTTP status code
