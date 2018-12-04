@@ -14,7 +14,7 @@ const { protocol, hostname } = config.get('server');
  * @param {string} resourcePath resource path
  * @returns A self link URL
  */
-const selfLink = (id, resourcePath) => url.format({
+const idSelfLink = (id, resourcePath) => url.format({
   protocol,
   hostname,
   pathname: `${basePath}/${resourcePath}/${id}`,
@@ -47,4 +47,4 @@ const paginatedLink = (pageNumber, pageSize, resourcePath) => querySelfLink({
   'page[size]': pageSize,
 }, resourcePath);
 
-module.exports = { selfLink, paginatedLink, querySelfLink };
+module.exports = { idSelfLink, querySelfLink, paginatedLink };

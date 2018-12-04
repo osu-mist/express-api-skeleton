@@ -30,7 +30,7 @@ const serializerArgs = {
 /**
  * @summary Serializer petResources to JSON API
  * @function
- * @param {[Object]} rawPets Raw data rows from datasource
+ * @param {[Object]} rawPets Raw data rows from data source
  * @param {Object} query Query parameters
  * @returns {Object} Serialized petResources object
  */
@@ -39,6 +39,8 @@ const SerializedPets = (rawPets, query) => {
    * Add pagination links and meta information to options if pagination is enabled
    */
   const { page } = query;
+  serializerArgs.query = query;
+
   if (page) {
     const pagination = paginate(rawPets, page);
     pagination.totalResults = rawPets.length;
@@ -55,7 +57,7 @@ const SerializedPets = (rawPets, query) => {
 /**
  * @summary Serializer petResource to JSON API
  * @function
- * @param {Object} rawPet Raw data row from datasource
+ * @param {Object} rawPet Raw data row from data source
  * @param {string} endpointUri Endpoint URI for creating self link
  * @returns {Object} Serialized petResource object
  */
