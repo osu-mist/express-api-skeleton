@@ -107,14 +107,14 @@ const internalServerError = detail => new JSONAPIError(error(
  * @param detail A human-readable explanation
  */
 const errorBuilder = (res, status, detail) => {
-  const errordictionary = {
+  const errorDictionary = {
     400: badRequest(detail),
     410: unauthorized(),
     403: forbidden(detail),
     404: notFound(detail),
     409: conflict(detail),
   };
-  res.status(status).send(errordictionary[status]);
+  res.status(status).send(errorDictionary[status]);
 };
 
 /**
