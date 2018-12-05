@@ -8,7 +8,7 @@ const { paginatedLink, idSelfLink } = appRoot.require('utils/uri-builder');
  * @function
  * @param {[Object]} serializerArgs JSON API serializer arguments
  * @param {string} resourcePath resource path
- * @param {string} topLevelSelfLink top-level self link
+ * @param {string} topLevelSelfLink top-level self-link
  * @returns {Object} JSON API serializer options
  */
 const serializerOptions = (serializerArgs, resourcePath, topLevelSelfLink) => {

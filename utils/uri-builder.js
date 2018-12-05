@@ -8,11 +8,11 @@ const { openapi: { basePath } } = appRoot.require('utils/load-openapi');
 const { protocol, hostname } = config.get('server');
 
 /**
- * @summary Self link builder
+ * @summary Self-link builder
  * @function
  * @param {string} id resource ID
  * @param {string} resourcePath resource path
- * @returns A self link URL
+ * @returns A self-link URL
  */
 const idSelfLink = (id, resourcePath) => url.format({
   protocol,

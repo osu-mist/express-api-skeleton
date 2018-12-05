@@ -63,7 +63,7 @@ const SerializedPets = (rawPets, query) => {
  * @summary Serializer petResource to JSON API
  * @function
  * @param {Object} rawPet Raw data row from data source
- * @param {string} endpointUri Endpoint URI for creating self link
+ * @param {string} endpointUri Endpoint URI for creating self-link
  * @returns {Object} Serialized petResource object
  */
 const SerializedPet = (rawPet) => {

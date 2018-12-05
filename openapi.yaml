@@ -124,7 +124,7 @@ definitions:
       self:
         type: string
         format: url
-        description: Self link of current resource
+        description: Self-link of current resource
   PaginationLinks:
     properties:
       first:
