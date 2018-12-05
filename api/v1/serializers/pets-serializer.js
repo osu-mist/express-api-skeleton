@@ -14,18 +14,13 @@ const petResourcePath = 'pets';
 
 /**
  * The column name getting from database is usually UPPER_CASE.
- * This block of code is to make the camelCase keys defined in swagger.yaml be
+ * This block of code is to make the camelCase keys defined in openapi.yaml be
  * UPPER_CASE so that the serializer can correctly match the corresponding columns
  * from the raw data rows.
  */
 _.forEach(petResourceKeys, (key, index) => {
   petResourceKeys[index] = decamelize(key).toUpperCase();
 });
-
-const serializerArgs = {
-  identifierField: 'ID',
-  resourceKeys: petResourceKeys,
-};
 
 /**
  * @summary Serializer petResources to JSON API
@@ -35,11 +30,15 @@ const serializerArgs = {
  * @returns {Object} Serialized petResources object
  */
 const SerializedPets = (rawPets, query) => {
+  const serializerArgs = {
+    identifierField: 'ID',
+    resourceKeys: petResourceKeys,
+    query,
+  };
+
   /**
    * Add pagination links and meta information to options if pagination is enabled
    */
-
-  serializerArgs.query = query;
   const pageQuery = {
     size: query['page[size]'],
     number: query['page[number]'],
@@ -65,9 +64,15 @@ const SerializedPets = (rawPets, query) => {
  * @param {string} endpointUri Endpoint URI for creating self link
  * @returns {Object} Serialized petResource object
  */
-const SerializedPet = rawPet => new JSONAPISerializer(
-  petResourceType,
-  serializerOptions(serializerArgs, petResourcePath),
-).serialize(rawPet);
+const SerializedPet = (rawPet) => {
+  const serializerArgs = {
+    identifierField: 'ID',
+    resourceKeys: petResourceKeys,
+  };
 
+  return new JSONAPISerializer(
+    petResourceType,
+    serializerOptions(serializerArgs, petResourcePath),
+  ).serialize(rawPet);
+};
 module.exports = { SerializedPets, SerializedPet };
