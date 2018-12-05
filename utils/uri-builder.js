@@ -42,9 +42,8 @@ const querySelfLink = (query, resourcePath) => decodeUriComponent(url.format({
  * @param {string} resourcePath resource path
  * @returns A decoded paginated link URL
  */
-const paginatedLink = (pageNumber, pageSize, resourcePath) => querySelfLink({
-  'page[number]': pageNumber,
-  'page[size]': pageSize,
-}, resourcePath);
-
+const paginatedLink = (pageNumber, pageSize, resourcePath) => {
+  if (!pageNumber) return null;
+  return querySelfLink({ 'page[number]': pageNumber, 'page[size]': pageSize }, resourcePath);
+};
 module.exports = { idSelfLink, querySelfLink, paginatedLink };

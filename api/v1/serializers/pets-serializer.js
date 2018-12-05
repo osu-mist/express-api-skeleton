@@ -38,11 +38,15 @@ const SerializedPets = (rawPets, query) => {
   /**
    * Add pagination links and meta information to options if pagination is enabled
    */
-  const { page } = query;
-  serializerArgs.query = query;
 
-  if (page) {
-    const pagination = paginate(rawPets, page);
+  serializerArgs.query = query;
+  const pageQuery = {
+    size: query['page[size]'],
+    number: query['page[number]'],
+  };
+
+  if (pageQuery.size || pageQuery.number) {
+    const pagination = paginate(rawPets, pageQuery);
     pagination.totalResults = rawPets.length;
     serializerArgs.pagination = pagination;
     rawPets = pagination.paginatedRows;

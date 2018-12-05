@@ -90,6 +90,7 @@ parameters:
     required: false
     description: Page number of results
     default: 1
+    minimum: 1
   pageSize:
     name: page[size]
     in: query
@@ -98,6 +99,7 @@ parameters:
     description: Number of results to return
     default: 25
     maximum: 500
+    minimum: 1
 definitions:
   Meta:
     properties:
