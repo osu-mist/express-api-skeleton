@@ -6,6 +6,7 @@ const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 const { paginate } = appRoot.require('utils/paginator');
 const { serializerOptions } = appRoot.require('utils/jsonapi');
 const { openapi } = appRoot.require('utils/load-openapi');
+const { querySelfLink, idSelfLink } = appRoot.require('utils/uri-builder');
 
 const petResourceProp = openapi.definitions.PetResource.properties;
 const petResourceType = petResourceProp.type.example;
@@ -33,7 +34,6 @@ const SerializedPets = (rawPets, query) => {
   const serializerArgs = {
     identifierField: 'ID',
     resourceKeys: petResourceKeys,
-    query,
   };
 
   /**
@@ -51,9 +51,11 @@ const SerializedPets = (rawPets, query) => {
     rawPets = pagination.paginatedRows;
   }
 
+  const topLevelSelfLink = querySelfLink(query, petResourcePath);
+
   return new JSONAPISerializer(
     petResourceType,
-    serializerOptions(serializerArgs, petResourcePath),
+    serializerOptions(serializerArgs, petResourcePath, topLevelSelfLink),
   ).serialize(rawPets);
 };
 
@@ -70,9 +72,11 @@ const SerializedPet = (rawPet) => {
     resourceKeys: petResourceKeys,
   };
 
+  const topLevelSelfLink = idSelfLink(rawPet.ID, petResourcePath);
+
   return new JSONAPISerializer(
     petResourceType,
-    serializerOptions(serializerArgs, petResourcePath),
+    serializerOptions(serializerArgs, petResourcePath, topLevelSelfLink),
   ).serialize(rawPet);
 };
 module.exports = { SerializedPets, SerializedPet };

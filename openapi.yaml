@@ -40,7 +40,7 @@ paths:
         200:
           description: Successful response
           schema:
-            $ref: '#/definitions/PetResources'
+            $ref: '#/definitions/PetsResult'
         400:
           description: Bad Request
           schema:
@@ -67,7 +67,7 @@ paths:
         200:
           description: Successful response
           schema:
-            $ref: '#/definitions/PetResource'
+            $ref: '#/definitions/PetResult'
         404:
           description: PetResource not found
           schema:
@@ -124,7 +124,7 @@ definitions:
       self:
         type: string
         format: url
-        description: Self link of PetResource
+        description: Self link of current resource
   PaginationLinks:
     properties:
       first:
@@ -167,10 +167,18 @@ definitions:
             type: string
             description: Species of pet
             example: Owl
-  PetResources:
+  PetResult:
     properties:
       links:
-        $ref: '#/definitions/PaginationLinks'
+        $ref: '#/definitions/SelfLink'
+      data:
+        $ref: '#/definitions/PetResource'
+  PetsResult:
+    properties:
+      links:
+        allOf:
+          - $ref: '#/definitions/SelfLink'
+          - $ref: '#/definitions/PaginationLinks'
       meta:
         $ref: '#/definitions/Meta'
       data:

@@ -1,21 +1,21 @@
 const appRoot = require('app-root-path');
 const _ = require('lodash');
 
-const { querySelfLink, paginatedLink, idSelfLink } = appRoot.require('utils/uri-builder');
+const { paginatedLink, idSelfLink } = appRoot.require('utils/uri-builder');
 
 /**
  * @summary Generate JSON API serializer options
  * @function
  * @param {[Object]} serializerArgs JSON API serializer arguments
  * @param {string} resourcePath resource path
+ * @param {string} topLevelSelfLink top-level self link
  * @returns {Object} JSON API serializer options
  */
-const serializerOptions = (serializerArgs, resourcePath) => {
+const serializerOptions = (serializerArgs, resourcePath, topLevelSelfLink) => {
   const {
     identifierField,
     resourceKeys,
     pagination,
-    query,
   } = serializerArgs;
 
   const options = {
@@ -23,7 +23,7 @@ const serializerOptions = (serializerArgs, resourcePath) => {
     id: identifierField,
     keyForAttribute: 'camelCase',
     dataLinks: { self: row => idSelfLink(row[identifierField], resourcePath) },
-    topLevelLinks: { self: querySelfLink(query, resourcePath) },
+    topLevelLinks: { self: topLevelSelfLink },
   };
 
   if (pagination) {
