@@ -137,7 +137,7 @@ def check_schema(self, response, schema):
     # Helper function to check resource object schema
     def __check_resource_schema(resource):
         # Check resource type
-        self.assertEqual(resource['type'], schema['type']['example'])
+        self.assertEqual(resource['type'], schema['type']['enum'][0])
 
         # Check resource attributes
         actual_attributes = resource['attributes']

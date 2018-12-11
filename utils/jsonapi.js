@@ -19,6 +19,7 @@ const serializerOptions = (serializerArgs, resourcePath, topLevelSelfLink) => {
   } = serializerArgs;
 
   const options = {
+    pluralizeType: false,
     attributes: resourceKeys,
     id: identifierField,
     keyForAttribute: 'camelCase',
