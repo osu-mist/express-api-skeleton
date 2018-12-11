@@ -24,7 +24,7 @@ const adminApp = express();
 const adminAppRouter = express.Router();
 
 /**
- * @summary Use the simple quey parser to prevent the parameters which contain square brackets
+ * @summary Use the simple query parser to prevent the parameters which contain square brackets
  * be parsed as a nested object
  */
 app.set('query parser', 'simple');
