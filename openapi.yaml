@@ -109,7 +109,7 @@ definitions:
         example: 10
       totalPage:
         type: integer
-        description: Total number of pagess
+        description: Total number of pages
         example: 10
       currentPageNumber:
         type: integer
