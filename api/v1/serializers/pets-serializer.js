@@ -9,7 +9,7 @@ const { openapi } = appRoot.require('utils/load-openapi');
 const { querySelfLink, idSelfLink } = appRoot.require('utils/uri-builder');
 
 const petResourceProp = openapi.definitions.PetResource.properties;
-const petResourceType = petResourceProp.type.example;
+const petResourceType = petResourceProp.type.enum[0];
 const petResourceKeys = _.keys(petResourceProp.attributes.properties);
 const petResourcePath = 'pets';
 

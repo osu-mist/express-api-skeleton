@@ -150,7 +150,7 @@ definitions:
         description: A unique ID of pet
       type:
         type: string
-        example: pets
+        enum: [pet]
       links:
         $ref: '#/definitions/SelfLink'
       attributes:
