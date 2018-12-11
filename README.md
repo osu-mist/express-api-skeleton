@@ -222,7 +222,7 @@ The following instructions show you how to connect the API to an Oracle database
 7. Make sure to require the correct path for the new DAO file at path handlers files:
 
     ```js
-    const petsDAO = require('../db/oracledb/<resources>-dao');;
+    const petsDAO = require('../db/oracledb/<resources>-dao');
     ```
 
 ## Docker

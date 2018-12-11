@@ -50,7 +50,7 @@ const unauthorized = () => new JSONAPIError(error(
 /**
  * @summary [403] Return a Forbidden error object
  * @function
- * @param {string} detail
+ * @param {string} detail A human-readable explanation
  * @returns {Object} Unauthorized error object
  */
 const forbidden = detail => new JSONAPIError(error(
@@ -63,7 +63,7 @@ const forbidden = detail => new JSONAPIError(error(
 /**
  * @summary [404] Return a Not Found error object
  * @function
- * @param {string} detail
+ * @param {string} detail A human-readable explanation
  * @returns {Object} Not Found error object
  */
 const notFound = detail => new JSONAPIError(error(
@@ -76,7 +76,7 @@ const notFound = detail => new JSONAPIError(error(
 /**
  * @summary [409] Return a Conflict error object
  * @function
- * @param {string} detail
+ * @param {string} detail A human-readable explanation
  * @returns {Object} Conflict error object
  */
 const conflict = detail => new JSONAPIError(error(
@@ -89,7 +89,7 @@ const conflict = detail => new JSONAPIError(error(
 /**
  * @summary [500] Return a Internal Server Error error object
  * @function
- * @param {string} detail
+ * @param {string} detail A human-readable explanation
  * @returns {Object} Internal Server Error error object
  */
 const internalServerError = detail => new JSONAPIError(error(
@@ -98,6 +98,24 @@ const internalServerError = detail => new JSONAPIError(error(
   '1500',
   detail,
 ));
+
+/**
+ * @summary Function to build an error response
+ * @function
+ * @param res Response
+ * @param status The HTTP status code
+ * @param detail A human-readable explanation
+ */
+const errorBuilder = (res, status, detail) => {
+  const errorDictionary = {
+    400: badRequest(detail),
+    410: unauthorized(),
+    403: forbidden(detail),
+    404: notFound(detail),
+    409: conflict(detail),
+  };
+  res.status(status).send(errorDictionary[status]);
+};
 
 /**
  * @summary Function to handle unexpected errors
@@ -112,10 +130,7 @@ const errorHandler = (res, err) => {
 };
 
 module.exports = {
-  badRequest,
   unauthorized,
-  forbidden,
-  notFound,
-  conflict,
+  errorBuilder,
   errorHandler,
 };

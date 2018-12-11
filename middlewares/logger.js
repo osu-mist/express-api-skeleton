@@ -30,7 +30,7 @@ const consoleTransport = new winston.transports.Console({
 });
 
 /**
- * @summary Create logger middleware
+ * @summary The middleware for logger
  */
 const logger = expressWinston.logger({
   transports: [dailyRotateFileTransport, consoleTransport],

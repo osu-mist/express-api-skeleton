@@ -1,22 +1,20 @@
 const _ = require('lodash');
 
-const DEFAULT_PAGE_SIZE = 25;
-
 /**
  * @summary Paginate data rows
  * @function
  * @param {[Object]} rows Data rows
- * @param {Object} page Pagination query parameter
+ * @param {Object} pageQuery Pagination query parameter
  * @returns {*} Paginated data rows
  */
-const paginate = (rows, page) => {
-  const pageNumber = page && page.number ? parseInt(page.number, 10) : 1;
-  const pageSize = page && page.size ? parseInt(page.size, 10) : DEFAULT_PAGE_SIZE;
+const paginate = (rows, pageQuery) => {
+  const pageNumber = parseInt(pageQuery.number, 10);
+  const pageSize = parseInt(pageQuery.size, 10);
   const totalPages = Math.ceil(rows.length / pageSize);
   const paginatedRows = _.slice(rows, (pageNumber - 1) * pageSize, pageNumber * pageSize);
   const isOutOfBounds = pageNumber < 1 || pageNumber > totalPages;
   const nextPage = isOutOfBounds || pageNumber >= totalPages ? null : pageNumber + 1;
-  const prevPage = isOutOfBounds || pageNumber <= 0 ? null : pageNumber - 1;
+  const prevPage = isOutOfBounds || pageNumber <= 1 ? null : pageNumber - 1;
 
   return {
     paginatedRows,

@@ -7,9 +7,7 @@ const { unauthorized } = appRoot.require('errors/errors');
 const { username, password } = config.authentication;
 
 /**
- * @summary Return a basicAuth middleware
- * @param {Object} config Configuration
- * @returns {Object} BasicAuth middleware
+ * @summary The middleware for basicAuth
  */
 const authentication = basicAuth({
   users: { [username]: password },

@@ -7,8 +7,9 @@ const https = require('https');
 const moment = require('moment');
 const git = require('simple-git/promise');
 
-const { errorHandler } = appRoot.require('errors/errors');
+const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 const { authentication } = appRoot.require('middlewares/authentication');
+const { errorMiddleware } = appRoot.require('middlewares/error-middleware');
 const { logger } = appRoot.require('middlewares/logger');
 const { openapi } = appRoot.require('utils/load-openapi');
 
@@ -21,6 +22,12 @@ const app = express();
 const appRouter = express.Router();
 const adminApp = express();
 const adminAppRouter = express.Router();
+
+/**
+ * @summary Use the simple quey parser to prevent the parameters which contain square brackets
+ * be parsed as a nested object
+ */
+app.set('query parser', 'simple');
 
 /**
  * @summary Create and start HTTPS servers
@@ -73,7 +80,13 @@ initialize({
   app: appRouter,
   apiDoc: openapi,
   paths: `${appRoot}/api/v1/paths`,
+  errorMiddleware,
 });
+
+/**
+ * @summary Return a 404 error if resource not found
+ */
+appRouter.use((req, res) => errorBuilder(res, 404, 'Resource not found.'));
 
 /**
  * @summary Start servers and listen on ports
