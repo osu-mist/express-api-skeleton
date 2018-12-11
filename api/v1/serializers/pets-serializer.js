@@ -44,12 +44,10 @@ const SerializedPets = (rawPets, query) => {
     number: query['page[number]'],
   };
 
-  if (pageQuery.size || pageQuery.number) {
-    const pagination = paginate(rawPets, pageQuery);
-    pagination.totalResults = rawPets.length;
-    serializerArgs.pagination = pagination;
-    rawPets = pagination.paginatedRows;
-  }
+  const pagination = paginate(rawPets, pageQuery);
+  pagination.totalResults = rawPets.length;
+  serializerArgs.pagination = pagination;
+  rawPets = pagination.paginatedRows;
 
   const topLevelSelfLink = querySelfLink(query, petResourcePath);
 
