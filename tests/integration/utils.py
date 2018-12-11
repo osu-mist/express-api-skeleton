@@ -110,16 +110,6 @@ def check_schema(self, response, schema):
 
     # Helper function to map between OpenAPI data types and python data types
     def __get_attribute_type(attribute):
-        if 'properties' in attribute:
-            return dict
-        elif 'format' in attribute:
-            openapi_type = attribute['format']
-        elif 'type' in attribute:
-            openapi_type = attribute['type']
-        else:
-            logging.warning('OpenAPI property contains no type or properties')
-            return None
-
         types_dict = {
             'string': str,
             'integer': int,
@@ -131,6 +121,17 @@ def check_schema(self, response, schema):
             'array': list,
             'object': dict
         }
+
+        if 'properties' in attribute:
+            return dict
+        elif 'format' in attribute and attribute['format'] in types_dict:
+            openapi_type = attribute['format']
+        elif 'type' in attribute:
+            openapi_type = attribute['type']
+        else:
+            logging.warning('OpenAPI property contains no type or properties')
+            return None
+
         return types_dict[openapi_type]
 
     # Helper function to check resource object schema
