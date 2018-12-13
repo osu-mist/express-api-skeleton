@@ -31,11 +31,6 @@ _.forEach(petResourceKeys, (key, index) => {
  * @returns {Object} Serialized petResources object
  */
 const serializePets = (rawPets, query) => {
-  const serializerArgs = {
-    identifierField: 'ID',
-    resourceKeys: petResourceKeys,
-  };
-
   /**
    * Add pagination links and meta information to options if pagination is enabled
    */
@@ -46,14 +41,20 @@ const serializePets = (rawPets, query) => {
 
   const pagination = paginate(rawPets, pageQuery);
   pagination.totalResults = rawPets.length;
-  serializerArgs.pagination = pagination;
   rawPets = pagination.paginatedRows;
 
   const topLevelSelfLink = querySelfLink(query, petResourcePath);
+  const serializerArgs = {
+    identifierField: 'ID',
+    resourceKeys: petResourceKeys,
+    pagination,
+    resourcePath: petResourcePath,
+    topLevelSelfLink,
+  };
 
   return new JSONAPISerializer(
     petResourceType,
-    serializerOptions(serializerArgs, petResourcePath, topLevelSelfLink),
+    serializerOptions(serializerArgs),
   ).serialize(rawPets);
 };
 
@@ -65,12 +66,13 @@ const serializePets = (rawPets, query) => {
  * @returns {Object} Serialized petResource object
  */
 const serializePet = (rawPet) => {
+  const topLevelSelfLink = idSelfLink(rawPet.ID, petResourcePath);
   const serializerArgs = {
     identifierField: 'ID',
     resourceKeys: petResourceKeys,
+    resourcePath: petResourcePath,
+    topLevelSelfLink,
   };
-
-  const topLevelSelfLink = idSelfLink(rawPet.ID, petResourcePath);
 
   return new JSONAPISerializer(
     petResourceType,

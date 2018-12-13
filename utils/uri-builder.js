@@ -25,7 +25,7 @@ const idSelfLink = (id, resourcePath) => url.format({
  * @function
  * @param {object} query
  * @param {string} resourcePath resource path
- * @returns A decoded url formatted with query parameters in the query object.
+ * @returns A decoded url formatted with query parameters in the query object
  */
 const querySelfLink = (query, resourcePath) => decodeUriComponent(url.format({
   protocol,
@@ -46,4 +46,19 @@ const paginatedLink = (pageNumber, pageSize, resourcePath) => {
   if (!pageNumber) return null;
   return querySelfLink({ 'page[number]': pageNumber, 'page[size]': pageSize }, resourcePath);
 };
-module.exports = { idSelfLink, querySelfLink, paginatedLink };
+
+/**
+ * @summary Subresource link builder
+ * @function
+ * @param {string} resourceURL Resource URL
+ * @param {string} subresourcePath Subresource path
+ * @returns A decoded url formatted with query parameters in the query object
+ */
+const subresourceLink = (resourceURL, subresourcePath) => `${resourceURL}/${subresourcePath}`;
+
+module.exports = {
+  idSelfLink,
+  querySelfLink,
+  paginatedLink,
+  subresourceLink,
+};
