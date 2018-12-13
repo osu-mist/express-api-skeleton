@@ -24,13 +24,13 @@ _.forEach(petResourceKeys, (key, index) => {
 });
 
 /**
- * @summary Serializer petResources to JSON API
+ * @summary Serialize petResources to JSON API
  * @function
  * @param {[Object]} rawPets Raw data rows from data source
  * @param {Object} query Query parameters
  * @returns {Object} Serialized petResources object
  */
-const SerializedPets = (rawPets, query) => {
+const serializePets = (rawPets, query) => {
   const serializerArgs = {
     identifierField: 'ID',
     resourceKeys: petResourceKeys,
@@ -58,13 +58,13 @@ const SerializedPets = (rawPets, query) => {
 };
 
 /**
- * @summary Serializer petResource to JSON API
+ * @summary Serialize petResource to JSON API
  * @function
  * @param {Object} rawPet Raw data row from data source
  * @param {string} endpointUri Endpoint URI for creating self-link
  * @returns {Object} Serialized petResource object
  */
-const SerializedPet = (rawPet) => {
+const serializePet = (rawPet) => {
   const serializerArgs = {
     identifierField: 'ID',
     resourceKeys: petResourceKeys,
@@ -77,4 +77,4 @@ const SerializedPet = (rawPet) => {
     serializerOptions(serializerArgs, petResourcePath, topLevelSelfLink),
   ).serialize(rawPet);
 };
-module.exports = { SerializedPets, SerializedPet };
+module.exports = { serializePets, serializePet };

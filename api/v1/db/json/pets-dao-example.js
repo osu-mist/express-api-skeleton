@@ -2,7 +2,7 @@ const appRoot = require('app-root-path');
 const _ = require('lodash');
 const capitalize = require('capitalize');
 
-const { SerializedPet, SerializedPets } = require('../../serializers/pets-serializer');
+const { serializePets, serializePet } = require('../../serializers/pets-serializer');
 
 /**
  * @summary Return a list of pets
@@ -17,7 +17,7 @@ const getPets = query => new Promise((resolve, reject) => {
 
     rawPets = species ? _.filter(rawPets, { SPECIES: capitalize(species) }) : rawPets;
 
-    const serializedPet = SerializedPets(rawPets, query);
+    const serializedPet = serializePets(rawPets, query);
     resolve(serializedPet);
   } catch (err) {
     reject(err);
@@ -37,7 +37,7 @@ const getPetById = id => new Promise((resolve, reject) => {
     if (!rawPet) {
       resolve(undefined);
     } else {
-      const serializedPet = SerializedPet(rawPet);
+      const serializedPet = serializePet(rawPet);
       resolve(serializedPet);
     }
   } catch (err) {
