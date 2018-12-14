@@ -1,6 +1,7 @@
 const appRoot = require('app-root-path');
 const _ = require('lodash');
 
+const { openapi } = appRoot.require('utils/load-openapi');
 const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 
 /**
@@ -25,11 +26,25 @@ const errorMiddleware = (err, req, res, next) => { // eslint-disable-line no-unu
   if (status === 400) {
     const details = [];
     _.forEach(errors, (error) => {
-      const { path, message, location } = error;
+      const {
+        path, errorCode, message, location,
+      } = error;
       const regexResult = badFormatPathRegex.exec(path);
       const formattedPath = regexResult ? regexResult[1] : path;
 
-      details.push(`Error in path: '${formattedPath}', location: ${location}, message: ${message}`);
+      if (errorCode === 'enum.openapi.validation') {
+        let param = _.find(
+          openapi.paths[req.path][req.method.toLowerCase()].parameters,
+          it => it.name === path,
+        );
+        if (!param) {
+          param = openapi.parameters[path];
+        }
+        details.push(`${path} must be one of ['${param.enum.join("', '")}']`);
+      } else {
+        details.push(`Error in path: '${formattedPath}', location: ${location},`
+          + ` message: ${message}`);
+      }
     });
     errorBuilder(res, 400, details);
   } else {
