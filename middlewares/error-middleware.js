@@ -11,10 +11,11 @@ const errorMiddleware = (err, req, res, next) => { // eslint-disable-line no-unu
 
   /**
    * express-openapi will add a leading '[' and closing ']' to the 'path' field if the parameter
-   * name contains '[' or ']'. This regex is used to remove them to keep the path name consistent.
+   * name contains '[' or ']'. This regex will match these incorrectly formatted paths so that they
+   * can be normalized.
    * @type {RegExp}
    */
-  const pathQueryRegex = /\['(.*)']/g;
+  const badFormatPathRegex = /\['(.*)']/g;
 
   /**
    * express-openapi validates requests based on openapi specification. For example, if we specify
@@ -25,7 +26,7 @@ const errorMiddleware = (err, req, res, next) => { // eslint-disable-line no-unu
     const details = [];
     _.forEach(errors, (error) => {
       const { path, message, location } = error;
-      const regexResult = pathQueryRegex.exec(path);
+      const regexResult = badFormatPathRegex.exec(path);
       const formattedPath = regexResult ? regexResult[1] : path;
 
       details.push(`Error in path: '${formattedPath}', location: ${location}, message: ${message}`);
