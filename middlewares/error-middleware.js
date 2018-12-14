@@ -10,6 +10,13 @@ const errorMiddleware = (err, req, res, next) => { // eslint-disable-line no-unu
   const { status, errors } = err;
 
   /**
+   * express-openapi will add a leading '[' and closing ']' to the 'path' field if the parameter
+   * name contains '[' or ']'. This regex is used to remove them to keep the path name consistent.
+   * @type {RegExp}
+   */
+  const pathQueryRegex = /\['(.*)']/g;
+
+  /**
    * express-openapi validates requests based on openapi specification. For example, if we specify
    * the maximum of page[size] is 500 in openapi.yaml, then it'll return a 400 error if page[size]
    * is exceeded the maximum. This logic is mainly to serialize the error by adhering to JSON API.
@@ -17,9 +24,11 @@ const errorMiddleware = (err, req, res, next) => { // eslint-disable-line no-unu
   if (status === 400) {
     const details = [];
     _.forEach(errors, (error) => {
-      const pathQueryRegex = /\['(.*)'\]/g;
       const { path, message, location } = error;
-      details.push(`${location} '${pathQueryRegex.exec(path)[1]}' ${message}`);
+      const regexResult = pathQueryRegex.exec(path);
+      const formattedPath = regexResult ? regexResult[1] : path;
+
+      details.push(`Error in path: '${formattedPath}', location: ${location}, message: ${message}`);
     });
     errorBuilder(res, 400, details);
   } else {
