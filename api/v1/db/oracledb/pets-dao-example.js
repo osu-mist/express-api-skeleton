@@ -44,7 +44,7 @@ const getPetById = id => new Promise(async (resolve, reject) => {
       reject(new Error('Expect a single object but got multiple results.'));
     } else {
       const [rawPet] = rawPets;
-      const serializedPet = serializePet(rawPet, endpointUri);
+      const serializedPet = serializePet(rawPet);
       resolve(serializedPet);
     }
   } catch (err) {
