@@ -4,6 +4,11 @@ const capitalize = require('capitalize');
 
 const { serializePets, serializePet } = require('../../serializers/pets-serializer');
 
+const { validateFilePath, readJSONFile } = appRoot.require('/utils/fs-operations');
+
+const dbPath = 'tests/unit/mock-data.json';
+validateFilePath(dbPath);
+
 /**
  * @summary Return a list of pets
  * @function
@@ -12,7 +17,7 @@ const { serializePets, serializePet } = require('../../serializers/pets-serializ
  */
 const getPets = query => new Promise((resolve, reject) => {
   try {
-    let rawPets = appRoot.require('/tests/unit/mock-data.json').pets;
+    let rawPets = readJSONFile(dbPath).pets;
     const { species } = query;
 
     rawPets = species ? _.filter(rawPets, { SPECIES: capitalize(species) }) : rawPets;
@@ -32,7 +37,7 @@ const getPets = query => new Promise((resolve, reject) => {
  */
 const getPetById = id => new Promise((resolve, reject) => {
   try {
-    const rawPets = appRoot.require('/tests/unit/mock-data.json').pets;
+    const rawPets = readJSONFile(dbPath).pets;
     const rawPet = _.find(rawPets, { ID: id });
     if (!rawPet) {
       resolve(undefined);
