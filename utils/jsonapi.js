@@ -17,12 +17,13 @@ const serializerOptions = (serializerArgs) => {
     resourcePath,
     topLevelSelfLink,
     subresourcePath,
+    keyForAttribute,
   } = serializerArgs;
 
   const options = {
     attributes: resourceKeys,
     id: identifierField,
-    keyForAttribute: 'camelCase',
+    keyForAttribute: keyForAttribute || 'camelCase',
     dataLinks: {
       self: (row) => {
         if (subresourcePath) {
