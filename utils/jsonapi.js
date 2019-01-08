@@ -16,13 +16,14 @@ const serializerOptions = (serializerArgs) => {
     pagination,
     resourcePath,
     topLevelSelfLink,
+    keyForAttribute,
     enableDataLinks,
   } = serializerArgs;
 
   const options = {
     attributes: resourceKeys,
     id: identifierField,
-    keyForAttribute: 'camelCase',
+    keyForAttribute: keyForAttribute || 'camelCase',
     dataLinks: {
       self: (row) => {
         if (enableDataLinks) {

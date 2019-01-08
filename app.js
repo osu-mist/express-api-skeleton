@@ -81,6 +81,7 @@ initialize({
   apiDoc: openapi,
   paths: `${appRoot}/api/v1/paths`,
   errorMiddleware,
+  errorTransformer: (openapiError, ajvError) => Object.assign({}, openapiError, ajvError),
 });
 
 /**
