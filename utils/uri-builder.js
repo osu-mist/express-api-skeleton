@@ -47,18 +47,8 @@ const paginatedLink = (pageNumber, pageSize, resourcePath) => {
   return querySelfLink({ 'page[number]': pageNumber, 'page[size]': pageSize }, resourcePath);
 };
 
-/**
- * @summary Subresource link builder
- * @function
- * @param {string} resourceURL Resource URL
- * @param {string} subresourcePath Subresource path
- * @returns A decoded url formatted with query parameters in the query object
- */
-const subresourceLink = (resourceURL, subresourcePath) => `${resourceURL}/${subresourcePath}`;
-
 module.exports = {
   idSelfLink,
   querySelfLink,
   paginatedLink,
-  subresourceLink,
 };
