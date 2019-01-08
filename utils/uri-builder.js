@@ -56,7 +56,6 @@ const paginatedLink = (pageNumber, pageSize, resourcePath) => {
  */
 const subresourceLink = (resourceURL, subresourcePath) => `${resourceURL}/${subresourcePath}`;
 
-
 module.exports = {
   idSelfLink,
   querySelfLink,
