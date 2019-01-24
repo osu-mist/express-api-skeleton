@@ -2,8 +2,8 @@ const appRoot = require('app-root-path');
 
 const petsDAO = require('../db/json/pets-dao-example');
 
+const { paths } = appRoot.require('app').locals.openapi;
 const { errorHandler } = appRoot.require('errors/errors');
-const { openapi: { paths } } = appRoot.require('utils/load-openapi');
 
 /**
  * @summary Get pets

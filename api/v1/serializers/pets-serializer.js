@@ -3,8 +3,8 @@ const decamelize = require('decamelize');
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 const _ = require('lodash');
 
+const { openapi } = appRoot.require('app').locals;
 const { serializerOptions } = appRoot.require('utils/jsonapi');
-const { openapi } = appRoot.require('utils/load-openapi');
 const { paginate } = appRoot.require('utils/paginator');
 const { querySelfLink, idSelfLink } = appRoot.require('utils/uri-builder');
 

@@ -3,7 +3,7 @@ const config = require('config');
 const decodeUriComponent = require('decode-uri-component');
 const url = require('url');
 
-const { openapi: { basePath } } = appRoot.require('utils/load-openapi');
+const { basePath } = appRoot.require('app').locals.openapi;
 
 const { protocol, hostname } = config.get('server');
 
