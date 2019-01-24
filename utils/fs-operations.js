@@ -36,4 +36,23 @@ const writeJSONFile = (filePath, data, options = {}) => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), options);
 };
 
-module.exports = { validateFilePath, readJSONFile, writeJSONFile };
+/**
+ * @summary Delete a file
+ * @function
+ * @param {string} filePath
+ * @returns true if file was deleted and undefined if file was not found
+ */
+const deleteFile = (filePath) => {
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+    return true;
+  }
+  return undefined;
+};
+
+module.exports = {
+  validateFilePath,
+  readJSONFile,
+  writeJSONFile,
+  deleteFile,
+};

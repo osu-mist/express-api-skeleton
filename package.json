@@ -23,7 +23,9 @@
   "homepage": "https://github.com/osu-mist/express-api-skeleton#readme",
   "dependencies": {
     "app-root-path": "^2.1.0",
+    "body-parser": "^1.18.3",
     "capitalize": "^2.0.0",
+    "compose-middleware": "^5.0.1",
     "config": "^2.0.1",
     "decamelize": "^2.0.0",
     "decode-uri-component": "^0.2.0",
@@ -36,6 +38,7 @@
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "simple-git": "^1.96.0",
+    "swagger-parser": "^6.0.3",
     "winston": "^3.1.0",
     "winston-daily-rotate-file": "^3.3.2"
   },
