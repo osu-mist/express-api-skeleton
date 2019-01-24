@@ -3,8 +3,8 @@ const rp = require('request-promise-native');
 
 const { serializePets, serializePet } = require('../../serializers/pets-serializer');
 
-const { endpointUri } = config.get('server');
 const { sourceUri } = config.get('httpDataSource');
+const { endpointUri } = config.get('server');
 
 /**
  * @summary Return a list of pets

@@ -1,11 +1,11 @@
 const appRoot = require('app-root-path');
 const decamelize = require('decamelize');
-const _ = require('lodash');
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
+const _ = require('lodash');
 
-const { paginate } = appRoot.require('utils/paginator');
 const { serializerOptions } = appRoot.require('utils/jsonapi');
 const { openapi } = appRoot.require('utils/load-openapi');
+const { paginate } = appRoot.require('utils/paginator');
 const { querySelfLink, idSelfLink } = appRoot.require('utils/uri-builder');
 
 const petResourceProp = openapi.definitions.PetResource.properties;

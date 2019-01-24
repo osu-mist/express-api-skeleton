@@ -1,10 +1,10 @@
 const appRoot = require('app-root-path');
-const _ = require('lodash');
 const capitalize = require('capitalize');
+const _ = require('lodash');
 
 const { serializePets, serializePet } = require('../../serializers/pets-serializer');
 
-const { validateFilePath, readJSONFile } = appRoot.require('/utils/fs-operations');
+const { validateFilePath, readJSONFile } = appRoot.require('utils/fs-operations');
 
 const dbPath = 'tests/unit/mock-data.json';
 validateFilePath(dbPath);

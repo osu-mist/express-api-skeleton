@@ -4,8 +4,8 @@ const _ = require('lodash');
 
 const { serializePets, serializePet } = require('../../serializers/pets-serializer');
 
-const contrib = appRoot.require('api/v1/db/oracledb/contrib/contrib');
 const { getConnection } = appRoot.require('api/v1/db/oracledb/connection');
+const contrib = appRoot.require('api/v1/db/oracledb/contrib/contrib');
 
 const { endpointUri } = config.get('server');
 
