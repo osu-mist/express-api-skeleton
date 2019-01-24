@@ -1,41 +1,56 @@
 const appRoot = require('app-root-path');
+const composeErrors = require('compose-middleware').errors;
 const _ = require('lodash');
 
 const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 
 /**
- * @summary The middleware for handling errors
+ * @summary Determines if an error is an openapi error
  */
-const errorMiddleware = (err, req, res, next) => { // eslint-disable-line no-unused-vars
+const isOpenAPIError = err => (
+  _.has(err, 'errors') && _.every(err.errors, it => _.includes(it.errorCode, 'openapi'))
+);
+
+/**
+ * @summary The middleware for handling custom openapi errors
+ */
+const customOpenAPIErrorMiddleware = (err, req, res, next) => {
+  // call the next middleware function if the error is not an openapi error
+  if (!isOpenAPIError(err)) {
+    next(err);
+  }
+  // add custom OpenAPI error rules and handlers here
+  next(err);
+};
+
+/**
+ * @summary The middleware for handling general openapi errors
+ */
+const openAPIErrorMiddleware = (err, req, res, next) => {
+  // call the next middleware function if the error is not an openapi error
+  if (!isOpenAPIError(err)) {
+    next(err);
+  }
+
   const { status, errors } = err;
 
-  /**
-   * express-openapi will add a leading '[' and closing ']' to the 'path' field if the parameter
-   * name contains '[' or ']'. This regex will match these incorrectly formatted paths so that they
-   * can be normalized.
-   * @type {RegExp}
-   */
-  const badFormatPathRegex = /\['(.*)']/g;
-
-  /**
-   * express-openapi validates requests based on openapi specification. For example, if we specify
-   * the maximum of page[size] is 500 in openapi.yaml, then it'll return a 400 error if page[size]
-   * is exceeded the maximum. This logic is mainly to serialize the error by adhering to JSON API.
-   */
   if (status === 400) {
-    const details = [];
+    const details = err.details || [];
     _.forEach(errors, (error) => {
       const {
-        path, errorCode, message, location,
+        path,
+        errorCode,
+        message,
+        location,
       } = error;
-      const regexResult = badFormatPathRegex.exec(path);
-      const formattedPath = regexResult ? regexResult[1] : path;
 
       if (errorCode === 'enum.openapi.validation') {
         details.push(`${path} must be one of ['${error.params.allowedValues.join("', '")}']`);
+      } else if (errorCode === 'additionalProperties.openapi.validation') {
+        const { additionalProperty } = error.params;
+        details.push(`Unrecognized property '${additionalProperty}' in path: '${path}', location: '${location}'`);
       } else {
-        details.push(`Error in path: '${formattedPath}', location: ${location},`
-          + ` message: ${message}`);
+        details.push(`Error in path: '${path}', location: '${location}', message: '${message}'`);
       }
     });
     errorBuilder(res, 400, details);
@@ -43,5 +58,29 @@ const errorMiddleware = (err, req, res, next) => { // eslint-disable-line no-unu
     errorHandler(res, err);
   }
 };
+
+/**
+ * @summary The middleware for handling generic errors
+ */
+const genericErrorMiddleware = (err, req, res, next) => { // eslint-disable-line no-unused-vars
+  const status = _.has(err, 'customStatus') ? err.customStatus : 500;
+  let detail = _.has(err, 'customMessage') ? err.customMessage : null;
+  detail = status === 400 ? [detail] : detail;
+
+  if (status === 500) {
+    if (detail) {
+      console.error(detail);
+    }
+    errorHandler(res, err);
+  } else {
+    errorBuilder(res, status, detail);
+  }
+};
+
+const errorMiddleware = composeErrors([
+  customOpenAPIErrorMiddleware,
+  openAPIErrorMiddleware,
+  genericErrorMiddleware,
+]);
 
 module.exports = { errorMiddleware };
