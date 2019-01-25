@@ -19,7 +19,9 @@ const customOpenAPIErrorMiddleware = (err, req, res, next) => {
   if (!isOpenAPIError(err)) {
     next(err);
   }
-  // add custom OpenAPI error rules and handlers here
+  /**
+   * @todo Implement custom OpenAPI error rules and handlers here.
+   */
   next(err);
 };
 

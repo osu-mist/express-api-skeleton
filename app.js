@@ -12,6 +12,7 @@ const SwaggerParser = require('swagger-parser');
 
 const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 const { authentication } = appRoot.require('middlewares/authentication');
+const { bodyParserErrorMiddleware } = appRoot.require('middlewares/body-parser-error');
 const { errorMiddleware } = appRoot.require('middlewares/error-middleware');
 const { logger } = appRoot.require('middlewares/logger');
 
@@ -52,18 +53,6 @@ adminApp.use(baseEndpoint, adminAppRouter);
 appRouter.use(logger);
 appRouter.use(authentication);
 adminAppRouter.use(authentication);
-
-/**
- * @summary Middleware that improves the error message when failing to parse JSON
- * @function
- */
-const bodyParserErrorHandler = (err, req, res, next) => {
-  if (err instanceof SyntaxError) {
-    err.customStatus = 400;
-    err.customMessage = `Error parsing JSON: ${err}`;
-  }
-  next(err);
-};
 
 /**
  * @summary Function that handles transforming openapi errors
@@ -130,7 +119,7 @@ const startup = async () => {
     apiDoc: app.locals.openapi,
     paths: `${appRoot}/api/v1/paths`,
     consumesMiddleware: {
-      'application/json': compose([bodyParser.json(), bodyParserErrorHandler]),
+      'application/json': compose([bodyParser.json(), bodyParserErrorMiddleware]),
     },
     errorMiddleware,
     errorTransformer,
