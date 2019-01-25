@@ -7,23 +7,32 @@ const { paginatedLink, idSelfLink } = appRoot.require('utils/uri-builder');
  * @summary Generate JSON API serializer options
  * @function
  * @param {[Object]} serializerArgs JSON API serializer arguments
- * @param {string} resourcePath resource path
- * @param {string} topLevelSelfLink top-level self-link
  * @returns {Object} JSON API serializer options
  */
-const serializerOptions = (serializerArgs, resourcePath, topLevelSelfLink) => {
+const serializerOptions = (serializerArgs) => {
   const {
     identifierField,
     resourceKeys,
     pagination,
+    resourcePath,
+    topLevelSelfLink,
+    keyForAttribute,
+    enableDataLinks,
   } = serializerArgs;
 
   const options = {
     pluralizeType: false,
     attributes: resourceKeys,
     id: identifierField,
-    keyForAttribute: 'camelCase',
-    dataLinks: { self: row => idSelfLink(row[identifierField], resourcePath) },
+    keyForAttribute: keyForAttribute || 'camelCase',
+    dataLinks: {
+      self: (row) => {
+        if (enableDataLinks) {
+          return idSelfLink(row[identifierField], resourcePath);
+        }
+        return null;
+      },
+    },
     topLevelLinks: { self: topLevelSelfLink },
   };
 

@@ -1,10 +1,10 @@
 const config = require('config');
 const rp = require('request-promise-native');
 
-const { SerializedPets, SerializedPet } = require('../../serializers/pets-serializer');
+const { serializePets, serializePet } = require('../../serializers/pets-serializer');
 
-const { endpointUri } = config.get('server');
 const { sourceUri } = config.get('httpDataSource');
+const { endpointUri } = config.get('server');
 
 /**
  * @summary Return a list of pets
@@ -15,7 +15,7 @@ const getPets = () => new Promise(async (resolve, reject) => {
   try {
     const options = { uri: sourceUri, json: true };
     const rawPets = await rp(options);
-    const serializedPets = SerializedPets(rawPets, endpointUri);
+    const serializedPets = serializePets(rawPets, endpointUri);
     resolve(serializedPets);
   } catch (err) {
     reject(err);
@@ -35,7 +35,7 @@ const getPetById = id => new Promise(async (resolve, reject) => {
     if (!rawPet) {
       resolve(undefined);
     } else {
-      const serializedPet = SerializedPet(rawPet, endpointUri);
+      const serializedPet = serializePet(rawPet, endpointUri);
       resolve(serializedPet);
     }
   } catch (err) {

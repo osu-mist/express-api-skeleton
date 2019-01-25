@@ -42,11 +42,11 @@ paths:
           schema:
             $ref: '#/definitions/PetsResult'
         400:
-          description: Bad Request
+          description: Bad request
           schema:
             $ref: '#/definitions/Errors'
         500:
-          description: Internal Server Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/Errors'
   /pets/{id}:
@@ -73,7 +73,7 @@ paths:
           schema:
             $ref: '#/definitions/Errors'
         500:
-          description: Internal Server Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/Errors'
 parameters:
@@ -109,7 +109,7 @@ definitions:
         example: 10
       totalPage:
         type: integer
-        description: Total number of pagess
+        description: Total number of pages
         example: 10
       currentPageNumber:
         type: integer

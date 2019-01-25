@@ -1,8 +1,13 @@
 const appRoot = require('app-root-path');
-const _ = require('lodash');
 const capitalize = require('capitalize');
+const _ = require('lodash');
 
-const { SerializedPet, SerializedPets } = require('../../serializers/pets-serializer');
+const { serializePets, serializePet } = require('../../serializers/pets-serializer');
+
+const { validateFilePath, readJSONFile } = appRoot.require('utils/fs-operations');
+
+const dbPath = 'tests/unit/mock-data.json';
+validateFilePath(dbPath);
 
 /**
  * @summary Return a list of pets
@@ -12,12 +17,12 @@ const { SerializedPet, SerializedPets } = require('../../serializers/pets-serial
  */
 const getPets = query => new Promise((resolve, reject) => {
   try {
-    let rawPets = appRoot.require('/tests/unit/mock-data.json').pets;
+    let rawPets = readJSONFile(dbPath).pets;
     const { species } = query;
 
     rawPets = species ? _.filter(rawPets, { SPECIES: capitalize(species) }) : rawPets;
 
-    const serializedPet = SerializedPets(rawPets, query);
+    const serializedPet = serializePets(rawPets, query);
     resolve(serializedPet);
   } catch (err) {
     reject(err);
@@ -32,12 +37,12 @@ const getPets = query => new Promise((resolve, reject) => {
  */
 const getPetById = id => new Promise((resolve, reject) => {
   try {
-    const rawPets = appRoot.require('/tests/unit/mock-data.json').pets;
+    const rawPets = readJSONFile(dbPath).pets;
     const rawPet = _.find(rawPets, { ID: id });
     if (!rawPet) {
       resolve(undefined);
     } else {
-      const serializedPet = SerializedPet(rawPet);
+      const serializedPet = serializePet(rawPet);
       resolve(serializedPet);
     }
   } catch (err) {

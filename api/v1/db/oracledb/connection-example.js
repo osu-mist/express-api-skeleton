@@ -1,10 +1,11 @@
 const config = require('config');
 const oracledb = require('oracledb');
 
-process.on('SIGINT', () => process.exit());
-
-oracledb.outFormat = oracledb.OBJECT;
 const dbConfig = config.get('database');
+
+process.on('SIGINT', () => process.exit());
+oracledb.outFormat = oracledb.OBJECT;
+oracledb.fetchAsString = [oracledb.DATE, oracledb.NUMBER];
 
 /**
  * @summary Increase 1 extra thread for every 5 pools but no more than 128

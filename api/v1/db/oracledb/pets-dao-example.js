@@ -2,9 +2,10 @@ const appRoot = require('app-root-path');
 const config = require('config');
 const _ = require('lodash');
 
-const contrib = appRoot.require('api/v1/db/oracledb/contrib/contrib');
+const { serializePets, serializePet } = require('../../serializers/pets-serializer');
+
 const { getConnection } = appRoot.require('api/v1/db/oracledb/connection');
-const { SerializedPets, SerializedPet } = require('../../serializers/pets-serializer');
+const contrib = appRoot.require('api/v1/db/oracledb/contrib/contrib');
 
 const { endpointUri } = config.get('server');
 
@@ -17,7 +18,7 @@ const getPets = () => new Promise(async (resolve, reject) => {
   const connection = await getConnection();
   try {
     const { rawPets } = await connection.execute(contrib.getPets());
-    const serializedPets = SerializedPets(rawPets, endpointUri);
+    const serializedPets = serializePets(rawPets, endpointUri);
     resolve(serializedPets);
   } catch (err) {
     reject(err);
@@ -43,7 +44,7 @@ const getPetById = id => new Promise(async (resolve, reject) => {
       reject(new Error('Expect a single object but got multiple results.'));
     } else {
       const [rawPet] = rawPets;
-      const serializedPet = SerializedPet(rawPet, endpointUri);
+      const serializedPet = serializePet(rawPet);
       resolve(serializedPet);
     }
   } catch (err) {

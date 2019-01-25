@@ -1,11 +1,11 @@
 const appRoot = require('app-root-path');
 const decamelize = require('decamelize');
-const _ = require('lodash');
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
+const _ = require('lodash');
 
-const { paginate } = appRoot.require('utils/paginator');
+const { openapi } = appRoot.require('app').locals;
 const { serializerOptions } = appRoot.require('utils/jsonapi');
-const { openapi } = appRoot.require('utils/load-openapi');
+const { paginate } = appRoot.require('utils/paginator');
 const { querySelfLink, idSelfLink } = appRoot.require('utils/uri-builder');
 
 const petResourceProp = openapi.definitions.PetResource.properties;
@@ -24,18 +24,13 @@ _.forEach(petResourceKeys, (key, index) => {
 });
 
 /**
- * @summary Serializer petResources to JSON API
+ * @summary Serialize petResources to JSON API
  * @function
  * @param {[Object]} rawPets Raw data rows from data source
  * @param {Object} query Query parameters
  * @returns {Object} Serialized petResources object
  */
-const SerializedPets = (rawPets, query) => {
-  const serializerArgs = {
-    identifierField: 'ID',
-    resourceKeys: petResourceKeys,
-  };
-
+const serializePets = (rawPets, query) => {
   /**
    * Add pagination links and meta information to options if pagination is enabled
    */
@@ -46,35 +41,41 @@ const SerializedPets = (rawPets, query) => {
 
   const pagination = paginate(rawPets, pageQuery);
   pagination.totalResults = rawPets.length;
-  serializerArgs.pagination = pagination;
   rawPets = pagination.paginatedRows;
 
   const topLevelSelfLink = querySelfLink(query, petResourcePath);
+  const serializerArgs = {
+    identifierField: 'ID',
+    resourceKeys: petResourceKeys,
+    pagination,
+    resourcePath: petResourcePath,
+    topLevelSelfLink,
+  };
 
   return new JSONAPISerializer(
     petResourceType,
-    serializerOptions(serializerArgs, petResourcePath, topLevelSelfLink),
+    serializerOptions(serializerArgs),
   ).serialize(rawPets);
 };
 
 /**
- * @summary Serializer petResource to JSON API
+ * @summary Serialize petResource to JSON API
  * @function
  * @param {Object} rawPet Raw data row from data source
- * @param {string} endpointUri Endpoint URI for creating self-link
  * @returns {Object} Serialized petResource object
  */
-const SerializedPet = (rawPet) => {
+const serializePet = (rawPet) => {
+  const topLevelSelfLink = idSelfLink(rawPet.ID, petResourcePath);
   const serializerArgs = {
     identifierField: 'ID',
     resourceKeys: petResourceKeys,
+    resourcePath: petResourcePath,
+    topLevelSelfLink,
   };
-
-  const topLevelSelfLink = idSelfLink(rawPet.ID, petResourcePath);
 
   return new JSONAPISerializer(
     petResourceType,
     serializerOptions(serializerArgs, petResourcePath, topLevelSelfLink),
   ).serialize(rawPet);
 };
-module.exports = { SerializedPets, SerializedPet };
+module.exports = { serializePets, serializePet };
