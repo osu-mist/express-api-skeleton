@@ -14,7 +14,7 @@ const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 const { authentication } = appRoot.require('middlewares/authentication');
 const { bodyParserErrorMiddleware } = appRoot.require('middlewares/body-parser-error');
 const { logger } = appRoot.require('middlewares/logger');
-const { errorMiddleware } = appRoot.require('middlewares/runtime-errors');
+const { runtimeErrors } = appRoot.require('middlewares/runtime-errors');
 
 const serverConfig = config.get('server');
 
@@ -121,7 +121,7 @@ const startup = async () => {
     consumesMiddleware: {
       'application/json': compose([bodyParser.json(), bodyParserErrorMiddleware]),
     },
-    errorMiddleware,
+    errorMiddleware: runtimeErrors,
     errorTransformer,
   });
 

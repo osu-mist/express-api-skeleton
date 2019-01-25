@@ -79,10 +79,10 @@ const genericError = (err, req, res, next) => { // eslint-disable-line no-unused
   }
 };
 
-const errorMiddleware = composeErrors([
+const runtimeErrors = composeErrors([
   customOpenAPIError,
   openAPIError,
   genericError,
 ]);
 
-module.exports = { errorMiddleware };
+module.exports = { runtimeErrors };
