@@ -13,8 +13,8 @@ const SwaggerParser = require('swagger-parser');
 const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 const { authentication } = appRoot.require('middlewares/authentication');
 const { bodyParserErrorMiddleware } = appRoot.require('middlewares/body-parser-error');
-const { errorMiddleware } = appRoot.require('middlewares/error-middleware');
 const { logger } = appRoot.require('middlewares/logger');
+const { errorMiddleware } = appRoot.require('middlewares/runtime-errors');
 
 const serverConfig = config.get('server');
 

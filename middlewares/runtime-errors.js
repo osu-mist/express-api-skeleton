@@ -14,7 +14,7 @@ const isOpenAPIError = err => (
 /**
  * @summary The middleware for handling custom openapi errors
  */
-const customOpenAPIErrorMiddleware = (err, req, res, next) => {
+const customOpenAPIError = (err, req, res, next) => {
   // call the next middleware function if the error is not an openapi error
   if (!isOpenAPIError(err)) {
     next(err);
@@ -28,7 +28,7 @@ const customOpenAPIErrorMiddleware = (err, req, res, next) => {
 /**
  * @summary The middleware for handling general openapi errors
  */
-const openAPIErrorMiddleware = (err, req, res, next) => {
+const openAPIError = (err, req, res, next) => {
   // call the next middleware function if the error is not an openapi error
   if (!isOpenAPIError(err)) {
     next(err);
@@ -64,7 +64,7 @@ const openAPIErrorMiddleware = (err, req, res, next) => {
 /**
  * @summary The middleware for handling generic errors
  */
-const genericErrorMiddleware = (err, req, res, next) => { // eslint-disable-line no-unused-vars
+const genericError = (err, req, res, next) => { // eslint-disable-line no-unused-vars
   const status = _.has(err, 'customStatus') ? err.customStatus : 500;
   let detail = _.has(err, 'customMessage') ? err.customMessage : null;
   detail = status === 400 ? [detail] : detail;
@@ -80,9 +80,9 @@ const genericErrorMiddleware = (err, req, res, next) => { // eslint-disable-line
 };
 
 const errorMiddleware = composeErrors([
-  customOpenAPIErrorMiddleware,
-  openAPIErrorMiddleware,
-  genericErrorMiddleware,
+  customOpenAPIError,
+  openAPIError,
+  genericError,
 ]);
 
 module.exports = { errorMiddleware };
