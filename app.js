@@ -14,13 +14,12 @@ const { authentication } = appRoot.require('middlewares/authentication');
 const { bodyParserError } = appRoot.require('middlewares/body-parser-error');
 const { logger } = appRoot.require('middlewares/logger');
 const { runtimeErrors } = appRoot.require('middlewares/runtime-errors');
-const { validateFilePath } = appRoot.require('utils/fs-operations');
 const { openapi } = appRoot.require('utils/load-openapi');
+const { validateDatabase } = appRoot.require('utils/validate-database');
 
 const serverConfig = config.get('server');
 
-const dbPath = 'tests/unit/mock-data.json';
-validateFilePath(dbPath);
+validateDatabase();
 
 /**
  * @summary Initialize Express applications and routers
