@@ -4,10 +4,9 @@ const _ = require('lodash');
 
 const { serializePets, serializePet } = require('../../serializers/pets-serializer');
 
-const { validateFilePath, readJSONFile } = appRoot.require('utils/fs-operations');
+const { readJSONFile } = appRoot.require('utils/fs-operations');
 
 const dbPath = 'tests/unit/mock-data.json';
-validateFilePath(dbPath);
 
 /**
  * @summary Return a list of pets
