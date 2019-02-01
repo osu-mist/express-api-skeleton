@@ -15,11 +15,11 @@ const { bodyParserError } = appRoot.require('middlewares/body-parser-error');
 const { logger } = appRoot.require('middlewares/logger');
 const { runtimeErrors } = appRoot.require('middlewares/runtime-errors');
 const { openapi } = appRoot.require('utils/load-openapi');
-const { validateDatabase } = appRoot.require('utils/validate-database');
+const { validateDataSource } = appRoot.require('utils/validate-data-source');
 
 const serverConfig = config.get('server');
 
-validateDatabase();
+validateDataSource();
 
 /**
  * @summary Initialize Express applications and routers

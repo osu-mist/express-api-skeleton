@@ -6,6 +6,6 @@ const dbPath = 'tests/unit/mock-data.json';
  * @summary Validate database configuration
  * @function
  */
-const validateDatabase = () => validateFilePath(dbPath);
+const validateDataSource = () => validateFilePath(dbPath);
 
-module.exports = { validateDatabase };
+module.exports = { validateDataSource };
