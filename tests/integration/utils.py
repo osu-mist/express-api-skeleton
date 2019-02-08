@@ -3,6 +3,8 @@ import json
 import logging
 import requests
 import sys
+import unittest
+import textwrap
 
 
 # Handler for parsing command-line arguments
@@ -81,7 +83,6 @@ def make_request(self, endpoint, expected_status_code,
     * expected_status_code -- expected HTTP status code
     * params -- [optional] key-value pairs parameters (default: None)
     * max_elapsed_seconds -- [optional] maximum elapsed times (default: 5)
-
     Return:
     A response object contains a server’s response to an HTTP request
     """
@@ -89,9 +90,15 @@ def make_request(self, endpoint, expected_status_code,
     requested_url = f'{self.base_url}{endpoint}'
     response = self.session.get(requested_url, params=params)
     logging.debug(f'Sent request to {requested_url}')
-
     # Response status code should be as expected
     status_code = response.status_code
+    if status_code != expected_status_code:
+        response_code_details = textwrap.dedent(f'''
+            Unexpected status code for {requested_url}, params = {params}
+            Expected {expected_status_code}, recieved {status_code}
+            Response body:''')
+        response_body = json.dumps(response.json(), indent=4)
+        logging.info(f'{response_code_details} \n {response_body})')
     self.assertEqual(status_code, expected_status_code)
 
     # Response time should less then max_elapsed_seconds
@@ -104,41 +111,69 @@ def make_request(self, endpoint, expected_status_code,
 
 # Check the schema of response match OpenAPI specification
 def check_schema(self, response, schema):
+    # Mapping of OpenAPI data types and python data types
+    types_dict = {
+        'string': str,
+        'number': float,
+        'integer': int,
+        'int32': int,
+        'int64': int,
+        'float': float,
+        'double': float,
+        'boolean': bool,
+        'array': list,
+        'object': dict
+    }
+
     # Helper function to get attributes of the schema
     def __get_schema_attributes():
         return schema['attributes']['properties']
 
     # Helper function to map between OpenAPI data types and python data types
     def __get_attribute_type(attribute):
-        types_dict = {
-            'string': str,
-            'integer': int,
-            'int32': int,
-            'int64': int,
-            'float': float,
-            'double': float,
-            'boolean': bool,
-            'array': list,
-            'object': dict
-        }
-
+        openapi_type = None
         if 'properties' in attribute:
             return dict
         elif 'format' in attribute and attribute['format'] in types_dict:
             openapi_type = attribute['format']
         elif 'type' in attribute:
             openapi_type = attribute['type']
-        else:
-            logging.warning('OpenAPI property contains no type or properties')
-            return None
+        elif '$ref' in attribute:
+            openapi_type = __get_object_type(attribute['$ref'])
 
-        return types_dict[openapi_type]
+        if openapi_type:
+            return types_dict[openapi_type]
+
+        logging.warning('OpenAPI property contains no type or properties')
+        return None
+
+    # Helper function to get type of referenced object
+    def __get_object_type(object_path, root_object_paths=None):
+        if root_object_paths is None:
+            root_object_paths = []
+        keys = object_path.split("#/")[-1].split("/")
+        obj = self.openapi
+        for key in keys:
+            obj = obj[key]
+
+        if 'format' in obj and obj['format'] in types_dict:
+            return obj['format']
+        elif 'type' in obj:
+            return obj['type']
+        elif '$ref' in obj:
+            # Avoid infinite recursion
+            if root_object_paths is []:
+                root_object_paths.append(object_path)
+            if obj['$ref'] not in root_object_paths:
+                root_object_paths.append(obj['$ref'])
+                return __get_object_type(obj['$ref'], root_object_paths)
+
+        return None
 
     # Helper function to check resource object schema
     def __check_resource_schema(resource):
         # Check resource type
         self.assertEqual(resource['type'], schema['type']['enum'][0])
-
         # Check resource attributes
         actual_attributes = resource['attributes']
         expected_attributes = __get_schema_attributes()
@@ -156,7 +191,8 @@ def check_schema(self, response, schema):
         for field, actual_value in actual_attributes.items():
             expected_attribute = expected_attributes[field]
             expected_type = __get_attribute_type(expected_attribute)
-            self.assertIsInstance(actual_value, expected_type)
+            if actual_value and expected_type:
+                self.assertIsInstance(actual_value, expected_type)
 
     status_code = response.status_code
     content = get_json_content(self, response)
@@ -178,3 +214,41 @@ def check_schema(self, response, schema):
                 __check_error_schema(error)
     except KeyError as error:
         self.fail(error)
+
+
+# Check response of an endpoint against path cases for schema, data validity
+def test_path_request(self, endpoint, resource, response_code, test_cases,
+                      param=None, test_assertion=None):
+    schema = get_resource_schema(self, resource)
+    for test_case in test_cases:
+        response = make_request(self, f'{endpoint}/{test_case}',
+                                response_code)
+        check_schema(self, response, schema)
+        if test_assertion:
+            actual_case = response.json()['data']['attributes'][param]
+            test_assertion(self, actual_case, test_case)
+
+
+# Check response of an endpoint against query cases for schema, data validity
+def test_query_request(self, endpoint, resource, response_code, test_cases,
+                       param, test_assertion=None):
+    schema = get_resource_schema(self, resource)
+    for test_case in test_cases:
+        response = make_request(self, endpoint, response_code,
+                                params={param: test_case})
+        check_schema(self, response, schema)
+        if test_assertion:
+            for resource in response.json()['data']:
+                actual_case = resource['attributes'][param]
+                test_assertion(self, actual_case, test_case)
+
+
+class assertion_tests(unittest.TestCase):
+    # Helper function to check if a response value starts with the test value
+    def actual_starts_with_test(self, actual_case, test_case):
+        self.assertTrue(actual_case.lower().startswith(test_case.lower()))
+
+    # Helper function to check if a response value is literally equal
+    # to the actual value
+    def actual_equals_test_str(self, actual_case, test_case):
+        self.assertTrue(str(actual_case), str(test_case))
