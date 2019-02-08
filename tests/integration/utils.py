@@ -191,8 +191,11 @@ def check_schema(self, response, schema):
         for field, actual_value in actual_attributes.items():
             expected_attribute = expected_attributes[field]
             expected_type = __get_attribute_type(expected_attribute)
-            if actual_value and expected_type:
-                self.assertIsInstance(actual_value, expected_type)
+            self.assertIsInstance(actual_value, expected_type)
+
+            # If null values are allowed, check schema with:
+            # if actual_value and expected_type:
+            #     self.assertIsInstance(actual_value, expected_type)
 
     status_code = response.status_code
     content = get_json_content(self, response)
