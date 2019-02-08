@@ -98,7 +98,7 @@ def make_request(self, endpoint, expected_status_code,
             Expected {expected_status_code}, recieved {status_code}
             Response body:''')
         response_body = json.dumps(response.json(), indent=4)
-        logging.info(f'{response_code_details} \n {response_body})')
+        logging.info(f'{response_code_details}\n{response_body})')
     self.assertEqual(status_code, expected_status_code)
 
     # Response time should less then max_elapsed_seconds
