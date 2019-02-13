@@ -1,6 +1,6 @@
 const appRoot = require('app-root-path');
 const config = require('config');
-const decodeUriComponent = require('decode-uri-component');
+const queryString = require('query-string');
 const url = require('url');
 
 const { openapi: { basePath } } = appRoot.require('utils/load-openapi');
@@ -8,57 +8,30 @@ const { openapi: { basePath } } = appRoot.require('utils/load-openapi');
 const { protocol, hostname } = config.get('server');
 
 /**
- * @summary Self-link builder
- * @function
- * @param {string} id resource ID
- * @param {string} resourcePath resource path
- * @returns A self-link URL
+ * @summary API base URL
  */
-const idSelfLink = (id, resourcePath) => url.format({
-  protocol,
-  hostname,
-  pathname: `${basePath}/${resourcePath}/${id}`,
-});
+const apiBaseURL = url.format({ protocol, hostname, pathname: basePath });
 
 /**
- * @summary Top level query link builder
+ * @summary Resource path link builder
  * @function
- * @param {object} query
+ * @param {string} baseURL base URL
  * @param {string} resourcePath resource path
+ * @returns A resource path URL
+ */
+const resourcePathLink = (baseURL, resourcePath) => `${baseURL}/${resourcePath}`;
+
+/**
+ * @summary Params link builder
+ * @function
+ * @param {string} baseURL base URL
+ * @param {string} params query params
  * @returns A decoded url formatted with query parameters in the query object
  */
-const querySelfLink = (query, resourcePath) => decodeUriComponent(url.format({
-  protocol,
-  hostname,
-  pathname: `${basePath}/${resourcePath}`,
-  query,
-}));
-
-/**
- * @summary Paginated link builder
- * @function
- * @param {number} pageNumber Page number of results
- * @param {number} pageSize Number of results to return
- * @param {string} resourcePath resource path
- * @returns A decoded paginated link URL
- */
-const paginatedLink = (pageNumber, pageSize, resourcePath) => {
-  if (!pageNumber) return null;
-  return querySelfLink({ 'page[number]': pageNumber, 'page[size]': pageSize }, resourcePath);
-};
-
-/**
- * @summary Subresource link builder
- * @function
- * @param {string} resourceURL Resource URL
- * @param {string} subresourcePath Subresource path
- * @returns A decoded url formatted with query parameters in the query object
- */
-const subresourceLink = (resourceURL, subresourcePath) => `${resourceURL}/${subresourcePath}`;
+const paramsLink = (baseURL, params) => `${baseURL}/${queryString.stringify(params, { encode: false })}`;
 
 module.exports = {
-  idSelfLink,
-  querySelfLink,
-  paginatedLink,
-  subresourceLink,
+  apiBaseURL,
+  resourcePathLink,
+  paramsLink,
 };

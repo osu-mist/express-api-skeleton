@@ -1,7 +1,19 @@
 const appRoot = require('app-root-path');
 const _ = require('lodash');
 
-const { paginatedLink, idSelfLink } = appRoot.require('utils/uri-builder');
+const { apiBaseURL, resourcePathLink, paramsLink } = appRoot.require('utils/uri-builder');
+
+
+/**
+ * @summary Helper function to generate pagination params
+ * @function
+ * @param {number} pageNumber page number
+ * @param {number} pageSize page size
+ * @returns {Object} pagination parameters object
+ */
+const pageParamsBuilder = (pageNumber, pageSize) => (
+  { 'page[number]': pageNumber, 'page[size]': pageSize }
+);
 
 /**
  * @summary Generate JSON API serializer options
@@ -20,6 +32,7 @@ const serializerOptions = (serializerArgs) => {
     enableDataLinks,
   } = serializerArgs;
 
+  const resourceURL = resourcePathLink(apiBaseURL, resourcePath);
   const options = {
     pluralizeType: false,
     attributes: resourceKeys,
@@ -28,7 +41,7 @@ const serializerOptions = (serializerArgs) => {
     dataLinks: {
       self: (row) => {
         if (enableDataLinks) {
-          return idSelfLink(row[identifierField], resourcePath);
+          return resourcePathLink(resourceURL, row[identifierField]);
         }
         return null;
       },
@@ -47,10 +60,10 @@ const serializerOptions = (serializerArgs) => {
     } = pagination;
 
     options.topLevelLinks = _.assign(options.topLevelLinks, {
-      first: paginatedLink(pageNumber, pageSize, resourcePath),
-      last: paginatedLink(totalPages, pageSize, resourcePath),
-      next: paginatedLink(nextPage, pageSize, resourcePath),
-      prev: paginatedLink(prevPage, pageSize, resourcePath),
+      first: paramsLink(resourceURL, pageParamsBuilder(pageNumber, pageSize)),
+      last: paramsLink(resourceURL, pageParamsBuilder(totalPages, pageSize)),
+      next: paramsLink(resourceURL, pageParamsBuilder(nextPage, pageSize)),
+      prev: paramsLink(resourceURL, pageParamsBuilder(prevPage, pageSize)),
     });
 
     options.meta = {
