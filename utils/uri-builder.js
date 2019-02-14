@@ -15,11 +15,11 @@ const apiBaseURL = url.format({ protocol, hostname, pathname: basePath });
 /**
  * @summary Resource path link builder
  * @function
- * @param {string} baseURL base URL
+ * @param {string} baseUrl base URL
  * @param {string} resourcePath resource path
  * @returns A resource path URL
  */
-const resourcePathLink = (baseURL, resourcePath) => `${baseURL}/${resourcePath}`;
+const resourcePathLink = (baseUrl, resourcePath) => `${baseUrl}/${resourcePath}`;
 
 /**
  * @summary Params link builder
@@ -28,7 +28,8 @@ const resourcePathLink = (baseURL, resourcePath) => `${baseURL}/${resourcePath}`
  * @param {string} params query params
  * @returns A decoded url formatted with query parameters in the query object
  */
-const paramsLink = (baseURL, params) => `${baseURL}/${queryString.stringify(params, { encode: false })}`;
+
+const paramsLink = (baseUrl, params) => `${baseUrl}?${queryString.stringify(params, { encode: false })}`;
 
 module.exports = {
   apiBaseURL,
