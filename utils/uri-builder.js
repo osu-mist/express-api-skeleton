@@ -28,7 +28,6 @@ const resourcePathLink = (baseUrl, resourcePath) => `${baseUrl}/${resourcePath}`
  * @param {string} params query params
  * @returns A decoded url formatted with query parameters in the query object
  */
-
 const paramsLink = (baseUrl, params) => `${baseUrl}?${queryString.stringify(params, { encode: false })}`;
 
 module.exports = {
