@@ -12,7 +12,7 @@ const petResourceProp = openapi.definitions.PetResource.properties;
 const petResourceType = petResourceProp.type.enum[0];
 const petResourceKeys = _.keys(petResourceProp.attributes.properties);
 const petResourcePath = 'pets';
-const petResourceURL = resourcePathLink(apiBaseURL, petResourcePath);
+const petResourceUrl = resourcePathLink(apiBaseURL, petResourcePath);
 
 /**
  * The column name getting from database is usually UPPER_CASE.
@@ -44,7 +44,7 @@ const serializePets = (rawPets, query) => {
   pagination.totalResults = rawPets.length;
   rawPets = pagination.paginatedRows;
 
-  const topLevelSelfLink = paramsLink(petResourceURL, query);
+  const topLevelSelfLink = paramsLink(petResourceUrl, query);
   const serializerArgs = {
     identifierField: 'ID',
     resourceKeys: petResourceKeys,
@@ -67,7 +67,7 @@ const serializePets = (rawPets, query) => {
  * @returns {Object} Serialized petResource object
  */
 const serializePet = (rawPet) => {
-  const topLevelSelfLink = resourcePathLink(petResourceURL, rawPet.ID);
+  const topLevelSelfLink = resourcePathLink(petResourceUrl, rawPet.ID);
   const serializerArgs = {
     identifierField: 'ID',
     resourceKeys: petResourceKeys,
