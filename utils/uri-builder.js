@@ -10,7 +10,7 @@ const { protocol, hostname } = config.get('server');
 /**
  * @summary API base URL
  */
-const apiBaseURL = url.format({ protocol, hostname, pathname: basePath });
+const apiBaseUrl = url.format({ protocol, hostname, pathname: basePath });
 
 /**
  * @summary Resource path link builder
@@ -24,14 +24,14 @@ const resourcePathLink = (baseUrl, resourcePath) => `${baseUrl}/${resourcePath}`
 /**
  * @summary Params link builder
  * @function
- * @param {string} baseURL base URL
+ * @param {string} baseUrl base URL
  * @param {string} params query params
  * @returns A decoded url formatted with query parameters in the query object
  */
 const paramsLink = (baseUrl, params) => `${baseUrl}?${queryString.stringify(params, { encode: false })}`;
 
 module.exports = {
-  apiBaseURL,
+  apiBaseUrl,
   resourcePathLink,
   paramsLink,
 };

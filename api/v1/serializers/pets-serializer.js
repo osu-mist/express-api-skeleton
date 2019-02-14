@@ -6,13 +6,13 @@ const _ = require('lodash');
 const { serializerOptions } = appRoot.require('utils/jsonapi');
 const { openapi } = appRoot.require('utils/load-openapi');
 const { paginate } = appRoot.require('utils/paginator');
-const { apiBaseURL, resourcePathLink, paramsLink } = appRoot.require('utils/uri-builder');
+const { apiBaseUrl, resourcePathLink, paramsLink } = appRoot.require('utils/uri-builder');
 
 const petResourceProp = openapi.definitions.PetResource.properties;
 const petResourceType = petResourceProp.type.enum[0];
 const petResourceKeys = _.keys(petResourceProp.attributes.properties);
 const petResourcePath = 'pets';
-const petResourceUrl = resourcePathLink(apiBaseURL, petResourcePath);
+const petResourceUrl = resourcePathLink(apiBaseUrl, petResourcePath);
 
 /**
  * The column name getting from database is usually UPPER_CASE.

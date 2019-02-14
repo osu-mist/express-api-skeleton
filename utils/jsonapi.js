@@ -1,7 +1,7 @@
 const appRoot = require('app-root-path');
 const _ = require('lodash');
 
-const { apiBaseURL, resourcePathLink, paramsLink } = appRoot.require('utils/uri-builder');
+const { apiBaseUrl, resourcePathLink, paramsLink } = appRoot.require('utils/uri-builder');
 
 
 /**
@@ -32,7 +32,7 @@ const serializerOptions = (serializerArgs) => {
     enableDataLinks,
   } = serializerArgs;
 
-  const resourceURL = resourcePathLink(apiBaseURL, resourcePath);
+  const resourceUrl = resourcePathLink(apiBaseUrl, resourcePath);
   const options = {
     pluralizeType: false,
     attributes: resourceKeys,
@@ -41,7 +41,7 @@ const serializerOptions = (serializerArgs) => {
     dataLinks: {
       self: (row) => {
         if (enableDataLinks) {
-          return resourcePathLink(resourceURL, row[identifierField]);
+          return resourcePathLink(resourceUrl, row[identifierField]);
         }
         return null;
       },
@@ -60,10 +60,10 @@ const serializerOptions = (serializerArgs) => {
     } = pagination;
 
     options.topLevelLinks = _.assign(options.topLevelLinks, {
-      first: paramsLink(resourceURL, pageParamsBuilder(pageNumber, pageSize)),
-      last: paramsLink(resourceURL, pageParamsBuilder(totalPages, pageSize)),
-      next: paramsLink(resourceURL, pageParamsBuilder(nextPage, pageSize)),
-      prev: paramsLink(resourceURL, pageParamsBuilder(prevPage, pageSize)),
+      first: paramsLink(resourceUrl, pageParamsBuilder(pageNumber, pageSize)),
+      last: paramsLink(resourceUrl, pageParamsBuilder(totalPages, pageSize)),
+      next: paramsLink(resourceUrl, pageParamsBuilder(nextPage, pageSize)),
+      prev: paramsLink(resourceUrl, pageParamsBuilder(prevPage, pageSize)),
     });
 
     options.meta = {
