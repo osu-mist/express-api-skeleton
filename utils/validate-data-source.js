@@ -1,4 +1,6 @@
-const { validateFilePath } = require('./fs-operations');
+const appRoot = require('app-root-path');
+
+const { validateFilePath } = appRoot.require('api/v1/db/json/fs-operations');
 
 const dbPath = 'tests/unit/mock-data.json';
 
