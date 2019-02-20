@@ -78,7 +78,8 @@ def get_resource_schema(self, resource):
 # Helper function to make a web request and lightly validate the response
 def make_request(self, endpoint, expected_status_code,
                  params=None,
-                 max_elapsed_seconds=5):
+                 max_elapsed_seconds=5,
+                 null_value_allowed=False):
     """
     Keyword arguments:
     * endpoint -- the endpoint to request
@@ -112,7 +113,7 @@ def make_request(self, endpoint, expected_status_code,
 
 
 # Check the schema of response match OpenAPI specification
-def check_schema(self, response, schema):
+def check_schema(self, response, schema, null_value_allowed):
     # Mapping of OpenAPI data types and python data types
     types_dict = {
         'string': str,
@@ -151,9 +152,10 @@ def check_schema(self, response, schema):
     def __get_reference_type(object_path, root_object_paths=None):
         if root_object_paths is None:
             root_object_paths = []
-        keys = re.split('/', re.search('(?<=#/).*', object_path)
-                        .group()).group()
-        reference = [self.openapi[key] for key in keys]
+        keys = re.split('/', re.search('(?<=#/).*', object_path).group())
+        reference = self.openapi
+        for key in keys:
+            reference = reference[key]
 
         if 'format' in reference and reference['format'] in types_dict:
             return reference['format']
@@ -171,20 +173,22 @@ def check_schema(self, response, schema):
         return None
 
     # Helper function to check resource object schema
-    def __check_resource_schema(resource):
+    def __check_resource_schema(resource, null_value_allowed):
         # Check resource type
         self.assertEqual(resource['type'], schema['type']['enum'][0])
         # Check resource attributes
         actual_attributes = resource['attributes']
         expected_attributes = __get_schema_attributes()
-        __check_attributes_schema(actual_attributes, expected_attributes)
+        __check_attributes_schema(actual_attributes, expected_attributes,
+                                  null_value_allowed)
 
     # Helper function to check error object schema
-    def __check_error_schema(error):
+    def __check_error_schema(error, null_value_allowed):
         # Check error attributes
         actual_attributes = error
         expected_attributes = schema
-        __check_attributes_schema(actual_attributes, expected_attributes)
+        __check_attributes_schema(actual_attributes, expected_attributes,
+                                  null_value_allowed)
 
     # Helper function to check through all attributes
     def __check_attributes_schema(actual_attributes, expected_attributes,
@@ -205,14 +209,14 @@ def check_schema(self, response, schema):
             resource_data = content['data']
             if isinstance(resource_data, list):
                 for resource in resource_data:
-                    __check_resource_schema(resource)
+                    __check_resource_schema(resource, null_value_allowed)
             else:
-                __check_resource_schema(resource_data)
+                __check_resource_schema(resource_data, null_value_allowed)
         elif status_code >= 400:
             errors_data = content['errors']
             self.assertIsInstance(errors_data, list)
             for error in errors_data:
-                __check_error_schema(error)
+                __check_error_schema(error, null_value_allowed)
     except KeyError as error:
         self.fail(error)
 
@@ -225,14 +229,19 @@ def check_url(self, actual_url, endpoint, query_params=None):
     self.assertEqual(actual_url_obj.netloc, base_url_obj.netloc)
     self.assertEqual(actual_url_obj.path,
                      f'{base_url_obj.path}{endpoint}')
+    if query_params:
+        self.assertEqual(dict(urllib.parse.parse_qsl(actual_url_obj.query)),
+                         query_params)
 
 
 # Check response of an endpoint for response code, schema, self link
-def test_endpoint(self, endpoint, resource, response_code, query_params=None):
+def test_endpoint(self, endpoint, resource, response_code, query_params=None,
+                  null_value_allowed=False):
     schema = get_resource_schema(self, resource)
     response = make_request(self, endpoint, response_code,
-                            params=query_params)
-    check_schema(self, response, schema)
+                            params=query_params,
+                            null_value_allowed=null_value_allowed)
+    check_schema(self, response, schema, null_value_allowed)
     response_json = response.json()
     if 'links' in response_json:
         check_url(self, response_json['links']['self'], endpoint, query_params)
