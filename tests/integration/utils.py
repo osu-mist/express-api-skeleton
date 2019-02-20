@@ -150,22 +150,22 @@ def check_schema(self, response, schema):
     def __get_reference_type(object_path, root_object_paths=None):
         if root_object_paths is None:
             root_object_paths = []
-        keys = re.split('/', re.search('(?<=#/).*', object_path).group()).group()
-        obj = self.openapi
-        for key in keys:
-            obj = obj[key]
+        keys = re.split('/', re.search('(?<=#/).*', object_path)
+                        .group()).group()
+        reference = [self.openapi[key] for key in keys]
 
-        if 'format' in obj and obj['format'] in types_dict:
-            return obj['format']
-        elif 'type' in obj:
-            return obj['type']
-        elif '$ref' in obj:
+        if 'format' in reference and reference['format'] in types_dict:
+            return reference['format']
+        elif 'type' in reference:
+            return reference['type']
+        elif '$ref' in reference:
             # Avoid infinite recursion
-            if root_object_paths is []:
+            if not root_object_paths:
                 root_object_paths.append(object_path)
-            if obj['$ref'] not in root_object_paths:
-                root_object_paths.append(obj['$ref'])
-                return __get_reference_type(obj['$ref'], root_object_paths)
+            if reference['$ref'] not in root_object_paths:
+                root_object_paths.append(reference['$ref'])
+                return __get_reference_type(reference['$ref'],
+                                            root_object_paths)
 
         return None
 
