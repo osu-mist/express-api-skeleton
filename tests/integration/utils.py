@@ -5,6 +5,7 @@ import re
 import requests
 import sys
 import textwrap
+import urllib
 import unittest
 
 
@@ -216,12 +217,25 @@ def check_schema(self, response, schema):
         self.fail(error)
 
 
+# Check url for correct base and endpoint, parameters
+def check_url(self, actual_url, endpoint, query_params=None):
+    actual_url_obj = urllib.parse.urlparse(actual_url)
+    base_url_obj = urllib.parse.urlparse(self.base_url)
+    self.assertEqual(actual_url_obj.scheme, base_url_obj.scheme)
+    self.assertEqual(actual_url_obj.netloc, base_url_obj.netloc)
+    self.assertEqual(actual_url_obj.path,
+                     f'{base_url_obj.path}{endpoint}')
+
+
 # Check response of an endpoint for response code, schema, self link
 def test_endpoint(self, endpoint, resource, response_code, query_params=None):
     schema = get_resource_schema(self, resource)
     response = make_request(self, endpoint, response_code,
                             params=query_params)
     check_schema(self, response, schema)
+    response_json = response.json()
+    if 'links' in response_json:
+        check_url(self, response_json['links']['self'], endpoint, query_params)
     return response
 
 
