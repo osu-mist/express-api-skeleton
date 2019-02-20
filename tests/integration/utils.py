@@ -1,10 +1,11 @@
 import argparse
 import json
 import logging
+import re
 import requests
 import sys
-import unittest
 import textwrap
+import unittest
 
 
 # Handler for parsing command-line arguments
@@ -131,7 +132,6 @@ def check_schema(self, response, schema):
 
     # Helper function to map between OpenAPI data types and python data types
     def __get_attribute_type(attribute):
-        openapi_type = None
         if 'properties' in attribute:
             return dict
         elif 'format' in attribute and attribute['format'] in types_dict:
@@ -139,19 +139,18 @@ def check_schema(self, response, schema):
         elif 'type' in attribute:
             openapi_type = attribute['type']
         elif '$ref' in attribute:
-            openapi_type = __get_object_type(attribute['$ref'])
+            openapi_type = __get_reference_type(attribute['$ref'])
 
-        if openapi_type:
-            return types_dict[openapi_type]
+        return types_dict[openapi_type] if openapi_type else None
 
         logging.warning('OpenAPI property contains no type or properties')
         return None
 
     # Helper function to get type of referenced object
-    def __get_object_type(object_path, root_object_paths=None):
+    def __get_reference_type(object_path, root_object_paths=None):
         if root_object_paths is None:
             root_object_paths = []
-        keys = object_path.split("#/")[-1].split("/")
+        keys = re.split('/', re.search('(?<=#/).*', object_path).group()).group()
         obj = self.openapi
         for key in keys:
             obj = obj[key]
@@ -166,7 +165,7 @@ def check_schema(self, response, schema):
                 root_object_paths.append(object_path)
             if obj['$ref'] not in root_object_paths:
                 root_object_paths.append(obj['$ref'])
-                return __get_object_type(obj['$ref'], root_object_paths)
+                return __get_reference_type(obj['$ref'], root_object_paths)
 
         return None
 
