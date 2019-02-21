@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+const dbPath = 'tests/unit/mock-data.json';
+
 /**
  * @summary Validate a file path and throw an error if invalid
  * @function
@@ -11,6 +13,12 @@ const validateFilePath = (path) => {
     throw new Error(`Path: '${path}' is invalid`);
   }
 };
+
+/**
+ * @summary Validate database file path
+ * @function
+ */
+const validateJsonDb = () => validateFilePath(dbPath);
 
 /**
  * @summary Read a JSON file and return the contents as an object
@@ -52,6 +60,7 @@ const deleteFile = (filePath) => {
 
 module.exports = {
   validateFilePath,
+  validateJsonDb,
   readJSONFile,
   writeJSONFile,
   deleteFile,
