@@ -92,16 +92,13 @@ def make_request(self, endpoint, expected_status_code,
 
     requested_url = f'{self.base_url}{endpoint}'
     response = self.session.get(requested_url, params=params)
-    logging.debug(f'Sent request to {requested_url}')
-    # Response status code should be as expected
+    logging.debug(f'Sent request to {requested_url}, params = {params}')
     status_code = response.status_code
-    if status_code != expected_status_code:
-        response_code_details = textwrap.dedent(f'''
-            Unexpected status code for {requested_url}, params = {params}
-            Expected {expected_status_code}, recieved {status_code}
-            Response body:''')
-        response_body = json.dumps(response.json(), indent=4)
-        logging.info(f'{response_code_details}\n{response_body})')
+    response_code_details = textwrap.dedent(f'''
+        Expected {expected_status_code}, recieved {status_code}
+        Response body:''')
+    response_body = json.dumps(response.json(), indent=4)
+    logging.debug(f'{response_code_details}\n{response_body})')
     self.assertEqual(status_code, expected_status_code)
 
     # Response time should less then max_elapsed_seconds
