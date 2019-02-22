@@ -146,7 +146,7 @@ def check_schema(self, response, schema):
 
     # Helper function to get type of referenced object
     def __get_reference_type(object_path, root_object_paths=None):
-        keys = re.split('/', re.search('(?<=#/).*', object_path).group())
+        keys = re.split('/', re.search('#/(.*)', object_path).group(1))
         reference = self.openapi
         for key in keys:
             reference = reference[key]
