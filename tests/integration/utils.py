@@ -147,8 +147,6 @@ def check_schema(self, response, schema, null_value_allowed):
 
     # Helper function to get type of referenced object
     def __get_reference_type(object_path, root_object_paths=None):
-        if root_object_paths is None:
-            root_object_paths = []
         keys = re.split('/', re.search('(?<=#/).*', object_path).group())
         reference = self.openapi
         for key in keys:
@@ -161,7 +159,7 @@ def check_schema(self, response, schema, null_value_allowed):
         elif '$ref' in reference:
             # Avoid infinite recursion
             if not root_object_paths:
-                root_object_paths.append(object_path)
+                root_object_paths = [object_path]
             if reference['$ref'] not in root_object_paths:
                 root_object_paths.append(reference['$ref'])
                 return __get_reference_type(reference['$ref'],
