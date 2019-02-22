@@ -157,12 +157,13 @@ def check_schema(self, response, schema, null_value_allowed):
         elif 'type' in reference:
             return reference['type']
         elif '$ref' in reference:
+            nested_reference = reference['$ref']
             # Avoid infinite recursion
             if not root_object_paths:
                 root_object_paths = [object_path]
-            if reference['$ref'] not in root_object_paths:
-                root_object_paths.append(reference['$ref'])
-                return __get_reference_type(reference['$ref'],
+            if nested_reference not in root_object_paths:
+                root_object_paths.append(nested_reference)
+                return __get_reference_type(nested_reference,
                                             root_object_paths)
 
         return None
