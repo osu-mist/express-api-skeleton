@@ -215,15 +215,18 @@ def check_schema(self, response, schema):
 
 # Check url for correct base and endpoint, parameters
 def check_url(self, actual_url, endpoint, query_params=None):
+    if query_params is None:
+        query_params = {}
     actual_url_obj = urllib.parse.urlparse(actual_url)
     base_url_obj = urllib.parse.urlparse(self.base_url)
-    self.assertEqual(actual_url_obj.scheme, base_url_obj.scheme)
-    self.assertEqual(actual_url_obj.netloc, base_url_obj.netloc)
-    self.assertEqual(actual_url_obj.path,
-                     f'{base_url_obj.path}{endpoint}')
-    if query_params:
-        self.assertEqual(dict(urllib.parse.parse_qsl(actual_url_obj.query)),
-                         query_params)
+    for actual_attribute, base_attribute, attribute_type in [
+      [actual_url_obj.scheme, base_url_obj.scheme, 'scheme'],
+      [actual_url_obj.netloc, base_url_obj.netloc, 'netloc'],
+      [actual_url_obj.path, f'{base_url_obj.path}{endpoint}', 'path'],
+      [dict(urllib.parse.parse_qsl(actual_url_obj.query)), query_params,
+       'params']]:
+            self.assertEqual(actual_attribute, base_attribute,
+                             f'{attribute_type} does not match')
 
 
 # Check response of an endpoint for response code, schema, self link
