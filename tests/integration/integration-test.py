@@ -1,7 +1,10 @@
-import logging
 import json
+import logging
 import unittest
 import yaml
+
+from prance import ResolvingParser
+
 import utils
 
 
@@ -14,8 +17,8 @@ class integration_tests(unittest.TestCase):
             cls.session = utils.setup_session(config)
             cls.test_cases = config['test_cases']
 
-        with open(openapi_path) as openapi_file:
-            cls.openapi = yaml.load(openapi_file)
+        parser = ResolvingParser(openapi_path, backend='flex')
+        cls.openapi = parser.specification
 
     @classmethod
     def cleanup(cls):
