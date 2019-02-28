@@ -17,7 +17,16 @@ class integration_tests(unittest.TestCase):
             cls.session = utils.setup_session(config)
             cls.test_cases = config['test_cases']
 
-        parser = ResolvingParser(openapi_path, backend='flex')
+        with open(openapi_path) as openapi_file:
+            openapi = yaml.load(openapi_file, Loader=yaml.SafeLoader)
+            if 'swagger' in openapi:
+                backend = 'flex'
+            elif 'openapi' in openapi:
+                backend = 'openapi-spec-validator'
+            else:
+                exit('Error: could not determine openapi document version')
+
+        parser = ResolvingParser(openapi_path, backend=backend)
         cls.openapi = parser.specification
 
     @classmethod

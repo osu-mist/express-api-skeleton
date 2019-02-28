@@ -4,6 +4,9 @@ Click==7.0
 flex==6.14.0
 idna==2.8
 jsonpointer==2.0
+jsonschema==2.6.0
+openapi-spec-validator==0.2.6
+pathlib==1.0.1
 prance==0.14.1
 PyYAML==5.1b1
 requests==2.21.0
