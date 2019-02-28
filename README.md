@@ -139,6 +139,7 @@ The following instructions show you how to get data from external endpoints for 
 
     ```yaml
     dataSources:
+      dataSources: ['http']
       http:
         url: 'https://api.example.com'
     ```
@@ -176,6 +177,7 @@ The following instructions show you how to connect the API to an Oracle database
 
     ```yaml
     dataSources:
+      dataSources: ['oracledb']
       oracledb:
         connectString: 'DB_URL'
         user: 'DB_USER'
