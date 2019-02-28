@@ -1,7 +1,7 @@
 const config = require('config');
 const oracledb = require('oracledb');
 
-const dbConfig = config.get('database');
+const dbConfig = config.get('dataSources').oracledb;
 
 process.on('SIGINT', () => process.exit());
 oracledb.outFormat = oracledb.OBJECT;

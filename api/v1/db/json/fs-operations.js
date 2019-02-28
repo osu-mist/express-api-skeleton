@@ -1,6 +1,7 @@
+const config = require('config');
 const fs = require('fs');
 
-const dbPath = 'tests/unit/mock-data.json';
+const { dbPath } = config.get('dataSources').json;
 
 /**
  * @summary Validate a file path and throw an error if invalid
