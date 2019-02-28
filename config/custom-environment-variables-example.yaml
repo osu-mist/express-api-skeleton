@@ -7,11 +7,6 @@ authentication:
   username: 'API_USER'
   password: 'API_PASSWD'
 
-database:
-  connectString: 'DB_URL'
-  user: 'DB_USER'
-  password: 'DB_PASSWD'
-
 dataSources:
   oracledb:
     connectString: 'DB_URL'
