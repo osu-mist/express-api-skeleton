@@ -1,4 +1,7 @@
+const config = require('config');
 const fs = require('fs');
+
+const { dbPath } = config.get('dataSources').json;
 
 /**
  * @summary Validate a file path and throw an error if invalid
@@ -11,6 +14,12 @@ const validateFilePath = (path) => {
     throw new Error(`Path: '${path}' is invalid`);
   }
 };
+
+/**
+ * @summary Validate database file path
+ * @function
+ */
+const validateJsonDb = () => validateFilePath(dbPath);
 
 /**
  * @summary Read a JSON file and return the contents as an object
@@ -52,6 +61,7 @@ const deleteFile = (filePath) => {
 
 module.exports = {
   validateFilePath,
+  validateJsonDb,
   readJSONFile,
   writeJSONFile,
   deleteFile,

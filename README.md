@@ -135,10 +135,12 @@ $ npm test
 
 The following instructions show you how to get data from external endpoints for use in the API.
 
-1. Configure data source section in the `/config/default.yaml`. For example:
+1. Define `dataSources/http` section in the `/config/default.yaml` to be like:
 
     ```yaml
-    httpDataSource:
+    dataSources:
+      dataSources: ['http']
+      http:
         url: 'https://api.example.com'
     ```
 
@@ -171,16 +173,18 @@ The following instructions show you how to connect the API to an Oracle database
     $ npm install oracledb
     ```
 
-3. Define `database` section in the `/config/default.yaml` to be like:
+3. Define `dataSources/oracledb` section in the `/config/default.yaml` to be like:
 
     ```yaml
-    database:
-      connectString: ${DB_URL}
-      user: ${DB_USER}
-      password: ${DB_PASSWD}
-      poolMin: 30
-      poolMax: 30
-      poolIncrement: 0
+    dataSources:
+      dataSources: ['oracledb']
+      oracledb:
+        connectString: 'DB_URL'
+        user: 'DB_USER'
+        password: 'DB_PASSWD'
+        poolMin: 4
+        poolMax: 4
+        poolIncrement: 0:
     ```
 
     **Options for database configuration**:
