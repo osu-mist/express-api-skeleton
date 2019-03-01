@@ -196,7 +196,6 @@ def check_schema(self, response, schema):
     status_code = response.status_code
     content = get_json_content(self, response)
 
-    # TODO: Add self-link testing
     # Basic tests for successful/error response
     try:
         if status_code == 200:
@@ -219,16 +218,21 @@ def check_schema(self, response, schema):
 def check_url(self, actual_url, endpoint, query_params=None):
     if query_params is None:
         query_params = {}
+
+    base_url = self.base_url
+    if self.local_test:
+        base_url = re.sub('(:\d{4}/api)', '', self.base_url)
+
     actual_url_obj = urllib.parse.urlparse(actual_url)
-    base_url_obj = urllib.parse.urlparse(self.base_url)
+    base_url_obj = urllib.parse.urlparse(base_url)
     for actual_attribute, base_attribute, attribute_type in [
       [actual_url_obj.scheme, base_url_obj.scheme, 'scheme'],
       [actual_url_obj.netloc, base_url_obj.netloc, 'netloc'],
-      [actual_url_obj.path, f'{base_url_obj.path}{endpoint}', 'path'],
-      [dict(urllib.parse.parse_qsl(actual_url_obj.query)), query_params,
-       'params']]:
+      [actual_url_obj.path, f'{base_url_obj.path}{endpoint}', 'path']]:
             self.assertEqual(actual_attribute, base_attribute,
                              f'{attribute_type} does not match')
+    self.assertTrue(set(dict(urllib.parse.parse_qsl(actual_url_obj.query)))
+                    .issuperset(set(query_params)))
 
 
 # Check response of an endpoint for response code, schema, self link
