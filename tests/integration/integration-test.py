@@ -13,6 +13,7 @@ class integration_tests(unittest.TestCase):
             cls.base_url = utils.setup_base_url(config)
             cls.session = utils.setup_session(config)
             cls.test_cases = config['test_cases']
+            cls.local_test = config['local_test']
 
         with open(openapi_path) as openapi_file:
             cls.openapi = yaml.load(openapi_file)
@@ -23,9 +24,9 @@ class integration_tests(unittest.TestCase):
 
     # Test case: GET /pets
     def test_get_all_pets(self, endpoint='/pets'):
-        response = utils.make_request(self, endpoint, 200)
-        pet_schema = utils.get_resource_schema(self, 'PetResource')
-        utils.check_schema(self, response, pet_schema)
+        utils.test_endpoint(self, endpoint,
+                            resource='PetResource',
+                            response_code=200)
 
     # Test case: GET /pets with species filter
     def test_get_pets_with_filter(self, endpoint='/pets'):
@@ -33,9 +34,10 @@ class integration_tests(unittest.TestCase):
 
         for species in testing_species:
             params = {'species': species}
-            response = utils.make_request(self, endpoint, 200, params=params)
-            pet_schema = utils.get_resource_schema(self, 'PetResource')
-            utils.check_schema(self, response, pet_schema)
+            response = utils.test_endpoint(self, endpoint,
+                                           resource='PetResource',
+                                           response_code=200,
+                                           query_params=params)
 
             response_data = response.json()['data']
             for resource in response_data:
@@ -44,48 +46,60 @@ class integration_tests(unittest.TestCase):
 
     # Test case: GET /pets with pagination parameters
     def test_get_pets_pagination(self, endpoint='/pets'):
-        testing_paginations = [
+        testing_valid_paginations = [
             {'number': 1, 'size': 25, 'expected_status_code': 200},
             {'number': 1, 'size': None, 'expected_status_code': 200},
             {'number': None, 'size': 25, 'expected_status_code': 200},
-            {'number': 999, 'size': 1, 'expected_status_code': 200},
+            {'number': 999, 'size': 1, 'expected_status_code': 200}
+        ]
+
+        testing_invalid_paginations = [
             {'number': -1, 'size': 25, 'expected_status_code': 400},
             {'number': 1, 'size': -1, 'expected_status_code': 400},
             {'number': 1, 'size': 501, 'expected_status_code': 400}
         ]
 
-        for pagination in testing_paginations:
+        for pagination in testing_valid_paginations:
             params = {f'page[{k}]': pagination[k] for k in ['number', 'size']}
             expected_status_code = pagination['expected_status_code']
-            response = utils.make_request(self, endpoint, expected_status_code,
-                                          params=params)
+            response = utils.test_endpoint(self, endpoint,
+                                           resource='PetResource',
+                                           response_code=expected_status_code,
+                                           query_params=params)
+            content = utils.get_json_content(self, response)
+            try:
+                meta = content['meta']
+                num = pagination['number'] if pagination['number'] else 1
+                size = pagination['size'] if pagination['size'] else 25
+
+                self.assertEqual(num, meta['currentPageNumber'])
+                self.assertEqual(size, meta['currentPageSize'])
+            except KeyError as error:
+                self.fail(error)
+
+        for pagination in testing_invalid_paginations:
+            params = {f'page[{k}]': pagination[k] for k in ['number', 'size']}
+            expected_status_code = pagination['expected_status_code']
+            response = utils.test_endpoint(self, endpoint,
+                                           resource='Error',
+                                           response_code=expected_status_code,
+                                           query_params=params)
             content = utils.get_json_content(self, response)
 
-            if expected_status_code == 200:
-                try:
-                    meta = content['meta']
-                    num = pagination['number'] if pagination['number'] else 1
-                    size = pagination['size'] if pagination['size'] else 25
-
-                    self.assertEqual(num, meta['currentPageNumber'])
-                    self.assertEqual(size, meta['currentPageSize'])
-                except KeyError as error:
-                    self.fail(error)
-
-    # Test case: GET /pets/{id}
+    # # Test case: GET /pets/{id}
     def test_get_pet_by_id(self, endpoint='/pets'):
         valid_pet_ids = self.test_cases['valid_pet_ids']
         invalid_pet_ids = self.test_cases['invalid_pet_ids']
 
         for pet_id in valid_pet_ids:
-            response = utils.make_request(self, f'{endpoint}/{pet_id}', 200)
-            pet_schema = utils.get_resource_schema(self, 'PetResource')
-            utils.check_schema(self, response, pet_schema)
+            utils.test_endpoint(self, f'{endpoint}/{pet_id}',
+                                resource='PetResource',
+                                response_code=200)
 
         for pet_id in invalid_pet_ids:
-            response = utils.make_request(self, f'{endpoint}/{pet_id}', 404)
-            error_schema = utils.get_resource_schema(self, 'Error')
-            utils.check_schema(self, response, error_schema)
+            utils.test_endpoint(self, f'{endpoint}/{pet_id}',
+                                resource='Error',
+                                response_code=404)
 
 
 if __name__ == '__main__':
