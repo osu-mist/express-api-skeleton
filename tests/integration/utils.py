@@ -213,7 +213,7 @@ def check_schema(self, response, schema):
 
 
 # Check url for correct base and endpoint, parameters
-def check_url(self, actual_url, endpoint, query_params=None):
+def check_url(self, link_url, endpoint, query_params=None):
     query_params = {} if query_params is None else query_params
 
     base_url = self.base_url
@@ -221,16 +221,27 @@ def check_url(self, actual_url, endpoint, query_params=None):
         '''Local instances return self links without port and /api'''
         base_url = re.sub(':\d{4}/api', '', self.base_url)
 
-    actual_url_obj = urllib.parse.urlparse(actual_url)
+    link_url_obj = urllib.parse.urlparse(link_url)
     base_url_obj = urllib.parse.urlparse(base_url)
-    for actual_attribute, base_attribute, attribute_type in [
-      [actual_url_obj.scheme, base_url_obj.scheme, 'scheme'],
-      [actual_url_obj.netloc, base_url_obj.netloc, 'netloc'],
-      [actual_url_obj.path, f'{base_url_obj.path}{endpoint}', 'path']]:
-            self.assertEqual(actual_attribute, base_attribute,
-                             f'{attribute_type} does not match')
-    self.assertTrue(set(dict(urllib.parse.parse_qsl(actual_url_obj.query)))
-                    .issuperset(set(query_params)))
+
+    url_equalities = [
+      [link_url_obj.scheme, base_url_obj.scheme, 'scheme'],
+      [link_url_obj.netloc, base_url_obj.netloc, 'netloc'],
+      [link_url_obj.path, f'{base_url_obj.path}{endpoint}', 'path']]
+
+    for link_attribute, base_attribute, attribute_type in url_equalities:
+        self.assertEqual(link_attribute, base_attribute,
+                         textwrap.dedent(f'''
+                            {attribute_type} does not match
+                            Expected: {base_attribute}
+                            Link: {link_attribute}'''))
+
+    link_url_query = dict(urllib.parse.parse_qsl(link_url_obj.query))
+    self.assertTrue(set(link_url_query).issuperset(set(query_params)),
+                    textwrap.dedent(f'''
+                        Query parameter(s) not in link.
+                        Requested parameters: {query_params}
+                        Link parameters: {link_url_query}'''))
 
 
 # Check response of an endpoint for response code, schema, self link
