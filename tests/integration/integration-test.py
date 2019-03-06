@@ -46,47 +46,38 @@ class integration_tests(unittest.TestCase):
 
     # Test case: GET /pets with pagination parameters
     def test_get_pets_pagination(self, endpoint='/pets'):
-        testing_valid_paginations = [
+        testing_paginations = [
             {'number': 1, 'size': 25, 'expected_status_code': 200},
             {'number': 1, 'size': None, 'expected_status_code': 200},
             {'number': None, 'size': 25, 'expected_status_code': 200},
-            {'number': 999, 'size': 1, 'expected_status_code': 200}
-        ]
-
-        testing_invalid_paginations = [
+            {'number': 999, 'size': 1, 'expected_status_code': 200},
             {'number': -1, 'size': 25, 'expected_status_code': 400},
             {'number': 1, 'size': -1, 'expected_status_code': 400},
             {'number': 1, 'size': 501, 'expected_status_code': 400}
         ]
 
-        for pagination in testing_valid_paginations:
+        for pagination in testing_paginations:
             params = {f'page[{k}]': pagination[k] for k in ['number', 'size']}
             expected_status_code = pagination['expected_status_code']
             response = utils.test_endpoint(self, endpoint,
-                                           resource='PetResource',
+                                           resource='PetResource' if
+                                           expected_status_code is 200
+                                           else 'Error',
                                            response_code=expected_status_code,
                                            query_params=params)
             content = utils.get_json_content(self, response)
-            try:
-                meta = content['meta']
-                num = pagination['number'] if pagination['number'] else 1
-                size = pagination['size'] if pagination['size'] else 25
+            if expected_status_code is 200:
+                try:
+                    meta = content['meta']
+                    num = pagination['number'] if pagination['number'] else 1
+                    size = pagination['size'] if pagination['size'] else 25
 
-                self.assertEqual(num, meta['currentPageNumber'])
-                self.assertEqual(size, meta['currentPageSize'])
-            except KeyError as error:
-                self.fail(error)
+                    self.assertEqual(num, meta['currentPageNumber'])
+                    self.assertEqual(size, meta['currentPageSize'])
+                except KeyError as error:
+                    self.fail(error)
 
-        for pagination in testing_invalid_paginations:
-            params = {f'page[{k}]': pagination[k] for k in ['number', 'size']}
-            expected_status_code = pagination['expected_status_code']
-            response = utils.test_endpoint(self, endpoint,
-                                           resource='Error',
-                                           response_code=expected_status_code,
-                                           query_params=params)
-            content = utils.get_json_content(self, response)
-
-    # # Test case: GET /pets/{id}
+    # Test case: GET /pets/{id}
     def test_get_pet_by_id(self, endpoint='/pets'):
         valid_pet_ids = self.test_cases['valid_pet_ids']
         invalid_pet_ids = self.test_cases['invalid_pet_ids']
