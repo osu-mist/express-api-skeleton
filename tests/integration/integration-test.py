@@ -24,9 +24,11 @@ class integration_tests(unittest.TestCase):
 
     # Test case: GET /pets
     def test_get_all_pets(self, endpoint='/pets'):
+        nullable_fields = ['owner']
         utils.test_endpoint(self, endpoint,
                             resource='PetResource',
-                            response_code=200)
+                            response_code=200,
+                            nullable_fields=nullable_fields)
 
     # Test case: GET /pets with species filter
     def test_get_pets_with_filter(self, endpoint='/pets'):
@@ -55,7 +57,7 @@ class integration_tests(unittest.TestCase):
             {'number': 1, 'size': -1, 'expected_status_code': 400},
             {'number': 1, 'size': 501, 'expected_status_code': 400}
         ]
-
+        nullable_fields = ['owner']
         for pagination in testing_paginations:
             params = {f'page[{k}]': pagination[k] for k in ['number', 'size']}
             expected_status_code = pagination['expected_status_code']

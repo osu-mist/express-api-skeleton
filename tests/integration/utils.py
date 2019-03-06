@@ -109,7 +109,7 @@ def make_request(self, endpoint, expected_status_code,
 
 
 # Check the schema of response match OpenAPI specification
-def check_schema(self, response, schema):
+def check_schema(self, response, schema, nullable_fields):
     # Mapping of OpenAPI data types and python data types
     types_dict = {
         'string': str,
@@ -188,8 +188,10 @@ def check_schema(self, response, schema):
         for field, actual_value in actual_attributes.items():
             expected_attribute = expected_attributes[field]
             expected_type = __get_attribute_type(expected_attribute)
-            if actual_value and expected_type:
-                    self.assertIsInstance(actual_value, expected_type)
+
+            if (actual_value and expected_type) or \
+               field not in nullable_fields:
+                self.assertIsInstance(actual_value, expected_type)
 
     status_code = response.status_code
     content = get_json_content(self, response)
@@ -245,11 +247,13 @@ def check_url(self, link_url, endpoint, query_params=None):
 
 
 # Check response of an endpoint for response code, schema, self link
-def test_endpoint(self, endpoint, resource, response_code, query_params=None):
+def test_endpoint(self, endpoint, resource, response_code, query_params=None,
+                  nullable_fields=[]):
     schema = get_resource_schema(self, resource)
     response = make_request(self, endpoint, response_code,
                             params=query_params)
-    check_schema(self, response, schema)
+
+    check_schema(self, response, schema, nullable_fields)
     response_json = response.json()
     if 'links' in response_json:
         check_url(self, response_json['links']['self'], endpoint, query_params)
