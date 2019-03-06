@@ -214,12 +214,12 @@ def check_schema(self, response, schema):
 
 # Check url for correct base and endpoint, parameters
 def check_url(self, actual_url, endpoint, query_params=None):
-    if query_params is None:
-        query_params = {}
+    query_params = {} if query_params is None else query_params
 
     base_url = self.base_url
     if self.local_test:
-        base_url = re.sub('(:\d{4}/api)', '', self.base_url)
+        '''Local instances return self links without port and /api'''
+        base_url = re.sub(':\d{4}/api', '', self.base_url)
 
     actual_url_obj = urllib.parse.urlparse(actual_url)
     base_url_obj = urllib.parse.urlparse(base_url)
