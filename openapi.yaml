@@ -37,15 +37,15 @@ paths:
           required: false
           type: string
       responses:
-        200:
+        '200':
           description: Successful response
           schema:
             $ref: '#/definitions/PetsResult'
-        400:
+        '400':
           description: Bad request
           schema:
             $ref: '#/definitions/Errors'
-        500:
+        '500':
           description: Internal server error
           schema:
             $ref: '#/definitions/Errors'
@@ -64,15 +64,15 @@ paths:
           required: true
           type: string
       responses:
-        200:
+        '200':
           description: Successful response
           schema:
             $ref: '#/definitions/PetResult'
-        404:
+        '404':
           description: PetResource not found
           schema:
             $ref: '#/definitions/Errors'
-        500:
+        '500':
           description: Internal server error
           schema:
             $ref: '#/definitions/Errors'
@@ -190,7 +190,7 @@ definitions:
       status:
         type: string
         description: HTTP status code
-        example: 123
+        example: '123'
       title:
         type: string
         description: A short, user readable summary of the error
@@ -198,7 +198,7 @@ definitions:
       code:
         type: string
         description: An application-specific error code
-        example: 1234
+        example: '1234'
       detail:
         type: string
         description: A long description of the error that may contain instance-specific details
