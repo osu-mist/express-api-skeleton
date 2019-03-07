@@ -1,6 +1,6 @@
 const appRoot = require('app-root-path');
 const decamelize = require('decamelize');
-const JSONAPISerializer = require('jsonapi-serializer').Serializer;
+const JsonApiSerializer = require('jsonapi-serializer').Serializer;
 const _ = require('lodash');
 
 const { serializerOptions } = appRoot.require('utils/jsonapi');
@@ -54,7 +54,7 @@ const serializePets = (rawPets, query) => {
     enableDataLinks: true,
   };
 
-  return new JSONAPISerializer(
+  return new JsonApiSerializer(
     petResourceType,
     serializerOptions(serializerArgs),
   ).serialize(rawPets);
@@ -76,7 +76,7 @@ const serializePet = (rawPet) => {
     enableDataLinks: true,
   };
 
-  return new JSONAPISerializer(
+  return new JsonApiSerializer(
     petResourceType,
     serializerOptions(serializerArgs, petResourcePath, topLevelSelfLink),
   ).serialize(rawPet);

@@ -1,4 +1,4 @@
-const JSONAPIError = require('jsonapi-serializer').Error;
+const JsonApiError = require('jsonapi-serializer').Error;
 const _ = require('lodash');
 
 /**
@@ -32,7 +32,7 @@ const badRequest = (details) => {
     '1400',
     detail,
   )));
-  return new JSONAPIError(badRequests);
+  return new JsonApiError(badRequests);
 };
 
 /**
@@ -40,7 +40,7 @@ const badRequest = (details) => {
  * @function
  * @returns {Object} Unauthorized error object
  */
-const unauthorized = () => new JSONAPIError(error(
+const unauthorized = () => new JsonApiError(error(
   '401',
   'Unauthorized',
   '1401',
@@ -53,7 +53,7 @@ const unauthorized = () => new JSONAPIError(error(
  * @param {string} detail A human-readable explanation
  * @returns {Object} Unauthorized error object
  */
-const forbidden = detail => new JSONAPIError(error(
+const forbidden = detail => new JsonApiError(error(
   '403',
   'Forbidden',
   '1403',
@@ -66,7 +66,7 @@ const forbidden = detail => new JSONAPIError(error(
  * @param {string} detail A human-readable explanation
  * @returns {Object} Not Found error object
  */
-const notFound = detail => new JSONAPIError(error(
+const notFound = detail => new JsonApiError(error(
   '404',
   'Not found',
   '1404',
@@ -79,7 +79,7 @@ const notFound = detail => new JSONAPIError(error(
  * @param {string} detail A human-readable explanation
  * @returns {Object} Conflict error object
  */
-const conflict = detail => new JSONAPIError(error(
+const conflict = detail => new JsonApiError(error(
   '409',
   'Conflict',
   '1409',
@@ -92,7 +92,7 @@ const conflict = detail => new JSONAPIError(error(
  * @param {string} detail A human-readable explanation
  * @returns {Object} Internal Server Error error object
  */
-const internalServerError = detail => new JSONAPIError(error(
+const internalServerError = detail => new JsonApiError(error(
   '500',
   'Internal Server Error',
   '1500',
