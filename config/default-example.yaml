@@ -1,16 +1,16 @@
 server:
   protocol: https
   hostname: ${API_HOSTNAME}
-  port: ${API_PORT}
-  adminPort: ${API_ADMIN_PORT}
+  port: ${PORT}
+  adminPort: ${ADMIN_PORT}
   basePathPrefix: /api
   keyPath: /path/to/key.pem
   certPath: /path/to/server.crt
   secureProtocol: TLSv1_2_method
 
 authentication:
-  username: ${API_USER}
-  password: ${API_PASSWD}
+  username: ${USER}
+  password: ${PASSWD}
 
 logger:
   size: 10m
@@ -18,10 +18,14 @@ logger:
   pattern: YYYY-MM-DD
   archive: true
 
-database:
-  connectString: ${DB_URL}
-  user: ${DB_USER}
-  password: ${DB_PASSWD}
-  poolMin: 4
-  poolMax: 4
-  poolIncrement: 0
+dataSources:
+  dataSources: ['json', 'oracledb']
+  json:
+    dbPath: 'tests/unit/mock-data.json'
+  oracledb:
+    connectString: ${DB_URL}
+    user: ${DB_USER}
+    password: ${DB_PASSWD}
+    poolMin: 4
+    poolMax: 4
+    poolIncrement: 0
