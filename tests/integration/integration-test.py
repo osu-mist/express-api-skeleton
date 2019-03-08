@@ -1,7 +1,10 @@
-import logging
 import json
+import logging
 import unittest
 import yaml
+
+from prance import ResolvingParser
+
 import utils
 
 
@@ -15,7 +18,16 @@ class integration_tests(unittest.TestCase):
             cls.test_cases = config['test_cases']
 
         with open(openapi_path) as openapi_file:
-            cls.openapi = yaml.load(openapi_file)
+            openapi = yaml.load(openapi_file, Loader=yaml.SafeLoader)
+            if 'swagger' in openapi:
+                backend = 'flex'
+            elif 'openapi' in openapi:
+                backend = 'openapi-spec-validator'
+            else:
+                exit('Error: could not determine openapi document version')
+
+        parser = ResolvingParser(openapi_path, backend=backend)
+        cls.openapi = parser.specification
 
     @classmethod
     def cleanup(cls):

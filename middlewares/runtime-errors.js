@@ -7,16 +7,16 @@ const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 /**
  * @summary Determines if an error is an openapi error
  */
-const isOpenAPIError = err => (
+const isOpenApiError = err => (
   _.has(err, 'errors') && _.every(err.errors, it => _.includes(it.errorCode, 'openapi'))
 );
 
 /**
  * @summary The middleware for handling custom openapi errors
  */
-const customOpenAPIError = (err, req, res, next) => {
+const customOpenApiError = (err, req, res, next) => {
   // call the next middleware function if the error is not an openapi error
-  if (!isOpenAPIError(err)) {
+  if (!isOpenApiError(err)) {
     next(err);
   }
   /**
@@ -28,9 +28,9 @@ const customOpenAPIError = (err, req, res, next) => {
 /**
  * @summary The middleware for handling general openapi errors
  */
-const openAPIError = (err, req, res, next) => {
+const openApiError = (err, req, res, next) => {
   // call the next middleware function if the error is not an openapi error
-  if (!isOpenAPIError(err)) {
+  if (!isOpenApiError(err)) {
     next(err);
   }
 
@@ -80,8 +80,8 @@ const genericError = (err, req, res, next) => { // eslint-disable-line no-unused
 };
 
 const runtimeErrors = composeErrors([
-  customOpenAPIError,
-  openAPIError,
+  customOpenApiError,
+  openApiError,
   genericError,
 ]);
 
