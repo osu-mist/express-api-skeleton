@@ -1,6 +1,6 @@
 const appRoot = require('app-root-path');
 
-const petsDAO = require('../../db/json/pets-dao-example');
+const petsDao = require('../../db/json/pets-dao-example');
 
 const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 const { openapi: { paths } } = appRoot.require('utils/load-openapi');
@@ -11,7 +11,7 @@ const { openapi: { paths } } = appRoot.require('utils/load-openapi');
 const get = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await petsDAO.getPetById(id);
+    const result = await petsDao.getPetById(id);
     if (!result) {
       errorBuilder(res, 404, 'A pet with the specified ID was not found.');
     } else {

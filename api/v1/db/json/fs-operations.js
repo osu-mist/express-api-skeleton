@@ -1,4 +1,7 @@
+const config = require('config');
 const fs = require('fs');
+
+const { dbPath } = config.get('dataSources').json;
 
 /**
  * @summary Validate a file path and throw an error if invalid
@@ -13,12 +16,18 @@ const validateFilePath = (path) => {
 };
 
 /**
+ * @summary Validate database file path
+ * @function
+ */
+const validateJsonDb = () => validateFilePath(dbPath);
+
+/**
  * @summary Read a JSON file and return the contents as an object
  * @function
  * @param {string} filePath
  * @returns {Object}
  */
-const readJSONFile = (filePath) => {
+const readJsonFile = (filePath) => {
   if (fs.existsSync(filePath)) {
     return JSON.parse(fs.readFileSync(filePath, 'utf8'));
   }
@@ -32,7 +41,7 @@ const readJSONFile = (filePath) => {
  * @param {Object} data
  * @param {Object} options
  */
-const writeJSONFile = (filePath, data, options = {}) => {
+const writeJsonFile = (filePath, data, options = {}) => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), options);
 };
 
@@ -52,7 +61,8 @@ const deleteFile = (filePath) => {
 
 module.exports = {
   validateFilePath,
-  readJSONFile,
-  writeJSONFile,
+  validateJsonDb,
+  readJsonFile,
+  writeJsonFile,
   deleteFile,
 };

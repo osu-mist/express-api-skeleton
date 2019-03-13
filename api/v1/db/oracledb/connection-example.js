@@ -1,7 +1,7 @@
 const config = require('config');
 const oracledb = require('oracledb');
 
-const dbConfig = config.get('database');
+const dbConfig = config.get('dataSources').oracledb;
 
 process.on('SIGINT', () => process.exit());
 oracledb.outFormat = oracledb.OBJECT;
@@ -31,4 +31,18 @@ const getConnection = () => new Promise(async (resolve, reject) => {
   }).catch(err => reject(err));
 });
 
-module.exports = { getConnection };
+/**
+ * @summary Validate database connection and throw an error if invalid
+ * @function
+ * @throws Throws an error if unable to connect to the database
+ */
+const validateOracleDb = async () => {
+  try {
+    const connection = await getConnection();
+    await connection.execute('SELECT 1 FROM DUAL');
+  } catch (err) {
+    throw new Error('Unable to connect to Oracle database');
+  }
+};
+
+module.exports = { getConnection, validateOracleDb };

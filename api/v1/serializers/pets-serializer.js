@@ -1,17 +1,18 @@
 const appRoot = require('app-root-path');
 const decamelize = require('decamelize');
-const JSONAPISerializer = require('jsonapi-serializer').Serializer;
+const JsonApiSerializer = require('jsonapi-serializer').Serializer;
 const _ = require('lodash');
 
 const { serializerOptions } = appRoot.require('utils/jsonapi');
 const { openapi } = appRoot.require('utils/load-openapi');
 const { paginate } = appRoot.require('utils/paginator');
-const { querySelfLink, idSelfLink } = appRoot.require('utils/uri-builder');
+const { apiBaseUrl, resourcePathLink, paramsLink } = appRoot.require('utils/uri-builder');
 
 const petResourceProp = openapi.definitions.PetResource.properties;
 const petResourceType = petResourceProp.type.enum[0];
 const petResourceKeys = _.keys(petResourceProp.attributes.properties);
 const petResourcePath = 'pets';
+const petResourceUrl = resourcePathLink(apiBaseUrl, petResourcePath);
 
 /**
  * The column name getting from database is usually UPPER_CASE.
@@ -43,16 +44,17 @@ const serializePets = (rawPets, query) => {
   pagination.totalResults = rawPets.length;
   rawPets = pagination.paginatedRows;
 
-  const topLevelSelfLink = querySelfLink(query, petResourcePath);
+  const topLevelSelfLink = paramsLink(petResourceUrl, query);
   const serializerArgs = {
     identifierField: 'ID',
     resourceKeys: petResourceKeys,
     pagination,
     resourcePath: petResourcePath,
     topLevelSelfLink,
+    enableDataLinks: true,
   };
 
-  return new JSONAPISerializer(
+  return new JsonApiSerializer(
     petResourceType,
     serializerOptions(serializerArgs),
   ).serialize(rawPets);
@@ -65,15 +67,16 @@ const serializePets = (rawPets, query) => {
  * @returns {Object} Serialized petResource object
  */
 const serializePet = (rawPet) => {
-  const topLevelSelfLink = idSelfLink(rawPet.ID, petResourcePath);
+  const topLevelSelfLink = resourcePathLink(petResourceUrl, rawPet.ID);
   const serializerArgs = {
     identifierField: 'ID',
     resourceKeys: petResourceKeys,
     resourcePath: petResourcePath,
     topLevelSelfLink,
+    enableDataLinks: true,
   };
 
-  return new JSONAPISerializer(
+  return new JsonApiSerializer(
     petResourceType,
     serializerOptions(serializerArgs, petResourcePath, topLevelSelfLink),
   ).serialize(rawPet);

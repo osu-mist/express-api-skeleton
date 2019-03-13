@@ -12,7 +12,7 @@ const validateSync = deasync(SwaggerParser.validate).bind(SwaggerParser);
  * @summary Attempt to parse openapi.yaml and log error and exit if error is thrown
  * @function
  */
-const parseOpenAPI = () => {
+const parseOpenApi = () => {
   try {
     return validateSync('openapi.yaml');
   } catch (err) {
@@ -21,6 +21,6 @@ const parseOpenAPI = () => {
   }
 };
 
-const openapi = parseOpenAPI();
+const openapi = parseOpenApi();
 
 module.exports = { openapi };
