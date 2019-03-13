@@ -66,7 +66,8 @@ class integration_tests(unittest.TestCase):
             response = utils.test_endpoint(self, endpoint,
                                            resource=resource,
                                            response_code=expected_status_code,
-                                           query_params=params)
+                                           query_params=params,
+                                           nullable_fields=nullable_fields)
             content = utils.get_json_content(self, response)
             if expected_status_code == 200:
                 try:
