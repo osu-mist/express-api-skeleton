@@ -61,8 +61,9 @@ class integration_tests(unittest.TestCase):
         for pagination in testing_paginations:
             params = {f'page[{k}]': pagination[k] for k in ['number', 'size']}
             expected_status_code = pagination['expected_status_code']
-            resource = 'PetResource' if expected_status_code == 200 else \
-                'Error'
+            resource = (
+                'PetResource' if expected_status_code == 200
+                else 'Error')
             response = utils.test_endpoint(self, endpoint,
                                            resource=resource,
                                            response_code=expected_status_code,
