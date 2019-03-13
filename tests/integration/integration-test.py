@@ -16,6 +16,7 @@ class integration_tests(unittest.TestCase):
             cls.base_url = utils.setup_base_url(config)
             cls.session = utils.setup_session(config)
             cls.test_cases = config['test_cases']
+            cls.local_test = config['local_test']
 
         with open(openapi_path) as openapi_file:
             openapi = yaml.load(openapi_file, Loader=yaml.SafeLoader)
@@ -35,9 +36,11 @@ class integration_tests(unittest.TestCase):
 
     # Test case: GET /pets
     def test_get_all_pets(self, endpoint='/pets'):
-        response = utils.make_request(self, endpoint, 200)
-        pet_schema = utils.get_resource_schema(self, 'PetResource')
-        utils.check_schema(self, response, pet_schema)
+        nullable_fields = ['owner']
+        utils.test_endpoint(self, endpoint,
+                            resource='PetResource',
+                            response_code=200,
+                            nullable_fields=nullable_fields)
 
     # Test case: GET /pets with species filter
     def test_get_pets_with_filter(self, endpoint='/pets'):
@@ -45,9 +48,10 @@ class integration_tests(unittest.TestCase):
 
         for species in testing_species:
             params = {'species': species}
-            response = utils.make_request(self, endpoint, 200, params=params)
-            pet_schema = utils.get_resource_schema(self, 'PetResource')
-            utils.check_schema(self, response, pet_schema)
+            response = utils.test_endpoint(self, endpoint,
+                                           resource='PetResource',
+                                           response_code=200,
+                                           query_params=params)
 
             response_data = response.json()['data']
             for resource in response_data:
@@ -65,14 +69,19 @@ class integration_tests(unittest.TestCase):
             {'number': 1, 'size': -1, 'expected_status_code': 400},
             {'number': 1, 'size': 501, 'expected_status_code': 400}
         ]
-
+        nullable_fields = ['owner']
         for pagination in testing_paginations:
             params = {f'page[{k}]': pagination[k] for k in ['number', 'size']}
             expected_status_code = pagination['expected_status_code']
-            response = utils.make_request(self, endpoint, expected_status_code,
-                                          params=params)
+            resource = (
+                'PetResource' if expected_status_code == 200
+                else 'Error')
+            response = utils.test_endpoint(self, endpoint,
+                                           resource=resource,
+                                           response_code=expected_status_code,
+                                           query_params=params,
+                                           nullable_fields=nullable_fields)
             content = utils.get_json_content(self, response)
-
             if expected_status_code == 200:
                 try:
                     meta = content['meta']
@@ -90,14 +99,14 @@ class integration_tests(unittest.TestCase):
         invalid_pet_ids = self.test_cases['invalid_pet_ids']
 
         for pet_id in valid_pet_ids:
-            response = utils.make_request(self, f'{endpoint}/{pet_id}', 200)
-            pet_schema = utils.get_resource_schema(self, 'PetResource')
-            utils.check_schema(self, response, pet_schema)
+            utils.test_endpoint(self, f'{endpoint}/{pet_id}',
+                                resource='PetResource',
+                                response_code=200)
 
         for pet_id in invalid_pet_ids:
-            response = utils.make_request(self, f'{endpoint}/{pet_id}', 404)
-            error_schema = utils.get_resource_schema(self, 'Error')
-            utils.check_schema(self, response, error_schema)
+            utils.test_endpoint(self, f'{endpoint}/{pet_id}',
+                                resource='Error',
+                                response_code=404)
 
 
 if __name__ == '__main__':
@@ -110,5 +119,5 @@ if __name__ == '__main__':
         logging.basicConfig(level=logging.INFO)
 
     integration_tests.setup(arguments.config_path, arguments.openapi_path)
-    unittest.main(argv=argv, exit=False)
+    unittest.main(argv=argv)
     integration_tests.cleanup()
