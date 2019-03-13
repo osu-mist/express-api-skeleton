@@ -1,5 +1,6 @@
 certifi==2018.11.29
 chardet==3.0.4
+flex==6.14.0
 idna==2.8
 prance==0.14.1
 PyYAML==5.1b1
