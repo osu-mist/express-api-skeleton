@@ -249,6 +249,7 @@ def check_url(self, link_url, endpoint, query_params=None):
 # Check response of an endpoint for response code, schema, self link
 def test_endpoint(self, endpoint, resource, response_code, query_params=None,
                   nullable_fields=None):
+    nullable_fields = [] if nullable_fields is None else nullable_fields
     schema = get_resource_schema(self, resource)
     response = make_request(self, endpoint, response_code,
                             params=query_params)
