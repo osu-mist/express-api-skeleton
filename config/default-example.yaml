@@ -19,7 +19,7 @@ logger:
   archive: true
 
 dataSources:
-  dataSources: ['json', 'oracledb']
+  dataSources: ['json', 'oracledb', 'awsS3']
   json:
     dbPath: 'tests/unit/mock-data.json'
   oracledb:
@@ -29,3 +29,12 @@ dataSources:
     poolMin: 4
     poolMax: 4
     poolIncrement: 0
+  awsS3:
+    bucket: bucketName
+    apiVersion: '2006-03-01'
+    accessKeyId: ${ACCESS_KEY_ID}
+    secretAccessKey: ${SECRET_ACCESS_KEY}
+    region: us-west-2
+    # These values are for local or proxy S3 instances
+    endpoint: null
+    s3ForcePathStyle: false

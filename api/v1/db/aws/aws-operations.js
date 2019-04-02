@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 const config = require('config');
 const _ = require('lodash');
 
-const awsConfig = config.get('aws');
+const awsConfig = config.get('dataSources.awsS3');
 
 const s3 = new AWS.S3(awsConfig);
 let thisBucket = null;
@@ -33,6 +33,19 @@ const bucketExists = (bucket = thisBucket) => new Promise((resolve, reject) => {
     }
   });
 });
+
+/**
+ * @summary Verify the AWS S3 data source
+ * @function
+ */
+const validateAwsS3 = async () => {
+  const { bucket } = config.get('dataSources.awsS3');
+  if (!await bucketExists(bucket)) {
+    throw new Error('Error: AWS bucket does not exist');
+  } else {
+    setBucket(bucket);
+  }
+};
 
 /**
  * @summary Checks if an object exists in a bucket
@@ -185,6 +198,7 @@ const deleteObject = (key, bucket = thisBucket) => new Promise((resolve, reject)
 module.exports = {
   setBucket,
   bucketExists,
+  validateAwsS3,
   objectExists,
   headObject,
   listObjects,
