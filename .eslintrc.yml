@@ -5,3 +5,9 @@ env:
 rules:
   no-param-reassign: off
   no-console: off
+overrides:
+  - files:
+    - "**/*-example.js"
+    - "api/v1/db/aws/aws-operations.js"
+    rules:
+      import/no-unresolved: off
