@@ -10,7 +10,7 @@ const oracledb = dataSources.includes('oracledb')
   ? appRoot.require('api/v1/db/oracledb/connection').validateOracleDb
   : null;
 const awsS3 = dataSources.includes('awsS3')
-  ? appRoot.require('api/v1/db/aws/aws-operations').validateAwsS3
+  ? appRoot.require('api/v1/db/awsS3/aws-operations').validateAwsS3
   : null;
 
 /**
