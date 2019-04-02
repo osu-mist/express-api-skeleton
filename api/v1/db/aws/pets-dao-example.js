@@ -17,12 +17,9 @@ const getPets = async (query) => {
   let rawPets = JSON.parse(object.Body.toString()).pets;
   const { species } = query;
 
-  console.log(`rawPets: ${JSON.stringify(rawPets, null, 2)}`);
-
   rawPets = species ? _.filter(rawPets, { SPECIES: capitalize(species) }) : rawPets;
 
   const serializedPets = serializePets(rawPets, query);
-  console.log(`serializedPets: ${JSON.stringify(rawPets, null, 2)}`);
   return serializedPets;
 };
 
