@@ -8,6 +8,6 @@ rules:
 overrides:
   - files:
     - "**/*-example.js"
-    - "api/v1/db/awsS3/aws-operations.js"
+    - api/v1/db/awsS3/aws-operations.js
     rules:
       import/no-unresolved: off
