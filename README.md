@@ -262,7 +262,7 @@ The following instructions show you how to get data from an AWS S3 bucket
     | Option | Description |
     | ------ | ----------- |
     | **bucket** | The name of the AWS S3 bucket to use |
-    | **apiVersion** | Version of the S3 API. Example: '2006-03-01' |
+    | **apiVersion** | Version of the S3 API. Example: `'2006-03-01'` |
     | **endpoint** | When using a local or proxy S3 instance, set this value to the host URL. Example: `http://localhost:9000` |
     | **s3ForcePathStyle** | Set to `true` if using a local or proxy S3 instance |
 
