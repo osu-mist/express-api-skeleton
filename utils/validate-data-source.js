@@ -9,6 +9,9 @@ const json = dataSources.includes('json')
 const oracledb = dataSources.includes('oracledb')
   ? appRoot.require('api/v1/db/oracledb/connection').validateOracleDb
   : null;
+const awsS3 = dataSources.includes('awsS3')
+  ? appRoot.require('api/v1/db/awsS3/aws-operations').validateAwsS3
+  : null;
 
 /**
  * @summary Validate database configuration
@@ -16,7 +19,7 @@ const oracledb = dataSources.includes('oracledb')
  */
 const validateDataSource = () => {
   const validationMethods = {
-    aws: null, // TODO: add AWS validation method
+    awsS3,
     http: null, // TODO: add HTTP validation method
     json,
     oracledb,
@@ -24,7 +27,10 @@ const validateDataSource = () => {
 
   _.each(dataSources, (dataSourceType) => {
     if (dataSourceType in validationMethods) {
-      validationMethods[dataSourceType]();
+      validationMethods[dataSourceType]().catch((err) => {
+        console.error(err);
+        process.exit(1);
+      });
     } else {
       throw new Error(`Data source type: '${dataSourceType}' is not recognized.`);
     }
