@@ -45,14 +45,21 @@
     "winston-daily-rotate-file": "^3.3.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-transform-runtime": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/runtime": "^7.4.3",
     "chai": "^4.1.2",
     "eslint": "^5.6.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "forever-monitor": "^1.7.1",
     "gulp": "4.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
     "gulp-eslint": "^5.0.0",
     "gulp-mocha": "^6.0.0",
+    "gulp-sourcemaps": "^2.6.5",
     "pre-commit": "^1.2.2"
   }
 }
