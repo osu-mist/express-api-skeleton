@@ -51,6 +51,7 @@
     "@babel/preset-env": "^7.4.3",
     "@babel/runtime": "^7.4.3",
     "chai": "^4.1.2",
+    "del": "^4.1.0",
     "eslint": "^5.6.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
