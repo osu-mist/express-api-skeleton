@@ -93,3 +93,4 @@ venv.bak/
 
 # Code transpiled with Babel
 dist/*
+maps/*

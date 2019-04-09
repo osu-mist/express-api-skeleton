@@ -8,6 +8,7 @@ const fs = require('fs');
 const https = require('https');
 const moment = require('moment');
 const git = require('simple-git/promise');
+require('source-map-support').install();
 
 const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 const { authentication } = appRoot.require('middlewares/authentication');

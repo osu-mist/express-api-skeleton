@@ -1,16 +1,14 @@
 const forever = require('forever-monitor');
 const gulp = require('gulp');
 const babel = require('gulp-babel');
-// const concat = require('gulp-concat');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const sourcemaps = require('gulp-sourcemaps');
 
-gulp.task('babel', () => gulp.src(['**/*.js', '!node_modules/**'])
-  .pipe(sourcemaps.init({ loadMaps: true }))
+gulp.task('babel', () => gulp.src(['**/*.js', '!dist/**', '!node_modules/**'])
+  .pipe(sourcemaps.init())
   .pipe(babel({ presets: ['@babel/preset-env'] }))
-  // .pipe(concat('all.js'))
-  .pipe(sourcemaps.write('.'))
+  .pipe(sourcemaps.write('../maps'))
   .pipe(gulp.dest('dist')));
 
 /**
