@@ -22,14 +22,12 @@ gulp.task('babel', gulp.series('babel-clean', 'babel-compile'));
 gulp.task('lint', () => gulp.src(['**/*.js', '!build/**', '!node_modules/**'])
   .pipe(eslint())
   .pipe(eslint.format())
-  .pipe(eslint.failAfterError())
-  .pipe(babel()));
+  .pipe(eslint.failAfterError()));
 
 /**
- * @summary Run unit test
+ * @summary Run unit tests
  */
 gulp.task('test', () => gulp.src(['build/dist/tests/unit/*.js'])
-  .pipe(babel())
   .pipe(mocha({ reporter: 'spec' })));
 
 /**
@@ -39,6 +37,18 @@ gulp.task('start', () => new forever.Monitor('build/dist/app.js').start());
 
 
 /**
- * @summary Run test and lint task parallelly before start the apllication
+ * @summary Lint and compile, test, and start the application
  */
-gulp.task('run', gulp.series(gulp.parallel('lint', 'babel'), 'test', 'start'));
+exports.run = gulp.series(gulp.parallel('lint', 'babel'), 'test', 'start');
+/**
+ * @summary Compile and start the application only
+ */
+exports.start = gulp.series('babel', 'start');
+/**
+ * @summary Compile and test the application only
+ */
+exports.test = gulp.series('babel', 'test');
+/**
+ * @summary Compile the code only
+ */
+exports.babel = babel();
