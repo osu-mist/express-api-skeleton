@@ -947,21 +947,6 @@ babel-eslint@^10.0.1:
     eslint-scope "3.7.1"
     eslint-visitor-keys "^1.0.0"
 
-babel-plugin-transform-runtime@6.15.0:
-  version "6.15.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-runtime/-/babel-plugin-transform-runtime-6.15.0.tgz#3d75b4d949ad81af157570273846fb59aeb0d57c"
-  integrity sha1-PXW02Umtga8VdXAnOEb7Wa6w1Xw=
-  dependencies:
-    babel-runtime "^6.9.0"
-
-babel-runtime@^6.9.0:
-  version "6.26.0"
-  resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
-  integrity sha1-llxwWGaOgrVde/4E/yM3vItWR/4=
-  dependencies:
-    core-js "^2.4.0"
-    regenerator-runtime "^0.11.0"
-
 bach@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/bach/-/bach-1.2.0.tgz#4b3ce96bf27134f79a1b414a51c14e34c3bd9880"
@@ -1434,11 +1419,6 @@ core-js@3.0.1:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.0.1.tgz#1343182634298f7f38622f95e73f54e48ddf4738"
   integrity sha512-sco40rF+2KlE0ROMvydjkrVMMG1vYilP2ALoRXcYR4obqbYIuV3Bg+51GEDW+HF8n7NRA+iaA4qD0nD9lo9mew==
 
-core-js@^2.4.0:
-  version "2.6.5"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.5.tgz#44bc8d249e7fb2ff5d00e0341a7ffb94fbf67895"
-  integrity sha512-klh/kDpwX8hryYL14M9w/xei6vrv6sE8gTHDG7/T/+SEovB/G4ejwcfE/CBzO6Edsu+OETZMZ3wcX/EjUkrl5A==
-
 core-js@^2.5.7:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.3.tgz#4b70938bdffdaf64931e66e2db158f0892289c49"
@@ -1446,14 +1426,6 @@ core-js@^2.5.7:
 core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
-
-cross-spawn@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-4.0.0.tgz#8254774ab4786b8c5b3cf4dfba66ce563932c252"
-  integrity sha1-glR3SrR4a4xbPPTfumbOVjkywlI=
-  dependencies:
-    lru-cache "^4.0.1"
-    which "^1.2.9"
 
 cross-spawn@^5.0.1:
   version "5.1.0"
@@ -2564,16 +2536,6 @@ gulp-mocha@^6.0.0:
     plugin-error "^1.0.1"
     supports-color "^5.4.0"
     through2 "^2.0.3"
-
-gulp-run-command@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/gulp-run-command/-/gulp-run-command-0.0.9.tgz#cf3fe1ca7ead50a883f4ba4004caa34ca63a63cc"
-  integrity sha512-8/Gzh+zfe6CFLqaL+LxwqLPj5fk/N1eCHEr36K5p9Al40iuxpbVnq1aZRGXMj+4DlWBzjjAAxas3EkMNI/6Vcw==
-  dependencies:
-    babel-plugin-transform-runtime "6.15.0"
-    cross-spawn "4.0.0"
-    spawn-args "0.2.0"
-    timeout-as-promise "^1.0.0"
 
 gulp-sourcemaps@^2.6.5:
   version "2.6.5"
@@ -4210,11 +4172,6 @@ regenerate@^1.4.0:
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
   integrity sha512-1G6jJVDWrt0rK99kBjvEtziZNCICAuvIPkSiUFIQxVP06RCVpq3dmDo2oi6ABpYaDYaTRr67BEhL8r1wgEZZKg==
 
-regenerator-runtime@^0.11.0:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
-  integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
-
 regenerator-runtime@^0.13.2:
   version "0.13.2"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.2.tgz#32e59c9a6fb9b1a4aff09b4930ca2d4477343447"
@@ -4590,11 +4547,6 @@ sparkles@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/sparkles/-/sparkles-1.0.1.tgz#008db65edce6c50eec0c5e228e1945061dd0437c"
 
-spawn-args@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/spawn-args/-/spawn-args-0.2.0.tgz#fb7d0bd1d70fd4316bd9e3dec389e65f9d6361bb"
-  integrity sha1-+30L0dcP1DFr2ePew4nmX51jYbs=
-
 spawn-sync@^1.0.15:
   version "1.0.15"
   resolved "https://registry.yarnpkg.com/spawn-sync/-/spawn-sync-1.0.15.tgz#b00799557eb7fb0c8376c29d44e8a1ea67e57476"
@@ -4820,11 +4772,6 @@ through@^2.3.6:
 time-stamp@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/time-stamp/-/time-stamp-1.1.0.tgz#764a5a11af50561921b133f3b44e618687e0f5c3"
-
-timeout-as-promise@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/timeout-as-promise/-/timeout-as-promise-1.0.0.tgz#7367e811fc992acfcdcdaabf2e50dfaf8b21576f"
-  integrity sha1-c2foEfyZKs/Nzaq/LlDfr4shV28=
 
 timers-ext@^0.1.5:
   version "0.1.7"

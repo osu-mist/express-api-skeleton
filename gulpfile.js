@@ -1,10 +1,10 @@
+const { spawn } = require('child_process');
 const del = require('del');
 const forever = require('forever-monitor');
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
-const run = require('gulp-run-command').default;
 const sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('babel-clean', () => del(['build']));
@@ -28,7 +28,7 @@ gulp.task('lint', () => gulp.src(['**/*.js', '!build/**', '!node_modules/**'])
 /**
  * @summary Check Flow types
  */
-gulp.task('typecheck', run('./node_modules/.bin/flow check', {}));
+gulp.task('typecheck', () => spawn('./node_modules/.bin/flow', ['check'], { stdio: 'inherit' }));
 
 /**
  * @summary Run unit tests
