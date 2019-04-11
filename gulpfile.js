@@ -4,13 +4,14 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
+const run = require('gulp-run-command').default;
 const sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('babel-clean', () => del(['build']));
 
 gulp.task('babel-compile', () => gulp.src(['**/*.js', '!build/**', '!node_modules/**'])
   .pipe(sourcemaps.init())
-  .pipe(babel({ presets: ['@babel/preset-env'] }))
+  .pipe(babel())
   .pipe(sourcemaps.write('../maps'))
   .pipe(gulp.dest('build/dist')));
 
@@ -23,6 +24,11 @@ gulp.task('lint', () => gulp.src(['**/*.js', '!build/**', '!node_modules/**'])
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(eslint.failAfterError()));
+
+/**
+ * @summary Check Flow types
+ */
+gulp.task('typecheck', run('./node_modules/.bin/flow check', {}));
 
 /**
  * @summary Run unit tests
@@ -39,7 +45,7 @@ gulp.task('start', () => new forever.Monitor('build/dist/app.js').start());
 /**
  * @summary Lint and compile, test, and start the application
  */
-exports.run = gulp.series(gulp.parallel('lint', 'babel'), 'test', 'start');
+exports.run = gulp.series(gulp.parallel('lint', 'typecheck', 'babel'), 'test', 'start');
 /**
  * @summary Compile and start the application only
  */
