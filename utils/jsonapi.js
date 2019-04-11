@@ -62,8 +62,8 @@ const serializerOptions = (serializerArgs) => {
     options.topLevelLinks = _.assign(options.topLevelLinks, {
       first: paramsLink(resourceUrl, pageParamsBuilder(pageNumber, pageSize)),
       last: paramsLink(resourceUrl, pageParamsBuilder(totalPages, pageSize)),
-      next: paramsLink(resourceUrl, pageParamsBuilder(nextPage, pageSize)),
-      prev: paramsLink(resourceUrl, pageParamsBuilder(prevPage, pageSize)),
+      next: nextPage ? paramsLink(resourceUrl, pageParamsBuilder(nextPage, pageSize)) : null,
+      prev: prevPage ? paramsLink(resourceUrl, pageParamsBuilder(prevPage, pageSize)) : null,
     });
 
     options.meta = {
