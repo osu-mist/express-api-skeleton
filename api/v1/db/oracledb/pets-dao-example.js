@@ -4,8 +4,8 @@ const _ = require('lodash');
 
 const { serializePets, serializePet } = require('../../serializers/pets-serializer');
 
-const { getConnection } = appRoot.require('api/v1/db/oracledb/connection');
-const contrib = appRoot.require('api/v1/db/oracledb/contrib/contrib');
+const conn = appRoot.require('api/v1/db/oracledb/connection');
+const { contrib } = appRoot.require('api/v1/db/oracledb/contrib/contrib');
 
 const { endpointUri } = config.get('server');
 
@@ -15,7 +15,7 @@ const { endpointUri } = config.get('server');
  * @returns {Promise} Promise object represents a list of pets
  */
 const getPets = () => new Promise(async (resolve, reject) => {
-  const connection = await getConnection();
+  const connection = await conn.getConnection();
   try {
     const { rawPets } = await connection.execute(contrib.getPets());
     const serializedPets = serializePets(rawPets, endpointUri);
@@ -34,7 +34,7 @@ const getPets = () => new Promise(async (resolve, reject) => {
  * @returns {Promise} Promise object represents a specific pet
  */
 const getPetById = id => new Promise(async (resolve, reject) => {
-  const connection = await getConnection();
+  const connection = await conn.getConnection();
   try {
     const { rawPets } = await connection.execute(contrib.getPetById(id), id);
 
