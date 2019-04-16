@@ -1,22 +1,25 @@
-const appRoot = require('app-root-path');
-const bodyParser = require('body-parser');
-const { compose } = require('compose-middleware');
-const config = require('config');
-const express = require('express');
-const { initialize } = require('express-openapi');
-const fs = require('fs');
-const https = require('https');
-const moment = require('moment');
-const git = require('simple-git/promise');
-require('source-map-support').install();
+import appRoot from 'app-root-path';
 
-const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
-const { authentication } = appRoot.require('middlewares/authentication');
-const { bodyParserError } = appRoot.require('middlewares/body-parser-error');
-const { logger } = appRoot.require('middlewares/logger');
-const { runtimeErrors } = appRoot.require('middlewares/runtime-errors');
-const { openapi } = appRoot.require('utils/load-openapi');
-const { validateDataSource } = appRoot.require('utils/validate-data-source');
+import bodyParser from 'body-parser';
+import { compose } from 'compose-middleware';
+import config from 'config';
+import express from 'express';
+import { initialize } from 'express-openapi';
+import fs from 'fs';
+import https from 'https';
+import moment from 'moment';
+import git from 'simple-git/promise';
+import sourceMapSupport from 'source-map-support';
+
+import { errorBuilder, errorHandler } from 'errors/errors';
+import { authentication } from 'middlewares/authentication';
+import { bodyParserError } from 'middlewares/body-parser-error';
+import { logger } from 'middlewares/logger';
+import { runtimeErrors } from 'middlewares/runtime-errors';
+import { openapi } from 'utils/load-openapi';
+import { validateDataSource } from 'utils/validate-data-source';
+
+sourceMapSupport.install();
 
 const serverConfig = config.get('server');
 
