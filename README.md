@@ -86,6 +86,36 @@ $ gulp test
 $ npm test
 ```
 
+### Type checking
+
+This API is configured to use [Flow static type checking](https://flow.org/).
+
+Check flow types:
+
+```shell
+# Using gulp
+$ gulp typecheck
+
+# Using npm
+$ npm run typecheck
+```
+
+## Babel
+
+This API uses [Babel](https://babeljs.io/) to transpile JavaScript code. After running, the transpiled code will be located in `build/dist/`. Source maps are also generated and located in `build/maps`. These contain references to the original source code for debugging purposes.
+
+Babel allows for newer ECMAScript syntax such as `import` and `export` from ES6. It also allows [Babel plugins](https://babeljs.io/docs/en/plugins) to be used.
+
+Compilation is done by the `babel` gulp task. This is handled automatically by other tasks but can be manually invoked:
+
+```shell
+# Using gulp
+$ gulp babel
+
+# Using npm
+$ npm run babel
+```
+
 ## Base project off the skeleton
 
 ### Base a new project off the skeleton
