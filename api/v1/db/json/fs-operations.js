@@ -9,10 +9,12 @@ const { dbPath } = config.get('dataSources').json;
  * @throws Throws an error if the file path is not valid
  * @param {string} path
  */
-const validateFilePath = (path) => {
-  if (!fs.existsSync(path)) {
-    throw new Error(`Path: '${path}' is invalid`);
-  }
+const validateFilePath = async (path) => {
+  fs.access(path, (err) => {
+    if (err) {
+      throw new Error(`Path: '${path}' is invalid: ${err}`);
+    }
+  });
 };
 
 /**
