@@ -4,15 +4,15 @@ extends:
   - plugin:flowtype/recommended
 plugins:
   - flowtype
+  - eslint-plugin-import-order-alphabetical
 env:
   node: true
   mocha: true
 rules:
   no-param-reassign: "off"
   no-console: "off"
-  import/order:
-    - error
-    - newlines-between: always
+  import/order: [error, newlines-between: always]
+  import-order-alphabetical/order: [error]
 overrides:
   - files:
       - "**/*-example.js"
