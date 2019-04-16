@@ -9,7 +9,7 @@ import fs from 'fs';
 import https from 'https';
 import moment from 'moment';
 import git from 'simple-git/promise';
-import sourceMapSupport from 'source-map-support';
+import 'source-map-support/register';
 
 import { errorBuilder, errorHandler } from 'errors/errors';
 import { authentication } from 'middlewares/authentication';
@@ -18,8 +18,6 @@ import { logger } from 'middlewares/logger';
 import { runtimeErrors } from 'middlewares/runtime-errors';
 import { openapi } from 'utils/load-openapi';
 import { validateDataSource } from 'utils/validate-data-source';
-
-sourceMapSupport.install();
 
 const serverConfig = config.get('server');
 
