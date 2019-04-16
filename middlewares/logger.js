@@ -1,7 +1,10 @@
+const appRoot = require('app-root-path');
 const config = require('config');
 const expressWinston = require('express-winston');
 const winston = require('winston');
 require('winston-daily-rotate-file');
+
+const { name } = appRoot.require('package');
 
 const loggerConfig = config.get('logger');
 
@@ -10,7 +13,7 @@ const loggerConfig = config.get('logger');
  * @returns A transport for daily rotate file
  */
 const dailyRotateFileTransport = new (winston.transports.DailyRotateFile)({
-  filename: 'express-api-skeleton-%DATE%.log',
+  filename: `${name}-%DATE%.log`,
   datePattern: loggerConfig.pattern,
   maxSize: loggerConfig.size,
   zippedArchive: loggerConfig.archive,
