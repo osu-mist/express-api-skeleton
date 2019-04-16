@@ -1,8 +1,9 @@
 const capitalize = require('capitalize');
 const _ = require('lodash');
 
-const awsOps = require('./aws-operations');
 const { serializePets, serializePet } = require('../../serializers/pets-serializer');
+
+const awsOps = require('./aws-operations');
 
 const objectKey = 'pets.json';
 

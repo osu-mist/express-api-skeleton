@@ -1,8 +1,9 @@
 const capitalize = require('capitalize');
 const _ = require('lodash');
 
-const { readJsonFile } = require('./fs-operations');
 const { serializePets, serializePet } = require('../../serializers/pets-serializer');
+
+const { readJsonFile } = require('./fs-operations');
 
 const dbPath = 'tests/unit/mock-data.json';
 

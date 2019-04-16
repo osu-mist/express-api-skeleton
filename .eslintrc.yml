@@ -10,6 +10,9 @@ env:
 rules:
   no-param-reassign: "off"
   no-console: "off"
+  import/order:
+    - error
+    - newlines-between: always
 overrides:
   - files:
       - "**/*-example.js"

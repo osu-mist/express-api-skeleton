@@ -1,12 +1,12 @@
-import appRoot from 'app-root-path';
+import fs from 'fs';
+import https from 'https';
 
+import appRoot from 'app-root-path';
 import bodyParser from 'body-parser';
 import { compose } from 'compose-middleware';
 import config from 'config';
 import express from 'express';
 import { initialize } from 'express-openapi';
-import fs from 'fs';
-import https from 'https';
 import moment from 'moment';
 import git from 'simple-git/promise';
 import 'source-map-support/register';

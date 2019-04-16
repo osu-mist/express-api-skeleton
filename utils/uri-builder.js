@@ -1,7 +1,8 @@
+const url = require('url');
+
 const appRoot = require('app-root-path');
 const config = require('config');
 const queryString = require('query-string');
-const url = require('url');
 
 const { openapi: { basePath } } = appRoot.require('utils/load-openapi');
 
