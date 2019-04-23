@@ -5,9 +5,7 @@ env:
 rules:
   no-param-reassign: "off"
   no-console: "off"
-overrides:
-  - files:
-      - "**/*-example.js"
-      - api/v1/db/awsS3/aws-operations.js
-    rules:
-      import/no-unresolved: "off"
+  import/no-unresolved:
+    - error
+    - commonjs: true
+      ignore: [ ^aws-sdk$, ^oracledb$, ^request-promise-native$ ]
