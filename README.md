@@ -210,19 +210,13 @@ The following instructions show you how to connect the API to an Oracle database
         $ git submodule update --init
         ```
 
-5. Rename [api/v1/db/oracledb/connection-example.js](api/v1/db/oracledb/connection-example.js) to `api/v1/db/oracledb/connection.js`:
-
-    ```shell
-    $ git mv api/v1/db/oracledb/connection-example.js api/v1/db/oracledb/connection.js
-    ```
-
-6. Copy [api/v1/db/oracledb/pets-dao-example.js](api/v1/db/oracledb/pets-dao-example.js) to `api/v1/db/oracledb/<resources>-dao.js` and modify as necessary:
+5. Copy [api/v1/db/oracledb/pets-dao-example.js](api/v1/db/oracledb/pets-dao-example.js) to `api/v1/db/oracledb/<resources>-dao.js` and modify as necessary:
 
     ```shell
     $ cp api/v1/db/oracledb/pets-dao-example.js api/v1/db/oracledb/<resources>-dao.js
     ```
 
-7. Make sure to require the correct path for the new DAO file at path handlers files:
+6. Make sure to require the correct path for the new DAO file at path handlers files:
 
     ```js
     const petsDao = require('../db/oracledb/<resources>-dao');
