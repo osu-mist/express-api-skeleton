@@ -10,7 +10,7 @@ const _ = require('lodash');
 const paginate = (rows, pageQuery) => {
   const pageNumber = parseInt(pageQuery.number, 10);
   const pageSize = parseInt(pageQuery.size, 10);
-  const totalPages = Math.ceil(rows.length / pageSize);
+  const totalPages = Math.ceil(rows.length / pageSize) || 1;
   const paginatedRows = _.slice(rows, (pageNumber - 1) * pageSize, pageNumber * pageSize);
   const isOutOfBounds = pageNumber < 1 || pageNumber > totalPages;
   const nextPage = isOutOfBounds || pageNumber >= totalPages ? null : pageNumber + 1;
