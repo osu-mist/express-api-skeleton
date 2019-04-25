@@ -19,7 +19,7 @@ logger:
   archive: true
 
 dataSources:
-  dataSources: ['json', 'oracledb', 'awsS3']
+  dataSources: ['json', 'oracledb', 'awsS3', 'ldap']
   json:
     dbPath: 'tests/unit/mock-data.json'
   oracledb:
@@ -38,3 +38,5 @@ dataSources:
     # These values are for local or proxy S3 instances
     endpoint: null
     s3ForcePathStyle: false
+  ldap:
+    url: 'ldap://test-url:389'

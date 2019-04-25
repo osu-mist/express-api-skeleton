@@ -24,7 +24,7 @@ const validateLdap = async () => {
     const client = getClient();
 
     // Perform some search that returns less than 200 results
-    client.search('o=orst.edu', { filter: 'osuPrimaryAffiliation=Retiree', scope: 'sub' });
+    client.search('o=orst.edu', { filter: '', scope: 'sub' });
   } catch (err) {
     throw new Error('Error connecting to ldap');
   }
