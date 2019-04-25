@@ -8,11 +8,7 @@ const ldapConfig = config.get('dataSources').ldap;
  * @function
  * @returns ldapjs client connection object
  */
-const getClient = () => {
-  ldap.createClient({
-    url: ldapConfig.url,
-  });
-};
+const getClient = () => ldap.createClient({ url: ldapConfig.url });
 
 /**
  * @summary Validate ldap connection and throw an error if invalid
@@ -22,9 +18,8 @@ const getClient = () => {
 const validateLdap = async () => {
   try {
     const client = getClient();
-
     // Perform some search that returns less than 200 results
-    client.search('o=orst.edu', { filter: '', scope: 'sub' });
+    client.search('o=orst.edu', { filter: '', scope: 'sub' }, () => {});
   } catch (err) {
     throw new Error('Error connecting to ldap');
   }
