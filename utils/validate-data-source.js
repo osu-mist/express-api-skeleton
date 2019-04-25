@@ -2,15 +2,20 @@ const appRoot = require('app-root-path');
 const config = require('config');
 const _ = require('lodash');
 
+const { openapi } = appRoot.require('utils/load-openapi');
+
 const { dataSources } = config.get('dataSources');
 const json = dataSources.includes('json')
-  ? appRoot.require('api/v1/db/json/fs-operations').validateJsonDb
+  ? appRoot.require(`/api${openapi.basePath}/db/json/fs-operations`).validateJsonDb
   : null;
 const oracledb = dataSources.includes('oracledb')
-  ? appRoot.require('api/v1/db/oracledb/connection').validateOracleDb
+  ? appRoot.require(`/api${openapi.basePath}/db/oracledb/connection`).validateOracleDb
   : null;
 const awsS3 = dataSources.includes('awsS3')
-  ? appRoot.require('api/v1/db/awsS3/aws-operations').validateAwsS3
+  ? appRoot.require(`/api${openapi.basePath}/db/awsS3/aws-operations`).validateAwsS3
+  : null;
+const ldap = dataSources.includes('ldap')
+  ? appRoot.require(`/api${openapi.basePath}/db/ldap/connection`).validateLdap
   : null;
 
 /**
@@ -23,6 +28,7 @@ const validateDataSource = () => {
     http: null, // TODO: add HTTP validation method
     json,
     oracledb,
+    ldap,
   };
 
   _.each(dataSources, (dataSourceType) => {
