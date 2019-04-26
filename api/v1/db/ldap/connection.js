@@ -19,7 +19,7 @@ const validateLdap = async () => {
   try {
     const client = getClient();
     // Perform some search that returns less than 200 results
-    client.search('o=orst.edu', { filter: '', scope: 'sub' }, () => {});
+    client.search('o=example.edu', { filter: 'cn=example*', scope: 'sub' }, () => {});
   } catch (err) {
     throw new Error('Error connecting to ldap');
   }
