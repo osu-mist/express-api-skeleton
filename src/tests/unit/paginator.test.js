@@ -1,8 +1,10 @@
-const appRoot = require('app-root-path');
-const { assert } = require('chai');
+import { assert } from 'chai';
 
-const { paginate } = appRoot.require('/utils/paginator');
-const rows = appRoot.require('/tests/unit/mock-data.json').pets;
+import pets from './mock-data';
+
+import { paginate } from 'utils/paginator';
+
+const rows = pets.pets;
 
 describe('Test paginator', () => {
   it('number of returned results should less then page size', (done) => {

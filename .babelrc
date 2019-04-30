@@ -5,8 +5,11 @@
     ],
     "plugins": [
         "@babel/plugin-transform-runtime",
-        ["module-resolver", {
-            "root": ["."]
-        }]
+        [
+            "module-resolver", {
+                "root": ["src"],
+                "extensions": [".js", ".json"]
+            }
+        ]
     ]
 }

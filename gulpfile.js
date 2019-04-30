@@ -10,18 +10,21 @@ const sourcemaps = require('gulp-sourcemaps');
 
 const babelClean = () => del(['build']);
 
-const babelCompile = () => gulp.src(['**/*.js', '!build/**', '!node_modules/**'])
+const babelCopy = () => gulp.src(['src/**', '!src/**/*.js', '!src/tests/integration/**'])
+  .pipe(gulp.dest('build/dist'));
+
+const babelCompile = () => gulp.src(['src/**/*.js'])
   .pipe(sourcemaps.init())
   .pipe(gulpBabel())
   .pipe(sourcemaps.write('../maps'))
   .pipe(gulp.dest('build/dist'));
 
-const babel = gulp.series(babelClean, babelCompile);
+const babel = gulp.series(babelClean, babelCopy, babelCompile);
 
 /**
  * @summary Use Eslint linting *.js file besides source files in node_modules
  */
-const lint = () => gulp.src(['**/*.js', '!build/**', '!node_modules/**'])
+const lint = () => gulp.src(['src/**/*.js'])
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(eslint.failAfterError());
