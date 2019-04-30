@@ -8,11 +8,21 @@ const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const sourcemaps = require('gulp-sourcemaps');
 
+/**
+ * @summary Delete the build/ directory
+ */
 const babelClean = () => del(['build']);
 
+/**
+ * @summary Copy files that don't need to be compiled from src/ to build/dist/
+ */
 const babelCopy = () => gulp.src(['src/**', '!src/**/*.js', '!src/tests/integration/**'])
   .pipe(gulp.dest('build/dist'));
 
+/**
+ * @summary Compile JavaScript files and place them in build/dist/. Also, generate sourcemaps and
+ *          and place them in build/maps
+ */
 const babelCompile = () => gulp.src(['src/**/*.js'])
   .pipe(sourcemaps.init())
   .pipe(gulpBabel())
