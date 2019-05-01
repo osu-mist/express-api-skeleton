@@ -1,7 +1,6 @@
-const appRoot = require('app-root-path');
-const _ = require('lodash');
+import _ from 'lodash';
 
-const { apiBaseUrl, resourcePathLink, paramsLink } = appRoot.require('utils/uri-builder');
+import { apiBaseUrl, resourcePathLink, paramsLink } from 'utils/uri-builder';
 
 
 /**
@@ -77,4 +76,4 @@ const serializerOptions = (serializerArgs) => {
   return options;
 };
 
-module.exports = { serializerOptions };
+export { serializerOptions as default };

@@ -12,11 +12,11 @@ import git from 'simple-git/promise';
 import 'source-map-support/register';
 
 import { errorBuilder, errorHandler } from 'errors/errors';
-import { authentication } from 'middlewares/authentication';
-import { bodyParserError } from 'middlewares/body-parser-error';
-import { logger } from 'middlewares/logger';
-import { runtimeErrors } from 'middlewares/runtime-errors';
-import { openapi } from 'utils/load-openapi';
+import authentication from 'middlewares/authentication';
+import bodyParserError from 'middlewares/body-parser-error';
+import logger from 'middlewares/logger';
+import runtimeErrors from 'middlewares/runtime-errors';
+import openapi from 'utils/load-openapi';
 import { validateDataSource } from 'utils/validate-data-source';
 
 const serverConfig = config.get('server');

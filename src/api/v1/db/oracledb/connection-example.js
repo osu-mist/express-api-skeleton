@@ -1,5 +1,5 @@
-const config = require('config');
-const oracledb = require('oracledb');
+import config from 'config';
+import oracledb from 'oracledb';
 
 const dbConfig = config.get('dataSources').oracledb;
 
@@ -45,4 +45,4 @@ const validateOracleDb = async () => {
   }
 };
 
-module.exports = { getConnection, validateOracleDb };
+export { getConnection, validateOracleDb };

@@ -1,7 +1,7 @@
-const config = require('config');
-const rp = require('request-promise-native');
+import config from 'config';
+import rp from 'request-promise-native';
 
-const { serializePets, serializePet } = require('../../serializers/pets-serializer');
+import { serializePets, serializePet } from '../../serializers/pets-serializer';
 
 const { sourceUri } = config.get('httpDataSource');
 const { endpointUri } = config.get('server');
@@ -43,4 +43,4 @@ const getPetById = id => new Promise(async (resolve, reject) => {
   }
 });
 
-module.exports = { getPets, getPetById };
+export { getPets, getPetById };

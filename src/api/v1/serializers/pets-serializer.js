@@ -1,12 +1,11 @@
-const appRoot = require('app-root-path');
-const decamelize = require('decamelize');
-const JsonApiSerializer = require('jsonapi-serializer').Serializer;
-const _ = require('lodash');
+import decamelize from 'decamelize';
+import { Serializer as JsonApiSerializer } from 'jsonapi-serializer';
+import _ from 'lodash';
 
-const { serializerOptions } = appRoot.require('utils/jsonapi');
-const { openapi } = appRoot.require('utils/load-openapi');
-const { paginate } = appRoot.require('utils/paginator');
-const { apiBaseUrl, resourcePathLink, paramsLink } = appRoot.require('utils/uri-builder');
+import serializerOptions from 'utils/jsonapi';
+import openapi from 'utils/load-openapi';
+import paginate from 'utils/paginator';
+import { apiBaseUrl, resourcePathLink, paramsLink } from 'utils/uri-builder';
 
 const petResourceProp = openapi.definitions.PetResource.properties;
 const petResourceType = petResourceProp.type.enum[0];
@@ -81,4 +80,4 @@ const serializePet = (rawPet) => {
     serializerOptions(serializerArgs, petResourcePath, topLevelSelfLink),
   ).serialize(rawPet);
 };
-module.exports = { serializePets, serializePet };
+export { serializePets, serializePet };

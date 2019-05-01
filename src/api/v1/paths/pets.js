@@ -1,16 +1,16 @@
-const appRoot = require('app-root-path');
+import { getPets } from '../db/json/pets-dao-example';
 
-const petsDao = require('../db/json/pets-dao-example');
+import { errorHandler } from 'errors/errors';
+import openapi from 'utils/load-openapi';
 
-const { errorHandler } = appRoot.require('errors/errors');
-const { openapi: { paths } } = appRoot.require('utils/load-openapi');
+const { paths } = openapi;
 
 /**
  * @summary Get pets
  */
 const get = async (req, res) => {
   try {
-    const result = await petsDao.getPets(req.query);
+    const result = await getPets(req.query);
     return res.send(result);
   } catch (err) {
     return errorHandler(res, err);
@@ -19,4 +19,4 @@ const get = async (req, res) => {
 
 get.apiDoc = paths['/pets'].get;
 
-module.exports = { get };
+export { get as default };

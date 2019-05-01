@@ -1,9 +1,9 @@
-const capitalize = require('capitalize');
-const _ = require('lodash');
+import capitalize from 'capitalize';
+import _ from 'lodash';
 
-const { serializePets, serializePet } = require('../../serializers/pets-serializer');
+import { serializePets, serializePet } from '../../serializers/pets-serializer';
 
-const awsOps = require('./aws-operations');
+import { getObject } from './aws-operations';
 
 const objectKey = 'pets.json';
 
@@ -14,7 +14,7 @@ const objectKey = 'pets.json';
  * @returns {Promise} Promise object represents a list of pets
  */
 const getPets = async (query) => {
-  const object = await awsOps.getObject(objectKey);
+  const object = await getObject(objectKey);
   let rawPets = JSON.parse(object.Body.toString()).pets;
   const { species } = query;
 
@@ -31,7 +31,7 @@ const getPets = async (query) => {
  * @returns {Promise} Promise object represents a specific pet
  */
 const getPetById = async (id) => {
-  const object = await awsOps.getObject(objectKey);
+  const object = await getObject(objectKey);
   const rawPets = JSON.parse(object.Body.toString()).pets;
   const rawPet = _.find(rawPets, { ID: id });
   if (!rawPet) {
@@ -41,4 +41,4 @@ const getPetById = async (id) => {
   return serializedPet;
 };
 
-module.exports = { getPets, getPetById };
+export { getPets, getPetById };

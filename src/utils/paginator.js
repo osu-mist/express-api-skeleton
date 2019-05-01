@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 /**
  * @summary Paginate data rows
@@ -26,4 +26,4 @@ const paginate = (rows, pageQuery) => {
   };
 };
 
-module.exports = { paginate };
+export { paginate as default };

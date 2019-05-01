@@ -1,7 +1,7 @@
-const config = require('config');
-const expressWinston = require('express-winston');
-const winston = require('winston');
-require('winston-daily-rotate-file');
+import config from 'config';
+import expressWinston from 'express-winston';
+import winston from 'winston';
+import 'winston-daily-rotate-file';
 
 const loggerConfig = config.get('logger');
 
@@ -37,4 +37,4 @@ const logger = expressWinston.logger({
   expressFormat: true,
 });
 
-module.exports = { logger };
+export { logger as default };

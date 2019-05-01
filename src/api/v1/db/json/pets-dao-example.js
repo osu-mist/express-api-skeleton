@@ -1,9 +1,9 @@
-const capitalize = require('capitalize');
-const _ = require('lodash');
+import capitalize from 'capitalize';
+import _ from 'lodash';
 
-const { serializePets, serializePet } = require('../../serializers/pets-serializer');
+import { serializePets, serializePet } from '../../serializers/pets-serializer';
 
-const { readJsonFile } = require('./fs-operations');
+import { readJsonFile } from './fs-operations';
 
 const dbPath = 'tests/unit/mock-data.json';
 
@@ -48,4 +48,4 @@ const getPetById = id => new Promise((resolve, reject) => {
   }
 });
 
-module.exports = { getPets, getPetById };
+export { getPets, getPetById };

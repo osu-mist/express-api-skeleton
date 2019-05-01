@@ -1,5 +1,5 @@
-const deasync = require('deasync');
-const SwaggerParser = require('swagger-parser');
+import deasync from 'deasync';
+import SwaggerParser from 'swagger-parser';
 
 /**
  * @summary Wrap async parser in a synchronous function. Preserve "this" context.
@@ -23,4 +23,4 @@ const parseOpenApi = () => {
 
 const openapi = parseOpenApi();
 
-module.exports = { openapi };
+export { openapi as default };

@@ -1,11 +1,10 @@
-const appRoot = require('app-root-path');
-const config = require('config');
-const _ = require('lodash');
+import config from 'config';
+import _ from 'lodash';
 
-const { serializePets, serializePet } = require('../../serializers/pets-serializer');
+import { serializePets, serializePet } from '../../serializers/pets-serializer';
 
-const { getConnection } = appRoot.require('api/v1/db/oracledb/connection');
-const contrib = appRoot.require('api/v1/db/oracledb/contrib/contrib');
+import { getConnection } from 'api/v1/db/oracledb/connection';
+import contrib from 'api/v1/db/oracledb/contrib/contrib';
 
 const { endpointUri } = config.get('server');
 
@@ -54,4 +53,4 @@ const getPetById = id => new Promise(async (resolve, reject) => {
   }
 });
 
-module.exports = { getPets, getPetById };
+export { getPets, getPetById };

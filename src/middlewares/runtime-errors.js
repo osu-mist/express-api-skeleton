@@ -1,8 +1,7 @@
-const appRoot = require('app-root-path');
-const composeErrors = require('compose-middleware').errors;
-const _ = require('lodash');
+import { errors as composeErrors } from 'compose-middleware';
+import _ from 'lodash';
 
-const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
+import { errorBuilder, errorHandler } from 'errors/errors';
 
 /**
  * @summary Determines if an error is an openapi error
@@ -85,4 +84,4 @@ const runtimeErrors = composeErrors([
   genericError,
 ]);
 
-module.exports = { runtimeErrors };
+export { runtimeErrors as default };

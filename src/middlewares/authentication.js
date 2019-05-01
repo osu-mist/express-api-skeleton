@@ -1,8 +1,7 @@
-const appRoot = require('app-root-path');
-const config = require('config');
-const basicAuth = require('express-basic-auth');
+import config from 'config';
+import basicAuth from 'express-basic-auth';
 
-const { unauthorized } = appRoot.require('errors/errors');
+import unauthorized from 'errors/errors';
 
 const { username, password } = config.authentication;
 
@@ -14,4 +13,4 @@ const authentication = basicAuth({
   unauthorizedResponse: unauthorized,
 });
 
-module.exports = { authentication };
+export { authentication as default };

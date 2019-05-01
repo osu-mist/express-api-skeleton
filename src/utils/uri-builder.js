@@ -1,11 +1,11 @@
-const url = require('url');
+import url from 'url';
 
-const appRoot = require('app-root-path');
-const config = require('config');
-const queryString = require('query-string');
+import config from 'config';
+import queryString from 'query-string';
 
-const { openapi: { basePath } } = appRoot.require('utils/load-openapi');
+import openapi from 'utils/load-openapi';
 
+const { basePath } = openapi;
 const { protocol, hostname } = config.get('server');
 
 /**
@@ -31,8 +31,4 @@ const resourcePathLink = (baseUrl, resourcePath) => `${baseUrl}/${resourcePath}`
  */
 const paramsLink = (baseUrl, params) => `${baseUrl}?${queryString.stringify(params, { encode: false })}`;
 
-module.exports = {
-  apiBaseUrl,
-  resourcePathLink,
-  paramsLink,
-};
+export { apiBaseUrl, resourcePathLink, paramsLink };

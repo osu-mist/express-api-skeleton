@@ -180,10 +180,10 @@ The following instructions show you how to get data from external endpoints for 
     $ cp api/v1/db/http/pets-dao-example.js api/v1/db/http/<resources>-dao.js
     ```
 
-3. Make sure to require the correct path for the new DAO file at path handlers files:
+3. Make sure to use the correct path for the new DAO file at path handlers files:
 
     ```js
-    const petsDao = require('../db/http/<resources>-dao');
+    import petsDao from '../db/http/<resources>-dao';
     ```
 
 ## Getting data source from the Oracle Database
@@ -252,10 +252,10 @@ The following instructions show you how to connect the API to an Oracle database
     $ cp api/v1/db/oracledb/pets-dao-example.js api/v1/db/oracledb/<resources>-dao.js
     ```
 
-7. Make sure to require the correct path for the new DAO file at path handlers files:
+7. Make sure to use the correct path for the new DAO file at path handlers files:
 
     ```js
-    const petsDao = require('../db/oracledb/<resources>-dao');
+    import petsDao from '../db/oracledb/<resources>-dao';
     ```
 
 ## Getting data source from an AWS S3 bucket
@@ -302,10 +302,10 @@ The following instructions show you how to get data from an AWS S3 bucket
     $ cp api/v1/db/awsS3/pets-dao-example.js api/v1/db/awsS3/<resources>-dao.js
     ```
 
-4. Make sure to require the correct path for the new DAO file at path handlers files:
+4. Make sure to use the correct path for the new DAO file at path handlers files:
 
     ```js
-    const petsDao = require('../db/awsS3/<resources>-dao');
+    import petsDao from '../db/awsS3/<resources>-dao';
     ```
 
 ## Docker

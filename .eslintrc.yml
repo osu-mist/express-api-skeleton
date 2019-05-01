@@ -19,6 +19,8 @@ overrides:
       - src/api/v1/db/awsS3/aws-operations.js
     rules:
       import/no-unresolved: "off"
+      import/order: "off"
+      import-order-alphabetical/order: "off"
 settings:
   import/resolver:
     babel-module: {}

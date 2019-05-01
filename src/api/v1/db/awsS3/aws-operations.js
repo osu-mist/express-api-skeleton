@@ -1,6 +1,6 @@
-const AWS = require('aws-sdk');
-const config = require('config');
-const _ = require('lodash');
+import AWS from 'aws-sdk';
+import config from 'config';
+import _ from 'lodash';
 
 const awsConfig = config.get('dataSources.awsS3');
 
@@ -195,7 +195,7 @@ const deleteObject = (key, bucket = thisBucket) => new Promise((resolve, reject)
   });
 });
 
-module.exports = {
+export {
   setBucket,
   bucketExists,
   validateAwsS3,
