@@ -1,7 +1,6 @@
 import fs from 'fs';
 import https from 'https';
 
-import appRoot from 'app-root-path';
 import bodyParser from 'body-parser';
 import { compose } from 'compose-middleware';
 import config from 'config';

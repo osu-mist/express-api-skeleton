@@ -50,6 +50,7 @@ const serializePets = (rawPets, query) => {
     pagination,
     resourcePath: petResourcePath,
     topLevelSelfLink,
+    query: _.omit(query, 'page[size]', 'page[number]'),
     enableDataLinks: true,
   };
 

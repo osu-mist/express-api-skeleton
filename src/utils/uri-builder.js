@@ -1,6 +1,7 @@
 import url from 'url';
 
 import config from 'config';
+import _ from 'lodash';
 import queryString from 'query-string';
 
 import openapi from 'utils/load-openapi';
@@ -29,6 +30,11 @@ const resourcePathLink = (baseUrl, resourcePath) => `${baseUrl}/${resourcePath}`
  * @param {string} params query params
  * @returns A decoded url formatted with query parameters in the query object
  */
-const paramsLink = (baseUrl, params) => `${baseUrl}?${queryString.stringify(params, { encode: false })}`;
+const paramsLink = (baseUrl, params) => {
+  const querySeparator = _.includes(baseUrl, '?') ? '&' : '?';
+  return !_.isEmpty(params)
+    ? `${baseUrl}${querySeparator}${queryString.stringify(params, { encode: false })}`
+    : baseUrl;
+};
 
 export { apiBaseUrl, resourcePathLink, paramsLink };

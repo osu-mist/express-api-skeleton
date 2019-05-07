@@ -2,7 +2,7 @@ import fs from 'fs';
 
 import config from 'config';
 
-const { dbPath } = config.get('dataSources').json;
+const { dbPath } = config.get('dataSources.json');
 
 /**
  * @summary Validate a file path and throw an error if invalid
@@ -28,13 +28,13 @@ const validateJsonDb = () => validateFilePath(dbPath);
  * @summary Read a JSON file and return the contents as an object
  * @function
  * @param {string} filePath
- * @returns {Object}
+ * @returns {Object} Contents of JSON file or undefined if the file doesn't exist
  */
 const readJsonFile = (filePath) => {
   if (fs.existsSync(filePath)) {
     return JSON.parse(fs.readFileSync(filePath, 'utf8'));
   }
-  return null;
+  return undefined;
 };
 
 /**

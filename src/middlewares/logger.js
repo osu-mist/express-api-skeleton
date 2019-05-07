@@ -3,6 +3,8 @@ import expressWinston from 'express-winston';
 import winston from 'winston';
 import 'winston-daily-rotate-file';
 
+import { name } from 'package.json';
+
 const loggerConfig = config.get('logger');
 
 /**
@@ -10,7 +12,7 @@ const loggerConfig = config.get('logger');
  * @returns A transport for daily rotate file
  */
 const dailyRotateFileTransport = new (winston.transports.DailyRotateFile)({
-  filename: 'express-api-skeleton-%DATE%.log',
+  filename: `${name}-%DATE%.log`,
   datePattern: loggerConfig.pattern,
   maxSize: loggerConfig.size,
   zippedArchive: loggerConfig.archive,

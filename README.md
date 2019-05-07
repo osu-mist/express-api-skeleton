@@ -133,10 +133,10 @@ $ npm run babel
     * The path handler for `/api/v1/pets` should go to [api/v1/paths/pet.js](api/v1/paths/pet.js)
     * The path handler for `/api/v1/pets/{id}` should go to [api/v1/paths/pet/{id}.js](api/v1/paths/pet/{id}.js)
 
-4. Copy [api/v1/serializers/pets-serializers.js](api/v1/serializers/pets-serializers.js) to `api/v1/serializers/<resources>-serializers.js` and modify as necessary:
+4. Copy [api/v1/serializers/pets-serializer.js](api/v1/serializers/pets-serializer.js) to `api/v1/serializers/<resources>-serializer.js` and modify as necessary:
 
     ```shell
-    $ cp api/v1/serializers/pets-serializers.js api/v1/serializers/<resources>-serializers.js
+    $ cp api/v1/serializers/pets-serializer.js api/v1/serializers/<resources>-serializer.js
     ```
 
 ### Base an existing project off / Incorporate updates from the skeleton
@@ -240,13 +240,7 @@ The following instructions show you how to connect the API to an Oracle database
         $ git submodule update --init
         ```
 
-5. Rename [api/v1/db/oracledb/connection-example.js](api/v1/db/oracledb/connection-example.js) to `api/v1/db/oracledb/connection.js`:
-
-    ```shell
-    $ git mv api/v1/db/oracledb/connection-example.js api/v1/db/oracledb/connection.js
-    ```
-
-6. Copy [api/v1/db/oracledb/pets-dao-example.js](api/v1/db/oracledb/pets-dao-example.js) to `api/v1/db/oracledb/<resources>-dao.js` and modify as necessary:
+5. Copy [api/v1/db/oracledb/pets-dao-example.js](api/v1/db/oracledb/pets-dao-example.js) to `api/v1/db/oracledb/<resources>-dao.js` and modify as necessary:
 
     ```shell
     $ cp api/v1/db/oracledb/pets-dao-example.js api/v1/db/oracledb/<resources>-dao.js
