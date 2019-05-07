@@ -1,9 +1,6 @@
 import { getPetById } from '../../db/json/pets-dao-example';
 
 import { errorBuilder, errorHandler } from 'errors/errors';
-import openapi from 'utils/load-openapi';
-
-const { paths } = openapi;
 
 /**
  * @summary Get pet by unique ID
@@ -22,6 +19,6 @@ const get = async (req, res) => {
   }
 };
 
-get.apiDoc = paths['/pets/{id}'].get;
-
-export { get as default };
+export default {
+  get,
+};
