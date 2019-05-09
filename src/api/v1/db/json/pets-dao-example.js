@@ -5,7 +5,7 @@ import { serializePets, serializePet } from '../../serializers/pets-serializer';
 
 import { readJsonFile } from './fs-operations';
 
-const dbPath = 'build/dist/tests/unit/mock-data.json';
+const dbPath = 'dist/tests/unit/mock-data.json';
 
 /**
  * @summary Return a list of pets

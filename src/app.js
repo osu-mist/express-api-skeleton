@@ -16,7 +16,7 @@ import bodyParserError from 'middlewares/body-parser-error';
 import logger from 'middlewares/logger';
 import runtimeErrors from 'middlewares/runtime-errors';
 import openapi from 'utils/load-openapi';
-import { validateDataSource } from 'utils/validate-data-source';
+import validateDataSource from 'utils/validate-data-source';
 
 const serverConfig = config.get('server');
 
@@ -105,7 +105,7 @@ adminAppRouter.get(`${openapi.basePath}`, async (req, res) => {
 initialize({
   app: appRouter,
   apiDoc: openapi,
-  paths: `build/dist/api${openapi.basePath}/paths`,
+  paths: `dist/api${openapi.basePath}/paths`,
   consumesMiddleware: {
     'application/json': compose([bodyParser.json(), bodyParserError]),
   },

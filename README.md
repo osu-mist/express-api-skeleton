@@ -102,7 +102,7 @@ $ npm run typecheck
 
 ## Babel
 
-This API uses [Babel](https://babeljs.io/) to transpile JavaScript code. After running, the transpiled code will be located in `build/dist/`. Source maps are also generated and located in `build/maps`. These contain references to the original source code for debugging purposes.
+This API uses [Babel](https://babeljs.io/) to transpile JavaScript code. After running, the transpiled code will be located in `dist/`. Source maps are also generated in the same directory. These contain references to the original source code for debugging purposes.
 
 Babel allows for newer ECMAScript syntax such as `import` and `export` from ES6. It also allows [Babel plugins](https://babeljs.io/docs/en/plugins) to be used.
 

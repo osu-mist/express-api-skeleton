@@ -9,25 +9,23 @@ const mocha = require('gulp-mocha');
 const sourcemaps = require('gulp-sourcemaps');
 
 /**
- * @summary Delete the build/ directory
+ * @summary Delete the dist/ directory
  */
-const babelClean = () => del(['build']);
+const babelClean = () => del(['dist']);
 
 /**
- * @summary Copy files that don't need to be compiled from src/ to build/dist/
+ * @summary Copy files that don't need to be compiled from src/ to dist/
  */
 const babelCopy = () => gulp.src(['src/**', '!src/**/*.js', '!src/tests/integration/**'])
-  .pipe(gulp.dest('build/dist'));
+  .pipe(gulp.dest('dist'));
 
 /**
- * @summary Compile JavaScript files and place them in build/dist/. Also, generate sourcemaps and
- *          and place them in build/maps
+ * @summary Compile JavaScript files and place them in dist/. Also, generate sourcemaps
  */
 const babelCompile = () => gulp.src(['src/**/*.js'])
   .pipe(sourcemaps.init())
   .pipe(gulpBabel())
-  .pipe(sourcemaps.write('../maps'))
-  .pipe(gulp.dest('build/dist'));
+  .pipe(gulp.dest('dist'));
 
 const babel = gulp.series(babelClean, babelCopy, babelCompile);
 
@@ -47,13 +45,13 @@ const typecheck = () => spawn('./node_modules/.bin/flow', ['check'], { stdio: 'i
 /**
  * @summary Run unit tests
  */
-const test = () => gulp.src(['build/dist/tests/unit/*.js'])
+const test = () => gulp.src(['dist/tests/unit/*.js'])
   .pipe(mocha({ reporter: 'spec' }));
 
 /**
  * @summary Start application using forever
  */
-const start = () => new forever.Monitor('build/dist/app.js').start();
+const start = () => new forever.Monitor('dist/app.js').start();
 
 /**
  * @summary Lint and compile, test, and start the application

@@ -92,4 +92,4 @@ env.bak/
 venv.bak/
 
 # Transpiled Babel code and source maps
-build/**
+dist/**

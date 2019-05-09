@@ -5,11 +5,11 @@ const { dataSources } = config.get('dataSources');
 const awsS3 = dataSources.includes('awsS3')
   ? require('api/v1/db/awsS3/aws-operations').validateAwsS3
   : null;
-const oracledb = dataSources.includes('oracledb')
-  ? require('api/v1/db/oracledb/connection').validateOracleDb
-  : null;
 const json = dataSources.includes('json')
   ? require('api/v1/db/json/fs-operations').validateJsonDb
+  : null;
+const oracledb = dataSources.includes('oracledb')
+  ? require('api/v1/db/oracledb/connection').validateOracleDb
   : null;
 
 /**
@@ -36,4 +36,4 @@ const validateDataSource = () => {
   });
 };
 
-module.exports = { validateDataSource };
+export default validateDataSource;

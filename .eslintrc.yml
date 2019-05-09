@@ -16,7 +16,13 @@ rules:
   import/no-unresolved:
     - error
     - commonjs: true
-      ignore: [ ^aws-sdk$, ^oracledb$, ^request-promise-native$ ]
+      ignore: [ ^aws-sdk$, ^oracledb$, ^request-promise-native$, contrib/ ]
+overrides:
+  files:
+    - src/api/v1/db/oracledb/pets-dao-example.js
+  rules:
+    import/order: "off"
+    import-order-alphabetical/order: "off"
 settings:
   import/resolver:
     babel-module: {}
