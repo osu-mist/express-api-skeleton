@@ -139,10 +139,11 @@ def check_schema(self, response, schema, nullable_fields):
         elif '$ref' in attribute:
             openapi_type = __get_reference_type(attribute['$ref'])
 
-        return types_dict[openapi_type] if openapi_type else None
-
-        logging.warning('OpenAPI property contains no type or properties')
-        return None
+        if not openapi_type:
+            logging.warning('OpenAPI property contains no type or properties')
+            return None
+        else:
+            return types_dict[openapi_type]
 
     # Helper function to get type of referenced object
     def __get_reference_type(object_path, root_object_paths=None):
