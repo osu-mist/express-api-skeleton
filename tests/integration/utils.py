@@ -191,7 +191,8 @@ def check_schema(self, response, schema, nullable_fields):
             expected_type = __get_attribute_type(expected_attribute)
 
             # Check item schema if attribute is an array
-            if expected_type is list:
+            if expected_type is list and \
+               'properties' in expected_attributes[field]['items']:
                 expected_item = (expected_attributes[field]['items']
                                                     ['properties'])
                 actual_items = actual_attributes[field]
