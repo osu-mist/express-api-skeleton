@@ -113,12 +113,12 @@ def check_schema(self, response, schema, nullable_fields):
     # Mapping of OpenAPI data types and python data types
     types_dict = {
         'string': str,
-        'number': float,
         'integer': int,
         'int32': int,
         'int64': int,
-        'float': float,
-        'double': float,
+        'float': (float, int),
+        'double': (float, int),
+        'number': (float, int),
         'boolean': bool,
         'array': list,
         'object': dict
