@@ -1,13 +1,16 @@
 const presets = [
   [
     '@babel/preset-env',
-    { targets: { node: '10' } },
+    {
+      targets: { node: 'current' },
+    },
   ],
   '@babel/preset-flow',
 ];
 
 const plugins = [
   '@babel/plugin-transform-runtime',
+  '@babel/plugin-proposal-optional-chaining',
   [
     'module-resolver',
     {
