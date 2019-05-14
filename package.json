@@ -19,6 +19,9 @@
     "type": "git",
     "url": "git+https://github.com/osu-mist/express-api-skeleton.git"
   },
+  "engines": {
+    "node": "^10.13"
+  },
   "author": "osu-mist",
   "license": "AGPL-3.0",
   "bugs": {

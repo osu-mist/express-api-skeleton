@@ -75,7 +75,7 @@ bin
 .DS_Store
 
 # Integration tests configuration
-tests/integration/configuration.json
+src/tests/integration/configuration.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
