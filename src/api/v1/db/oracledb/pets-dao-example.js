@@ -1,10 +1,10 @@
 import config from 'config';
 import _ from 'lodash';
 
-import { serializePets, serializePet } from '../../serializers/pets-serializer';
+import conn from './connection';
+import contrib from './contrib/contrib';
 
-import conn from 'api/v1/db/oracledb/connection';
-import contrib from 'api/v1/db/oracledb/contrib/contrib';
+import { serializePets, serializePet } from 'api/v1/serializers/pets-serializer';
 
 const { endpointUri } = config.get('server');
 

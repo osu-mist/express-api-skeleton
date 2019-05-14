@@ -1,9 +1,9 @@
 import capitalize from 'capitalize';
 import _ from 'lodash';
 
-import { serializePets, serializePet } from '../../serializers/pets-serializer';
-
 import { readJsonFile } from './fs-operations';
+
+import { serializePets, serializePet } from 'api/v1/serializers/pets-serializer';
 
 const dbPath = 'dist/tests/unit/mock-data.json';
 

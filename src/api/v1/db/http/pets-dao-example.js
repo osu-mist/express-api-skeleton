@@ -1,7 +1,7 @@
 import config from 'config';
 import rp from 'request-promise-native';
 
-import { serializePets, serializePet } from '../../serializers/pets-serializer';
+import { serializePets, serializePet } from 'api/v1/serializers/pets-serializer';
 
 const { sourceUri } = config.get('httpDataSource');
 const { endpointUri } = config.get('server');
