@@ -78,7 +78,7 @@ const serializePet = (rawPet) => {
 
   return new JsonApiSerializer(
     petResourceType,
-    serializerOptions(serializerArgs, petResourcePath, topLevelSelfLink),
+    serializerOptions(serializerArgs),
   ).serialize(rawPet);
 };
 export { serializePets, serializePet };
