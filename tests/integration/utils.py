@@ -191,17 +191,22 @@ def check_schema(self, response, schema, nullable_fields):
             expected_type = __get_attribute_type(expected_attribute)
 
             # Check item schema if attribute is an array
-            if expected_type is list and \
-               'properties' in expected_attributes[field]['items']:
-                expected_item = (expected_attributes[field]['items']
-                                                    ['properties'])
+            if (
+                expected_type is list
+                and 'properties' in expected_attributes[field]['items']
+            ):
+                expected_item = (
+                    expected_attributes[field]['items']['properties']
+                )
                 actual_items = actual_attributes[field]
 
                 for actual_item in actual_items:
                     __check_attributes_schema(actual_item, expected_item)
 
-            if (actual_value and expected_type) or \
-               field not in nullable_fields:
+            if (
+                (actual_value and expected_type)
+                or field not in nullable_fields
+            ):
                 self.assertIsInstance(actual_value, expected_type)
 
     status_code = response.status_code
