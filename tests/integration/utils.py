@@ -191,6 +191,11 @@ def check_schema(self, response, schema, nullable_fields):
     # Helper function to check through all attributes
     def __check_attributes_schema(actual_attributes, expected_attributes):
         for field, actual_value in actual_attributes.items():
+            self.assertIn(
+                field,
+                expected_attributes.keys(),
+                f'Unexpected field \'{field}\''
+            )
             expected_attribute = expected_attributes[field]
             expected_type = __get_attribute_type(expected_attribute)
 
