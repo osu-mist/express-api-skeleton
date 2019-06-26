@@ -9,7 +9,7 @@ import { serializePet, serializePets } from '../serializers/pets-serializer';
  */
 const get = async (req, res) => {
   try {
-    const rawPets = await getPets(req.query);
+    const rawPets = await getPets(req);
     const result = serializePets(rawPets, req);
     return res.send(result);
   } catch (err) {
