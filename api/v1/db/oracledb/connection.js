@@ -42,6 +42,7 @@ const validateOracleDb = async () => {
     connection = await getConnection();
     await connection.execute('SELECT 1 FROM DUAL');
   } catch (err) {
+    console.error(err);
     throw new Error('Unable to connect to Oracle database');
   } finally {
     connection.close();
