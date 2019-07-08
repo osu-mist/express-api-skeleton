@@ -36,4 +36,4 @@ gulp.task('start', () => new forever.Monitor('dist/app.js').start());
 /**
  * @summary Run test and lint task parallelly before start the apllication
  */
-gulp.task('run', gulp.series(gulp.parallel('lint', 'test'), 'start'));
+gulp.task('run', gulp.series(gulp.parallel('lint', 'test'), 'webpack', 'start'));

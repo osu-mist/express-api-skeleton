@@ -8,6 +8,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
+  mode: 'production',
   target: 'node',
   node: {
     __dirname: false,

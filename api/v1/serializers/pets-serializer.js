@@ -1,12 +1,11 @@
-const appRoot = require('app-root-path');
 const decamelize = require('decamelize');
 const JsonApiSerializer = require('jsonapi-serializer').Serializer;
 const _ = require('lodash');
 
-const { serializerOptions } = appRoot.require('utils/jsonapi');
-const { openapi } = appRoot.require('utils/load-openapi');
-const { paginate } = appRoot.require('utils/paginator');
-const { apiBaseUrl, resourcePathLink, paramsLink } = appRoot.require('utils/uri-builder');
+const { serializerOptions } = require('Utils/jsonapi');
+const { openapi } = require('Utils/load-openapi');
+const { paginate } = require('Utils/paginator');
+const { apiBaseUrl, resourcePathLink, paramsLink } = require('Utils/uri-builder');
 
 const petResourceProp = openapi.definitions.PetResource.properties;
 const petResourceType = petResourceProp.type.enum[0];
