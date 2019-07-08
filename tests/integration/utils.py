@@ -98,7 +98,11 @@ def make_request(self, endpoint, expected_status_code,
         Response body:''')
     response_body = json.dumps(response.json(), indent=4)
     logging.debug(f'{response_code_details}\n{response_body})')
-    self.assertEqual(status_code, expected_status_code)
+    self.assertEqual(
+        status_code,
+        expected_status_code,
+        f'requested_url: {requested_url},\nresponse_body: {response_body}'
+    )
 
     # Response time should less then max_elapsed_seconds
     elapsed_seconds = response.elapsed.total_seconds()
@@ -187,6 +191,11 @@ def check_schema(self, response, schema, nullable_fields):
     # Helper function to check through all attributes
     def __check_attributes_schema(actual_attributes, expected_attributes):
         for field, actual_value in actual_attributes.items():
+            self.assertIn(
+                field,
+                expected_attributes.keys(),
+                f"Unexpected field '{field}'"
+            )
             expected_attribute = expected_attributes[field]
             expected_type = __get_attribute_type(expected_attribute)
 
@@ -254,7 +263,10 @@ def check_url(self, link_url, endpoint, query_params=None):
                             Expected: {base_attribute}
                             Link: {link_attribute}'''))
 
-    link_url_query = dict(urllib.parse.parse_qsl(link_url_obj.query))
+    link_url_query = dict(urllib.parse.parse_qsl(
+        link_url_obj.query,
+        keep_blank_values=True
+    ))
     self.assertTrue(set(link_url_query).issuperset(set(query_params)),
                     textwrap.dedent(f'''
                         Query parameter(s) not in link.
