@@ -263,7 +263,10 @@ def check_url(self, link_url, endpoint, query_params=None):
                             Expected: {base_attribute}
                             Link: {link_attribute}'''))
 
-    link_url_query = dict(urllib.parse.parse_qsl(link_url_obj.query))
+    link_url_query = dict(urllib.parse.parse_qsl(
+        link_url_obj.query,
+        keep_blank_values=True
+    ))
     self.assertTrue(set(link_url_query).issuperset(set(query_params)),
                     textwrap.dedent(f'''
                         Query parameter(s) not in link.
