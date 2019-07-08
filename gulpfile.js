@@ -4,9 +4,9 @@ const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 
 /**
- * @summary Use Eslint linting *.js file besides source files in node_modules
+ * @summary Use Eslint linting *.js file besides node_modules, dist
  */
-gulp.task('lint', () => gulp.src(['**/*.js', '!node_modules/**'])
+gulp.task('lint', () => gulp.src(['**/*.js', '!node_modules/**', '!dist/**'])
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(eslint.failAfterError()));
@@ -20,7 +20,7 @@ gulp.task('test', () => gulp.src(['tests/unit/*.js'])
 /**
  * @summary Start application using forever
  */
-gulp.task('start', () => new forever.Monitor('app.js').start());
+gulp.task('start', () => new forever.Monitor('dist/app.js').start());
 
 
 /**
