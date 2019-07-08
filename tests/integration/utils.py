@@ -194,7 +194,7 @@ def check_schema(self, response, schema, nullable_fields):
             self.assertIn(
                 field,
                 expected_attributes.keys(),
-                f'Unexpected field \'{field}\''
+                f"Unexpected field '{field}'"
             )
             expected_attribute = expected_attributes[field]
             expected_type = __get_attribute_type(expected_attribute)
