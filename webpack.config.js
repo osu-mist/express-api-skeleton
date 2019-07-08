@@ -6,12 +6,20 @@ module.exports = {
   output: {
     filename: 'app.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
+    publicPath: '/',
   },
   target: 'node',
   node: {
     __dirname: false,
     __filename: false,
   },
-  externals: [nodeExternals()]
+  resolve: {
+    alias: {
+      Errors: path.resolve(__dirname, 'errors/'),
+      Middlewares: path.resolve(__dirname, 'middlewares/'),
+      Utils: path.resolve(__dirname, 'utils'),
+      Paths: path.resolve(__dirname, 'api/v1/paths/'),
+    },
+  },
+  externals: [nodeExternals()],
 };

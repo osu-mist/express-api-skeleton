@@ -9,3 +9,10 @@ rules:
     - error
     - commonjs: true
       ignore: [ ^aws-sdk$, ^oracledb$, ^request-promise-native$ ]
+settings:
+  import/resolver:
+    alias:
+      - ['Errors', './errors']
+      - ['Middlewares', './middlewares']
+      - ['Utils', './utils']
+      - ['Paths', './api/v1/paths']

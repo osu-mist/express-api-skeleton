@@ -1,4 +1,3 @@
-const appRoot = require('app-root-path');
 const bodyParser = require('body-parser');
 const { compose } = require('compose-middleware');
 const config = require('config');
@@ -9,13 +8,16 @@ const https = require('https');
 const moment = require('moment');
 const git = require('simple-git/promise');
 
-const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
-const { authentication } = appRoot.require('middlewares/authentication');
-const { bodyParserError } = appRoot.require('middlewares/body-parser-error');
-const { logger } = appRoot.require('middlewares/logger');
-const { runtimeErrors } = appRoot.require('middlewares/runtime-errors');
-const { openapi } = appRoot.require('utils/load-openapi');
-const { validateDataSource } = appRoot.require('utils/validate-data-source');
+const { errorBuilder, errorHandler } = require('Errors/errors');
+const { authentication } = require('Middlewares/authentication');
+const { bodyParserError } = require('Middlewares/body-parser-error');
+const { logger } = require('Middlewares/logger');
+const { runtimeErrors } = require('Middlewares/runtime-errors');
+const { openapi } = require('Utils/load-openapi');
+const { validateDataSource } = require('Utils/validate-data-source');
+
+const pet = require('Paths/pets/{id}.js');
+const pets = require('Paths/pets.js');
 
 const serverConfig = config.get('server');
 
@@ -104,7 +106,10 @@ adminAppRouter.get(`${openapi.basePath}`, async (req, res) => {
 initialize({
   app: appRouter,
   apiDoc: openapi,
-  paths: `${appRoot}/api${openapi.basePath}/paths`,
+  paths: [
+    { path: '/pets', module: pets },
+    { path: '/pet', module: pet },
+  ],
   consumesMiddleware: {
     'application/json': compose([bodyParser.json(), bodyParserError]),
   },
