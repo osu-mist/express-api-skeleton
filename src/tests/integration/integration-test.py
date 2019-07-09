@@ -71,7 +71,8 @@ class integration_tests(unittest.TestCase):
             expected_status_code = pagination['expected_status_code']
             resource = (
                 'PetResource' if expected_status_code == 200
-                else 'Error')
+                else 'ErrorObject'
+            )
             response = utils.test_endpoint(self, endpoint, resource,
                                            expected_status_code,
                                            query_params=params,
@@ -98,7 +99,7 @@ class integration_tests(unittest.TestCase):
             utils.test_endpoint(self, f'{endpoint}/{pet_id}', resource, 200)
 
         for pet_id in invalid_pet_ids:
-            resource = 'Error'
+            resource = 'ErrorObject'
             utils.test_endpoint(self, f'{endpoint}/{pet_id}', resource, 404)
 
 
