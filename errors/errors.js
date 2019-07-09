@@ -126,7 +126,7 @@ const errorBuilder = (res, status, detail) => {
 const errorHandler = (res, err) => {
   const detail = 'The application encountered an unexpected condition.';
   // Not all errors will have a stack associated with it
-  if(err.stack){
+  if (err.stack) {
     console.error(err.stack);
   } else {
     console.error(err);
