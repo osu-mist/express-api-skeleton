@@ -37,11 +37,15 @@ const getConnection = () => new Promise(async (resolve, reject) => {
  * @throws Throws an error if unable to connect to the database
  */
 const validateOracleDb = async () => {
+  let connection;
   try {
-    const connection = await getConnection();
+    connection = await getConnection();
     await connection.execute('SELECT 1 FROM DUAL');
   } catch (err) {
+    console.error(err);
     throw new Error('Unable to connect to Oracle database');
+  } finally {
+    connection.close();
   }
 };
 

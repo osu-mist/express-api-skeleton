@@ -51,10 +51,10 @@ $ npm install
 Run the application:
 
   ```shell
-  # Run linting and testing tasks before starting the app
+  # Run linting testing, and webpack tasks before starting the app
   $ gulp run
 
-  # Run the app without running linting and testing tasks (only for development)
+  # Run the app without running linting testing, and webpack tasks (only for development)
   $ gulp start
   ```
 
@@ -99,6 +99,15 @@ $ gulp typecheck
 # Using npm
 $ npm run typecheck
 ```
+
+### Webpack
+
+Bundles API to /dist/app.js
+
+```shell
+# Using gulp
+$ gulp webpack
+
 
 ## Babel
 

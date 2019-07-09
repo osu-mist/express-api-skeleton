@@ -15,8 +15,12 @@ import authentication from 'middlewares/authentication';
 import bodyParserError from 'middlewares/body-parser-error';
 import logger from 'middlewares/logger';
 import runtimeErrors from 'middlewares/runtime-errors';
+import pets from 'paths/pets';
+import pet from 'paths/pets/{id}';
 import openapi from 'utils/load-openapi';
 import validateDataSource from 'utils/validate-data-source';
+
+require('source-map-support').install();
 
 const serverConfig = config.get('server');
 
@@ -105,7 +109,10 @@ adminAppRouter.get(`${openapi.basePath}`, async (req, res) => {
 initialize({
   app: appRouter,
   apiDoc: openapi,
-  paths: `dist/api${openapi.basePath}/paths`,
+  paths: [
+    { path: '/pets', module: pets },
+    { path: '/pet', module: pet },
+  ],
   consumesMiddleware: {
     'application/json': compose([bodyParser.json(), bodyParserError]),
   },

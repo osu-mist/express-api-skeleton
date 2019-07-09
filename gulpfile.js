@@ -7,6 +7,8 @@ const gulpBabel = require('gulp-babel');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const sourcemaps = require('gulp-sourcemaps');
+const webpackStream = require('webpack-stream');
+const webpackConfig = require('./webpack.config.js');
 
 /**
  * @summary Delete the dist/ directory
@@ -32,7 +34,7 @@ const babel = gulp.series(babelClean, babelCopy, babelCompile);
 /**
  * @summary Use Eslint linting *.js file besides source files in node_modules
  */
-const lint = () => gulp.src(['src/**/*.js'])
+const lint = () => gulp.src(['src/**/*.js', '!node_modules/**', '!dist/**'])
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(eslint.failAfterError());
@@ -49,6 +51,13 @@ const test = () => gulp.src(['dist/tests/unit/*.js'])
   .pipe(mocha({ reporter: 'spec' }));
 
 /**
+ * @summary Bundle using webpack
+ */
+const webpack = () => gulp.task('webpack', () => gulp.src('app.js')
+  .pipe(webpackStream(webpackConfig))
+  .pipe(gulp.dest('dist/')));
+
+/**
  * @summary Start application using forever
  */
 const start = () => new forever.Monitor('dist/app.js').start();
@@ -56,7 +65,7 @@ const start = () => new forever.Monitor('dist/app.js').start();
 /**
  * @summary Lint and compile, test, and start the application
  */
-exports.run = gulp.series(gulp.parallel(lint, typecheck, babel), test, start);
+exports.run = gulp.series(gulp.parallel(lint, typecheck, babel), test, webpack, start);
 /**
  * @summary Compile and start the application only
  */

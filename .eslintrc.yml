@@ -16,7 +16,16 @@ rules:
   import/no-unresolved:
     - error
     - commonjs: true
-      ignore: [ ^aws-sdk$, ^oracledb$, ^request-promise-native$, contrib/ ]
+      ignore:
+        - ^aws-sdk$
+        - ^oracledb$
+        - ^request-promise-native$
+        - ^./contrib/contrib$
 settings:
   import/resolver:
+    alias:
+      - ['errors', './errors']
+      - ['middlewares', './middlewares']
+      - ['utils', './utils']
+      - ['paths', './api/v1/paths']
     babel-module: {}
