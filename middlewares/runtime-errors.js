@@ -1,8 +1,7 @@
-const appRoot = require('app-root-path');
 const composeErrors = require('compose-middleware').errors;
 const _ = require('lodash');
 
-const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
+const { errorBuilder, errorHandler } = require('Errors/errors');
 
 /**
  * @summary Determines if an error is an openapi error

@@ -1,10 +1,9 @@
-const appRoot = require('app-root-path');
 const config = require('config');
 const expressWinston = require('express-winston');
 const winston = require('winston');
 require('winston-daily-rotate-file');
 
-const { name } = appRoot.require('package');
+const { name } = require('./../package');
 
 const loggerConfig = config.get('logger');
 

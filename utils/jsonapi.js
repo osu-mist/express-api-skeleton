@@ -1,7 +1,6 @@
-const appRoot = require('app-root-path');
 const _ = require('lodash');
 
-const { apiBaseUrl, resourcePathLink, paramsLink } = appRoot.require('utils/uri-builder');
+const { apiBaseUrl, resourcePathLink, paramsLink } = require('Utils/uri-builder');
 
 
 /**

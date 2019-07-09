@@ -8,7 +8,8 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
-  mode: 'production',
+  mode: 'development',
+  devtool: 'cheap-source-map',
   target: 'node',
   node: {
     __dirname: false,
