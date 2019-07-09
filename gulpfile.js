@@ -53,23 +53,23 @@ const test = () => gulp.src(['dist/tests/unit/*.js'])
 /**
  * @summary Bundle using webpack
  */
-const webpack = () => gulp.task('webpack', () => gulp.src('app.js')
+const webpack = () => gulp.src('dist/app.js')
   .pipe(webpackStream(webpackConfig))
-  .pipe(gulp.dest('dist/')));
+  .pipe(gulp.dest('dist/'));
 
 /**
  * @summary Start application using forever
  */
-const start = () => new forever.Monitor('dist/app.js').start();
+const start = () => new forever.Monitor('dist/bundle.js').start();
 
 /**
  * @summary Lint and compile, test, and start the application
  */
 exports.run = gulp.series(gulp.parallel(lint, typecheck, babel), test, webpack, start);
 /**
- * @summary Compile and start the application only
+ * @summary Start the application only
  */
-exports.start = gulp.series(babel, start);
+exports.start = start;
 /**
  * @summary Compile and test the application only
  */
@@ -86,3 +86,7 @@ exports.lint = lint;
  * @summary Typecheck the code only
  */
 exports.typecheck = typecheck;
+/**
+ * @summary Webpack the code only
+ */
+exports.webpack = webpack;

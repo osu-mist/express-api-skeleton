@@ -2,9 +2,9 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-  entry: './app.js',
+  entry: './dist/app.js',
   output: {
-    filename: 'app.js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
@@ -17,10 +17,10 @@ module.exports = {
   },
   resolve: {
     alias: {
-      errors: path.resolve(__dirname, 'errors/'),
-      middlewares: path.resolve(__dirname, 'middlewares/'),
-      utils: path.resolve(__dirname, 'utils'),
-      paths: path.resolve(__dirname, 'api/v1/paths/'),
+      errors: path.resolve(__dirname, 'dist/errors/'),
+      middlewares: path.resolve(__dirname, 'dist/middlewares/'),
+      utils: path.resolve(__dirname, 'dist/utils/'),
+      paths: path.resolve(__dirname, 'dist/api/v1/paths/'),
     },
   },
   externals: [nodeExternals()],
