@@ -42,6 +42,7 @@
     "oracledb": "^3.1.2",
     "query-string": "^6.2.0",
     "simple-git": "^1.96.0",
+    "source-map-support": "0.5.12",
     "swagger-parser": "^6.0.3",
     "webpack-node-externals": "^1.7.2",
     "winston": "^3.1.0",

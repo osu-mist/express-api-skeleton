@@ -8,6 +8,8 @@ const https = require('https');
 const moment = require('moment');
 const git = require('simple-git/promise');
 
+require('source-map-support').install();
+
 const { errorBuilder, errorHandler } = require('Errors/errors');
 const { authentication } = require('Middlewares/authentication');
 const { bodyParserError } = require('Middlewares/body-parser-error');
