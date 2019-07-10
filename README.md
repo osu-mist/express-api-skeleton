@@ -51,12 +51,18 @@ $ npm install
 Run the application:
 
   ```shell
-  # Run linting testing, and webpack tasks before starting the app
-  $ gulp run
+  # Run linting testing, babel and bundle tasks before starting the app
+  $ gulp devRun
 
   # Run the app without running linting testing, and webpack tasks (only for development)
   $ gulp start
   ```
+
+Only building the application:
+  ```shell
+  # Run linting testing, bable and bundle tasks
+  $ gulp build
+
 
 ## Running the tests
 
@@ -106,7 +112,7 @@ Bundles API to /dist/app.js
 
 ```shell
 # Using gulp
-$ gulp webpack
+$ gulp bundle
 
 
 ## Babel
