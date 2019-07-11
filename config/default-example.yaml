@@ -21,7 +21,7 @@ logger:
 dataSources:
   dataSources: ['json', 'oracledb', 'awsS3']
   json:
-    dbPath: 'src/tests/unit/mock-data.json'
+    dbPath: 'dist/tests/unit/mock-data.json'
   oracledb:
     connectString: ${DB_URL}
     user: ${DB_USER}
