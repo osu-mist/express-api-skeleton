@@ -70,7 +70,7 @@ exports.start = start;
 /**
  * @summary Lint and compile, typecheck, test, and bundle the application
  */
-const build  = gulp.series(gulp.parallel(lint, typecheck, babel), gulp.parallel(test, bundle));
+const build = gulp.series(gulp.parallel(lint, typecheck, babel), gulp.parallel(test, bundle));
 exports.build = build;
 
 /**
