@@ -33,6 +33,7 @@ const openApiError = (err, req, res, next) => {
   if (!isOpenApiError(err)) {
     return next(err);
   }
+
   const { status, errors } = err;
 
   if (status === 400) {
