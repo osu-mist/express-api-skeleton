@@ -1,5 +1,4 @@
-const config = require('config')
-const _ = require('lodash')
+const config = require('config');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
