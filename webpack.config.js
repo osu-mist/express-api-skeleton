@@ -1,3 +1,5 @@
+const config = require('config')
+const _ = require('lodash')
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
@@ -7,6 +9,11 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
+  },
+  module: {
+    noParse: new RegExp(`dist\/api\/v1\/db\/(?!${
+      config.dataSources.dataSources.join('|')
+    })`),
   },
   mode: 'development',
   devtool: 'source-map',

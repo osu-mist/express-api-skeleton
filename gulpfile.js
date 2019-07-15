@@ -45,13 +45,13 @@ const lint = () => gulp.src(['src/**/*.js', '!node_modules/**', '!dist/**'])
 const typecheck = () => spawn('./node_modules/.bin/flow', ['check'], { stdio: 'inherit' });
 
 /**
- * @summary Run unit tests
+ * @summary Run unit tests (requires Babel transpiling beforehand)
  */
 const test = () => gulp.src(['dist/tests/unit/*.js'])
   .pipe(mocha({ reporter: 'spec' }));
 
 /**
- * @summary Bundle using webpack
+ * @summary Bundle using webpack (requires Babel transpiling beforehand)
  */
 const bundle = () => gulp.src('dist/app.js')
   .pipe(webpackStream(webpackConfig))
@@ -63,39 +63,42 @@ const bundle = () => gulp.src('dist/app.js')
 const start = () => new forever.Monitor('dist/bundle.js').start();
 
 /**
- * @summary Lint and compile, test, and bundle the application
- */
-const build  = gulp.series(gulp.parallel(lint, typecheck, babel), gulp.parallel(test, bundle));
-
-/**
  * @summary Start the application only
  */
 exports.start = start;
+
 /**
- * @summary Build the application only
+ * @summary Lint and compile, typecheck, test, and bundle the application
  */
+const build  = gulp.series(gulp.parallel(lint, typecheck, babel), gulp.parallel(test, bundle));
 exports.build = build;
+
 /**
- * @summary Builds and starts
+ * @summary Builds and starts (for development use only)
  */
 exports.devRun = gulp.series(build, start);
+
 /**
  * @summary Compile and test the application only
  */
 exports.test = gulp.series(babel, test);
+
 /**
  * @summary Compile the code only
  */
 exports.babel = babel;
+
 /**
  * @summary Lint the code only
  */
 exports.lint = lint;
+
 /**
  * @summary Typecheck the code only
  */
 exports.typecheck = typecheck;
+
 /**
- * @summary Bundle the code only
+ * @summary Transpile with Babel, bundle transpiled code
  */
-exports.bundle = bundle;
+exports.bundle = gulp.series(babel, bundle);
