@@ -17,13 +17,12 @@ const isOpenApiError = err => (
 const customOpenApiError = (err, req, res, next) => {
   // call the next middleware function if the error is not an openapi error
   if (!isOpenApiError(err)) {
-    next(err);
-  } else {
-    /**
-    * @todo Implement custom OpenAPI error rules and handlers here.
-    */
-    next(err);
+    return next(err);
   }
+  /**
+   * @todo Implement custom OpenAPI error rules and handlers here.
+   */
+  return next(err);
 };
 
 /**
@@ -32,34 +31,32 @@ const customOpenApiError = (err, req, res, next) => {
 const openApiError = (err, req, res, next) => {
   // call the next middleware function if the error is not an openapi error
   if (!isOpenApiError(err)) {
-    next(err);
-  } else {
-    const { status, errors } = err;
-
-    if (status === 400) {
-      const details = err.details || [];
-      _.forEach(errors, (error) => {
-        const {
-          path,
-          errorCode,
-          message,
-          location,
-        } = error;
-
-        if (errorCode === 'enum.openapi.validation') {
-          details.push(`${path} must be one of ['${error.params.allowedValues.join("', '")}']`);
-        } else if (errorCode === 'additionalProperties.openapi.validation') {
-          const { additionalProperty } = error.params;
-          details.push(`Unrecognized property '${additionalProperty}' in path: '${path}', location: '${location}'`);
-        } else {
-          details.push(`Error in path: '${path}', location: '${location}', message: '${message}'`);
-        }
-      });
-      errorBuilder(res, 400, details);
-    } else {
-      errorHandler(res, err);
-    }
+    return next(err);
   }
+  const { status, errors } = err;
+
+  if (status === 400) {
+    const details = err.details || [];
+    _.forEach(errors, (error) => {
+      const {
+        path,
+        errorCode,
+        message,
+        location,
+      } = error;
+
+      if (errorCode === 'enum.openapi.validation') {
+        details.push(`${path} must be one of ['${error.params.allowedValues.join("', '")}']`);
+      } else if (errorCode === 'additionalProperties.openapi.validation') {
+        const { additionalProperty } = error.params;
+        details.push(`Unrecognized property '${additionalProperty}' in path: '${path}', location: '${location}'`);
+      } else {
+        details.push(`Error in path: '${path}', location: '${location}', message: '${message}'`);
+      }
+    });
+    return errorBuilder(res, 400, details);
+  }
+  return errorHandler(res, err);
 };
 
 /**
