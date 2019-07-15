@@ -1,6 +1,6 @@
 import { getPetById } from '../../db/json/pets-dao-example';
 
-import { errorBuilder, errorHandler } from 'errors/errors';
+import { errorBuilder, errorHandler } from 'Errors/errors';
 
 /**
  * @summary Get pet by unique ID

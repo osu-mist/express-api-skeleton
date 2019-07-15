@@ -4,7 +4,7 @@ import config from 'config';
 import _ from 'lodash';
 import queryString from 'query-string';
 
-import openapi from 'utils/load-openapi';
+import openapi from 'Utils/load-openapi';
 
 const { basePath } = openapi;
 const { protocol, hostname } = config.get('server');

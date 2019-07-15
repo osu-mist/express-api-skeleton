@@ -24,8 +24,8 @@ rules:
 settings:
   import/resolver:
     alias:
-      - ['errors', './errors']
-      - ['middlewares', './middlewares']
-      - ['utils', './utils']
-      - ['paths', './api/v1/paths']
+      - ['Errors', './src/errors']
+      - ['Middlewares', './src/middlewares']
+      - ['Utils', './src/utils']
+      - ['Paths', './src/api/v1/paths']
     babel-module: {}

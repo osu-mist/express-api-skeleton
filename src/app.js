@@ -10,15 +10,15 @@ import moment from 'moment';
 import git from 'simple-git/promise';
 import 'source-map-support/register';
 
-import { errorBuilder, errorHandler } from 'errors/errors';
-import authentication from 'middlewares/authentication';
-import bodyParserError from 'middlewares/body-parser-error';
-import logger from 'middlewares/logger';
-import runtimeErrors from 'middlewares/runtime-errors';
-import pets from 'paths/pets';
-import pet from 'paths/pets/{id}';
-import openapi from 'utils/load-openapi';
-import validateDataSource from 'utils/validate-data-source';
+import { errorBuilder, errorHandler } from 'Errors/errors';
+import authentication from 'Middlewares/authentication';
+import bodyParserError from 'Middlewares/body-parser-error';
+import logger from 'Middlewares/logger';
+import runtimeErrors from 'Middlewares/runtime-errors';
+import pets from 'Paths/pets';
+import pet from 'Paths/pets/{id}';
+import openapi from 'Utils/load-openapi';
+import validateDataSource from 'Utils/validate-data-source';
 
 require('source-map-support').install();
 

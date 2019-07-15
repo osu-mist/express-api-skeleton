@@ -17,10 +17,10 @@ module.exports = {
   },
   resolve: {
     alias: {
-      errors: path.resolve(__dirname, 'dist/errors/'),
-      middlewares: path.resolve(__dirname, 'dist/middlewares/'),
-      utils: path.resolve(__dirname, 'dist/utils/'),
-      paths: path.resolve(__dirname, 'dist/api/v1/paths/'),
+      Errors: path.resolve(__dirname, 'dist/errors/'),
+      Middlewares: path.resolve(__dirname, 'dist/middlewares/'),
+      Utils: path.resolve(__dirname, 'dist/utils/'),
+      Paths: path.resolve(__dirname, 'dist/api/v1/paths/'),
     },
   },
   externals: [nodeExternals()],

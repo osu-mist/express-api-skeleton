@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { apiBaseUrl, resourcePathLink, paramsLink } from 'utils/uri-builder';
+import { apiBaseUrl, resourcePathLink, paramsLink } from 'Utils/uri-builder';
 
 
 /**

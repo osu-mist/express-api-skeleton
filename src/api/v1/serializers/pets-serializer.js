@@ -2,10 +2,10 @@ import decamelize from 'decamelize';
 import { Serializer as JsonApiSerializer } from 'jsonapi-serializer';
 import _ from 'lodash';
 
-import serializerOptions from 'utils/jsonapi';
-import openapi from 'utils/load-openapi';
-import paginate from 'utils/paginator';
-import { apiBaseUrl, resourcePathLink, paramsLink } from 'utils/uri-builder';
+import serializerOptions from 'Utils/jsonapi';
+import openapi from 'Utils/load-openapi';
+import paginate from 'Utils/paginator';
+import { apiBaseUrl, resourcePathLink, paramsLink } from 'Utils/uri-builder';
 
 const petResourceProp = openapi.definitions.PetResource.properties;
 const petResourceType = petResourceProp.type.enum[0];

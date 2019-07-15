@@ -1,6 +1,6 @@
 import { getPets } from '../db/json/pets-dao-example';
 
-import { errorHandler } from 'errors/errors';
+import { errorHandler } from 'Errors/errors';
 
 /**
  * @summary Get pets

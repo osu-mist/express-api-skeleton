@@ -1,7 +1,7 @@
 import { errors as composeErrors } from 'compose-middleware';
 import _ from 'lodash';
 
-import { errorBuilder, errorHandler } from 'errors/errors';
+import { errorBuilder, errorHandler } from 'Errors/errors';
 
 /**
  * @summary Determines if an error is an openapi error
