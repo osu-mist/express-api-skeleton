@@ -17,12 +17,12 @@ const isOpenApiError = err => (
 const customOpenApiError = (err, req, res, next) => {
   // call the next middleware function if the error is not an openapi error
   if (!isOpenApiError(err)) {
-    next(err);
+    return next(err);
   }
   /**
    * @todo Implement custom OpenAPI error rules and handlers here.
    */
-  next(err);
+  return next(err);
 };
 
 /**
@@ -31,7 +31,7 @@ const customOpenApiError = (err, req, res, next) => {
 const openApiError = (err, req, res, next) => {
   // call the next middleware function if the error is not an openapi error
   if (!isOpenApiError(err)) {
-    next(err);
+    return next(err);
   }
 
   const { status, errors } = err;
@@ -55,10 +55,9 @@ const openApiError = (err, req, res, next) => {
         details.push(`Error in path: '${path}', location: '${location}', message: '${message}'`);
       }
     });
-    errorBuilder(res, 400, details);
-  } else {
-    errorHandler(res, err);
+    return errorBuilder(res, 400, details);
   }
+  return errorHandler(res, err);
 };
 
 /**
