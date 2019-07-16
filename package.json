@@ -47,6 +47,7 @@
     "moment": "^2.24.0",
     "query-string": "^6.2.0",
     "simple-git": "^1.96.0",
+    "source-map-loader": "^0.2.4",
     "source-map-support": "^0.5.12",
     "swagger-parser": "^6.0.3",
     "webpack-node-externals": "^1.7.2",

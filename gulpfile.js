@@ -28,6 +28,7 @@ const babelCopy = () => gulp.src(['src/**', '!src/**/*.js', '!src/tests/integrat
 const babelCompile = () => gulp.src(['src/**/*.js'])
   .pipe(sourcemaps.init())
   .pipe(gulpBabel())
+  .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest('dist'));
 
 const babel = gulp.series(babelClean, babelCopy, babelCompile);

@@ -14,6 +14,13 @@ module.exports = {
     noParse: new RegExp(`dist\/api\/v1\/db\/(?!${
       config.dataSources.dataSources.join('|')
     })`),
+    rules: [
+      {
+        test: /\.js$/,
+        use: ['source-map-loader'],
+        enforce: "pre"
+      }
+    ],
   },
   mode: 'development',
   devtool: 'source-map',
