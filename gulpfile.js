@@ -23,15 +23,13 @@ const babelCopy = () => gulp.src(['src/**', '!src/**/*.js', '!src/tests/integrat
   .pipe(gulp.dest('dist'));
 
 /**
- * @summary Compile JavaScript files and place them in dist/. Also, generate sourcemaps
+ * @summary Transpile JavaScript files and place them in dist/. Also, generate sourcemaps
  */
 const babelCompile = () => gulp.src(['src/**/*.js'])
   .pipe(sourcemaps.init())
   .pipe(gulpBabel())
   .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest('dist'));
-
-const babel = gulp.series(babelClean, babelCopy, babelCompile);
 
 /**
  * @summary Use Eslint linting *.js file besides source files in node_modules
@@ -65,42 +63,30 @@ const bundle = () => gulp.src('dist/app.js')
 const start = () => new forever.Monitor('dist/bundle.js').start();
 
 /**
- * @summary Start the application only
+ * @summary Run all Babel tasks in series
  */
-exports.start = start;
+const babel = gulp.series(babelClean, babelCopy, babelCompile);
 
 /**
- * @summary Lint and compile, typecheck, test, and bundle the application
+ * @summary Lint and transpile, typecheck, test, and bundle the application
  */
 const build = gulp.series(gulp.parallel(lint, typecheck, babel), gulp.parallel(test, bundle));
-exports.build = build;
 
 /**
  * @summary Builds and starts (for development use only)
  */
-exports.devRun = gulp.series(build, start);
+const devRun = gulp.series(build, start);
 
-/**
- * @summary Compile and test the application only
- */
-exports.test = gulp.series(babel, test);
-
-/**
- * @summary Compile the code only
- */
-exports.babel = babel;
-
-/**
- * @summary Lint the code only
- */
-exports.lint = lint;
-
-/**
- * @summary Typecheck the code only
- */
-exports.typecheck = typecheck;
-
-/**
- * @summary Transpile with Babel, bundle transpiled code
- */
-exports.bundle = gulp.series(babel, bundle);
+module.exports = {
+  babelClean: babelClean,
+  babelCopy: babelCopy,
+  babelCompile: babelCompile,
+  lint: lint,
+  typecheck: typecheck,
+  test: gulp.series(babel, test),
+  bundle: gulp.series(babel, bundle),
+  start: start,
+  babel: babel,
+  build: build,
+  devRun: devRun,
+}
