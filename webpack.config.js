@@ -11,15 +11,15 @@ module.exports = {
     publicPath: '/',
   },
   module: {
-    noParse: new RegExp(`dist\/api\/v1\/db\/(?!${
+    noParse: new RegExp(`dist/api/v1/db/(?!${
       config.dataSources.dataSources.join('|')
     })`),
     rules: [
       {
         test: /\.js$/,
         use: ['source-map-loader'],
-        enforce: "pre"
-      }
+        enforce: 'pre',
+      },
     ],
   },
   mode: 'development',

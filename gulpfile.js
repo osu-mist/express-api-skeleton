@@ -34,7 +34,7 @@ const babelCompile = () => gulp.src(['src/**/*.js'])
 /**
  * @summary Use Eslint linting *.js file besides source files in node_modules
  */
-const lint = () => gulp.src(['src/**/*.js'])
+const lint = () => gulp.src(['src/**/*.js', '**.js'])
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(eslint.failAfterError());
@@ -78,15 +78,15 @@ const build = gulp.series(gulp.parallel(lint, typecheck, babel), gulp.parallel(t
 const devRun = gulp.series(build, start);
 
 module.exports = {
-  babelClean: babelClean,
-  babelCopy: babelCopy,
-  babelCompile: babelCompile,
-  lint: lint,
-  typecheck: typecheck,
+  babelClean,
+  babelCopy,
+  babelCompile,
+  lint,
+  typecheck,
   test: gulp.series(babel, test),
   bundle: gulp.series(babel, bundle),
-  start: start,
-  babel: babel,
-  build: build,
-  devRun: devRun,
-}
+  start,
+  babel,
+  build,
+  devRun,
+};

@@ -109,7 +109,7 @@ initialize({
   apiDoc: openapi,
   paths: [
     { path: '/pets', module: pets },
-    { path: '/pet', module: pet },
+    { path: '/pet/{id}', module: pet },
   ],
   consumesMiddleware: {
     'application/json': compose([bodyParser.json(), bodyParserError]),
