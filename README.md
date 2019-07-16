@@ -107,7 +107,7 @@ $ npm run typecheck
 
 ### Webpack
 
-Bundles API to /dist/app.js
+Bundles API to /dist/bundle.js
 
 ```shell
 # Using gulp

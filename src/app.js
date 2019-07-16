@@ -20,8 +20,6 @@ import pet from 'Paths/pets/{id}';
 import openapi from 'Utils/load-openapi';
 import validateDataSource from 'Utils/validate-data-source';
 
-require('source-map-support').install();
-
 const serverConfig = config.get('server');
 
 validateDataSource();

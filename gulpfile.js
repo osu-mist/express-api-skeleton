@@ -8,6 +8,7 @@ const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const sourcemaps = require('gulp-sourcemaps');
 const webpackStream = require('webpack-stream');
+
 const webpackConfig = require('./webpack.config.js');
 
 /**
@@ -34,7 +35,7 @@ const babel = gulp.series(babelClean, babelCopy, babelCompile);
 /**
  * @summary Use Eslint linting *.js file besides source files in node_modules
  */
-const lint = () => gulp.src(['src/**/*.js', '!node_modules/**', '!dist/**'])
+const lint = () => gulp.src(['src/**/*.js'])
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(eslint.failAfterError());
@@ -47,7 +48,7 @@ const typecheck = () => spawn('./node_modules/.bin/flow', ['check'], { stdio: 'i
 /**
  * @summary Run unit tests (requires Babel transpiling beforehand)
  */
-const test = () => gulp.src(['dist/tests/unit/*.js'])
+const test = () => gulp.src('dist/tests/unit/*.js')
   .pipe(mocha({ reporter: 'spec' }));
 
 /**

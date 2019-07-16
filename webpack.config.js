@@ -1,5 +1,6 @@
-const config = require('config');
 const path = require('path');
+
+const config = require('config');
 const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
