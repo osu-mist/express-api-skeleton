@@ -17,7 +17,7 @@ const repeatForAllPages = (assertion, assertionVars = {}) => {
 };
 
 describe('Test paginator', () => {
-  it('number of returned results should be at most page size', (done) => {
+  it('number of returned results is at most page size', (done) => {
     const assertResultsSize = ({ page }) => {
       const { paginatedRows } = paginate(rows, page);
       assert.isAtMost(paginatedRows.length, page.size);
@@ -26,7 +26,7 @@ describe('Test paginator', () => {
     done();
   });
 
-  it('unique IDs should not appear more than once across all pages', (done) => {
+  it('unique IDs do not appear more than once across all pages', (done) => {
     const assertNoDuplicateResults = (assertionVars) => {
       const { paginatedRows } = paginate(rows, assertionVars.page);
       _.forEach(paginatedRows, ({ ID }) => {
@@ -38,7 +38,7 @@ describe('Test paginator', () => {
     done();
   });
 
-  it('page numbers should match query', (done) => {
+  it('page numbers match query', (done) => {
     const assertPageNumberMatchQuery = ({ page }) => {
       const { pageNumber } = paginate(rows, page);
       assert.equal(page.number, pageNumber);
@@ -47,7 +47,7 @@ describe('Test paginator', () => {
     done();
   });
 
-  it('page size should match query', (done) => {
+  it('page sizes match query', (done) => {
     const assertPageSizeMatchQuery = ({ page }) => {
       const { pageSize } = paginate(rows, page);
       assert.equal(page.size, pageSize);
@@ -56,12 +56,22 @@ describe('Test paginator', () => {
     done();
   });
 
-  it('total pages should remain constant', (done) => {
+  it('total pages remains constant', (done) => {
     const assertConstantTotalPages = (assertionVars) => {
       const { totalPages } = paginate(rows, assertionVars.page);
       assert.equal(assertionVars.totalPages, totalPages);
     };
     repeatForAllPages(assertConstantTotalPages);
+    done();
+  });
+
+  it('page number at least 1, at most total pages', (done) => {
+    const assertValidPageNumber = ({ page }) => {
+      const { pageNumber, totalPages } = paginate(rows, page);
+      assert.isAtLeast(pageNumber, 1);
+      assert.isAtMost(pageNumber, totalPages);
+    };
+    repeatForAllPages(assertValidPageNumber);
     done();
   });
 });
