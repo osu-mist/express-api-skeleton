@@ -8,4 +8,4 @@ rules:
   import/no-unresolved:
     - error
     - commonjs: true
-      ignore: [ ^aws-sdk, ^oracledb, ^request-promise-native$ ]
+      ignore: [ ^aws-sdk$, ^oracledb$, ^request-promise-native$ ]
