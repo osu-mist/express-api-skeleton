@@ -9,10 +9,9 @@ const repeatForAllPages = (assertion, assertionVars = {}) => {
   const page = { size: 4, number: 1 };
   const { totalPages } = paginate(rows, page);
   assertionVars.totalPages = totalPages;
-  while (page.number <= totalPages) {
+  for (; page.number <= totalPages; page.number += 1) {
     assertionVars.page = page;
     assertion(assertionVars);
-    page.number += 1;
   }
 };
 
