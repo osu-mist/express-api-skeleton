@@ -5,19 +5,20 @@ const _ = require('lodash');
 const { paginate } = appRoot.require('/utils/paginator');
 const rows = appRoot.require('/tests/unit/mock-data.json').pets;
 
-const repeatForAllPages = (assertion) => {
+const repeatForAllPages = (assertion, assertionVars = {}) => {
   const page = { size: 4, number: 1 };
   const { totalPages } = paginate(rows, page);
-  let uIDs = [];
+  assertionVars.totalPages = totalPages;
   while (page.number <= totalPages) {
-    uIDs = assertion(page, uIDs);
+    assertionVars.page = page;
+    assertion(assertionVars);
     page.number += 1;
   }
 };
 
 describe('Test paginator', () => {
   it('number of returned results should be at most page size', (done) => {
-    const assertResultsSize = (page) => {
+    const assertResultsSize = ({ page }) => {
       const { paginatedRows } = paginate(rows, page);
       assert.isAtMost(paginatedRows.length, page.size);
     };
@@ -26,20 +27,19 @@ describe('Test paginator', () => {
   });
 
   it('unique IDs should not appear more than once across all pages', (done) => {
-    const assertNoDuplicateResults = (page, uIDs) => {
-      const { paginatedRows } = paginate(rows, page);
+    const assertNoDuplicateResults = (assertionVars) => {
+      const { paginatedRows } = paginate(rows, assertionVars.page);
       _.forEach(paginatedRows, ({ ID }) => {
-        assert.isFalse(uIDs.includes(ID));
-        uIDs.push(ID);
+        assert.isFalse(assertionVars.uIDs.includes(ID));
+        assertionVars.uIDs.push(ID);
       });
-      return uIDs;
     };
-    repeatForAllPages(assertNoDuplicateResults);
+    repeatForAllPages(assertNoDuplicateResults, { uIDs: [] });
     done();
   });
 
   it('page numbers should match query', (done) => {
-    const assertPageNumberMatchQuery = (page) => {
+    const assertPageNumberMatchQuery = ({ page }) => {
       const { pageNumber } = paginate(rows, page);
       assert.equal(page.number, pageNumber);
     };
@@ -48,7 +48,7 @@ describe('Test paginator', () => {
   });
 
   it('page size should match query', (done) => {
-    const assertPageSizeMatchQuery = (page) => {
+    const assertPageSizeMatchQuery = ({ page }) => {
       const { pageSize } = paginate(rows, page);
       assert.equal(page.size, pageSize);
     };
@@ -56,14 +56,12 @@ describe('Test paginator', () => {
     done();
   });
 
-  // it('total pages should remain constant', (done) => {
-  //   const page = { size: 4, number: 1 };
-  //   const { totalPages } = paginate(rows, page);
-  //   while (page.number <= totalPages) {
-  //     const { totalPages } = paginate(rows, page);
-  //     assert.equal(page.size, pageSize);
-  //     page.number += 1;
-  //   }
-  //   done();
-  // });
+  it('total pages should remain constant', (done) => {
+    const assertConstantTotalPages = (assertionVars) => {
+      const { totalPages } = paginate(rows, assertionVars.page);
+      assert.equal(assertionVars.totalPages, totalPages);
+    };
+    repeatForAllPages(assertConstantTotalPages);
+    done();
+  });
 });
