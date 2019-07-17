@@ -34,7 +34,7 @@ const babelCompile = () => gulp.src(['src/**/*.js'])
 /**
  * @summary Use Eslint linting *.js file besides source files in node_modules
  */
-const lint = () => gulp.src(['src/**/*.js', '**.js'])
+const lint = () => gulp.src(['src/**/*.js', '*.js'])
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(eslint.failAfterError());
