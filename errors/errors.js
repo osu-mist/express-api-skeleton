@@ -1,6 +1,8 @@
 const JsonApiError = require('jsonapi-serializer').Error;
 const _ = require('lodash');
 
+const { logger } = require('../utils/logger');
+
 /**
  * @summary Construct error object
  * @function
@@ -126,7 +128,7 @@ const errorBuilder = (res, status, detail) => {
 const errorHandler = (res, err) => {
   const detail = 'The application encountered an unexpected condition.';
   // Not all errors will have a stack associated with it
-  console.error(err.stack || err);
+  logger.error(err.stack || err);
   res.status(500).send(internalServerError(detail));
 };
 
