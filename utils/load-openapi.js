@@ -1,6 +1,8 @@
 const deasync = require('deasync');
 const SwaggerParser = require('swagger-parser');
 
+const { logger } = require('./logger');
+
 /**
  * @summary Wrap async parser in a synchronous function. Preserve "this" context.
  * @function
@@ -16,7 +18,7 @@ const parseOpenApi = () => {
   try {
     return validateSync('openapi.yaml');
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     return process.exit(1);
   }
 };
