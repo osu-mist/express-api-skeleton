@@ -1,5 +1,4 @@
 const appRoot = require('app-root-path');
-const config = require('config');
 const expressWinston = require('express-winston');
 const _ = require('lodash');
 const winston = require('winston');
@@ -7,24 +6,45 @@ require('winston-daily-rotate-file');
 
 const { name } = appRoot.require('package');
 
-const loggerConfig = config.get('logger');
+const customLevels = {
+  /* A lower number means higher priority. Each logger level will include all other levels with a
+   * lower number.
+   */
+  levels: {
+    error: 0,
+    warn: 1,
+    api: 2,
+    info: 3,
+    debug: 4,
+  },
+  colors: {
+    error: 'red',
+    warn: 'yellow',
+    api: 'blue',
+    info: 'green',
+    debug: 'magenta',
+  },
+};
 
-/**
- * @summary Return a transport for daily rotate file
- * @returns A transport for daily rotate file
- */
+winston.addColors(customLevels.colors);
+
+expressWinston.requestWhitelist.push('body');
+expressWinston.responseWhitelist.push('body');
+
+// A transport for daily rotate file
 const dailyRotateFileTransport = new (winston.transports.DailyRotateFile)({
   filename: `${name}-%DATE%.log`,
-  datePattern: loggerConfig.pattern,
-  maxSize: loggerConfig.size,
-  zippedArchive: loggerConfig.archive,
-  dirname: loggerConfig.path,
+  maxSize: '10m',
+  dirname: 'logs',
+  datePattern: 'YYYY-MM-DD',
+  zippedArchive: true,
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json(),
+  ),
 });
 
-/**
- * @summary Return a transport for console output
- * @returns A transport for daily rotate file
- */
+// A transport for console output
 const consoleTransport = new winston.transports.Console({
   format: winston.format.combine(
     winston.format.timestamp(),
@@ -67,12 +87,19 @@ const consoleTransport = new winston.transports.Console({
   ),
 });
 
-/**
- * @summary The middleware for logger
- */
-const logger = expressWinston.logger({
+// The logger instance
+const logger = winston.createLogger({
   transports: [dailyRotateFileTransport, consoleTransport],
-  expressFormat: true,
+  level: 'debug',
+  levels: customLevels.levels,
 });
 
-module.exports = { logger };
+// The logger middleware for API requests/responses
+const loggerMiddleware = expressWinston.logger({
+  winstonInstance: logger,
+  level: 'api',
+  expressFormat: true,
+  colorize: true,
+});
+
+module.exports = { logger, loggerMiddleware };
