@@ -7,7 +7,8 @@ require('winston-daily-rotate-file');
 const { name } = appRoot.require('package');
 
 const customLevels = {
-  /* A lower number means higher priority. Each logger level will include all other levels with a
+  /*
+   * A lower number means higher priority. Each logger level will include all other levels with a
    * lower number.
    */
   levels: {
@@ -52,7 +53,8 @@ const consoleTransport = new winston.transports.Console({
     winston.format.printf((msg) => {
       const { timestamp, level, message } = msg;
 
-      /* These fields will be printed in the initial simple message, so they don't need to be
+      /*
+       * These fields will be printed in the initial simple message, so they don't need to be
        * included again
        */
       const strippedItems = [
