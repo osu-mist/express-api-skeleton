@@ -128,7 +128,15 @@ const errorBuilder = (res, status, detail) => {
 const errorHandler = (res, err) => {
   const detail = 'The application encountered an unexpected condition.';
   // Not all errors will have a stack associated with it
-  logger.error(err.stack || err);
+  let message = err.stack || err;
+  if (_.isObject(message)) {
+    try {
+      message = JSON.stringify(message);
+    } catch (ex) {
+      logger.error(`Could not stringify error. Exception: ${ex}`);
+    }
+  }
+  logger.error(message);
   res.status(500).send(internalServerError(detail));
 };
 

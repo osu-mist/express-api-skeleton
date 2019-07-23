@@ -30,7 +30,6 @@ const customLevels = {
 winston.addColors(customLevels.colors);
 
 expressWinston.requestWhitelist.push('body');
-expressWinston.responseWhitelist.push('body');
 
 /** A transport for daily rotate file */
 const dailyRotateFileTransport = new (winston.transports.DailyRotateFile)({
@@ -68,20 +67,8 @@ const consoleTransport = new winston.transports.Console({
         'meta.res.statusCode',
       ];
 
-      /**
-       * Filters an object by removing key-value pairs with values that are empty objects
-       *
-       * @param {Object} obj The object to be filtered
-       * @returns {Object} The filtered object
-       */
-      const removeEmpties = obj => _(obj)
-        .mapValues(val => (_.isObject(val) ? removeEmpties(val) : val))
-        .omitBy(_.isEmpty)
-        .value();
-
       const simpleMessage = _(msg)
         .omit(strippedItems)
-        .thru(removeEmpties)
         .thru(obj => (_.isEmpty(obj) ? '' : ` ${JSON.stringify(obj)}`))
         .value();
       return `${timestamp} - ${level}: ${message}${simpleMessage}`;
