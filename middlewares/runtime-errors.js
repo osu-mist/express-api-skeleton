@@ -5,14 +5,19 @@ const _ = require('lodash');
 const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 
 /**
- * @summary Determines if an error is an openapi error
+ * Determines if an error is an OpenAPI error
+ *
+ * @param {object} err Error object
+ * @returns {boolean} Whether the error is an OpenAPI error or not
  */
 const isOpenApiError = err => (
   _.has(err, 'errors') && _.every(err.errors, it => _.includes(it.errorCode, 'openapi'))
 );
 
 /**
- * @summary The middleware for handling custom openapi errors
+ * The middleware for handling custom openapi errors
+ *
+ * @type {ErrorRequestHandler}
  */
 const customOpenApiError = (err, req, res, next) => {
   // call the next middleware function if the error is not an openapi error
@@ -26,7 +31,9 @@ const customOpenApiError = (err, req, res, next) => {
 };
 
 /**
- * @summary The middleware for handling general openapi errors
+ * The middleware for handling general openapi errors
+ *
+ * @type {ErrorRequestHandler}
  */
 const openApiError = (err, req, res, next) => {
   // call the next middleware function if the error is not an openapi error
@@ -61,7 +68,9 @@ const openApiError = (err, req, res, next) => {
 };
 
 /**
- * @summary The middleware for handling generic errors
+ * The middleware for handling generic errors
+ *
+ * @type {ErrorRequestHandler}
  */
 const genericError = (err, req, res, next) => { // eslint-disable-line no-unused-vars
   const status = _.has(err, 'customStatus') ? err.customStatus : 500;

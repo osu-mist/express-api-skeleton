@@ -7,9 +7,9 @@ const { serializePets, serializePet } = require('../../serializers/pets-serializ
 const objectKey = 'pets.json';
 
 /**
- * @summary Return a list of pets
- * @function
- * @param {Object} query Query parameters
+ * Return a list of pets
+ *
+ * @param {object} query Query parameters
  * @returns {Promise} Promise object represents a list of pets
  */
 const getPets = async (query) => {
@@ -24,8 +24,8 @@ const getPets = async (query) => {
 };
 
 /**
- * @summary Return a specific pet by unique ID
- * @function
+ * Return a specific pet by unique ID
+ *
  * @param {string} id Unique pet ID
  * @returns {Promise} Promise object represents a specific pet
  */

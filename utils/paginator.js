@@ -1,10 +1,10 @@
 const _ = require('lodash');
 
 /**
- * @summary Paginate data rows
- * @function
- * @param {[Object]} rows Data rows
- * @param {Object} pageQuery Pagination query parameter
+ * Paginate data rows
+ *
+ * @param {object[]} rows Data rows
+ * @param {object} pageQuery Pagination query parameter
  * @returns {*} Paginated data rows
  */
 const paginate = (rows, pageQuery) => {

@@ -8,26 +8,24 @@ const { openapi: { basePath } } = appRoot.require('utils/load-openapi');
 
 const { protocol, hostname } = config.get('server');
 
-/**
- * @summary API base URL
- */
+/** API base URL */
 const apiBaseUrl = url.format({ protocol, hostname, pathname: basePath });
 
 /**
- * @summary Resource path link builder
- * @function
+ * Resource path link builder
+ *
  * @param {string} baseUrl base URL
  * @param {string} resourcePath resource path
- * @returns A resource path URL
+ * @returns {string} resource path URL
  */
 const resourcePathLink = (baseUrl, resourcePath) => `${baseUrl}/${resourcePath}`;
 
 /**
- * @summary Params link builder
- * @function
+ * Params link builder
+ *
  * @param {string} baseUrl base URL
  * @param {string} params query params
- * @returns A decoded url formatted with query parameters in the query object
+ * @returns {string} decoded url formatted with query parameters in the query object
  */
 const paramsLink = (baseUrl, params) => {
   const querySeparator = _.includes(baseUrl, '?') ? '&' : '?';

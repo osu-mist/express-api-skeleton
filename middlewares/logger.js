@@ -8,10 +8,7 @@ const { name } = appRoot.require('package');
 
 const loggerConfig = config.get('logger');
 
-/**
- * @summary Return a transport for daily rotate file
- * @returns A transport for daily rotate file
- */
+/** Return a transport for daily rotate file */
 const dailyRotateFileTransport = new (winston.transports.DailyRotateFile)({
   filename: `${name}-%DATE%.log`,
   datePattern: loggerConfig.pattern,
@@ -20,10 +17,7 @@ const dailyRotateFileTransport = new (winston.transports.DailyRotateFile)({
   dirname: loggerConfig.path,
 });
 
-/**
- * @summary Return a transport for console output
- * @returns A transport for daily rotate file
- */
+/** Return a transport for console output */
 const consoleTransport = new winston.transports.Console({
   format: winston.format.combine(
     winston.format.timestamp(),
@@ -32,9 +26,7 @@ const consoleTransport = new winston.transports.Console({
   ),
 });
 
-/**
- * @summary The middleware for logger
- */
+/** The middleware for logger */
 const logger = expressWinston.logger({
   transports: [dailyRotateFileTransport, consoleTransport],
   expressFormat: true,

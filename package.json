@@ -30,6 +30,7 @@
     "deasync": "^0.1.14",
     "decamelize": "^2.0.0",
     "decode-uri-component": "^0.2.0",
+    "eslint-plugin-jsdoc": "^15.6.1",
     "express": "^4.16.3",
     "express-basic-auth": "1.1.7",
     "express-openapi": "^4.6.5",

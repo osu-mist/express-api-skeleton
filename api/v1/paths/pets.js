@@ -6,7 +6,9 @@ const { errorHandler } = appRoot.require('errors/errors');
 const { openapi: { paths } } = appRoot.require('utils/load-openapi');
 
 /**
- * @summary Get pets
+ * Get pets
+ *
+ * @type {RequestHandler}
  */
 const get = async (req, res) => {
   try {

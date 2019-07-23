@@ -1,4 +1,8 @@
-extends: airbnb-base
+extends:
+  - airbnb-base
+  - plugin:jsdoc/recommended
+plugins:
+  - jsdoc
 env:
   node: true
   mocha: true
@@ -9,3 +13,16 @@ rules:
     - error
     - commonjs: true
       ignore: [ ^aws-sdk$, ^oracledb$, ^request-promise-native$ ]
+  jsdoc/require-param:
+    - warn
+    - exemptedBy: [ type ]
+  jsdoc/require-returns:
+    - warn
+    - exemptedBy: [ type ]
+  jsdoc/no-undefined-types:
+    - warn
+    - definedTypes:
+        - RequestHandler
+        - ErrorRequestHandler
+        - Request
+        - Response
