@@ -7,7 +7,7 @@ require('winston-daily-rotate-file');
 const { name } = appRoot.require('package');
 
 const customLevels = {
-  /*
+  /**
    * A lower number means higher priority. Each logger level will include all other levels with a
    * lower number.
    */
@@ -32,7 +32,7 @@ winston.addColors(customLevels.colors);
 expressWinston.requestWhitelist.push('body');
 expressWinston.responseWhitelist.push('body');
 
-// A transport for daily rotate file
+/** A transport for daily rotate file */
 const dailyRotateFileTransport = new (winston.transports.DailyRotateFile)({
   filename: `${name}-%DATE%.log`,
   maxSize: '10m',
@@ -45,7 +45,7 @@ const dailyRotateFileTransport = new (winston.transports.DailyRotateFile)({
   ),
 });
 
-// A transport for console output
+/** A transport for console output */
 const consoleTransport = new winston.transports.Console({
   format: winston.format.combine(
     winston.format.timestamp(),
@@ -53,7 +53,7 @@ const consoleTransport = new winston.transports.Console({
     winston.format.printf((msg) => {
       const { timestamp, level, message } = msg;
 
-      /*
+      /**
        * These fields will be printed in the initial simple message, so they don't need to be
        * included again
        */
@@ -89,16 +89,27 @@ const consoleTransport = new winston.transports.Console({
   ),
 });
 
-// The logger instance
+/**
+ * The logger instance
+ *
+ * @example
+ * // Logs 'message' to the info level
+ * logger.info('message');
+ * @example
+ * // Logs 'encountered error' to the error level
+ * logger.error('encountered error');
+ */
 const logger = winston.createLogger({
   transports: [dailyRotateFileTransport, consoleTransport],
+  /** The maximum logging level of messages that the logger will log */
   level: 'debug',
   levels: customLevels.levels,
 });
 
-// The logger middleware for API requests/responses
+/** The logger middleware for API requests/responses */
 const loggerMiddleware = expressWinston.logger({
   winstonInstance: logger,
+  /** The logging level that API messages will be logged to */
   level: 'api',
   expressFormat: true,
   colorize: true,
