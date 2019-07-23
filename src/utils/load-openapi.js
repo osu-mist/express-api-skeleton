@@ -1,6 +1,8 @@
 import deasync from 'deasync';
 import SwaggerParser from 'swagger-parser';
 
+import openapiDoc from '../../openapi.yaml';
+
 /**
  * @summary Wrap async parser in a synchronous function. Preserve "this" context.
  * @function
@@ -14,7 +16,7 @@ const validateSync = deasync(SwaggerParser.validate).bind(SwaggerParser);
  */
 const parseOpenApi = () => {
   try {
-    return validateSync('openapi.yaml');
+    return validateSync(openapiDoc);
   } catch (err) {
     console.error(err);
     return process.exit(1);

@@ -20,6 +20,10 @@ module.exports = {
         use: ['source-map-loader'],
         enforce: 'pre',
       },
+      {
+        test: /\.yaml$/,
+        use: ['json-loader', 'yaml-loader'],
+      },
     ],
   },
   mode: 'development',
