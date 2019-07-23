@@ -1,11 +1,12 @@
 import capitalize from 'capitalize';
+import config from 'config';
 import _ from 'lodash';
 
 import { readJsonFile } from './fs-operations';
 
 import { serializePets, serializePet } from 'api/v1/serializers/pets-serializer';
 
-const dbPath = 'dist/tests/unit/mock-data.json';
+const { dbPath } = config.get('dataSources.json');
 
 /**
  * @summary Return a list of pets
