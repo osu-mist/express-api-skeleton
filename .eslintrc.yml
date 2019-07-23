@@ -21,6 +21,7 @@ rules:
     - exemptedBy: [ type ]
   jsdoc/no-undefined-types:
     - warn
+      # Express types
     - definedTypes:
         - RequestHandler
         - ErrorRequestHandler
