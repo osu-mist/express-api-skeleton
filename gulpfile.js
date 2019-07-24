@@ -60,7 +60,7 @@ const babel = gulp.series(babelClean, babelCopy, babelCompile);
 /**
  * @summary Lint, typecheck and transpile, then test the application
  */
-const build = gulp.series(gulp.parallel(lint, typecheck, babel), gulp.parallel(test));
+const build = gulp.series(gulp.parallel(lint, typecheck, babel), test);
 
 /**
  * @summary Builds and starts (for development use only)
