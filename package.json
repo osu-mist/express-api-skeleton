@@ -73,7 +73,6 @@
     "forever-monitor": "^1.7.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "gulp-cli": "^2.2.0",
     "gulp-eslint": "^5.0.0",
     "gulp-mocha": "^6.0.0",
     "gulp-sourcemaps": "^2.6.5",
