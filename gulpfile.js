@@ -20,19 +20,18 @@ const babelCopy = () => gulp.src(['src/**', '!src/**/*.js', '!src/tests/integrat
   .pipe(gulp.dest('dist'));
 
 /**
- * @summary Compile JavaScript files and place them in dist/. Also, generate sourcemaps
+ * @summary Transpile JavaScript files and place them in dist/. Also, generate sourcemaps
  */
 const babelCompile = () => gulp.src(['src/**/*.js'])
   .pipe(sourcemaps.init())
   .pipe(gulpBabel())
+  .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest('dist'));
-
-const babel = gulp.series(babelClean, babelCopy, babelCompile);
 
 /**
  * @summary Use Eslint linting *.js file besides source files in node_modules
  */
-const lint = () => gulp.src(['src/**/*.js'])
+const lint = () => gulp.src(['src/**/*.js', '*.js'])
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(eslint.failAfterError());
@@ -43,9 +42,9 @@ const lint = () => gulp.src(['src/**/*.js'])
 const typecheck = () => spawn('./node_modules/.bin/flow', ['check'], { stdio: 'inherit' });
 
 /**
- * @summary Run unit tests
+ * @summary Run unit tests (requires Babel transpiling beforehand)
  */
-const test = () => gulp.src(['dist/tests/unit/*.js'])
+const test = () => gulp.src('dist/tests/unit/*.js')
   .pipe(mocha({ reporter: 'spec' }));
 
 /**
@@ -54,26 +53,29 @@ const test = () => gulp.src(['dist/tests/unit/*.js'])
 const start = () => new forever.Monitor('dist/app.js').start();
 
 /**
- * @summary Lint and compile, test, and start the application
+ * @summary Run all Babel tasks in series
  */
-exports.run = gulp.series(gulp.parallel(lint, typecheck, babel), test, start);
+const babel = gulp.series(babelClean, babelCopy, babelCompile);
+
 /**
- * @summary Compile and start the application only
+ * @summary Lint, typecheck and transpile, then test the application
  */
-exports.start = gulp.series(babel, start);
+const build = gulp.series(gulp.parallel(lint, typecheck, babel), gulp.parallel(test));
+
 /**
- * @summary Compile and test the application only
+ * @summary Builds and starts (for development use only)
  */
-exports.test = gulp.series(babel, test);
-/**
- * @summary Compile the code only
- */
-exports.babel = babel;
-/**
- * @summary Lint the code only
- */
-exports.lint = lint;
-/**
- * @summary Typecheck the code only
- */
-exports.typecheck = typecheck;
+const devRun = gulp.series(build, start);
+
+module.exports = {
+  babelClean,
+  babelCopy,
+  babelCompile,
+  lint,
+  typecheck,
+  test: gulp.series(babel, test),
+  start,
+  babel,
+  build,
+  devRun,
+};
