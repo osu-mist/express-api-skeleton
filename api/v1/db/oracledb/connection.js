@@ -1,5 +1,8 @@
+const appRoot = require('app-root-path');
 const config = require('config');
 const oracledb = require('oracledb');
+
+const { logger } = appRoot.require('utils/logger');
 
 const dbConfig = config.get('dataSources').oracledb;
 
@@ -42,7 +45,7 @@ const validateOracleDb = async () => {
     connection = await getConnection();
     await connection.execute('SELECT 1 FROM DUAL');
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     throw new Error('Unable to connect to Oracle database');
   } finally {
     connection.close();

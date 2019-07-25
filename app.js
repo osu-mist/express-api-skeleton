@@ -12,7 +12,7 @@ const git = require('simple-git/promise');
 const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 const { authentication } = appRoot.require('middlewares/authentication');
 const { bodyParserError } = appRoot.require('middlewares/body-parser-error');
-const { logger } = appRoot.require('middlewares/logger');
+const { loggerMiddleware } = appRoot.require('utils/logger');
 const { runtimeErrors } = appRoot.require('middlewares/runtime-errors');
 const { openapi } = appRoot.require('utils/load-openapi');
 const { validateDataSource } = appRoot.require('utils/validate-data-source');
@@ -53,7 +53,7 @@ const baseEndpoint = `${serverConfig.basePathPrefix}`;
 app.use(baseEndpoint, appRouter);
 adminApp.use(baseEndpoint, adminAppRouter);
 
-appRouter.use(logger);
+appRouter.use(loggerMiddleware);
 appRouter.use(authentication);
 adminAppRouter.use(authentication);
 

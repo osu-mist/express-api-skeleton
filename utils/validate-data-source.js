@@ -2,6 +2,8 @@ const appRoot = require('app-root-path');
 const config = require('config');
 const _ = require('lodash');
 
+const { logger } = require('./logger');
+
 const { dataSources } = config.get('dataSources');
 const json = dataSources.includes('json')
   ? appRoot.require('api/v1/db/json/fs-operations').validateJsonDb
@@ -28,7 +30,7 @@ const validateDataSource = () => {
   _.each(dataSources, (dataSourceType) => {
     if (dataSourceType in validationMethods) {
       validationMethods[dataSourceType]().catch((err) => {
-        console.error(err);
+        logger.error(err);
         process.exit(1);
       });
     } else {
