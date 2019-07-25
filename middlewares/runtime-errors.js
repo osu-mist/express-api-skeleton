@@ -3,6 +3,7 @@ const composeErrors = require('compose-middleware').errors;
 const _ = require('lodash');
 
 const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
+const { logger } = appRoot.require('utils/logger');
 
 /**
  * Determines if an error is an OpenAPI error
@@ -79,7 +80,7 @@ const genericError = (err, req, res, next) => { // eslint-disable-line no-unused
 
   if (status === 500) {
     if (detail) {
-      console.error(detail);
+      logger.error(detail);
     }
     errorHandler(res, err);
   } else {

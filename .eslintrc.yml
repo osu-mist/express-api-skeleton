@@ -8,7 +8,6 @@ env:
   mocha: true
 rules:
   no-param-reassign: "off"
-  no-console: "off"
   import/no-unresolved:
     - error
     - commonjs: true

@@ -21,20 +21,11 @@ Skeleton for Express APIs. API definition is contained in the [OpenAPI specifica
 
     | Environment variable | Description |
     | -------------------- | ----------- |
-    | **${API_HOSTNAME}** | API hostname. |
-    | **${API_PORT}** | The port used by the API. |
-    | **${API_ADMIN_PORT}** | The port used by the **ADMIN** endpoint. |
-    | **${API_USER}** | The HTTP Basic username used to authenticate API calls. |
-    | **${API_PASSWD}** | The HTTP Basic password used to authenticate API calls. |
-
-    **Options for logger configuration**:
-
-    | Option | Description |
-    | ------ | ----------- |
-    | **size** | Maximum size of the file after which it will rotate. This can be a number of bytes, or units of kb, mb, and gb. If using the units, add 'k', 'm', or 'g' as the suffix. The units need to directly follow the number. |
-    | **path** | The directory name to save log files to. |
-    | **pattern** | A string representing the [moment.js date format](https://momentjs.com/docs/#/displaying/format/) to be used for rotating. The meta characters used in this string will dictate the frequency of the file rotation. For example, if your datePattern is simply 'HH' you will end up with 24 log files that are picked up and appended to every day. |
-    | **archive** | A boolean to define whether or not to gzip archived log files. |
+    | `${API_HOSTNAME}` | API hostname. |
+    | `${API_PORT}` | The port used by the API. |
+    | `${API_ADMIN_PORT}` | The port used by the **ADMIN** endpoint. |
+    | `${API_USER}` | The HTTP Basic username used to authenticate API calls. |
+    | `${API_PASSWD}` | The HTTP Basic password used to authenticate API calls. |
 
 ### Installing
 
@@ -190,9 +181,9 @@ The following instructions show you how to connect the API to an Oracle database
 
     | Option | Description |
     | ------ | ----------- |
-    | **poolMin** | The minimum number of connections a connection pool maintains, even when there is no activity to the target database. |
-    | **poolMax** | The maximum number of connections that can be open in the connection pool. |
-    | **poolIncrement** | The number of connections that are opened whenever a connection request exceeds the number of currently open connections. |
+    | `poolMin` | The minimum number of connections a connection pool maintains, even when there is no activity to the target database. |
+    | `poolMax` | The maximum number of connections that can be open in the connection pool. |
+    | `poolIncrement` | The number of connections that are opened whenever a connection request exceeds the number of currently open connections. |
 
     > Note: To avoid `ORA-02396: exceeded maximum idle time` and prevent deadlocks, the [best practice](https://github.com/oracle/node-oracledb/issues/928#issuecomment-398238519) is to keep `poolMin` the same as `poolMax`. Also, ensure [increasing the number of worker threads](https://github.com/oracle/node-oracledb/blob/node-oracledb-v1/doc/api.md#-82-connections-and-number-of-threads) available to node-oracledb. The thread pool size should be at least equal to the maximum number of connections and less than 128.
 
@@ -255,10 +246,10 @@ The following instructions show you how to get data from an AWS S3 bucket
 
     | Option | Description |
     | ------ | ----------- |
-    | **bucket** | The name of the AWS S3 bucket to use |
-    | **apiVersion** | Version of the S3 API. Example: `'2006-03-01'` |
-    | **endpoint** | When using a local or proxy S3 instance, set this value to the host URL. Example: `http://localhost:9000` |
-    | **s3ForcePathStyle** | Set to `true` if using a local or proxy S3 instance |
+    | `bucket` | The name of the AWS S3 bucket to use |
+    | `apiVersion` | Version of the S3 API. Example: `'2006-03-01'` |
+    | `endpoint` | When using a local or proxy S3 instance, set this value to the host URL. Example: `http://localhost:9000` |
+    | `s3ForcePathStyle` | Set to `true` if using a local or proxy S3 instance |
 
 3. Copy [api/v1/db/awsS3/pets-dao-example.js](api/v1/db/awsS3/pets-dao-example.js) to `api/v1/db/awsS3/<resources>-dao.js` and modify as necessary:
 
