@@ -1,5 +1,4 @@
 const appRoot = require('app-root-path');
-const expressWinston = require('express-winston');
 const _ = require('lodash');
 const winston = require('winston');
 require('winston-daily-rotate-file');
@@ -28,8 +27,6 @@ const customLevels = {
 };
 
 winston.addColors(customLevels.colors);
-
-expressWinston.requestWhitelist.push('body');
 
 /** A transport for daily rotate file */
 const dailyRotateFileTransport = new (winston.transports.DailyRotateFile)({
@@ -93,13 +90,4 @@ const logger = winston.createLogger({
   levels: customLevels.levels,
 });
 
-/** The logger middleware for API requests/responses */
-const loggerMiddleware = expressWinston.logger({
-  winstonInstance: logger,
-  /** The logging level that API messages will be logged to */
-  level: 'api',
-  expressFormat: true,
-  colorize: true,
-});
-
-module.exports = { logger, loggerMiddleware };
+module.exports = { logger };
