@@ -1,4 +1,3 @@
-const capitalize = require('capitalize');
 const _ = require('lodash');
 
 const { readJsonFile } = require('./fs-operations');
@@ -17,7 +16,7 @@ const getPets = query => new Promise((resolve, reject) => {
     let rawPets = readJsonFile(dbPath).pets;
     const { species } = query;
 
-    rawPets = species ? _.filter(rawPets, { SPECIES: capitalize(species) }) : rawPets;
+    rawPets = species ? _.filter(rawPets, { species }) : rawPets;
 
     const serializedPet = serializePets(rawPets, query);
     resolve(serializedPet);
@@ -35,7 +34,7 @@ const getPets = query => new Promise((resolve, reject) => {
 const getPetById = id => new Promise((resolve, reject) => {
   try {
     const rawPets = readJsonFile(dbPath).pets;
-    const rawPet = _.find(rawPets, { ID: id });
+    const rawPet = _.find(rawPets, { id });
     if (!rawPet) {
       resolve(undefined);
     } else {

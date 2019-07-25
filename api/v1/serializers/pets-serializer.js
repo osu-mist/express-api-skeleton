@@ -1,5 +1,4 @@
 const appRoot = require('app-root-path');
-const decamelize = require('decamelize');
 const JsonApiSerializer = require('jsonapi-serializer').Serializer;
 const _ = require('lodash');
 
@@ -14,20 +13,11 @@ const petResourceKeys = _.keys(petResourceProp.attributes.properties);
 const petResourcePath = 'pets';
 const petResourceUrl = resourcePathLink(apiBaseUrl, petResourcePath);
 
-/*
- * The column name getting from database is usually UPPER_CASE. This block of code is to make the
- * camelCase keys defined in openapi.yaml be UPPER_CASE so that the serializer can correctly match
- * the corresponding columns from the raw data rows.
- */
-_.forEach(petResourceKeys, (key, index) => {
-  petResourceKeys[index] = decamelize(key).toUpperCase();
-});
-
 /**
  * Serialize petResources to JSON API
  *
  * @param {object[]} rawPets Raw data rows from data source
- * @param {object} query  Query parameters
+ * @param {object} query Query parameters
  * @returns {object} Serialized petResources object
  */
 const serializePets = (rawPets, query) => {
@@ -43,7 +33,7 @@ const serializePets = (rawPets, query) => {
 
   const topLevelSelfLink = paramsLink(petResourceUrl, query);
   const serializerArgs = {
-    identifierField: 'ID',
+    identifierField: 'id',
     resourceKeys: petResourceKeys,
     pagination,
     resourcePath: petResourcePath,
@@ -65,9 +55,9 @@ const serializePets = (rawPets, query) => {
  * @returns {object} Serialized petResource object
  */
 const serializePet = (rawPet) => {
-  const topLevelSelfLink = resourcePathLink(petResourceUrl, rawPet.ID);
+  const topLevelSelfLink = resourcePathLink(petResourceUrl, rawPet.id);
   const serializerArgs = {
-    identifierField: 'ID',
+    identifierField: 'id',
     resourceKeys: petResourceKeys,
     resourcePath: petResourcePath,
     topLevelSelfLink,

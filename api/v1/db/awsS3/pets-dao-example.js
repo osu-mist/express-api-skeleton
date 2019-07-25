@@ -1,4 +1,3 @@
-const capitalize = require('capitalize');
 const _ = require('lodash');
 
 const awsOps = require('./aws-operations');
@@ -17,7 +16,7 @@ const getPets = async (query) => {
   let rawPets = JSON.parse(object.Body.toString()).pets;
   const { species } = query;
 
-  rawPets = species ? _.filter(rawPets, { SPECIES: capitalize(species) }) : rawPets;
+  rawPets = species ? _.filter(rawPets, { species }) : rawPets;
 
   const serializedPets = serializePets(rawPets, query);
   return serializedPets;
@@ -32,7 +31,7 @@ const getPets = async (query) => {
 const getPetById = async (id) => {
   const object = await awsOps.getObject(objectKey);
   const rawPets = JSON.parse(object.Body.toString()).pets;
-  const rawPet = _.find(rawPets, { ID: id });
+  const rawPet = _.find(rawPets, { id });
   if (!rawPet) {
     return undefined;
   }

@@ -17,10 +17,12 @@ const validateFilePath = async (path) => {
   });
 };
 
-/** Validate database file path */
-const validateJsonDb = () => {
-  validateFilePath(dbPath);
-};
+/**
+ * Validate database file path
+ *
+ * @returns {Promise} Promise that resolves when DB is valid and rejects when invalid
+ */
+const validateJsonDb = () => validateFilePath(dbPath);
 
 /**
  * Read a JSON file and return the contents as an object
