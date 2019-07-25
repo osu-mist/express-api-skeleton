@@ -110,6 +110,7 @@ initialize({
   },
   errorMiddleware: runtimeErrors,
   errorTransformer,
+  promiseMode: true,
 });
 
 /**
