@@ -1,6 +1,7 @@
 /**
- * @summary Middleware that improves the error message when failing to parse JSON
- * @function
+ * Middleware that improves the error message when failing to parse JSON
+ *
+ * @type {ErrorRequestHandler}
  */
 const bodyParserError = (err, req, res, next) => {
   if (err instanceof SyntaxError) {
