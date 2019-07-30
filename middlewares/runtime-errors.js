@@ -48,7 +48,7 @@ const openApiError = (err, req, res, next) => {
    * @param {object} error The error object
    * @returns {string} The enum message
    */
-  const enumMessage = error => (
+  const enumErrorMessage = error => (
     `${error.path} must be one of ['${error.params.allowedValues.join("', '")}']`
   );
 
@@ -62,7 +62,7 @@ const openApiError = (err, req, res, next) => {
       error.path === 'data.type' && error.errorCode === 'enum.openapi.validation'
     ));
     if (invalidTypeError) {
-      return errorBuilder(res, 409, enumMessage(invalidTypeError));
+      return errorBuilder(res, 409, enumErrorMessage(invalidTypeError));
     }
     _.forEach(errors, (error) => {
       const {
@@ -73,7 +73,7 @@ const openApiError = (err, req, res, next) => {
       } = error;
 
       if (errorCode === 'enum.openapi.validation') {
-        details.push(enumMessage(error));
+        details.push(enumErrorMessage(error));
       } else if (errorCode === 'additionalProperties.openapi.validation') {
         const { additionalProperty } = error.params;
         details.push(`Unrecognized property '${additionalProperty}' in path: '${path}', location: '${location}'`);
