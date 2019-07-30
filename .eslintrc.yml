@@ -26,3 +26,8 @@ rules:
         - ErrorRequestHandler
         - Request
         - Response
+  jsdoc/require-jsdoc:
+    - warn
+    - publicOnly: true
+      require:
+        ArrowFunctionExpression: true
