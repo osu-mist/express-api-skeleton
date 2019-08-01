@@ -1,14 +1,16 @@
 const JsonApiError = require('jsonapi-serializer').Error;
 const _ = require('lodash');
 
+const { logger } = require('../utils/logger');
+
 /**
- * @summary Construct error object
- * @function
+ * Construct error object
+ *
  * @param {string} status The HTTP status code
  * @param {string} title A short, human-readable summary of the problem
  * @param {string} code An application-specific error code
  * @param {string} detail A human-readable explanation
- * @returns {Object} An error object
+ * @returns {object} An error object
  */
 const error = (status, title, code, detail) => ({
   status,
@@ -19,10 +21,10 @@ const error = (status, title, code, detail) => ({
 });
 
 /**
- * @summary [400] Return a Bad Request error object
- * @function
- * @param {[string]} details An array of bad request details
- * @returns {Object} Bad Request error object
+ * [400] Return a Bad Request error object
+ *
+ * @param {string[]} details An array of bad request details
+ * @returns {object} Bad Request error object
  */
 const badRequest = (details) => {
   const badRequests = [];
@@ -36,9 +38,9 @@ const badRequest = (details) => {
 };
 
 /**
- * @summary [401] Return a Unauthorized error object
- * @function
- * @returns {Object} Unauthorized error object
+ * [401] Return a Unauthorized error object
+ *
+ * @returns {object} Unauthorized error object
  */
 const unauthorized = () => new JsonApiError(error(
   '401',
@@ -48,10 +50,10 @@ const unauthorized = () => new JsonApiError(error(
 ));
 
 /**
- * @summary [403] Return a Forbidden error object
- * @function
+ * [403] Return a Forbidden error object
+ *
  * @param {string} detail A human-readable explanation
- * @returns {Object} Unauthorized error object
+ * @returns {object} Unauthorized error object
  */
 const forbidden = detail => new JsonApiError(error(
   '403',
@@ -61,10 +63,10 @@ const forbidden = detail => new JsonApiError(error(
 ));
 
 /**
- * @summary [404] Return a Not Found error object
- * @function
+ * [404] Return a Not Found error object
+ *
  * @param {string} detail A human-readable explanation
- * @returns {Object} Not Found error object
+ * @returns {object} Not Found error object
  */
 const notFound = detail => new JsonApiError(error(
   '404',
@@ -74,10 +76,10 @@ const notFound = detail => new JsonApiError(error(
 ));
 
 /**
- * @summary [409] Return a Conflict error object
- * @function
+ * [409] Return a Conflict error object
+ *
  * @param {string} detail A human-readable explanation
- * @returns {Object} Conflict error object
+ * @returns {object} Conflict error object
  */
 const conflict = detail => new JsonApiError(error(
   '409',
@@ -87,10 +89,10 @@ const conflict = detail => new JsonApiError(error(
 ));
 
 /**
- * @summary [500] Return a Internal Server Error error object
- * @function
+ * [500] Return a Internal Server Error error object
+ *
  * @param {string} detail A human-readable explanation
- * @returns {Object} Internal Server Error error object
+ * @returns {object} Internal Server Error error object
  */
 const internalServerError = detail => new JsonApiError(error(
   '500',
@@ -100,11 +102,11 @@ const internalServerError = detail => new JsonApiError(error(
 ));
 
 /**
- * @summary Function to build an error response
- * @function
- * @param res Response
- * @param status The HTTP status code
- * @param detail A human-readable explanation
+ * Function to build an error response
+ *
+ * @param {Response} res Response
+ * @param {string} status The HTTP status code
+ * @param {string|string[]} detail A human-readable explanation
  */
 const errorBuilder = (res, status, detail) => {
   const errorDictionary = {
@@ -118,14 +120,23 @@ const errorBuilder = (res, status, detail) => {
 };
 
 /**
- * @summary Function to handle unexpected errors
- * @function
- * @param res Response
- * @param err Error
+ * Function to handle unexpected errors
+ *
+ * @param {Response} res Response
+ * @param {object} err Error
  */
 const errorHandler = (res, err) => {
   const detail = 'The application encountered an unexpected condition.';
-  console.error(err.stack);
+  // Not all errors will have a stack associated with it
+  let message = err.stack || err;
+  if (_.isObject(message)) {
+    try {
+      message = JSON.stringify(message);
+    } catch (ex) {
+      logger.error(`Could not stringify error. Exception: ${ex}`);
+    }
+  }
+  logger.error(message);
   res.status(500).send(internalServerError(detail));
 };
 

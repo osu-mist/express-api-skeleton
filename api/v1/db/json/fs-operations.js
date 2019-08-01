@@ -4,10 +4,10 @@ const fs = require('fs');
 const { dbPath } = config.get('dataSources.json');
 
 /**
- * @summary Validate a file path and throw an error if invalid
- * @function
+ * Validate a file path and throw an error if invalid
+ *
  * @throws Throws an error if the file path is not valid
- * @param {string} path
+ * @param {string} path Path to file
  */
 const validateFilePath = async (path) => {
   fs.access(path, (err) => {
@@ -18,16 +18,17 @@ const validateFilePath = async (path) => {
 };
 
 /**
- * @summary Validate database file path
- * @function
+ * Validate database file path
+ *
+ * @returns {Promise} Promise that resolves when DB is valid and rejects when invalid
  */
 const validateJsonDb = () => validateFilePath(dbPath);
 
 /**
- * @summary Read a JSON file and return the contents as an object
- * @function
- * @param {string} filePath
- * @returns {Object} Contents of JSON file or undefined if the file doesn't exist
+ * Read a JSON file and return the contents as an object
+ *
+ * @param {string} filePath Path to file
+ * @returns {object} Contents of JSON file or undefined if the file doesn't exist
  */
 const readJsonFile = (filePath) => {
   if (fs.existsSync(filePath)) {
@@ -37,21 +38,21 @@ const readJsonFile = (filePath) => {
 };
 
 /**
- * @summary Write an object to a JSON file with formatting
- * @function
- * @param {string} filePath
- * @param {Object} data
- * @param {Object} options
+ * Write an object to a JSON file with formatting
+ *
+ * @param {string} filePath Path to file
+ * @param {object} data JSON object to write
+ * @param {object} options Additional options to pass to fs.writeFileSync()
  */
 const writeJsonFile = (filePath, data, options = {}) => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), options);
 };
 
 /**
- * @summary Delete a file
- * @function
- * @param {string} filePath
- * @returns true if file was deleted and undefined if file was not found
+ * Delete a file
+ *
+ * @param {string} filePath Path to file
+ * @returns {boolean|undefined} true if file was deleted and undefined if file was not found
  */
 const deleteFile = (filePath) => {
   if (fs.existsSync(filePath)) {

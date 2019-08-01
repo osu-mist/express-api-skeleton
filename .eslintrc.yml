@@ -1,11 +1,33 @@
-extends: airbnb-base
+extends:
+  - airbnb-base
+  - plugin:jsdoc/recommended
+plugins:
+  - jsdoc
 env:
   node: true
   mocha: true
 rules:
   no-param-reassign: "off"
-  no-console: "off"
   import/no-unresolved:
     - error
     - commonjs: true
       ignore: [ ^aws-sdk$, ^oracledb$, ^request-promise-native$ ]
+  jsdoc/require-param:
+    - warn
+    - exemptedBy: [ type ]
+  jsdoc/require-returns:
+    - warn
+    - exemptedBy: [ type ]
+  jsdoc/no-undefined-types:
+    - warn
+      # Express types
+    - definedTypes:
+        - RequestHandler
+        - ErrorRequestHandler
+        - Request
+        - Response
+  jsdoc/require-jsdoc:
+    - warn
+    - publicOnly: true
+      require:
+        ArrowFunctionExpression: true

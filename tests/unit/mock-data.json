@@ -1,40 +1,40 @@
 {
   "pets": [
     {
-      "ID": "1",
-      "NAME": "Furball",
-      "OWNER": "Tso-Liang Wu",
-      "SPECIES": "Cat"
+      "id": "1",
+      "name": "Furball",
+      "owner": "Tso-Liang Wu",
+      "species": "Cat"
     },
     {
-      "ID": "2",
-      "NAME": "Zeus",
-      "OWNER": "Jared Kosanovic",
-      "SPECIES": "Dog"
+      "id": "2",
+      "name": "Zeus",
+      "owner": "Jared Kosanovic",
+      "species": "Dog"
     },
     {
-      "ID": "3",
-      "NAME": "Mrs Norris",
-      "OWNER": "Argus Filch",
-      "SPECIES": "Cat"
+      "id": "3",
+      "name": "Mrs Norris",
+      "owner": "Argus Filch",
+      "species": "Cat"
     },
     {
-      "ID": "4",
-      "NAME": "Fang",
-      "OWNER": "Rubeus Hagrid",
-      "SPECIES": "Dog"
+      "id": "4",
+      "name": "Fang",
+      "owner": "Rubeus Hagrid",
+      "species": "Dog"
     },
     {
-      "ID": "5",
-      "NAME": "Fawkes",
-      "OWNER": "Albus Dumbledore",
-      "SPECIES": "Phoenix"
+      "id": "5",
+      "name": "Fawkes",
+      "owner": "Albus Dumbledore",
+      "species": "Phoenix"
     },
     {
-      "ID": "6",
-      "NAME": "Hedwig",
-      "OWNER": "Harry Potter",
-      "SPECIES": "Owl"
+      "id": "6",
+      "name": "Hedwig",
+      "owner": "Harry Potter",
+      "species": "Owl"
     }
   ]
 }

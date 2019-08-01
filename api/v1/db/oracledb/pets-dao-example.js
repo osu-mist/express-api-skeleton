@@ -10,9 +10,9 @@ const { contrib } = appRoot.require('api/v1/db/oracledb/contrib/contrib');
 const { endpointUri } = config.get('server');
 
 /**
- * @summary Return a list of pets
- * @function
- * @returns {Promise<Object[]>} Promise object represents a list of pets
+ * Return a list of pets
+ *
+ * @returns {Promise<object[]>} Promise object represents a list of pets
  */
 const getPets = async () => {
   const connection = await conn.getConnection();
@@ -26,10 +26,10 @@ const getPets = async () => {
 };
 
 /**
- * @summary Return a specific pet by unique ID
- * @function
+ * Return a specific pet by unique ID
+ *
  * @param {string} id Unique pet ID
- * @returns {Promise<Object>} Promise object represents a specific pet or return undefined if term
+ * @returns {Promise<object>} Promise object represents a specific pet or return undefined if term
  *                            is not found
  */
 const getPetById = async (id) => {
