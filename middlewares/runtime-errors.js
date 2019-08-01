@@ -74,6 +74,13 @@ const openApiError = (err, req, res, next) => {
     if (invalidTypeError) {
       return errorBuilder(res, 409, enumErrorMessage(invalidTypeError));
     }
+
+    // Return 404 if error is pattern validation
+    const invalidPatternError = _.find(errors, error => error.errorCode === 'pattern.openapi.validation');
+    if (invalidPatternError) {
+      return errorBuilder(res, 404, invalidPatternMessage(invalidPatternError));
+    }
+
     _.forEach(errors, (error) => {
       const {
         path,
