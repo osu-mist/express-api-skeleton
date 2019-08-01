@@ -3,7 +3,6 @@ const appRoot = require('app-root-path');
 const petsDao = require('../../db/json/pets-dao-example');
 
 const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
-const { openapi: { paths } } = appRoot.require('utils/load-openapi');
 
 /**
  * Get pet by unique ID
@@ -23,7 +22,5 @@ const get = async (req, res) => {
     errorHandler(res, err);
   }
 };
-
-get.apiDoc = paths['/pets/{id}'].get;
 
 module.exports = { get };
