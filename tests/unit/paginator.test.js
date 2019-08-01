@@ -16,9 +16,10 @@ const repeatForAllPages = (assertion, assertionVars = {}) => {
   const page = { size: 4, number: 1 };
   const { totalPages } = paginate(rows, page);
   assertionVars.totalPages = totalPages;
-  for (; page.number <= totalPages; page.number += 1) {
+  while (page.number <= totalPages) {
     assertionVars.page = page;
     assertion(assertionVars);
+    page.number += 1;
   }
 };
 
@@ -35,12 +36,12 @@ describe('Test paginator', () => {
   it('unique IDs do not appear more than once across all pages', (done) => {
     const assertNoDuplicateResults = (assertionVars) => {
       const { paginatedRows } = paginate(rows, assertionVars.page);
-      _.forEach(paginatedRows, ({ ID }) => {
-        assert.isFalse(assertionVars.uIDs.includes(ID));
-        assertionVars.uIDs.push(ID);
+      _.forEach(paginatedRows, ({ id }) => {
+        assert.isFalse(assertionVars.uids.includes(id));
+        assertionVars.uids.push(id);
       });
     };
-    repeatForAllPages(assertNoDuplicateResults, { uIDs: [] });
+    repeatForAllPages(assertNoDuplicateResults, { uids: [] });
     done();
   });
 
