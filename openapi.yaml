@@ -49,6 +49,30 @@ paths:
           description: Internal server error
           schema:
             $ref: '#/definitions/ErrorResult'
+    post:
+      summary: Add a new pet
+      operationId: postPet
+      tags:
+        - pets
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/PetPostBody'
+      responses:
+        '201':
+          description: Pet succesfully created
+          schema:
+            $ref: '#/definitions/PetResult'
+        '400':
+          description: Bad request
+          schema:
+            $ref: '#/definitions/ErrorResult'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ErrorResult'
   /pets/{id}:
     get:
       summary: Info for a specific pet
@@ -186,6 +210,33 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/PetResource'
+  PetPostBody:
+    properties:
+      data:
+        type: object
+        properties:
+          type:
+            type: string
+            enum: [pet]
+          attributes:
+            type: object
+            properties:
+              name:
+                $ref: '#/definitions/PetResource/properties/attributes/properties/name'
+              owner:
+                $ref: '#/definitions/PetResource/properties/attributes/properties/owner'
+              species:
+                $ref: '#/definitions/PetResource/properties/attributes/properties/species'
+            required:
+              - name
+              - owner
+              - species
+            additionalProperties: false
+        required:
+          - type
+          - attributes
+    required:
+     - data
   ErrorObject:
     properties:
       status:
