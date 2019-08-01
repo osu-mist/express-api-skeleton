@@ -52,6 +52,16 @@ const openApiError = (err, req, res, next) => {
     `${error.path} must be one of ['${error.params.allowedValues.join("', '")}']`
   );
 
+  /**
+   * Generate error message for incorrect path parameter formats
+   *
+   * @param {object} error The error object
+   * @returns {string} The error message
+   */
+  const invalidPatternMessage = error => (
+    `Error in path: '${error.path}', location: '${error.location}', message: '${error.message}'`
+  );
+
   const { status, errors } = err;
 
   if (status === 400) {
