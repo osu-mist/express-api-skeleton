@@ -37,11 +37,11 @@ describe('Test paginator', () => {
     const assertNoDuplicateResults = (assertionVars) => {
       const { paginatedRows } = paginate(rows, assertionVars.page);
       _.forEach(paginatedRows, ({ id }) => {
-        assert.isFalse(assertionVars.uids.includes(id));
-        assertionVars.uids.push(id);
+        assert.isFalse(assertionVars.uids.has(id));
+        assertionVars.uids.add(id);
       });
     };
-    repeatForAllPages(assertNoDuplicateResults, { uids: [] });
+    repeatForAllPages(assertNoDuplicateResults, { uids: new Set() });
     done();
   });
 
