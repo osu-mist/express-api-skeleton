@@ -52,16 +52,6 @@ const openApiError = (err, req, res, next) => {
     `${error.path} must be one of ['${error.params.allowedValues.join("', '")}']`
   );
 
-  /**
-   * Generate error message for incorrect path parameter formats
-   *
-   * @param {object} error The error object
-   * @returns {string} The error message
-   */
-  const invalidPatternMessage = error => (
-    `Error in path: '${error.path}', location: '${error.location}', message: '${error.message}'`
-  );
-
   const { status, errors } = err;
 
   if (status === 400) {
@@ -80,7 +70,11 @@ const openApiError = (err, req, res, next) => {
       error.errorCode === 'pattern.openapi.validation' && error.location === 'path'
     ));
     if (invalidPatternError) {
-      return errorBuilder(res, 404, invalidPatternMessage(invalidPatternError));
+      return errorBuilder(
+        res,
+        404,
+        `'${invalidPatternError.path}' in path ${invalidPatternError.message}`,
+      );
     }
 
     _.forEach(errors, (error) => {
