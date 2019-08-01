@@ -63,6 +63,7 @@ paths:
           description: Unique Pet ID
           required: true
           type: string
+          pattern: '^\d+$'
       responses:
         '200':
           description: Successful response
