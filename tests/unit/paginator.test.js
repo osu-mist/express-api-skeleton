@@ -5,6 +5,13 @@ const _ = require('lodash');
 const { paginate } = appRoot.require('/utils/paginator');
 const rows = appRoot.require('/tests/unit/mock-data.json').pets;
 
+/**
+ * Repeats an assertion for all pages of the mock data
+ *
+ * @param {function} assertion a function containing a chai assertion
+ * @param {object} assertionVars a dictionary of variables to be made
+ *     available to the assertion function
+ */
 const repeatForAllPages = (assertion, assertionVars = {}) => {
   const page = { size: 4, number: 1 };
   const { totalPages } = paginate(rows, page);
