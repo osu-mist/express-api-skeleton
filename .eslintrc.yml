@@ -12,6 +12,12 @@ rules:
     - error
     - commonjs: true
       ignore: [ ^aws-sdk$, ^oracledb$, ^request-promise-native$ ]
+  import/no-extraneous-dependencies:
+    - error
+    - devDependencies:
+      - '**/tests/**/*.test.js'
+      - gulpfile.js
+      - '**/aws-operations.js'
   jsdoc/require-param:
     - warn
     - exemptedBy: [ type ]
