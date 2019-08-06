@@ -4,21 +4,21 @@ import { apiBaseUrl, resourcePathLink, paramsLink } from 'utils/uri-builder';
 
 
 /**
- * @summary Helper function to generate pagination params
- * @function
+ * Helper function to generate pagination params
+ *
  * @param {number} pageNumber page number
  * @param {number} pageSize page size
- * @returns {Object} pagination parameters object
+ * @returns {object} pagination parameters object
  */
 const pageParamsBuilder = (pageNumber, pageSize) => (
   { 'page[number]': pageNumber, 'page[size]': pageSize }
 );
 
 /**
- * @summary Generate JSON API serializer options
- * @function
- * @param {[Object]} serializerArgs JSON API serializer arguments
- * @returns {Object} JSON API serializer options
+ * Generate JSON API serializer options
+ *
+ * @param {object[]} serializerArgs JSON API serializer arguments
+ * @returns {object} JSON API serializer options
  */
 const serializerOptions = (serializerArgs) => {
   const {

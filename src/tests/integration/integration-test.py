@@ -37,9 +37,7 @@ class integration_tests(unittest.TestCase):
     # Test case: GET /pets
     def test_get_all_pets(self, endpoint='/pets'):
         nullable_fields = ['owner']
-        utils.test_endpoint(self, endpoint,
-                            resource='PetResource',
-                            response_code=200,
+        utils.test_endpoint(self, endpoint, 'PetResource', 200,
                             nullable_fields=nullable_fields)
 
     # Test case: GET /pets with species filter
@@ -48,9 +46,7 @@ class integration_tests(unittest.TestCase):
 
         for species in testing_species:
             params = {'species': species}
-            response = utils.test_endpoint(self, endpoint,
-                                           resource='PetResource',
-                                           response_code=200,
+            response = utils.test_endpoint(self, endpoint, 'PetResource', 200,
                                            query_params=params)
 
             response_data = response.json()['data']
@@ -75,10 +71,10 @@ class integration_tests(unittest.TestCase):
             expected_status_code = pagination['expected_status_code']
             resource = (
                 'PetResource' if expected_status_code == 200
-                else 'Error')
-            response = utils.test_endpoint(self, endpoint,
-                                           resource=resource,
-                                           response_code=expected_status_code,
+                else 'ErrorObject'
+            )
+            response = utils.test_endpoint(self, endpoint, resource,
+                                           expected_status_code,
                                            query_params=params,
                                            nullable_fields=nullable_fields)
             content = utils.get_json_content(self, response)
@@ -99,14 +95,12 @@ class integration_tests(unittest.TestCase):
         invalid_pet_ids = self.test_cases['invalid_pet_ids']
 
         for pet_id in valid_pet_ids:
-            utils.test_endpoint(self, f'{endpoint}/{pet_id}',
-                                resource='PetResource',
-                                response_code=200)
+            resource = 'PetResource'
+            utils.test_endpoint(self, f'{endpoint}/{pet_id}', resource, 200)
 
         for pet_id in invalid_pet_ids:
-            utils.test_endpoint(self, f'{endpoint}/{pet_id}',
-                                resource='Error',
-                                response_code=404)
+            resource = 'ErrorObject'
+            utils.test_endpoint(self, f'{endpoint}/{pet_id}', resource, 404)
 
 
 if __name__ == '__main__':

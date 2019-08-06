@@ -11,11 +11,9 @@ const json = dataSources.includes('json')
 const oracledb = dataSources.includes('oracledb')
   ? require('api/v1/db/oracledb/connection').validateOracleDb
   : null;
+const { logger } = require('./logger');
 
-/**
- * @summary Validate database configuration
- * @function
- */
+/** Validate database configuration */
 const validateDataSource = () => {
   const validationMethods = {
     awsS3,
@@ -27,7 +25,7 @@ const validateDataSource = () => {
   _.each(dataSources, (dataSourceType) => {
     if (dataSourceType in validationMethods) {
       validationMethods[dataSourceType]().catch((err) => {
-        console.error(err);
+        logger.error(err);
         process.exit(1);
       });
     } else {

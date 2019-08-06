@@ -5,18 +5,35 @@ extends:
 plugins:
   - flowtype
   - eslint-plugin-import-order-alphabetical
+  - jsdoc
 env:
   node: true
   mocha: true
 rules:
   no-param-reassign: "off"
-  no-console: "off"
-  import/order: [error, newlines-between: always]
-  import-order-alphabetical/order: [error]
   import/no-unresolved:
     - error
     - commonjs: true
       ignore: [ ^aws-sdk$, ^oracledb$, ^request-promise-native$, contrib/ ]
+  jsdoc/require-param:
+    - warn
+    - exemptedBy: [ type ]
+  jsdoc/require-returns:
+    - warn
+    - exemptedBy: [ type ]
+  jsdoc/no-undefined-types:
+    - warn
+      # Express types
+    - definedTypes:
+        - RequestHandler
+        - ErrorRequestHandler
+        - Request
+        - Response
+  jsdoc/require-jsdoc:
+    - warn
+    - publicOnly: true
+      require:
+        ArrowFunctionExpression: true
 settings:
   import/resolver:
     babel-module: {}

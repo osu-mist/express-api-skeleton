@@ -12,12 +12,6 @@ authentication:
   username: ${USER}
   password: ${PASSWD}
 
-logger:
-  size: 10m
-  path: logs
-  pattern: YYYY-MM-DD
-  archive: true
-
 dataSources:
   dataSources: ['json', 'oracledb', 'awsS3']
   json:

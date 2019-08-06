@@ -98,7 +98,11 @@ def make_request(self, endpoint, expected_status_code,
         Response body:''')
     response_body = json.dumps(response.json(), indent=4)
     logging.debug(f'{response_code_details}\n{response_body})')
-    self.assertEqual(status_code, expected_status_code)
+    self.assertEqual(
+        status_code,
+        expected_status_code,
+        f'requested_url: {requested_url},\nresponse_body: {response_body}'
+    )
 
     # Response time should less then max_elapsed_seconds
     elapsed_seconds = response.elapsed.total_seconds()
@@ -113,12 +117,12 @@ def check_schema(self, response, schema, nullable_fields):
     # Mapping of OpenAPI data types and python data types
     types_dict = {
         'string': str,
-        'number': float,
         'integer': int,
         'int32': int,
         'int64': int,
-        'float': float,
-        'double': float,
+        'float': (float, int),
+        'double': (float, int),
+        'number': (float, int),
         'boolean': bool,
         'array': list,
         'object': dict
@@ -139,10 +143,11 @@ def check_schema(self, response, schema, nullable_fields):
         elif '$ref' in attribute:
             openapi_type = __get_reference_type(attribute['$ref'])
 
-        return types_dict[openapi_type] if openapi_type else None
-
-        logging.warning('OpenAPI property contains no type or properties')
-        return None
+        if not openapi_type:
+            logging.warning('OpenAPI property contains no type or properties')
+            return None
+        else:
+            return types_dict[openapi_type]
 
     # Helper function to get type of referenced object
     def __get_reference_type(object_path, root_object_paths=None):
@@ -186,11 +191,31 @@ def check_schema(self, response, schema, nullable_fields):
     # Helper function to check through all attributes
     def __check_attributes_schema(actual_attributes, expected_attributes):
         for field, actual_value in actual_attributes.items():
+            self.assertIn(
+                field,
+                expected_attributes.keys(),
+                f"Unexpected field '{field}'"
+            )
             expected_attribute = expected_attributes[field]
             expected_type = __get_attribute_type(expected_attribute)
 
-            if (actual_value and expected_type) or \
-               field not in nullable_fields:
+            # Check item schema if attribute is an array
+            if (
+                expected_type is list
+                and 'properties' in expected_attributes[field]['items']
+            ):
+                expected_item = (
+                    expected_attributes[field]['items']['properties']
+                )
+                actual_items = actual_attributes[field]
+
+                for actual_item in actual_items:
+                    __check_attributes_schema(actual_item, expected_item)
+
+            if (
+                (actual_value and expected_type)
+                or field not in nullable_fields
+            ):
                 self.assertIsInstance(actual_value, expected_type)
 
     status_code = response.status_code
@@ -221,7 +246,7 @@ def check_url(self, link_url, endpoint, query_params=None):
     base_url = self.base_url
     if self.local_test:
         """Local instances return self links without port and /api"""
-        base_url = re.sub(':\d{4}/api', '', self.base_url)
+        base_url = re.sub(r':\d{4}/api', '', self.base_url)
 
     link_url_obj = urllib.parse.urlparse(link_url)
     base_url_obj = urllib.parse.urlparse(base_url)
@@ -238,7 +263,10 @@ def check_url(self, link_url, endpoint, query_params=None):
                             Expected: {base_attribute}
                             Link: {link_attribute}'''))
 
-    link_url_query = dict(urllib.parse.parse_qsl(link_url_obj.query))
+    link_url_query = dict(urllib.parse.parse_qsl(
+        link_url_obj.query,
+        keep_blank_values=True
+    ))
     self.assertTrue(set(link_url_query).issuperset(set(query_params)),
                     textwrap.dedent(f'''
                         Query parameter(s) not in link.

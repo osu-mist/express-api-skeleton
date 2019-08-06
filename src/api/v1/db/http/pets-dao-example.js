@@ -7,8 +7,8 @@ const { sourceUri } = config.get('httpDataSource');
 const { endpointUri } = config.get('server');
 
 /**
- * @summary Return a list of pets
- * @function
+ * Return a list of pets
+ *
  * @returns {Promise} Promise object represents a list of pets
  */
 const getPets = () => new Promise(async (resolve, reject) => {
@@ -23,8 +23,8 @@ const getPets = () => new Promise(async (resolve, reject) => {
 });
 
 /**
- * @summary Return a specific pet by unique ID
- * @function
+ * Return a specific pet by unique ID
+ *
  * @param {string} id Unique pet ID
  * @returns {Promise} Promise object represents a specific pet
  */

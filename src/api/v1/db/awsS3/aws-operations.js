@@ -8,16 +8,17 @@ const s3 = new AWS.S3(awsConfig);
 let thisBucket = null;
 
 /**
- * @summary Set the bucket to be used for subsequent function calls.
- * @function
+ * Set the bucket to be used for subsequent function calls.
+ *
+ * @param {string} bucket The bucket to be set
  */
 const setBucket = (bucket) => {
   thisBucket = bucket;
 };
 
 /**
- * @summary Checks if a bucket exists
- * @function
+ * Checks if a bucket exists
+ *
  * @param {string} bucket The bucket to be checked
  * @returns {Promise} Promise object represents a boolean indicating if the bucket exists or not
  */
@@ -34,10 +35,7 @@ const bucketExists = (bucket = thisBucket) => new Promise((resolve, reject) => {
   });
 });
 
-/**
- * @summary Verify the AWS S3 data source
- * @function
- */
+/** Verify the AWS S3 data source */
 const validateAwsS3 = async () => {
   const { bucket } = config.get('dataSources.awsS3');
   if (!await bucketExists(bucket)) {
@@ -48,8 +46,8 @@ const validateAwsS3 = async () => {
 };
 
 /**
- * @summary Checks if an object exists in a bucket
- * @function
+ * Checks if an object exists in a bucket
+ *
  * @param {string} key The key of the object to be checked
  * @param {string} bucket The bucket where the key will be searched
  * @returns {Promise} Promise object represents a boolean indicating if the key exists or not
@@ -68,8 +66,8 @@ const objectExists = (key, bucket = thisBucket) => new Promise((resolve, reject)
 });
 
 /**
- * @summary Gets metadata on an object by making a head-object request
- * @function
+ * Gets metadata on an object by making a head-object request
+ *
  * @param {string} key Key of the object
  * @param {string} bucket Bucket where the object exists
  * @returns {Promise} Promise object representing the response
@@ -80,9 +78,9 @@ const headObject = (key, bucket = thisBucket) => {
 };
 
 /**
- * @summary List objects in a bucket
- * @function
- * @param {Object} params Additional params to be used in the search
+ * List objects in a bucket
+ *
+ * @param {object} params Additional params to be used in the search
  * @param {string} bucket The bucket to search for objects
  * @returns {Promise} Promise object representing the objects
  */
@@ -92,8 +90,8 @@ const listObjects = (params = {}, bucket = thisBucket) => {
 };
 
 /**
- * @summary Gets an object from a bucket
- * @function
+ * Gets an object from a bucket
+ *
  * @param {string} key The key of the object
  * @param {string} bucket The bucket where the object exists
  * @returns {Promise} Promise object representing the object response. undefined if the object does
@@ -113,10 +111,10 @@ const getObject = (key, bucket = thisBucket) => new Promise((resolve, reject) =>
 });
 
 /**
- * @summary Uploads a new directory object to a bucket
- * @function
+ * Uploads a new directory object to a bucket
+ *
  * @param {string} key The key of the object. Must end with "/"
- * @param {Object} params Additional params to be used when creating the directory
+ * @param {object} params Additional params to be used when creating the directory
  * @param {string} bucket The bucket that the object will be uploaded to
  * @returns {Promise} Promise object representing the response
  */
@@ -132,11 +130,11 @@ const putDir = (key, params = {}, bucket = thisBucket) => {
 };
 
 /**
- * @summary Uploads an object to a bucket as JSON
- * @function
- * @param {Object} object The object to be uploaded
+ * Uploads an object to a bucket as JSON
+ *
+ * @param {object} object The object to be uploaded
  * @param {string} key The desired key name of the object
- * @param {Object} params Additional params to be used in put-object
+ * @param {object} params Additional params to be used in put-object
  * @param {string} bucket The bucket to upload the object to
  * @returns {Promise} Promise object representing the response
  */
@@ -154,9 +152,9 @@ const putObject = (object, key, params = {}, bucket = thisBucket) => {
 };
 
 /**
- * @summary Update an existing object's metadata by copying the object to itself
- * @function
- * @param {Object} metadata The desired metadata that will be added to or replace existing metadata
+ * Update an existing object's metadata by copying the object to itself
+ *
+ * @param {object} metadata The desired metadata that will be added to or replace existing metadata
  * @param {string} key The key of the object
  * @param {string} bucket The bucket where the object is located
  * @returns {Promise} Promise object representing the response
@@ -176,8 +174,8 @@ const updateMetadata = async (metadata, key, bucket = thisBucket) => {
 };
 
 /**
- * @summary Delete an existing object
- * @function
+ * Delete an existing object
+ *
  * @param {string} key The key of the object to be deleted
  * @param {string} bucket The bucket where the object is located
  * @returns {Promise} Promise object representing the response. undefined if the key was not found

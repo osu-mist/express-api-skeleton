@@ -44,11 +44,11 @@ paths:
         '400':
           description: Bad request
           schema:
-            $ref: '#/definitions/Errors'
+            $ref: '#/definitions/ErrorResult'
         '500':
           description: Internal server error
           schema:
-            $ref: '#/definitions/Errors'
+            $ref: '#/definitions/ErrorResult'
   /pets/{id}:
     get:
       summary: Info for a specific pet
@@ -63,6 +63,7 @@ paths:
           description: Unique Pet ID
           required: true
           type: string
+          pattern: '^\d+$'
       responses:
         '200':
           description: Successful response
@@ -71,11 +72,11 @@ paths:
         '404':
           description: PetResource not found
           schema:
-            $ref: '#/definitions/Errors'
+            $ref: '#/definitions/ErrorResult'
         '500':
           description: Internal server error
           schema:
-            $ref: '#/definitions/Errors'
+            $ref: '#/definitions/ErrorResult'
 parameters:
   authorization:
     name: Authorization
@@ -185,7 +186,7 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/PetResource'
-  Error:
+  ErrorObject:
     properties:
       status:
         type: string
@@ -209,9 +210,9 @@ definitions:
             format: url
             description: A link to further information about the error
             example: https://developer.oregonstate.edu/documentation/error-reference#1234
-  Errors:
+  ErrorResult:
     properties:
       errors:
         type: array
         items:
-          $ref: '#/definitions/Error'
+          $ref: '#/definitions/ErrorObject'
