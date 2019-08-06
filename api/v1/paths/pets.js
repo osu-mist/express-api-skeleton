@@ -18,4 +18,14 @@ const get = async (req, res) => {
   }
 };
 
-module.exports = { get };
+/**
+ * Post pets
+ *
+ * @type {RequestHandler}
+ */
+const post = async (req, res) => {
+  console.log(req);
+  return errorHandler(res, 'error');
+};
+
+module.exports = { get, post };
