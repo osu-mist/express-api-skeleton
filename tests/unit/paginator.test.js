@@ -43,6 +43,7 @@ describe('Test paginator', () => {
         assertionVars.uids.add(id);
       });
       if (assertionVars.page.number === assertionVars.totalPages) {
+        // clear uids for next iteration of page size
         assertionVars.uids = new Set();
       }
     };
