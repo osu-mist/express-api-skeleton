@@ -18,9 +18,12 @@ afterEach(() => {
 describe('Test aws-operations', () => {
   let configGetStub;
   let awsOperations;
+  const testBucket = 'test-bucket';
 
   beforeEach(() => {
-    configGetStub = sinon.stub(config, 'get').withArgs('dataSources.awsS3').returns({});
+    configGetStub = sinon.stub(config, 'get')
+      .withArgs('dataSources.awsS3')
+      .returns({ bucket: testBucket });
   });
 
   const createS3Stub = (method, stub) => {
@@ -53,6 +56,22 @@ describe('Test aws-operations', () => {
       createS3Stub('headBucket', headBucketPromiseStub);
       const result = awsOperations.bucketExists();
       return result.should.be.rejected;
+    });
+  });
+
+  describe('validateAwsS3', () => {
+    it('Should set the bucket if headBucket().promise resolves', () => {
+      const headBucketPromiseStub = sinon.stub().resolves({});
+      createS3Stub('headBucket', headBucketPromiseStub);
+      const result = awsOperations.validateAwsS3();
+      return result.should.eventually.be.fulfilled;
+    });
+
+    it('Should reject if headBucket().promise rejects', () => {
+      const headBucketPromiseStub = sinon.stub().rejects({ code: 'NotFound' });
+      createS3Stub('headBucket', headBucketPromiseStub);
+      const result = awsOperations.validateAwsS3();
+      return result.should.rejectedWith(Error, 'AWS bucket does not exist');
     });
   });
 });

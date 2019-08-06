@@ -22,24 +22,24 @@ const setBucket = (bucket) => {
  * @param {string} bucket The bucket to be checked
  * @returns {Promise} Promise object represents a boolean indicating if the bucket exists or not
  */
-const bucketExists = (bucket = thisBucket) => new Promise((resolve, reject) => {
+const bucketExists = async (bucket = thisBucket) => {
   const params = { Bucket: bucket };
-  s3.headBucket(params).promise().then(() => {
-    resolve(true);
-  }).catch((err) => {
+  try {
+    await s3.headBucket(params).promise();
+    return true;
+  } catch (err) {
     if (err.code === 'NotFound') {
-      resolve(false);
-    } else {
-      reject(err);
+      return false;
     }
-  });
-});
+    throw err;
+  }
+};
 
 /** Verify the AWS S3 data source */
 const validateAwsS3 = async () => {
   const { bucket } = config.get('dataSources.awsS3');
   if (!await bucketExists(bucket)) {
-    throw new Error('Error: AWS bucket does not exist');
+    throw new Error('AWS bucket does not exist');
   } else {
     setBucket(bucket);
   }
