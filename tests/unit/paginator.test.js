@@ -13,7 +13,7 @@ const rows = appRoot.require('/tests/unit/mock-data.json').pets;
  *     available to the assertion function
  */
 const repeatForAllPages = (assertion, assertionVars = {}) => {
-  for (let size = 1; size <= rows.length; size += 1) {
+  _.forEach(_.range(1, rows.length + 1), (size) => {
     const page = { size, number: 1 };
     const { totalPages } = paginate(rows, page);
     assertionVars.totalPages = totalPages;
@@ -22,7 +22,7 @@ const repeatForAllPages = (assertion, assertionVars = {}) => {
       assertion(assertionVars);
       page.number += 1;
     }
-  }
+  });
 };
 
 describe('Test paginator', () => {
