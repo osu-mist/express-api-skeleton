@@ -146,4 +146,31 @@ describe('Test aws-operations', () => {
       promiseStub.should.have.been.calledOnce;
     });
   });
+
+  describe('listObjects', () => {
+    it('Should resolve when listObjectsV2 promise resolves', async () => {
+      const testResult = { resultKey: 'resultValue' };
+      const testParams = { paramKey: 'paramValue' };
+      const promiseStub = sinon.stub().resolves(testResult);
+      const listObjectsV2Stub = getS3MethodStub(promiseStub);
+      createS3Stub({ listObjectsV2: listObjectsV2Stub });
+      const result = awsOperations.listObjects(testParams);
+      await result.should.eventually.be.fulfilled.and.deep.equal(testResult);
+      listObjectsV2Stub.should.have.been.calledOnce;
+      listObjectsV2Stub.should.have.been.calledWithMatch(testParams);
+      promiseStub.should.have.been.calledOnce;
+    });
+
+    it('Should reject when listObjectsV2 promise rejects', async () => {
+      const testParams = { paramKey: 'paramValue' };
+      const promiseStub = sinon.stub().rejects();
+      const listObjectsV2Stub = getS3MethodStub(promiseStub);
+      createS3Stub({ listObjectsV2: listObjectsV2Stub });
+      const result = awsOperations.listObjects(testParams);
+      await result.should.eventually.be.rejected;
+      listObjectsV2Stub.should.have.been.calledOnce;
+      listObjectsV2Stub.should.have.been.calledWithMatch(testParams);
+      promiseStub.should.have.been.calledOnce;
+    });
+  });
 });
