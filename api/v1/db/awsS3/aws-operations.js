@@ -52,18 +52,18 @@ const validateAwsS3 = async () => {
  * @param {string} bucket The bucket where the key will be searched
  * @returns {Promise} Promise object represents a boolean indicating if the key exists or not
  */
-const objectExists = (key, bucket = thisBucket) => new Promise((resolve, reject) => {
+const objectExists = async (key, bucket = thisBucket) => {
   const params = { Bucket: bucket, Key: key };
-  s3.headObject(params).promise().then(() => {
-    resolve(true);
-  }).catch((err) => {
+  try {
+    await s3.headObject(params).promise();
+    return true;
+  } catch (err) {
     if (err.code === 'NotFound') {
-      resolve(false);
-    } else {
-      reject(err);
+      return false;
     }
-  });
-});
+    throw err;
+  }
+};
 
 /**
  * Gets metadata on an object by making a head-object request
@@ -72,7 +72,7 @@ const objectExists = (key, bucket = thisBucket) => new Promise((resolve, reject)
  * @param {string} bucket Bucket where the object exists
  * @returns {Promise} Promise object representing the response
  */
-const headObject = (key, bucket = thisBucket) => {
+const headObject = async (key, bucket = thisBucket) => {
   const params = { Bucket: bucket, Key: key };
   return s3.headObject(params).promise();
 };
@@ -84,7 +84,7 @@ const headObject = (key, bucket = thisBucket) => {
  * @param {string} bucket The bucket to search for objects
  * @returns {Promise} Promise object representing the objects
  */
-const listObjects = (params = {}, bucket = thisBucket) => {
+const listObjects = async (params = {}, bucket = thisBucket) => {
   const newParams = Object.assign({ Bucket: bucket }, params);
   return s3.listObjectsV2(newParams).promise();
 };
@@ -97,18 +97,17 @@ const listObjects = (params = {}, bucket = thisBucket) => {
  * @returns {Promise} Promise object representing the object response. undefined if the object does
  * not exist
  */
-const getObject = (key, bucket = thisBucket) => new Promise((resolve, reject) => {
+const getObject = async (key, bucket = thisBucket) => {
   const params = { Bucket: bucket, Key: key };
-  s3.getObject(params).promise().then((data) => {
-    resolve(data);
-  }).catch((err) => {
+  try {
+    return await s3.getObject(params).promise();
+  } catch (err) {
     if (err.code === 'NoSuchKey') {
-      resolve(undefined);
-    } else {
-      reject(err);
+      return undefined;
     }
-  });
-});
+    throw err;
+  }
+};
 
 /**
  * Uploads a new directory object to a bucket
@@ -118,9 +117,9 @@ const getObject = (key, bucket = thisBucket) => new Promise((resolve, reject) =>
  * @param {string} bucket The bucket that the object will be uploaded to
  * @returns {Promise} Promise object representing the response
  */
-const putDir = (key, params = {}, bucket = thisBucket) => {
+const putDir = async (key, params = {}, bucket = thisBucket) => {
   if (_.last(key) !== '/') {
-    throw new Error(`Error: directory key: "${key}" does not end with "/"`);
+    throw new Error(`Directory key: "${key}" does not end with "/"`);
   }
   const newParams = Object.assign(
     { Key: key, Bucket: bucket, ContentType: 'application/x-directory' },
@@ -138,7 +137,7 @@ const putDir = (key, params = {}, bucket = thisBucket) => {
  * @param {string} bucket The bucket to upload the object to
  * @returns {Promise} Promise object representing the response
  */
-const putObject = (object, key, params = {}, bucket = thisBucket) => {
+const putObject = async (object, key, params = {}, bucket = thisBucket) => {
   const newParams = Object.assign(
     {
       Body: JSON.stringify(object, null, 2),
@@ -180,18 +179,17 @@ const updateMetadata = async (metadata, key, bucket = thisBucket) => {
  * @param {string} bucket The bucket where the object is located
  * @returns {Promise} Promise object representing the response. undefined if the key was not found
  */
-const deleteObject = (key, bucket = thisBucket) => new Promise((resolve, reject) => {
+const deleteObject = async (key, bucket = thisBucket) => {
   const params = { Bucket: bucket, Key: key };
-  s3.deleteObject(params).promise().then((data) => {
-    resolve(data);
-  }).catch((err) => {
+  try {
+    return await s3.deleteObject(params).promise();
+  } catch (err) {
     if (err.code === 'NotFound') {
-      resolve(undefined);
-    } else {
-      reject(err);
+      return undefined;
     }
-  });
-});
+    throw err;
+  }
+};
 
 module.exports = {
   setBucket,
