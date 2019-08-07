@@ -60,7 +60,7 @@ describe('Test aws-operations', () => {
   });
 
   describe('validateAwsS3', () => {
-    it('Should set the bucket if headBucket().promise resolves', () => {
+    it('Should resolve if headBucket().promise resolves', () => {
       const headBucketPromiseStub = sinon.stub().resolves({});
       createS3Stub('headBucket', headBucketPromiseStub);
       const result = awsOperations.validateAwsS3();
@@ -71,7 +71,30 @@ describe('Test aws-operations', () => {
       const headBucketPromiseStub = sinon.stub().rejects({ code: 'NotFound' });
       createS3Stub('headBucket', headBucketPromiseStub);
       const result = awsOperations.validateAwsS3();
-      return result.should.rejectedWith(Error, 'AWS bucket does not exist');
+      return result.should.be.rejectedWith(Error, 'AWS bucket does not exist');
+    });
+  });
+
+  describe('objectExists', () => {
+    it('Should resolve as true if headObject().promise resolves', () => {
+      const headObjectStub = sinon.stub().resolves({});
+      createS3Stub('headObject', headObjectStub);
+      const result = awsOperations.objectExists('test-key');
+      return result.should.eventually.be.fulfilled.and.equal(true);
+    });
+
+    it('Should resolve as false if headObject().promise rejects with NotFound error code', () => {
+      const headObjectStub = sinon.stub().rejects({ code: 'NotFound' });
+      createS3Stub('headObject', headObjectStub);
+      const result = awsOperations.objectExists('test-key');
+      return result.should.eventually.be.fulfilled.and.equal(false);
+    });
+
+    it('Should reject if headObject().promise rejects with unexpected error code', () => {
+      const headObjectStub = sinon.stub().rejects({ code: 'other' });
+      createS3Stub('headObject', headObjectStub);
+      const result = awsOperations.objectExists('test-key');
+      return result.should.be.rejected;
     });
   });
 });
