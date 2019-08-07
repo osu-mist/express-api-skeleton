@@ -39,6 +39,12 @@ describe('Test aws-operations', () => {
     });
   };
 
+  const handleTestCase = (stubs, method, assertion) => {
+    createS3Stub(stubs);
+    const result = method(awsOperations);
+    return assertion(result);
+  };
+
   describe('bucketExists', () => {
     const testCases = [
       {
@@ -60,9 +66,9 @@ describe('Test aws-operations', () => {
 
     _.forEach(testCases, ({ description, headBucketStub, assertion }) => {
       it(description, () => {
-        createS3Stub({ headBucket: headBucketStub });
-        const result = awsOperations.bucketExists();
-        return assertion(result);
+        const stubs = { headBucket: headBucketStub };
+        const method = dao => dao.bucketExists();
+        return handleTestCase(stubs, method, assertion);
       });
     });
   });
@@ -83,9 +89,9 @@ describe('Test aws-operations', () => {
 
     _.forEach(testCases, ({ description, headBucketStub, assertion }) => {
       it(description, () => {
-        createS3Stub({ headBucket: headBucketStub });
-        const result = awsOperations.validateAwsS3();
-        return assertion(result);
+        const stubs = { headBucket: headBucketStub };
+        const method = dao => dao.validateAwsS3();
+        return handleTestCase(stubs, method, assertion);
       });
     });
   });
@@ -111,9 +117,32 @@ describe('Test aws-operations', () => {
 
     _.forEach(testCases, ({ description, headObjectStub, assertion }) => {
       it(description, () => {
-        createS3Stub({ headObject: headObjectStub });
-        const result = awsOperations.objectExists('test-key');
-        return assertion(result);
+        const stubs = { headObject: headObjectStub };
+        const method = dao => dao.objectExists('test-key');
+        return handleTestCase(stubs, method, assertion);
+      });
+    });
+  });
+
+  describe('headObject', () => {
+    const testCases = [
+      {
+        description: 'Should resolve when headObject().promise resolves',
+        headObjectStub: sinon.stub().resolves({}),
+        assertion: result => result.should.eventually.be.fulfilled.and.deep.equal({}),
+      },
+      {
+        description: 'Should reject when headObject().promise rejects',
+        headObjectStub: sinon.stub().rejects({}),
+        assertion: result => result.should.be.rejectedWith({}),
+      },
+    ];
+
+    _.forEach(testCases, ({ description, headObjectStub, assertion }) => {
+      it(description, () => {
+        const stubs = { headObject: headObjectStub };
+        const method = dao => dao.headObject('test-key');
+        return handleTestCase(stubs, method, assertion);
       });
     });
   });
