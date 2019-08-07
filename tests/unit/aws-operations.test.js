@@ -27,10 +27,12 @@ describe('Test aws-operations', () => {
       .returns({ bucket: testBucket });
   });
 
-  const createS3Stub = (method, stub) => {
-    const s3Stub = sinon.stub(AWS, 'S3').returns({
-      [method]: () => ({ promise: stub }),
-    });
+  const createS3Stub = (stubs) => {
+    // aws-operations uses the .promise() method of s3 methods so this needs to be stubbed
+    const stubReturn = _.mapValues(stubs, value => (
+      () => ({ promise: value })
+    ));
+    const s3Stub = sinon.stub(AWS, 'S3').returns(stubReturn);
     awsOperations = proxyquire(`${appRoot}/api/v1/db/awsS3/aws-operations`, {
       config: { get: configGetStub },
       'aws-sdk': { S3: s3Stub },
@@ -58,7 +60,7 @@ describe('Test aws-operations', () => {
 
     _.forEach(testCases, ({ description, headBucketStub, assertion }) => {
       it(description, () => {
-        createS3Stub('headBucket', headBucketStub);
+        createS3Stub({ headBucket: headBucketStub });
         const result = awsOperations.bucketExists();
         return assertion(result);
       });
@@ -81,7 +83,7 @@ describe('Test aws-operations', () => {
 
     _.forEach(testCases, ({ description, headBucketStub, assertion }) => {
       it(description, () => {
-        createS3Stub('headBucket', headBucketStub);
+        createS3Stub({ headBucket: headBucketStub });
         const result = awsOperations.validateAwsS3();
         return assertion(result);
       });
@@ -109,7 +111,7 @@ describe('Test aws-operations', () => {
 
     _.forEach(testCases, ({ description, headObjectStub, assertion }) => {
       it(description, () => {
-        createS3Stub('headObject', headObjectStub);
+        createS3Stub({ headObject: headObjectStub });
         const result = awsOperations.objectExists('test-key');
         return assertion(result);
       });
