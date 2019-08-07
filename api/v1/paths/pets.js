@@ -24,8 +24,7 @@ const get = async (req, res) => {
  * @type {RequestHandler}
  */
 const post = async (req, res) => {
-  console.log(req);
-  return errorHandler(res, 'error');
+  errorHandler(res, 'error');
 };
 
 module.exports = { get, post };

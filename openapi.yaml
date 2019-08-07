@@ -19,6 +19,8 @@ externalDocs:
   url: https://github.com/osu-mist/express-api-skeleton
 produces:
   - application/json
+consumes:
+  - application/json
 paths:
   /pets:
     get:
