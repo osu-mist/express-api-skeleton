@@ -3,6 +3,7 @@ extends:
   - plugin:jsdoc/recommended
 plugins:
   - jsdoc
+  - chai-friendly
 env:
   node: true
   mocha: true
@@ -18,6 +19,8 @@ rules:
       - '**/tests/**/*.test.js'
       - gulpfile.js
       - '**/aws-operations.js'
+  no-unused-expressions: 'off'
+  chai-friendly/no-unused-expressions: 'error'
   jsdoc/require-param:
     - warn
     - exemptedBy: [ type ]
