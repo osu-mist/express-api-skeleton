@@ -149,8 +149,8 @@ describe('Test aws-operations', () => {
 
   describe('listObjects', () => {
     it('Should resolve when listObjectsV2 promise resolves', async () => {
-      const testResult = { resultKey: 'resultValue' };
       const testParams = { paramKey: 'paramValue' };
+      const testResult = { resultKey: 'resultValue' };
       const promiseStub = sinon.stub().resolves(testResult);
       const listObjectsV2Stub = getS3MethodStub(promiseStub);
       createS3Stub({ listObjectsV2: listObjectsV2Stub });
@@ -171,6 +171,29 @@ describe('Test aws-operations', () => {
       listObjectsV2Stub.should.have.been.calledOnce;
       listObjectsV2Stub.should.have.been.calledWithMatch(testParams);
       promiseStub.should.have.been.calledOnce;
+    });
+  });
+
+  describe('getObject', () => {
+    it('Should resolve when getObject promise resolves', async () => {
+      const testKey = 'test-key';
+      const testResult = { resultKey: 'resultValue' };
+      const promiseStub = sinon.stub().resolves(testResult);
+      const getObjectStub = getS3MethodStub(promiseStub);
+      createS3Stub({ getObject: getObjectStub });
+      const result = awsOperations.getObject(testKey);
+      await result.should.eventually.be.fulfilled.and.deep.equal(testResult);
+      getObjectStub.should.have.been.calledOnce;
+      getObjectStub.should.have.been.calledWithMatch({ Key: testKey });
+      promiseStub.should.have.been.calledOnce;
+    });
+
+    it('Should resolve undefined when getObject promise rejects with NoSuchKey error', async () => {
+      const promiseStub = sinon.stub().rejects({ code: 'NoSuchKey' });
+      const getObjectStub = getS3MethodStub(promiseStub);
+      createS3Stub({ getObject: getObjectStub });
+      const result = awsOperations.getObject('test-key');
+      result.should.eventually.be.fulfilled.and.equal(undefined);
     });
   });
 });
