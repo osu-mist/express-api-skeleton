@@ -10,17 +10,23 @@ const sourcemaps = require('gulp-sourcemaps');
 
 /**
  * @summary Delete the dist/ directory
+ *
+ * @returns {Promise<string[]>}
  */
 const babelClean = () => del(['dist']);
 
 /**
  * @summary Copy files that don't need to be compiled from src/ to dist/
+ *
+ * @returns {Stream}
  */
 const babelCopy = () => gulp.src(['src/**', '!src/**/*.js', '!src/tests/integration/**'])
   .pipe(gulp.dest('dist'));
 
 /**
  * @summary Transpile JavaScript files and place them in dist/. Also, generate sourcemaps
+ *
+ * @returns {Stream}
  */
 const babelCompile = () => gulp.src(['src/**/*.js'])
   .pipe(sourcemaps.init())
@@ -30,6 +36,8 @@ const babelCompile = () => gulp.src(['src/**/*.js'])
 
 /**
  * @summary Use Eslint linting *.js file besides source files in node_modules
+ *
+ * @returns {Stream}
  */
 const lint = () => gulp.src(['src/**/*.js', '*.js'])
   .pipe(eslint())
@@ -38,17 +46,23 @@ const lint = () => gulp.src(['src/**/*.js', '*.js'])
 
 /**
  * @summary Check Flow types
+ *
+ * @returns {ChildProcess}
  */
 const typecheck = () => spawn('./node_modules/.bin/flow', ['check'], { stdio: 'inherit' });
 
 /**
  * @summary Run unit tests (requires Babel transpiling beforehand)
+ *
+ * @returns {Stream}
  */
 const test = () => gulp.src('dist/tests/unit/*.js')
   .pipe(mocha({ reporter: 'spec' }));
 
 /**
  * @summary Start application using forever
+ *
+ * @returns {Stream}
  */
 const start = () => new forever.Monitor('dist/app.js').start();
 

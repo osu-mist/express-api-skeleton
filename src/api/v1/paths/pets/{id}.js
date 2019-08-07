@@ -2,7 +2,9 @@ import { errorBuilder, errorHandler } from 'errors/errors';
 import { getPetById } from '../../db/json/pets-dao-example';
 
 /**
- * @summary Get pet by unique ID
+ * Get pet by unique ID
+ *
+ * @type {RequestHandler}
  */
 const get = async (req, res) => {
   try {

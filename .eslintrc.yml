@@ -23,12 +23,14 @@ rules:
     - exemptedBy: [ type ]
   jsdoc/no-undefined-types:
     - warn
-      # Express types
+      # Express and gulpfile types
     - definedTypes:
         - RequestHandler
         - ErrorRequestHandler
         - Request
         - Response
+        - Stream
+        - ChildProcess
   jsdoc/require-jsdoc:
     - warn
     - publicOnly: true
