@@ -82,7 +82,7 @@ describe('Test aws-operations', () => {
       promiseStub.should.have.been.calledOnce;
     });
 
-    it('Should reject if headBucket().promise rejects', async () => {
+    it('Should reject if headBucket promise rejects', async () => {
       const promiseStub = sinon.stub().rejects({ code: 'NotFound' });
       const headBucketStub = getS3MethodStub(promiseStub);
       createS3Stub({ headBucket: headBucketStub });
@@ -114,7 +114,7 @@ describe('Test aws-operations', () => {
       promiseStub.should.have.been.calledOnce;
     });
 
-    it('Should reject if headObject().promise rejects with unexpected error code', async () => {
+    it('Should reject if headObject promise rejects with unexpected error code', async () => {
       const promiseStub = sinon.stub().rejects({ code: 'other' });
       const headObjectStub = getS3MethodStub(promiseStub);
       createS3Stub({ headObject: headObjectStub });
@@ -136,7 +136,7 @@ describe('Test aws-operations', () => {
       promiseStub.should.have.been.calledOnce;
     });
 
-    it('Should reject when headObject().promise rejects', async () => {
+    it('Should reject when headObject promise rejects', async () => {
       const promiseStub = sinon.stub().rejects({});
       const headObjectStub = getS3MethodStub(promiseStub);
       createS3Stub({ headObject: headObjectStub });
