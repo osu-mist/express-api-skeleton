@@ -81,7 +81,6 @@ describe('Test aws-operations', () => {
     });
   });
 
-
   describe('validateAwsS3', () => {
     it('Should resolve if headBucket promise resolves', async () => {
       const promiseStub = sinon.stub().resolves({});
