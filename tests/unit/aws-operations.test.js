@@ -308,4 +308,35 @@ describe('Test aws-operations', () => {
       result.should.be.rejected;
     });
   });
+
+  describe('deleteObject', () => {
+    it('Should resolve when deleteObject promise resolves', async () => {
+      const testKey = 'test-key';
+      const testResult = { testResultKey: 'testResultValue' };
+      const promiseStub = sinon.stub().resolves(testResult);
+      const deleteObjectStub = getS3MethodStub(promiseStub);
+      createS3Stub({ deleteObject: deleteObjectStub });
+      const result = awsOperations.deleteObject(testKey);
+      await result.should.eventually.be.fulfilled.and.deep.equal(testResult);
+      deleteObjectStub.should.have.been.calledOnce;
+      deleteObjectStub.should.have.been.calledWithMatch({ Key: testKey });
+      promiseStub.should.have.been.calledOnce;
+    });
+
+    it('Should resolve as undefined when deleteObject promise rejects with NotFound', async () => {
+      const promiseStub = sinon.stub().rejects({ code: 'NotFound' });
+      const deleteObjectStub = getS3MethodStub(promiseStub);
+      createS3Stub({ deleteObject: deleteObjectStub });
+      const result = awsOperations.deleteObject('test-key');
+      result.should.eventually.be.fulfilled.and.equal(undefined);
+    });
+
+    it('Should reject when deleteObject promise rejects with other error', async () => {
+      const promiseStub = sinon.stub().rejects({ code: 'other' });
+      const deleteObjectStub = getS3MethodStub(promiseStub);
+      createS3Stub({ deleteObject: deleteObjectStub });
+      const result = awsOperations.deleteObject('test-key');
+      result.should.be.rejected;
+    });
+  });
 });
