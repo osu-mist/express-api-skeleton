@@ -68,7 +68,7 @@ const errorTransformer = (openapiError, ajvError) => {
    */
   const pathQueryRegex = /\['(.*)']/g;
 
-  const error = Object.assign({}, openapiError, ajvError);
+  const error = { ...openapiError, ...ajvError };
 
   const regexResult = pathQueryRegex.exec(error.path);
   error.path = regexResult ? regexResult[1] : error.path;
