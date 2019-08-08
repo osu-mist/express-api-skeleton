@@ -85,7 +85,7 @@ const headObject = async (key, bucket = thisBucket) => {
  * @returns {Promise} Promise object representing the objects
  */
 const listObjects = async (params = {}, bucket = thisBucket) => {
-  const newParams = Object.assign({ Bucket: bucket }, params);
+  const newParams = { Bucket: bucket, ...params };
   return s3.listObjectsV2(newParams).promise();
 };
 
@@ -121,10 +121,12 @@ const putDir = async (key, params = {}, bucket = thisBucket) => {
   if (_.last(key) !== '/') {
     throw new Error(`Directory key: "${key}" does not end with "/"`);
   }
-  const newParams = Object.assign(
-    { Key: key, Bucket: bucket, ContentType: 'application/x-directory' },
-    params,
-  );
+  const newParams = {
+    Key: key,
+    Bucket: bucket,
+    ContentType: 'application/x-directory',
+    ...params,
+  };
   return s3.putObject(newParams).promise();
 };
 
@@ -138,15 +140,13 @@ const putDir = async (key, params = {}, bucket = thisBucket) => {
  * @returns {Promise} Promise object representing the response
  */
 const putObject = async (object, key, params = {}, bucket = thisBucket) => {
-  const newParams = Object.assign(
-    {
-      Body: JSON.stringify(object, null, 2),
-      Key: key,
-      Bucket: bucket,
-      ContentType: 'application/json',
-    },
-    params,
-  );
+  const newParams = {
+    Body: JSON.stringify(object, null, 2),
+    Key: key,
+    Bucket: bucket,
+    ContentType: 'application/json',
+    ...params,
+  };
   return s3.putObject(newParams).promise();
 };
 
@@ -160,7 +160,7 @@ const putObject = async (object, key, params = {}, bucket = thisBucket) => {
  */
 const updateMetadata = async (metadata, key, bucket = thisBucket) => {
   const currentHead = await headObject(key, bucket);
-  const newMetadata = Object.assign(currentHead.Metadata, metadata);
+  const newMetadata = { ...currentHead.Metadata, ...metadata };
   const params = {
     Bucket: bucket,
     Key: key,
