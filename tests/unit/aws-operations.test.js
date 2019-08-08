@@ -259,4 +259,53 @@ describe('Test aws-operations', () => {
       result.should.be.rejected;
     });
   });
+
+  describe('updateMetadata', () => {
+    it('Should resolve when headObject promise and copyObject promise resolve', async () => {
+      const originalMetadata = { originalMetaKey: 'originalMetaValue' };
+      const newMetadata = { testMetaKey: 'testMetaValue', originalMetaKey: 'newMetaValue' };
+      const testKey = 'test-key';
+      const testResult = { resultKey: 'resultValue' };
+      const originalHead = { Metadata: originalMetadata, ContentType: 'application/json' };
+      const headObjectPromiseStub = sinon.stub().resolves(originalHead);
+      const headObjectStub = getS3MethodStub(headObjectPromiseStub);
+      const copyObjectPromiseStub = sinon.stub().resolves(testResult);
+      const copyObjectStub = getS3MethodStub(copyObjectPromiseStub);
+      createS3Stub({ headObject: headObjectStub, copyObject: copyObjectStub });
+      const result = awsOperations.updateMetadata(newMetadata, testKey);
+
+      await result.should.eventually.be.fulfilled.and.deep.equal(testResult);
+      headObjectStub.should.have.been.calledOnce;
+      headObjectStub.should.have.been.calledWithMatch({ Key: testKey });
+      headObjectPromiseStub.should.have.been.calledOnce;
+      copyObjectStub.should.have.been.calledOnce;
+      copyObjectStub.should.have.been.calledWithMatch({
+        Key: testKey,
+        ContentType: originalHead.ContentType,
+        Metadata: { ...originalMetadata, ...newMetadata },
+        MetadataDirective: 'REPLACE',
+      });
+      copyObjectPromiseStub.should.have.been.calledOnce;
+    });
+
+    it('Should reject when headObject promise rejects', async () => {
+      const headObjectPromiseStub = sinon.stub().rejects();
+      const headObjectStub = getS3MethodStub(headObjectPromiseStub);
+      const copyObjectPromiseStub = sinon.stub().resolves();
+      const copyObjectStub = getS3MethodStub(copyObjectPromiseStub);
+      createS3Stub({ headObject: headObjectStub, copyObject: copyObjectStub });
+      const result = awsOperations.updateMetadata({}, 'test-key');
+      result.should.be.rejected;
+    });
+
+    it('Should reject when copyObject promise rejects', async () => {
+      const headObjectPromiseStub = sinon.stub().resolves();
+      const headObjectStub = getS3MethodStub(headObjectPromiseStub);
+      const copyObjectPromiseStub = sinon.stub().rejects();
+      const copyObjectStub = getS3MethodStub(copyObjectPromiseStub);
+      createS3Stub({ headObject: headObjectStub, copyObject: copyObjectStub });
+      const result = awsOperations.updateMetadata({}, 'test-key');
+      result.should.be.rejected;
+    });
+  });
 });
