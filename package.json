@@ -4,7 +4,7 @@
   "description": "Skeleton for Express APIs.",
   "main": "app.js",
   "scripts": {
-    "start": "forever start dist/app.js",
+    "start": "forever dist/app.js",
     "lint": "./node_modules/.bin/gulp lint",
     "test": "./node_modules/.bin/gulp test",
     "typecheck": "./node_modules/.bin/gulp typecheck",
