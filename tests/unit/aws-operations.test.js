@@ -15,9 +15,7 @@ chai.use(sinonChai);
 
 const { assert } = chai;
 
-afterEach(() => {
-  sinon.restore();
-});
+afterEach(() => { sinon.restore(); });
 
 describe('Test aws-operations', () => {
   let configGetStub;
@@ -30,8 +28,19 @@ describe('Test aws-operations', () => {
       .returns({ bucket: testBucket });
   });
 
+  /**
+   * Get an S3 method stub from a promise stub
+   *
+   * @param {object} promiseStub The promise stub
+   * @returns {object} S3 method stub
+   */
   const getS3MethodStub = promiseStub => sinon.stub().returns(({ promise: promiseStub }));
 
+  /**
+   * Create an S3 constructor stub and proxyquire awsOperations
+   *
+   * @param {object} stubs Mapping of S3 method names to stubs
+   */
   const createS3Stub = (stubs) => {
     const s3Stub = sinon.stub(AWS, 'S3').returns(stubs);
     awsOperations = proxyquire(`${appRoot}/api/v1/db/awsS3/aws-operations`, {
