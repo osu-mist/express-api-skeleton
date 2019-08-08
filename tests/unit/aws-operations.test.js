@@ -13,6 +13,8 @@ chai.use(chaiExclude);
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
 
+const { assert } = chai;
+
 afterEach(() => {
   sinon.restore();
 });
@@ -64,7 +66,7 @@ describe('Test aws-operations', () => {
       const headBucketStub = getS3MethodStub(promiseStub);
       createS3Stub({ headBucket: headBucketStub });
       const result = awsOperations.bucketExists();
-      await result.should.eventually.be.rejected;
+      await result.should.be.rejected;
       headBucketStub.should.have.been.calledOnce;
       promiseStub.should.have.been.calledOnce;
     });
@@ -87,7 +89,7 @@ describe('Test aws-operations', () => {
       const headBucketStub = getS3MethodStub(promiseStub);
       createS3Stub({ headBucket: headBucketStub });
       const result = awsOperations.validateAwsS3();
-      await result.should.eventually.be.rejectedWith(Error, 'AWS bucket does not exist');
+      await result.should.be.rejectedWith(Error, 'AWS bucket does not exist');
       headBucketStub.should.have.been.calledOnce;
       promiseStub.should.have.been.calledOnce;
     });
@@ -119,7 +121,7 @@ describe('Test aws-operations', () => {
       const headObjectStub = getS3MethodStub(promiseStub);
       createS3Stub({ headObject: headObjectStub });
       const result = awsOperations.objectExists('test-key');
-      await result.should.eventually.be.rejected;
+      await result.should.be.rejected;
       headObjectStub.should.have.been.calledOnce;
       promiseStub.should.have.been.calledOnce;
     });
@@ -167,7 +169,7 @@ describe('Test aws-operations', () => {
       const listObjectsV2Stub = getS3MethodStub(promiseStub);
       createS3Stub({ listObjectsV2: listObjectsV2Stub });
       const result = awsOperations.listObjects(testParams);
-      await result.should.eventually.be.rejected;
+      await result.should.be.rejected;
       listObjectsV2Stub.should.have.been.calledOnce;
       listObjectsV2Stub.should.have.been.calledWithMatch(testParams);
       promiseStub.should.have.been.calledOnce;
@@ -194,6 +196,67 @@ describe('Test aws-operations', () => {
       createS3Stub({ getObject: getObjectStub });
       const result = awsOperations.getObject('test-key');
       result.should.eventually.be.fulfilled.and.equal(undefined);
+    });
+  });
+
+  describe('putDir', () => {
+    it('Should resolve when putObject promise resolves', async () => {
+      const testKey = 'dir/';
+      const testResult = { resultKey: 'resultValue' };
+      const promiseStub = sinon.stub().resolves(testResult);
+      const putObjectStub = getS3MethodStub(promiseStub);
+      createS3Stub({ putObject: putObjectStub });
+      const result = awsOperations.putDir(testKey);
+      await result.should.eventually.be.fulfilled.and.deep.equal(testResult);
+      putObjectStub.should.have.been.calledOnce;
+      putObjectStub.should.have.been.calledWithMatch({ Key: testKey });
+      promiseStub.should.have.been.calledOnce;
+    });
+
+    it('Should reject when key does not end with "/"', async () => {
+      const testKey = 'dir';
+      createS3Stub();
+      const result = awsOperations.putDir(testKey);
+      result.should.be.rejectedWith(`Directory key: "${testKey}" does not end with "/"`);
+    });
+
+    it('Should reject when putObject promise rejects', async () => {
+      const testKey = 'dir/';
+      const promiseStub = sinon.stub().rejects();
+      const putObjectStub = getS3MethodStub(promiseStub);
+      createS3Stub({ putObject: putObjectStub });
+      const result = awsOperations.putDir(testKey);
+      result.should.be.rejected;
+    });
+  });
+
+  describe('putObject', () => {
+    it('Should resolve when putObject promise resolves', async () => {
+      const testObject = { testObjectKey: 'testObjectValue' };
+      const testKey = 'test-key';
+      const testResult = { testReturnKey: 'testReturnValue' };
+      const promiseStub = sinon.stub().resolves(testResult);
+      const putObjectStub = getS3MethodStub(promiseStub);
+      createS3Stub({ putObject: putObjectStub });
+      const result = awsOperations.putObject(testObject, testKey);
+      await result.should.eventually.be.fulfilled.and.deep.equal(testResult);
+      putObjectStub.should.have.been.calledOnce;
+      assert.isNotEmpty(putObjectStub.args[0]);
+      assert.containsAllKeys(putObjectStub.args[0][0], ['Body']);
+      // compare 'Body' without regard for whitespace
+      putObjectStub.args[0][0].Body = putObjectStub.args[0][0].Body.replace(/\s/g, '');
+      putObjectStub.should.have.been.calledWithMatch({
+        Key: testKey,
+        Body: JSON.stringify(testObject),
+      });
+    });
+
+    it('Should reject when putObject promise rejects', async () => {
+      const promiseStub = sinon.stub().rejects();
+      const putObjectStub = getS3MethodStub(promiseStub);
+      createS3Stub({ putObject: putObjectStub });
+      const result = awsOperations.putObject({}, 'test-key');
+      result.should.be.rejected;
     });
   });
 });
