@@ -2,32 +2,29 @@
   "name": "express-api-skeleton",
   "version": "1.0.0",
   "description": "Skeleton for Express APIs.",
+  "homepage": "https://github.com/osu-mist/express-api-skeleton#readme",
+  "bugs": {
+    "url": "https://github.com/osu-mist/express-api-skeleton/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osu-mist/express-api-skeleton.git"
+  },
+  "license": "AGPL-3.0",
+  "author": "osu-mist",
   "main": "app.js",
   "scripts": {
-    "start": "forever dist/app.js",
+    "babel": "./node_modules/.bin/gulp babel",
     "lint": "./node_modules/.bin/gulp lint",
+    "start": "forever dist/app.js",
     "test": "./node_modules/.bin/gulp test",
-    "typecheck": "./node_modules/.bin/gulp typecheck",
-    "babel": "./node_modules/.bin/gulp babel"
+    "typecheck": "./node_modules/.bin/gulp typecheck"
   },
   "pre-commit": [
     "lint",
     "typecheck",
     "babel"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/osu-mist/express-api-skeleton.git"
-  },
-  "engines": {
-    "node": "^10.13"
-  },
-  "author": "osu-mist",
-  "license": "AGPL-3.0",
-  "bugs": {
-    "url": "https://github.com/osu-mist/express-api-skeleton/issues"
-  },
-  "homepage": "https://github.com/osu-mist/express-api-skeleton#readme",
   "dependencies": {
     "@babel/runtime": "^7.4.3",
     "app-root-path": "^2.1.0",
@@ -41,7 +38,6 @@
     "express-openapi": "^4.6.5",
     "express-winston": "^3.2.1",
     "forever": "^1.0.0",
-    "gulp": "^4.0.2",
     "js-yaml": "^3.13.1",
     "jsonapi-serializer": "^3.5.6",
     "lodash": "^4.17.13",
@@ -67,15 +63,19 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-import-resolver-babel-module": "^5.0.1",
     "eslint-plugin-flowtype": "^3.6.0",
-    "eslint-plugin-jsdoc": "^15.6.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-import-order-alphabetical": "^0.0.2",
-    "forever-monitor": "^1.7.1",
+    "eslint-plugin-jsdoc": "^15.6.1",
     "flow-bin": "^0.96.0",
+    "forever-monitor": "^1.7.1",
+    "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-eslint": "^5.0.0",
     "gulp-mocha": "^6.0.0",
     "gulp-sourcemaps": "^2.6.5",
     "pre-commit": "^1.2.2"
+  },
+  "engines": {
+    "node": "^10.13"
   }
 }
