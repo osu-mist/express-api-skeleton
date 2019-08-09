@@ -2,7 +2,7 @@ const appRoot = require('app-root-path');
 
 const petsDao = require('../db/json/pets-dao-example');
 
-const { errorHandler } = appRoot.require('errors/errors');
+const { errorBuilder, errorHandler } = appRoot.require('errors/errors');
 
 /**
  * Get pets
@@ -24,7 +24,16 @@ const get = async (req, res) => {
  * @type {RequestHandler}
  */
 const post = async (req, res) => {
-  errorHandler(res, 'error');
+  try {
+    if (await petsDao.petExists(req.body)) {
+      errorBuilder(res, 409, ['Pet already exists.']);
+    } else {
+      const result = await petsDao.postPet(req.body);
+      res.status(201).send(result);
+    }
+  } catch (err) {
+    errorHandler(res, err);
+  }
 };
 
 module.exports = { get, post };

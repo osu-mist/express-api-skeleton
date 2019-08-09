@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-const { readJsonFile } = require('./fs-operations');
+const { readJsonFile, writeJsonFile } = require('./fs-operations');
 const { serializePets, serializePet } = require('../../serializers/pets-serializer');
 
 const dbPath = 'tests/unit/mock-data.json';
@@ -46,4 +46,57 @@ const getPetById = id => new Promise((resolve, reject) => {
   }
 });
 
-module.exports = { getPets, getPetById };
+/**
+ * Posts a new pet
+ *
+ * @param {object} body Request body
+ * @returns {Promise} Promise object represents ?
+ */
+const postPet = body => new Promise((resolve, reject) => {
+  try {
+    const rawPets = readJsonFile(dbPath).pets;
+    const { name, owner, species } = body.data.attributes;
+
+    // Determine smallest unused id
+    const ids = _.mapValues(rawPets, 'id');
+    const idHash = {};
+    _.forEach(ids, (id) => {
+      idHash[id] = true;
+    });
+    let id = 1;
+    while (idHash[id]) {
+      id += 1;
+    }
+    rawPets.push({
+      id, name, owner, species,
+    });
+    writeJsonFile(dbPath, { pets: rawPets });
+    resolve(getPetById(id));
+  } catch (err) {
+    reject(err);
+  }
+});
+
+/**
+ * Validates a new pet for uniqueness
+ *
+ * @param {object} body Request body
+ * @returns {boolean} true if pet object in body already exists
+ */
+const petExists = body => new Promise((resolve, reject) => {
+  try {
+    const rawPets = readJsonFile(dbPath).pets;
+    _.forEach(rawPets, (pet) => {
+      if (_.isEqual(_.omit(pet, 'id'), body.data.attributes)) {
+        resolve(true);
+      }
+    });
+    resolve(false);
+  } catch (err) {
+    reject(err);
+  }
+});
+
+module.exports = {
+  getPets, getPetById, postPet, petExists,
+};
