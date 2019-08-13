@@ -57,7 +57,21 @@ This directory contains template files that run integration tests against the AP
     $ pip install -r requirements.txt
     ```
 
-2. Run the integration test:
+2. Install an OpenAPI validator backend package
+
+    **OpenAPI 2**:
+
+    ```shell
+    $ pip install flex
+    ```
+
+    **OpenAPI 3**:
+
+    ```shell
+    $ pip install openapi-spec-validator
+    ```
+
+3. Run the integration test:
 
     ```shell
     $ python integration-test.py -v --config path/to/configuration.json --openapi path/to/openapi.yaml
