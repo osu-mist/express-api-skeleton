@@ -31,7 +31,7 @@ class integration_tests(unittest.TestCase):
         cls.openapi = parser.specification
 
     @classmethod
-    def cleanup(cls):
+    def tearDownClass(cls):
         cls.session.close()
 
     # Test case: GET /pets
@@ -114,4 +114,3 @@ if __name__ == '__main__':
 
     integration_tests.setup(arguments.config_path, arguments.openapi_path)
     unittest.main(argv=argv)
-    integration_tests.cleanup()
