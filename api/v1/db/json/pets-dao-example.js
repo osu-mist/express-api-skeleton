@@ -67,6 +67,7 @@ const postPet = body => new Promise((resolve, reject) => {
     while (idHash[id]) {
       id += 1;
     }
+    id = `${id}`;
     rawPets.push({
       id, name, owner, species,
     });
