@@ -12,11 +12,11 @@
   },
   "license": "AGPL-3.0",
   "author": "osu-mist",
-  "main": "app.js",
+  "main": "dist/app.js",
   "scripts": {
     "babel": "./node_modules/.bin/gulp babel",
     "lint": "./node_modules/.bin/gulp lint",
-    "start": "forever dist/app.js",
+    "start": "./node_modules/.bin/forever dist/app.js",
     "test": "./node_modules/.bin/gulp test",
     "typecheck": "./node_modules/.bin/gulp typecheck"
   },
