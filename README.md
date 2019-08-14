@@ -30,10 +30,6 @@ Skeleton for Express APIs. API definition is contained in the [OpenAPI specifica
 ### Installing
 
 ```shell
-# Using yarn (recommended)
-$ yarn
-
-# Using npm
 $ npm install
 ```
 
@@ -186,10 +182,6 @@ The following instructions show you how to connect the API to an Oracle database
 2. Install [oracledb](https://www.npmjs.com/package/oracledb) via package management:
 
     ```shell
-    # Using yarn (recommended)
-    $ yarn add oracledb
-
-    # Using npm
     $ npm install oracledb
     ```
 
@@ -250,10 +242,6 @@ The following instructions show you how to get data from an AWS S3 bucket
 1. Install [aws-sdk](https://www.npmjs.com/package/aws-sdk) via package management:
 
     ```shell
-    # Using yarn (recommended)
-    $ yarn add aws-sdk
-
-    # Using npm
     $ npm install aws-sdk
     ```
 
