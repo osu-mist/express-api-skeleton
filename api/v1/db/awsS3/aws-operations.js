@@ -17,6 +17,26 @@ const setBucket = (bucket) => {
 };
 
 /**
+ * Executes closure. If closure rejects, alternative values are returned depending on the error code
+ *
+ * @param {Function<Promise>} closure Closure to be executed. Should return a promise that only
+ *                                    rejects with AWS S3 error objects
+ * @param {object<string, *>} errorResponses Mapping of error codes to return values
+ * @returns {Promise} The result of the closure or an alternative return value specified in
+ *                    errorResponses
+ */
+const withErrorHandler = async (closure, errorResponses) => {
+  try {
+    return await closure();
+  } catch (err) {
+    if (_.keys(errorResponses).includes(err.code)) {
+      return errorResponses[err.code];
+    }
+    throw err;
+  }
+};
+
+/**
  * Checks if a bucket exists
  *
  * @param {string} bucket The bucket to be checked
@@ -24,15 +44,10 @@ const setBucket = (bucket) => {
  */
 const bucketExists = async (bucket = thisBucket) => {
   const params = { Bucket: bucket };
-  try {
+  return withErrorHandler(async () => {
     await s3.headBucket(params).promise();
     return true;
-  } catch (err) {
-    if (err.code === 'NotFound') {
-      return false;
-    }
-    throw err;
-  }
+  }, { NotFound: false });
 };
 
 /** Verify the AWS S3 data source */
@@ -54,15 +69,10 @@ const validateAwsS3 = async () => {
  */
 const objectExists = async (key, bucket = thisBucket) => {
   const params = { Bucket: bucket, Key: key };
-  try {
+  return withErrorHandler(async () => {
     await s3.headObject(params).promise();
     return true;
-  } catch (err) {
-    if (err.code === 'NotFound') {
-      return false;
-    }
-    throw err;
-  }
+  }, { NotFound: false });
 };
 
 /**
@@ -99,14 +109,7 @@ const listObjects = async (params = {}, bucket = thisBucket) => {
  */
 const getObject = async (key, bucket = thisBucket) => {
   const params = { Bucket: bucket, Key: key };
-  try {
-    return await s3.getObject(params).promise();
-  } catch (err) {
-    if (err.code === 'NoSuchKey') {
-      return undefined;
-    }
-    throw err;
-  }
+  return withErrorHandler(s3.getObject(params).promise, { NoSuchKey: undefined });
 };
 
 /**
@@ -181,14 +184,7 @@ const updateMetadata = async (metadata, key, bucket = thisBucket) => {
  */
 const deleteObject = async (key, bucket = thisBucket) => {
   const params = { Bucket: bucket, Key: key };
-  try {
-    return await s3.deleteObject(params).promise();
-  } catch (err) {
-    if (err.code === 'NotFound') {
-      return undefined;
-    }
-    throw err;
-  }
+  return withErrorHandler(s3.deleteObject(params).promise, { NotFound: undefined });
 };
 
 module.exports = {
