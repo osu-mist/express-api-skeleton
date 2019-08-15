@@ -35,6 +35,90 @@
       "name": "Hedwig",
       "owner": "Harry Potter",
       "species": "Owl"
+    },
+    {
+      "id": "7",
+      "name": "pip (deceased)",
+      "owner": "Ian Wilson",
+      "species": "Pea Puffer"
+    },
+    {
+      "id": "8",
+      "name": "Benny (deceased)",
+      "owner": "Ian Wilson",
+      "species": "Pea Puffer"
+    },
+    {
+      "id": "9",
+      "name": "pip3 (planned)",
+      "owner": "Ian Wilson",
+      "species": "Pea Puffer"
+    },
+    {
+      "id": "10",
+      "name": "Qwerty",
+      "owner": "Elliot Anderson",
+      "species": "Beta fish"
+    },
+    {
+      "id": "11",
+      "name": "Qwerty",
+      "owner": "Mr. Robot",
+      "species": "Beta fish"
+    },
+    {
+      "id": "12",
+      "name": "Ollie",
+      "owner": "David's Roommate",
+      "species": "Cat"
+    },
+    {
+      "id": "13",
+      "name": "Darwin",
+      "owner": "Ian Brown",
+      "species": "Dog"
+    },
+    {
+      "id": "14",
+      "name": "Wilson",
+      "owner": "Tom Hanks",
+      "species": "Volleyball"
+    },
+    {
+      "id": "15",
+      "name": "Clifford",
+      "owner": "Emily Elizabeth",
+      "species": "Big Red Dog™"
+    },
+    {
+      "id": "16",
+      "name": "Toothless",
+      "owner": "Ian's old roommate",
+      "species": "Axolotl"
+    },
+    {
+      "id": "17",
+      "name": "Peanut",
+      "owner": "Ian's old roommate",
+      "species": "Dog"
+    },
+    {
+      "id": "18",
+      "name": "Thor",
+      "owner": "Ian's old roommate",
+      "species": "Cat"
+    },
+    {
+      "id": "19",
+      "name": "Fido",
+      "owner": "Data Architecture Team",
+      "species": "Dog"
+    },
+    {
+      "id": "20",
+      "name": "Jelly Bean",
+      "owner": "Miguel",
+      "species": "Dog"
     }
   ]
 }
