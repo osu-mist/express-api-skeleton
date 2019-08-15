@@ -10,6 +10,7 @@ let thisBucket = null;
 /**
  * Set the bucket to be used for subsequent function calls.
  *
+ * @private
  * @param {string} bucket The bucket to be set
  */
 const setBucket = (bucket) => {
@@ -19,6 +20,7 @@ const setBucket = (bucket) => {
 /**
  * Executes closure. If closure rejects, alternative values are returned depending on the error code
  *
+ * @private
  * @param {Function<Promise>} closure Closure to be executed. Should return a promise that only
  *                                    rejects with AWS S3 error objects
  * @param {object<string, *>} errorResponses Mapping of error codes to return values
@@ -188,7 +190,6 @@ const deleteObject = async (key, bucket = thisBucket) => {
 };
 
 module.exports = {
-  setBucket,
   bucketExists,
   validateAwsS3,
   objectExists,
