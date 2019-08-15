@@ -18,7 +18,8 @@
     "lint": "./node_modules/.bin/gulp lint",
     "start": "./node_modules/.bin/forever dist/app.js",
     "test": "./node_modules/.bin/gulp test",
-    "typecheck": "./node_modules/.bin/gulp typecheck"
+    "typecheck": "./node_modules/.bin/gulp typecheck",
+    "build": "./node_modules/.bin/gulp build"
   },
   "pre-commit": [
     "lint",
