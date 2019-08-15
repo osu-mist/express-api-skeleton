@@ -69,4 +69,27 @@ const serializePet = (rawPet) => {
     serializerOptions(serializerArgs),
   ).serialize(rawPet);
 };
-module.exports = { serializePets, serializePet };
+
+/**
+ * Serialize posted petResource to JSON API
+ *
+ * @param {object} rawPet Raw data row from post body
+ * @returns {object} Serialized petResource object
+ */
+const serializePostedPet = (rawPet) => {
+  const topLevelSelfLink = petResourceUrl;
+  const serializerArgs = {
+    identifierField: 'id',
+    resourceKeys: petResourceKeys,
+    resourcePath: petResourcePath,
+    topLevelSelfLink,
+    enableDataLinks: true,
+  };
+
+  return new JsonApiSerializer(
+    petResourceType,
+    serializerOptions(serializerArgs),
+  ).serialize(rawPet);
+};
+
+module.exports = { serializePets, serializePet, serializePostedPet };

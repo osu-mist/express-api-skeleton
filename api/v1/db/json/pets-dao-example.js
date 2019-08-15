@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
 const { readJsonFile, writeJsonFile } = require('./fs-operations');
-const { serializePets, serializePet } = require('../../serializers/pets-serializer');
+const { serializePets, serializePet, serializePostedPet } = require('../../serializers/pets-serializer');
 
 const dbPath = 'tests/unit/mock-data.json';
 
@@ -38,7 +38,7 @@ const getPetById = id => new Promise((resolve, reject) => {
     if (!rawPet) {
       resolve(undefined);
     } else {
-      const serializedPet = serializePet(rawPet);
+      const serializedPet = serializePet(rawPet, id);
       resolve(serializedPet);
     }
   } catch (err) {
@@ -55,7 +55,7 @@ const getPetById = id => new Promise((resolve, reject) => {
 const postPet = body => new Promise((resolve, reject) => {
   try {
     const rawPets = readJsonFile(dbPath).pets;
-    const { name, owner, species } = body.data.attributes;
+    const newPet = body.data.attributes;
 
     // Determine smallest unused id
     const ids = _.mapValues(rawPets, 'id');
@@ -67,12 +67,14 @@ const postPet = body => new Promise((resolve, reject) => {
     while (idHash[id]) {
       id += 1;
     }
-    id = `${id}`;
-    rawPets.push({
-      id, name, owner, species,
-    });
+    newPet.id = `${id}`;
+
+    // Add new pet to DB
+    rawPets.push(newPet);
     writeJsonFile(dbPath, { pets: rawPets });
-    resolve(getPetById(id));
+
+    // Return new pet resource
+    resolve(serializePostedPet(newPet));
   } catch (err) {
     reject(err);
   }
