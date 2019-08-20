@@ -6,6 +6,7 @@ plugins:
   - flowtype
   - eslint-plugin-import-order-alphabetical
   - jsdoc
+  - chai-friendly
 env:
   node: true
   mocha: true
@@ -14,7 +15,15 @@ rules:
   import/no-unresolved:
     - error
     - commonjs: true
-      ignore: [ ^aws-sdk$, ^oracledb$, ^request-promise-native$, contrib/ ]
+      ignore: [ ^aws-sdk$, ^./contrib/*, ^oracledb$, ^request-promise-native$ ]
+  import/no-extraneous-dependencies:
+    - error
+    - devDependencies:
+      - '**/tests/**/*.test.js'
+      - gulpfile.js
+      - '**/aws-operations.js'
+  no-unused-expressions: 'off'
+  chai-friendly/no-unused-expressions: 'error'
   jsdoc/require-param:
     - warn
     - exemptedBy: [ type ]
