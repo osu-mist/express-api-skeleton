@@ -15,11 +15,11 @@
   "main": "dist/app.js",
   "scripts": {
     "babel": "./node_modules/.bin/gulp babel",
+    "build": "./node_modules/.bin/gulp build",
     "lint": "./node_modules/.bin/gulp lint",
     "start": "./node_modules/.bin/forever dist/app.js",
     "test": "./node_modules/.bin/gulp test",
-    "typecheck": "./node_modules/.bin/gulp typecheck",
-    "build": "./node_modules/.bin/gulp build"
+    "typecheck": "./node_modules/.bin/gulp typecheck"
   },
   "pre-commit": [
     "lint",
@@ -65,8 +65,8 @@
     "del": "^4.1.0",
     "eslint": "^5.6.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-chai-friendly": "^0.4.1",
     "eslint-import-resolver-babel-module": "^5.0.1",
+    "eslint-plugin-chai-friendly": "^0.4.1",
     "eslint-plugin-flowtype": "^3.6.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-import-order-alphabetical": "^0.0.2",
