@@ -15,7 +15,11 @@ rules:
   import/no-unresolved:
     - error
     - commonjs: true
+<<<<<<< HEAD
       ignore: [ ^aws-sdk$, ^./contrib/*, ^oracledb$, ^request-promise-native$ ]
+=======
+      ignore: [ ^aws-sdk$, ^oracledb$, ^request-promise-native$ ]
+>>>>>>> master
   import/no-extraneous-dependencies:
     - error
     - devDependencies:

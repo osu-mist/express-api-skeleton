@@ -189,7 +189,11 @@ const deleteObject = async (key, bucket = thisBucket) => {
   return withErrorHandler(s3.deleteObject(params).promise, { NotFound: undefined });
 };
 
+<<<<<<< HEAD:src/api/v1/db/awsS3/aws-operations.js
 export {
+=======
+module.exports = {
+>>>>>>> master:api/v1/db/awsS3/aws-operations.js
   bucketExists,
   validateAwsS3,
   objectExists,
