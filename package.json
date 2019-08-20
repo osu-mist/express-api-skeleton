@@ -56,12 +56,16 @@
     "@babel/plugin-transform-runtime": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-flow": "^7.0.0",
+    "aws-sdk": "^2.504.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-module-resolver": "^3.2.0",
     "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-exclude": "^2.0.2",
     "del": "^4.1.0",
     "eslint": "^5.6.0",
     "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-chai-friendly": "^0.4.1",
     "eslint-import-resolver-babel-module": "^5.0.1",
     "eslint-plugin-flowtype": "^3.6.0",
     "eslint-plugin-import": "^2.14.0",
@@ -74,7 +78,10 @@
     "gulp-eslint": "^5.0.0",
     "gulp-mocha": "^6.0.0",
     "gulp-sourcemaps": "^2.6.5",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "proxyquire": "^2.1.1",
+    "sinon": "^7.4.1",
+    "sinon-chai": "^3.3.0"
   },
   "engines": {
     "node": "^10.13"
