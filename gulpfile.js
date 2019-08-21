@@ -4,6 +4,7 @@ const del = require('del');
 const forever = require('forever-monitor');
 const gulp = require('gulp');
 const gulpBabel = require('gulp-babel');
+const gulpIf = require('gulp-if');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const sourcemaps = require('gulp-sourcemaps');
@@ -42,6 +43,22 @@ const babelCompile = () => gulp.src(['src/**/*.js'])
 const lint = () => gulp.src(['src/**/*.js', '*.js'])
   .pipe(eslint())
   .pipe(eslint.format())
+  .pipe(eslint.failAfterError());
+
+function isFixed(file) {
+  return file.eslint != null && file.eslint.fixed;
+}
+
+/**
+ * @summary Use ESLint linting *.js files besides source files in node_modules and fix
+ * some simple errors.
+ *
+ * @returns {Stream}
+ */
+const lintfix = () => gulp.src(['**/*.js', '!node_modules/**'])
+  .pipe(eslint({ fix: true }))
+  .pipe(eslint.format())
+  .pipe(gulpIf(isFixed, gulp.dest('.')))
   .pipe(eslint.failAfterError());
 
 /**
@@ -86,6 +103,7 @@ module.exports = {
   babelCopy,
   babelCompile,
   lint,
+  lintfix,
   typecheck,
   test: gulp.series(babel, test),
   start,

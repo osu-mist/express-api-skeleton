@@ -76,6 +76,7 @@
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-eslint": "^5.0.0",
+    "gulp-if": "^3.0.0",
     "gulp-mocha": "^6.0.0",
     "gulp-sourcemaps": "^2.6.5",
     "pre-commit": "^1.2.2",
