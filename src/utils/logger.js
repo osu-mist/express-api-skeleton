@@ -1,9 +1,8 @@
-const appRoot = require('app-root-path');
-const _ = require('lodash');
-const winston = require('winston');
-require('winston-daily-rotate-file');
+import _ from 'lodash';
+import winston from 'winston';
+import 'winston-daily-rotate-file';
 
-const { name } = appRoot.require('package');
+import { name } from 'package';
 
 const customLevels = {
   /**
@@ -90,4 +89,4 @@ const logger = winston.createLogger({
   levels: customLevels.levels,
 });
 
-module.exports = { logger };
+export { logger };
