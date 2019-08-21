@@ -81,4 +81,4 @@ const serializerOptions = (serializerArgs) => {
   return options;
 };
 
-export { serializerOptions as default };
+export { serializerOptions };

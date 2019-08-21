@@ -34,4 +34,4 @@ const validateDataSource = () => {
   });
 };
 
-export default validateDataSource;
+export { validateDataSource };
