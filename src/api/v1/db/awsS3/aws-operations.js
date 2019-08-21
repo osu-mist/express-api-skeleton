@@ -111,7 +111,7 @@ const listObjects = async (params = {}, bucket = thisBucket) => {
  */
 const getObject = async (key, bucket = thisBucket) => {
   const params = { Bucket: bucket, Key: key };
-  return withErrorHandler(s3.getObject(params).promise, { NoSuchKey: undefined });
+  return withErrorHandler(async () => s3.getObject(params).promise(), { NoSuchKey: undefined });
 };
 
 /**
@@ -186,7 +186,7 @@ const updateMetadata = async (metadata, key, bucket = thisBucket) => {
  */
 const deleteObject = async (key, bucket = thisBucket) => {
   const params = { Bucket: bucket, Key: key };
-  return withErrorHandler(s3.deleteObject(params).promise, { NotFound: undefined });
+  return withErrorHandler(async () => s3.deleteObject(params).promise(), { NotFound: undefined });
 };
 
 export {
