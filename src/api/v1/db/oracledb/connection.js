@@ -1,8 +1,7 @@
-const appRoot = require('app-root-path');
-const config = require('config');
-const oracledb = require('oracledb');
+import config from 'config';
+import oracledb from 'oracledb';
 
-const { logger } = appRoot.require('utils/logger');
+import { logger } from 'utils/logger';
 
 const dbConfig = config.get('dataSources').oracledb;
 
@@ -51,4 +50,6 @@ const validateOracleDb = async () => {
   }
 };
 
-module.exports = { getConnection, validateOracleDb };
+export {
+  getConnection, validateOracleDb,
+};
