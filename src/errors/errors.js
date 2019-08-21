@@ -1,7 +1,7 @@
 import { Error as JsonApiError } from 'jsonapi-serializer';
 import _ from 'lodash';
 
-const { logger } = require('../utils/logger');
+import { logger } from 'utils/logger';
 
 /**
  * Construct error object
