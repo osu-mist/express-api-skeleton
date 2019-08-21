@@ -20,6 +20,4 @@ const get = async (req, res) => {
   }
 };
 
-export default {
-  get,
-};
+export { get };

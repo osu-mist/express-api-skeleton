@@ -14,4 +14,4 @@ const loggerMiddleware = expressWinston.logger({
   colorize: true,
 });
 
-export { loggerMiddleware as default };
+export { loggerMiddleware };

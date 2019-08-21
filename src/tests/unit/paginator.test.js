@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import paginate from 'utils/paginator';
+import { paginate } from 'utils/paginator';
 import _ from 'lodash';
 import { pets as rows } from './mock-data';
 

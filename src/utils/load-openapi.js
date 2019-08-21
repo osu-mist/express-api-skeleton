@@ -26,4 +26,4 @@ const parseOpenApi = () => {
 
 const openapi = parseOpenApi();
 
-export { openapi as default };
+export { openapi };

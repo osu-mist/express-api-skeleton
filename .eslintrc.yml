@@ -22,6 +22,9 @@ rules:
       - '**/tests/**/*.test.js'
       - gulpfile.js
       - '**/aws-operations.js'
+  import/prefer-default-export: 'off'
+  import/no-default-export:
+    - error
   no-unused-expressions: 'off'
   chai-friendly/no-unused-expressions: 'error'
   jsdoc/require-param:

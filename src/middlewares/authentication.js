@@ -13,4 +13,4 @@ const authentication = basicAuth({
   unauthorizedResponse: unauthorized,
 });
 
-export { authentication as default };
+export { authentication };

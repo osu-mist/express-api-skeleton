@@ -124,4 +124,4 @@ const runtimeErrors = composeErrors([
   genericError,
 ]);
 
-export { runtimeErrors as default };
+export { runtimeErrors };

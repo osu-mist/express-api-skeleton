@@ -26,4 +26,4 @@ const paginate = (rows, pageQuery) => {
   };
 };
 
-export { paginate as default };
+export { paginate };
