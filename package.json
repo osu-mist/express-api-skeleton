@@ -2,26 +2,32 @@
   "name": "express-api-skeleton",
   "version": "1.0.0",
   "description": "Skeleton for Express APIs.",
-  "main": "app.js",
-  "scripts": {
-    "start": "./node_modules/.bin/gulp run",
-    "lint": "./node_modules/.bin/gulp lint",
-    "test": "./node_modules/.bin/gulp test"
+  "homepage": "https://github.com/osu-mist/express-api-skeleton#readme",
+  "bugs": {
+    "url": "https://github.com/osu-mist/express-api-skeleton/issues"
   },
-  "pre-commit": [
-    "lint"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/osu-mist/express-api-skeleton.git"
   },
-  "author": "osu-mist",
   "license": "AGPL-3.0",
-  "bugs": {
-    "url": "https://github.com/osu-mist/express-api-skeleton/issues"
+  "author": "osu-mist",
+  "main": "dist/app.js",
+  "scripts": {
+    "babel": "./node_modules/.bin/gulp babel",
+    "build": "./node_modules/.bin/gulp build",
+    "lint": "./node_modules/.bin/gulp lint",
+    "start": "./node_modules/.bin/forever dist/app.js",
+    "test": "./node_modules/.bin/gulp test",
+    "typecheck": "./node_modules/.bin/gulp typecheck"
   },
-  "homepage": "https://github.com/osu-mist/express-api-skeleton#readme",
+  "pre-commit": [
+    "lint",
+    "typecheck",
+    "babel"
+  ],
   "dependencies": {
+    "@babel/runtime": "^7.4.3",
     "app-root-path": "^2.1.0",
     "body-parser": "^1.18.3",
     "compose-middleware": "^5.0.1",
@@ -29,36 +35,55 @@
     "deasync": "^0.1.14",
     "decode-uri-component": "^0.2.0",
     "express": "^4.16.3",
-    "express-basic-auth": "1.1.7",
+    "express-basic-auth": "^1.1.7",
     "express-openapi": "^4.6.5",
     "express-winston": "^3.2.1",
+    "forever": "^1.0.0",
     "js-yaml": "^3.13.1",
     "jsonapi-serializer": "^3.5.6",
     "lodash": "^4.17.13",
     "moment": "^2.22.2",
     "query-string": "^6.2.0",
     "simple-git": "^1.96.0",
+    "source-map-support": "^0.5.12",
     "swagger-parser": "^6.0.3",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^3.10.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-flow": "^7.0.0",
     "aws-sdk": "^2.504.0",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-module-resolver": "^3.2.0",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "chai-exclude": "^2.0.2",
+    "del": "^4.1.0",
     "eslint": "^5.6.0",
     "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-import-resolver-babel-module": "^5.0.1",
     "eslint-plugin-chai-friendly": "^0.4.1",
+    "eslint-plugin-flowtype": "^3.6.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsdoc": "^15.8.0",
+    "eslint-plugin-import-order-alphabetical": "^0.0.2",
+    "eslint-plugin-jsdoc": "^15.6.1",
+    "flow-bin": "^0.96.0",
     "forever-monitor": "^1.7.1",
-    "gulp": "4.0.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
     "gulp-eslint": "^5.0.0",
     "gulp-mocha": "^6.0.0",
+    "gulp-sourcemaps": "^2.6.5",
     "pre-commit": "^1.2.2",
     "proxyquire": "^2.1.1",
     "sinon": "^7.4.1",
     "sinon-chai": "^3.3.0"
+  },
+  "engines": {
+    "node": "^10.13"
   }
 }

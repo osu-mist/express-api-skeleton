@@ -30,10 +30,6 @@ Skeleton for Express APIs. API definition is contained in the [OpenAPI specifica
 ### Installing
 
 ```shell
-# Using yarn (recommended)
-$ yarn
-
-# Using npm
 $ npm install
 ```
 
@@ -75,6 +71,36 @@ $ gulp test
 
 # Using npm
 $ npm test
+```
+
+### Type checking
+
+This API is configured to use [Flow static type checking](https://flow.org/).
+
+Check flow types:
+
+```shell
+# Using gulp
+$ gulp typecheck
+
+# Using npm
+$ npm run typecheck
+```
+
+## Babel
+
+This API uses [Babel](https://babeljs.io/) to transpile JavaScript code. After running, the transpiled code will be located in `dist/`. Source maps are also generated in the same directory. These contain references to the original source code for debugging purposes.
+
+Babel allows for newer ECMAScript syntax such as `import` and `export` from ES6. It also allows [Babel plugins](https://babeljs.io/docs/en/plugins) to be used.
+
+Compilation is done by the `babel` gulp task. This is handled automatically by other tasks but can be manually invoked:
+
+```shell
+# Using gulp
+$ gulp babel
+
+# Using npm
+$ npm run babel
 ```
 
 ## Base project off the skeleton
@@ -141,10 +167,10 @@ The following instructions show you how to get data from external endpoints for 
     $ cp api/v1/db/http/pets-dao-example.js api/v1/db/http/<resources>-dao.js
     ```
 
-3. Make sure to require the correct path for the new DAO file at path handlers files:
+3. Make sure to use the correct path for the new DAO file at path handlers files:
 
     ```js
-    const petsDao = require('../db/http/<resources>-dao');
+    import petsDao from '../db/http/<resources>-dao';
     ```
 
 ## Getting data source from the Oracle Database
@@ -156,10 +182,6 @@ The following instructions show you how to connect the API to an Oracle database
 2. Install [oracledb](https://www.npmjs.com/package/oracledb) via package management:
 
     ```shell
-    # Using yarn (recommended)
-    $ yarn add oracledb
-
-    # Using npm
     $ npm install oracledb
     ```
 
@@ -207,10 +229,10 @@ The following instructions show you how to connect the API to an Oracle database
     $ cp api/v1/db/oracledb/pets-dao-example.js api/v1/db/oracledb/<resources>-dao.js
     ```
 
-6. Make sure to require the correct path for the new DAO file at path handlers files:
+7. Make sure to use the correct path for the new DAO file at path handlers files:
 
     ```js
-    const petsDao = require('../db/oracledb/<resources>-dao');
+    import petsDao from '../db/oracledb/<resources>-dao';
     ```
 
 ## Getting data source from an AWS S3 bucket
@@ -220,10 +242,6 @@ The following instructions show you how to get data from an AWS S3 bucket
 1. Install [aws-sdk](https://www.npmjs.com/package/aws-sdk) via package management:
 
     ```shell
-    # Using yarn (recommended)
-    $ yarn add aws-sdk
-
-    # Using npm
     $ npm install aws-sdk
     ```
 
@@ -257,10 +275,10 @@ The following instructions show you how to get data from an AWS S3 bucket
     $ cp api/v1/db/awsS3/pets-dao-example.js api/v1/db/awsS3/<resources>-dao.js
     ```
 
-4. Make sure to require the correct path for the new DAO file at path handlers files:
+4. Make sure to use the correct path for the new DAO file at path handlers files:
 
     ```js
-    const petsDao = require('../db/awsS3/<resources>-dao');
+    import petsDao from '../db/awsS3/<resources>-dao';
     ```
 
 ## Docker
