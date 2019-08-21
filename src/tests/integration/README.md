@@ -68,9 +68,9 @@ This directory contains template files that run integration tests against the AP
 Use these commands to build and run the tests in a container. All you need installed is Docker. **Make sure you are in the root directory of the repository**.
 
 ```shell
-$ docker build -f tests/integration/Dockerfile -t <my-api>-integration-test .
+$ docker build -f src/tests/integration/Dockerfile -t <my-api>-integration-test .
 $ docker run --rm \
-             -v "$PWD"/tests/integration/configuration.json:/usr/src/app/configuration.json:ro \
+             -v "$PWD"/src/tests/integration/configuration.json:/usr/src/app/configuration.json:ro \
              <my-api>-integration-test
 ```
 
