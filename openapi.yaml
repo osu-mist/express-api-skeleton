@@ -44,13 +44,9 @@ paths:
           schema:
             $ref: '#/definitions/PetsResult'
         '400':
-          description: Bad request
-          schema:
-            $ref: '#/definitions/ErrorResult'
+          $ref: '#/responses/400'
         '500':
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/ErrorResult'
+          $ref: '#/responses/500'
     post:
       summary: Add a new pet
       operationId: postPet
@@ -64,17 +60,13 @@ paths:
             $ref: '#/definitions/PetPostBody'
       responses:
         '201':
-          description: Pet succesfully created
+          description: Pet successfully created
           schema:
             $ref: '#/definitions/PetResult'
         '400':
-          description: Bad request
-          schema:
-            $ref: '#/definitions/ErrorResult'
+          $ref: '#/responses/400'
         '500':
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/ErrorResult'
+          $ref: '#/responses/500'
   /pets/{id}:
     get:
       summary: Info for a specific pet
@@ -100,9 +92,7 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResult'
         '500':
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/ErrorResult'
+          $ref: '#/responses/500'
 parameters:
   authorization:
     name: Authorization
@@ -127,6 +117,15 @@ parameters:
     default: 25
     maximum: 500
     minimum: 1
+responses:
+  '400':
+     description: Bad request
+     schema:
+       $ref: '#/definitions/ErrorResult'
+  '500':
+     description: Internal server error
+     schema:
+       $ref: '#/definitions/ErrorResult'
 definitions:
   Meta:
     properties:
