@@ -40,6 +40,7 @@
     "query-string": "^6.2.0",
     "simple-git": "^1.96.0",
     "swagger-parser": "^6.0.3",
+    "uuid": "^3.3.3",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^3.10.0"
   },

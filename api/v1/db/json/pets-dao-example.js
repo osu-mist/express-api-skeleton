@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const uuidv1 = require('uuid/v1');
 
 const { readJsonFile, writeJsonFile } = require('./fs-operations');
 const { serializePets, serializePet, serializePostedPet } = require('../../serializers/pets-serializer');
@@ -50,24 +51,14 @@ const getPetById = id => new Promise((resolve, reject) => {
  * Posts a new pet
  *
  * @param {object} body Request body
- * @returns {Promise} Promise object represents ?
+ * @returns {Promise} Promise object represents the posted pet
  */
 const postPet = body => new Promise((resolve, reject) => {
   try {
     const rawPets = readJsonFile(dbPath).pets;
     const newPet = body.data.attributes;
 
-    // Determine smallest unused id
-    const ids = _.mapValues(rawPets, 'id');
-    const idHash = {};
-    _.forEach(ids, (id) => {
-      idHash[id] = true;
-    });
-    let id = 1;
-    while (idHash[id]) {
-      id += 1;
-    }
-    newPet.id = `${id}`;
+    newPet.id = uuidv1();
 
     // Add new pet to DB
     rawPets.push(newPet);
