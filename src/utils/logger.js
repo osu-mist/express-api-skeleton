@@ -2,7 +2,7 @@ import _ from 'lodash';
 import winston from 'winston';
 import 'winston-daily-rotate-file';
 
-import { name } from 'package';
+import { name } from 'package.json';
 
 const customLevels = {
   /**

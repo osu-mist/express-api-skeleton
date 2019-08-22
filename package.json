@@ -28,7 +28,6 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.4.3",
-    "app-root-path": "^2.1.0",
     "body-parser": "^1.18.3",
     "compose-middleware": "^5.0.1",
     "config": "^2.0.1",

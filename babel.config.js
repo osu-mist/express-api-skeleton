@@ -14,8 +14,17 @@ const plugins = [
   [
     'module-resolver',
     {
-      root: ['src', '.'],
+      root: 'src',
       extensions: ['.js', '.json'],
+      alias: {
+        'package.json': './package.json',
+      },
+      transformFunctions: [
+        'require',
+        'require.resolve',
+        'System.import',
+        'proxyquire',
+      ],
     },
   ],
 ];
