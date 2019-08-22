@@ -176,8 +176,7 @@ definitions:
         type: string
         description: A unique ID of pet
       type:
-        type: string
-        enum: [pet]
+        $ref: '#/definitions/PetType'
       links:
         $ref: '#/definitions/SelfLink'
       attributes:
@@ -218,8 +217,7 @@ definitions:
         type: object
         properties:
           type:
-            type: string
-            enum: [pet]
+            $ref: '#/definitions/PetType'
           attributes:
             type: object
             properties:
@@ -240,7 +238,10 @@ definitions:
         additionalProperties: false
     required:
      - data
-     additionalProperties: false
+    additionalProperties: false
+  PetType:
+    type: string
+    enum: [pet]
   ErrorObject:
     properties:
       status:
