@@ -27,12 +27,11 @@ const validateJsonDb = () => validateFilePath(dbPath);
 /**
  * Read a JSON file and return the contents as an object
  *
- * @param {string} filePath Path to file
  * @returns {object} Contents of JSON file or undefined if the file doesn't exist
  */
-const readJsonFile = (filePath) => {
-  if (fs.existsSync(filePath)) {
-    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+const readJsonFile = () => {
+  if (fs.existsSync(dbPath)) {
+    return JSON.parse(fs.readFileSync(dbPath, 'utf8'));
   }
   return undefined;
 };
@@ -40,26 +39,11 @@ const readJsonFile = (filePath) => {
 /**
  * Write an object to a JSON file with formatting
  *
- * @param {string} filePath Path to file
  * @param {object} data JSON object to write
  * @param {object} options Additional options to pass to fs.writeFileSync()
  */
-const writeJsonFile = (filePath, data, options = {}) => {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), options);
-};
-
-/**
- * Delete a file
- *
- * @param {string} filePath Path to file
- * @returns {boolean|undefined} true if file was deleted and undefined if file was not found
- */
-const deleteFile = (filePath) => {
-  if (fs.existsSync(filePath)) {
-    fs.unlinkSync(filePath);
-    return true;
-  }
-  return undefined;
+const writeJsonFile = (data, options = {}) => {
+  fs.writeFileSync(dbPath, JSON.stringify(data, null, 2), options);
 };
 
 module.exports = {
@@ -67,5 +51,4 @@ module.exports = {
   validateJsonDb,
   readJsonFile,
   writeJsonFile,
-  deleteFile,
 };

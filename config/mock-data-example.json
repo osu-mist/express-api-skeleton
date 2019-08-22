@@ -1,0 +1,124 @@
+{
+  "pets": [
+    {
+      "id": "57e1aab0-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Furball",
+      "owner": "Tso-Liang Wu",
+      "species": "Cat"
+    },
+    {
+      "id": "63742920-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Zeus",
+      "owner": "Jared Kosanovic",
+      "species": "Dog"
+    },
+    {
+      "id": "722043a0-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Mrs Norris",
+      "owner": "Argus Filch",
+      "species": "Cat"
+    },
+    {
+      "id": "72c18cb0-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Fang",
+      "owner": "Rubeus Hagrid",
+      "species": "Dog"
+    },
+    {
+      "id": "7353e1a0-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Fawkes",
+      "owner": "Albus Dumbledore",
+      "species": "Phoenix"
+    },
+    {
+      "id": "74e09c20-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Hedwig",
+      "owner": "Harry Potter",
+      "species": "Owl"
+    },
+    {
+      "id": "757f4d20-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "pip (deceased)",
+      "owner": "Ian Wilson",
+      "species": "Pea Puffer"
+    },
+    {
+      "id": "7600d930-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Benny (deceased)",
+      "owner": "Ian Wilson",
+      "species": "Pea Puffer"
+    },
+    {
+      "id": "7674a9a0-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "pip3 (planned)",
+      "owner": "Ian Wilson",
+      "species": "Pea Puffer"
+    },
+    {
+      "id": "772498b0-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Qwerty",
+      "owner": "Elliot Anderson",
+      "species": "Beta fish"
+    },
+    {
+      "id": "77ad50b0-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Qwerty",
+      "owner": "Mr. Robot",
+      "species": "Beta fish"
+    },
+    {
+      "id": "782c1da0-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Ollie",
+      "owner": "David's Roommate",
+      "species": "Cat"
+    },
+    {
+      "id": "78905db0-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Darwin",
+      "owner": "Ian Brown",
+      "species": "Dog"
+    },
+    {
+      "id": "78eab2b0-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Wilson",
+      "owner": "Tom Hanks",
+      "species": "Volleyball"
+    },
+    {
+      "id": "79b8ff30-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Clifford",
+      "owner": "Emily Elizabeth",
+      "species": "Big Red Dog™"
+    },
+    {
+      "id": "b7723c60-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Toothless",
+      "owner": "Ian's old roommate",
+      "species": "Axolotl"
+    },
+    {
+      "id": "b82a8fe0-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Peanut",
+      "owner": "Ian's old roommate",
+      "species": "Dog"
+    },
+    {
+      "id": "b86db360-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Thor",
+      "owner": "Ian's old roommate",
+      "species": "Cat"
+    },
+    {
+      "id": "b89d4ee0-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Fido",
+      "owner": "Data Architecture Team",
+      "species": "Dog"
+    },
+    {
+      "id": "cc352d60-c50b-11e9-a7bd-1fb8646e6a06",
+      "name": "Jelly Bean",
+      "owner": "Miguel",
+      "species": "Dog"
+    }
+  ]
+}

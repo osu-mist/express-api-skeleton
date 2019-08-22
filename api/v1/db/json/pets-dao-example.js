@@ -4,8 +4,6 @@ const uuidv1 = require('uuid/v1');
 const { readJsonFile, writeJsonFile } = require('./fs-operations');
 const { serializePets, serializePet, serializePostedPet } = require('../../serializers/pets-serializer');
 
-const dbPath = 'tests/unit/mock-data.json';
-
 /**
  * Return a list of pets
  *
@@ -13,7 +11,7 @@ const dbPath = 'tests/unit/mock-data.json';
  * @returns {Promise} Promise object represents a list of pets
  */
 const getPets = async (query) => {
-  let rawPets = readJsonFile(dbPath).pets;
+  let rawPets = readJsonFile().pets;
   const { species } = query;
 
   rawPets = species ? _.filter(rawPets, { species }) : rawPets;
@@ -29,7 +27,7 @@ const getPets = async (query) => {
  * @returns {Promise} Promise object represents a specific pet
  */
 const getPetById = async (id) => {
-  const rawPets = readJsonFile(dbPath).pets;
+  const rawPets = readJsonFile().pets;
   const rawPet = _.find(rawPets, { id });
   if (!rawPet) {
     return undefined;
@@ -50,13 +48,13 @@ const getPetById = async (id) => {
  */
 const postPet = async (body) => {
   // Read DB
-  const rawPets = readJsonFile(dbPath).pets;
+  const rawPets = readJsonFile().pets;
   const newPet = body.data.attributes;
 
   // Write new pet to DB
   newPet.id = uuidv1();
   rawPets.push(newPet);
-  writeJsonFile(dbPath, { pets: rawPets });
+  writeJsonFile({ pets: rawPets });
 
   // Return new pet resource
   return serializePostedPet(newPet);
