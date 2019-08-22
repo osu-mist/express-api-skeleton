@@ -65,6 +65,10 @@ paths:
             $ref: '#/definitions/PetResult'
         '400':
           $ref: '#/responses/400'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/ErrorResult'
         '500':
           $ref: '#/responses/500'
   /pets/{id}:
