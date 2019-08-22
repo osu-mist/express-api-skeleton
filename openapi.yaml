@@ -237,8 +237,10 @@ definitions:
         required:
           - type
           - attributes
+        additionalProperties: false
     required:
      - data
+     additionalProperties: false
   ErrorObject:
     properties:
       status:
