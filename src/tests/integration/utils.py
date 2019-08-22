@@ -248,6 +248,8 @@ def check_url(self, link_url, endpoint, query_params=None):
         """Local instances return self links without port and /api"""
         base_url = re.sub(r':\d{4}/api', '', self.base_url)
 
+    base_url = re.sub(r'host\.docker\.internal', 'localhost', base_url)
+
     link_url_obj = urllib.parse.urlparse(link_url)
     base_url_obj = urllib.parse.urlparse(base_url)
 
