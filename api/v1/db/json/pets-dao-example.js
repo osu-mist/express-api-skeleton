@@ -12,19 +12,15 @@ const dbPath = 'tests/unit/mock-data.json';
  * @param {object} query Query parameters
  * @returns {Promise} Promise object represents a list of pets
  */
-const getPets = query => new Promise((resolve, reject) => {
-  try {
-    let rawPets = readJsonFile(dbPath).pets;
-    const { species } = query;
+const getPets = async (query) => {
+  let rawPets = readJsonFile(dbPath).pets;
+  const { species } = query;
 
-    rawPets = species ? _.filter(rawPets, { species }) : rawPets;
+  rawPets = species ? _.filter(rawPets, { species }) : rawPets;
 
-    const serializedPet = serializePets(rawPets, query);
-    resolve(serializedPet);
-  } catch (err) {
-    reject(err);
-  }
-});
+  const serializedPet = serializePets(rawPets, query);
+  return serializedPet;
+};
 
 /**
  * Return a specific pet by unique ID
@@ -32,20 +28,15 @@ const getPets = query => new Promise((resolve, reject) => {
  * @param {string} id Unique pet ID
  * @returns {Promise} Promise object represents a specific pet
  */
-const getPetById = id => new Promise((resolve, reject) => {
-  try {
-    const rawPets = readJsonFile(dbPath).pets;
-    const rawPet = _.find(rawPets, { id });
-    if (!rawPet) {
-      resolve(undefined);
-    } else {
-      const serializedPet = serializePet(rawPet, id);
-      resolve(serializedPet);
-    }
-  } catch (err) {
-    reject(err);
+const getPetById = async (id) => {
+  const rawPets = readJsonFile(dbPath).pets;
+  const rawPet = _.find(rawPets, { id });
+  if (!rawPet) {
+    return undefined;
   }
-});
+  const serializedPet = serializePet(rawPet, id);
+  return serializedPet;
+};
 
 /**
  * Posts a new pet
@@ -53,27 +44,26 @@ const getPetById = id => new Promise((resolve, reject) => {
  * Reads the JSON DB as an array of objects
  * Inserts posted pet
  * Writes new array to JSON DB
+ *
  * @param {object} body Request body
  * @returns {Promise} Promise object represents the posted pet
  */
-const postPet = body => new Promise((resolve, reject) => {
-  try {
-    const rawPets = readJsonFile(dbPath).pets;
-    const newPet = body.data.attributes;
+const postPet = async (body) => {
+  // Read DB
+  const rawPets = readJsonFile(dbPath).pets;
+  const newPet = body.data.attributes;
 
-    newPet.id = uuidv1();
+  // Write new pet to DB
+  newPet.id = uuidv1();
+  rawPets.push(newPet);
+  writeJsonFile(dbPath, { pets: rawPets });
 
-    // Add new pet to DB
-    rawPets.push(newPet);
-    writeJsonFile(dbPath, { pets: rawPets });
-
-    // Return new pet resource
-    resolve(serializePostedPet(newPet));
-  } catch (err) {
-    reject(err);
-  }
-});
+  // Return new pet resource
+  return serializePostedPet(newPet);
+};
 
 module.exports = {
-  getPets, getPetById, postPet,
+  getPets,
+  getPetById,
+  postPet,
 };
