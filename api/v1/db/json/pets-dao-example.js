@@ -50,6 +50,9 @@ const getPetById = id => new Promise((resolve, reject) => {
 /**
  * Posts a new pet
  *
+ * Reads the JSON DB as an array of objects
+ * Inserts posted pet
+ * Writes new array to JSON DB
  * @param {object} body Request body
  * @returns {Promise} Promise object represents the posted pet
  */
