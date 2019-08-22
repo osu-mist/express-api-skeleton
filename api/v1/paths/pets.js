@@ -26,6 +26,7 @@ const get = async (req, res) => {
 const post = async (req, res) => {
   try {
     const result = await petsDao.postPet(req.body);
+    res.set('Location', result.data.links.self);
     res.status(201).send(result);
   } catch (err) {
     errorHandler(res, err);
