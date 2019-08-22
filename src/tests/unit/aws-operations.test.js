@@ -33,7 +33,7 @@ describe('Test aws-operations', () => {
    * @param {object} promiseStub The promise stub
    * @returns {object} S3 method stub
    */
-  const getS3MethodStub = promiseStub => sinon.stub().returns(({ promise: promiseStub }));
+  const getS3MethodStub = (promiseStub) => sinon.stub().returns(({ promise: promiseStub }));
 
   /**
    * Create an S3 constructor stub and proxyquire awsOperations

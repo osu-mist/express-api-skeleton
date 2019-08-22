@@ -25,12 +25,10 @@ const poolPromise = oracledb.createPool(dbConfig);
  *
  * @returns {Promise} Promise object represents a connection from created pool
  */
-const getConnection = () => new Promise(async (resolve, reject) => {
-  poolPromise.then(async (pool) => {
-    const connection = await pool.getConnection();
-    resolve(connection);
-  }).catch(err => reject(err));
-});
+const getConnection = async () => {
+  const pool = await poolPromise;
+  return pool.getConnection();
+};
 
 /**
  * Validate database connection and throw an error if invalid
