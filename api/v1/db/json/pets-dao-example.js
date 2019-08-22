@@ -80,26 +80,6 @@ const postPet = body => new Promise((resolve, reject) => {
   }
 });
 
-/**
- * Validates a new pet for uniqueness
- *
- * @param {object} body Request body
- * @returns {boolean} true if pet object in body already exists
- */
-const petExists = body => new Promise((resolve, reject) => {
-  try {
-    const rawPets = readJsonFile(dbPath).pets;
-    _.forEach(rawPets, (pet) => {
-      if (_.isEqual(_.omit(pet, 'id'), body.data.attributes)) {
-        resolve(true);
-      }
-    });
-    resolve(false);
-  } catch (err) {
-    reject(err);
-  }
-});
-
 module.exports = {
-  getPets, getPetById, postPet, petExists,
+  getPets, getPetById, postPet,
 };
