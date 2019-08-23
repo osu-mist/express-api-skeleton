@@ -9,6 +9,8 @@ const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const sourcemaps = require('gulp-sourcemaps');
 
+const lintGlobs = ['src/**/*.js', '*.js'];
+
 /**
  * @summary Delete the dist/ directory
  *
@@ -40,14 +42,12 @@ const babelCompile = () => gulp.src(['src/**/*.js'])
  *
  * @returns {Stream}
  */
-const lint = () => gulp.src(['src/**/*.js', '*.js'])
+const lint = () => gulp.src(lintGlobs)
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(eslint.failAfterError());
 
-function isFixed(file) {
-  return file.eslint != null && file.eslint.fixed;
-}
+const isFixed = file => file.eslint != null && file.eslint.fixed;
 
 /**
  * @summary Use ESLint linting *.js files besides source files in node_modules and fix
@@ -55,7 +55,7 @@ function isFixed(file) {
  *
  * @returns {Stream}
  */
-const lintfix = () => gulp.src(['**/*.js', '!node_modules/**'])
+const lintfix = () => gulp.src(lintGlobs)
   .pipe(eslint({ fix: true }))
   .pipe(eslint.format())
   .pipe(gulpIf(isFixed, gulp.dest('.')))
