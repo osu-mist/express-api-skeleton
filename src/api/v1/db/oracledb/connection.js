@@ -44,7 +44,9 @@ const validateOracleDb = async () => {
     logger.error(err);
     throw new Error('Unable to connect to Oracle database');
   } finally {
-    connection.close();
+    if (connection) {
+      await connection.close();
+    }
   }
 };
 
