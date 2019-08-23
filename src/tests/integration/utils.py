@@ -289,14 +289,3 @@ def test_endpoint(self, endpoint, resource, response_code, query_params=None,
     if 'links' in response_json:
         check_url(self, response_json['links']['self'], endpoint, query_params)
     return response
-
-
-class assertion_tests(unittest.TestCase):
-    # Helper function to check if a response value starts with the test value
-    def actual_starts_with_test(self, actual_case, test_case):
-        self.assertTrue(actual_case.lower().startswith(test_case.lower()))
-
-    # Helper function to check if a response value is literally equal
-    # to the actual value
-    def actual_equals_test_str(self, actual_case, test_case):
-        self.assertTrue(str(actual_case), str(test_case))
