@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import { serializePets, serializePet } from 'api/v1/serializers/pets-serializer';
 import { getConnection } from './connection';
-import contrib from './contrib/contrib';
+import * as contrib from './contrib/contrib';
 
 const { endpointUri } = config.get('server');
 
