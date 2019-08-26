@@ -2,7 +2,7 @@ import _ from 'lodash';
 import winston from 'winston';
 import 'winston-daily-rotate-file';
 
-import { name } from 'package';
+import { name } from 'package.json';
 
 const customLevels = {
   /**
@@ -65,7 +65,7 @@ const consoleTransport = new winston.transports.Console({
 
       const simpleMessage = _(msg)
         .omit(strippedItems)
-        .thru(obj => (_.isEmpty(obj) ? '' : ` ${JSON.stringify(obj)}`))
+        .thru((obj) => (_.isEmpty(obj) ? '' : ` ${JSON.stringify(obj)}`))
         .value();
       return `${timestamp} - ${level}: ${message}${simpleMessage}`;
     }),

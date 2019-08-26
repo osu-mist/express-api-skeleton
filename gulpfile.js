@@ -57,7 +57,7 @@ const typecheck = () => spawn('./node_modules/.bin/flow', ['check'], { stdio: 'i
  * @returns {Stream}
  */
 const test = () => gulp.src('dist/tests/unit/*.js')
-  .pipe(mocha({ reporter: 'spec' }));
+  .pipe(mocha({ reporter: 'spec', require: ['source-map-support/register'] }));
 
 /**
  * @summary Start application using forever

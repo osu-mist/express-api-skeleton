@@ -4,7 +4,6 @@ extends:
   - plugin:flowtype/recommended
 plugins:
   - flowtype
-  - eslint-plugin-import-order-alphabetical
   - jsdoc
   - chai-friendly
 env:
@@ -19,7 +18,7 @@ rules:
   import/no-extraneous-dependencies:
     - error
     - devDependencies:
-      - '**/tests/**/*.test.js'
+      - 'src/tests/unit/**/*.js'
       - gulpfile.js
       - '**/aws-operations.js'
   import/prefer-default-export: 'off'

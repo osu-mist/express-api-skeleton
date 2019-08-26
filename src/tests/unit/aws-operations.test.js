@@ -1,4 +1,3 @@
-import appRoot from 'app-root-path';
 import AWS from 'aws-sdk';
 import chai from 'chai';
 import chaiExclude from 'chai-exclude';
@@ -34,7 +33,7 @@ describe('Test aws-operations', () => {
    * @param {object} promiseStub The promise stub
    * @returns {object} S3 method stub
    */
-  const getS3MethodStub = promiseStub => sinon.stub().returns(({ promise: promiseStub }));
+  const getS3MethodStub = (promiseStub) => sinon.stub().returns(({ promise: promiseStub }));
 
   /**
    * Create an S3 constructor stub and proxyquire awsOperations
@@ -43,7 +42,7 @@ describe('Test aws-operations', () => {
    */
   const createS3Stub = (stubs) => {
     const s3Stub = sinon.stub(AWS, 'S3').returns(stubs);
-    awsOperations = proxyquire(`${appRoot}/dist/api/v1/db/awsS3/aws-operations`, {
+    awsOperations = proxyquire('api/v1/db/awsS3/aws-operations', {
       config: { get: configGetStub },
       'aws-sdk': { S3: s3Stub },
     });

@@ -1,4 +1,5 @@
 import config from 'config';
+import _ from 'lodash';
 import oracledb from 'oracledb';
 
 import { logger } from 'utils/logger';
@@ -13,24 +14,31 @@ oracledb.fetchAsString = [oracledb.DATE, oracledb.NUMBER];
 const threadPoolSize = dbConfig.poolMax + (dbConfig.poolMax / 5);
 process.env.UV_THREADPOOL_SIZE = threadPoolSize > 128 ? 128 : threadPoolSize;
 
+/** Connection pool */
+let pool;
+
 /**
  * Create a pool of connection
  *
  * @returns {Promise} Promise object represents a pool of connections
  */
-const poolPromise = oracledb.createPool(dbConfig);
+const createPool = async () => {
+  /** Attributes to use from config file */
+  const attributes = ['connectString', 'user', 'password', 'poolMin', 'poolMax', 'poolIncrement'];
+  pool = await oracledb.createPool(_.pick(dbConfig, attributes));
+};
 
 /**
- * Get a connection from created pool
+ * Get a connection from a created pool. Creates pool if it hasn't been created yet.
  *
  * @returns {Promise} Promise object represents a connection from created pool
  */
-const getConnection = () => new Promise(async (resolve, reject) => {
-  poolPromise.then(async (pool) => {
-    const connection = await pool.getConnection();
-    resolve(connection);
-  }).catch(err => reject(err));
-});
+const getConnection = async () => {
+  if (!pool) {
+    await createPool();
+  }
+  return pool.getConnection();
+};
 
 /**
  * Validate database connection and throw an error if invalid
@@ -46,7 +54,9 @@ const validateOracleDb = async () => {
     logger.error(err);
     throw new Error('Unable to connect to Oracle database');
   } finally {
-    connection.close();
+    if (connection) {
+      await connection.close();
+    }
   }
 };
 

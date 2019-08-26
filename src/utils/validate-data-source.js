@@ -1,6 +1,8 @@
 import config from 'config';
 import _ from 'lodash';
 
+import { logger } from 'utils/logger';
+
 const { dataSources } = config.get('dataSources');
 const awsS3 = dataSources.includes('awsS3')
   ? require('api/v1/db/awsS3/aws-operations').validateAwsS3
@@ -11,7 +13,6 @@ const json = dataSources.includes('json')
 const oracledb = dataSources.includes('oracledb')
   ? require('api/v1/db/oracledb/connection').validateOracleDb
   : null;
-const { logger } = require('./logger');
 
 /** Validate database configuration */
 const validateDataSource = () => {
