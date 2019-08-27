@@ -2,7 +2,11 @@ const _ = require('lodash');
 const uuidv1 = require('uuid/v1');
 
 const { readJsonFile, writeJsonFile } = require('./fs-operations');
-const { serializePets, serializePet, serializePostedPet } = require('../../serializers/pets-serializer');
+const {
+  serializePets,
+  serializePet,
+  serializePostedPet,
+} = require('../../serializers/pets-serializer');
 
 /**
  * Return a list of pets
