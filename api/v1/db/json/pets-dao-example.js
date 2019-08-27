@@ -5,7 +5,6 @@ const { readJsonFile, writeJsonFile } = require('./fs-operations');
 const {
   serializePets,
   serializePet,
-  serializePostedPet,
 } = require('../../serializers/pets-serializer');
 
 /**
@@ -20,8 +19,8 @@ const getPets = async (query) => {
 
   rawPets = species ? _.filter(rawPets, { species }) : rawPets;
 
-  const serializedPet = serializePets(rawPets, query);
-  return serializedPet;
+  const serializedPets = serializePets(rawPets, query);
+  return serializedPets;
 };
 
 /**
@@ -61,7 +60,7 @@ const postPet = async (body) => {
   writeJsonFile({ pets: rawPets });
 
   // Return new pet resource
-  return serializePostedPet(newPet);
+  return serializePet(newPet);
 };
 
 module.exports = {
