@@ -27,6 +27,8 @@ Skeleton for Express APIs. API definition is contained in the [OpenAPI specifica
     | `${API_USER}` | The HTTP Basic username used to authenticate API calls. |
     | `${API_PASSWD}` | The HTTP Basic password used to authenticate API calls. |
 
+5 Copy [db/mock-data-example.json](db/mock-data-example.yaml) to `db/mock-data.json`. This will serve as the JSON DB, which is not committed to source code as it will change as the POST endpoint is used.
+
 ### Installing
 
 ```shell

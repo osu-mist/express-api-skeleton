@@ -19,6 +19,8 @@ externalDocs:
   url: https://github.com/osu-mist/express-api-skeleton
 produces:
   - application/json
+consumes:
+  - application/json
 paths:
   /pets:
     get:
@@ -42,13 +44,33 @@ paths:
           schema:
             $ref: '#/definitions/PetsResult'
         '400':
-          description: Bad request
+          $ref: '#/responses/400'
+        '500':
+          $ref: '#/responses/500'
+    post:
+      summary: Add a new pet
+      operationId: postPet
+      tags:
+        - pets
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/PetPostBody'
+      responses:
+        '201':
+          description: Pet successfully created
+          schema:
+            $ref: '#/definitions/PetResult'
+        '400':
+          $ref: '#/responses/400'
+        '409':
+          description: Conflict
           schema:
             $ref: '#/definitions/ErrorResult'
         '500':
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/ErrorResult'
+          $ref: '#/responses/500'
   /pets/{id}:
     get:
       summary: Info for a specific pet
@@ -60,10 +82,10 @@ paths:
         - $ref: '#/parameters/authorization'
         - name: id
           in: path
-          description: Unique Pet ID
+          description: Unique Pet ID, UUID format
           required: true
           type: string
-          pattern: '^\d+$'
+          pattern: '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
       responses:
         '200':
           description: Successful response
@@ -74,9 +96,7 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResult'
         '500':
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/ErrorResult'
+          $ref: '#/responses/500'
 parameters:
   authorization:
     name: Authorization
@@ -101,6 +121,15 @@ parameters:
     default: 25
     maximum: 500
     minimum: 1
+responses:
+  '400':
+     description: Bad request
+     schema:
+       $ref: '#/definitions/ErrorResult'
+  '500':
+     description: Internal server error
+     schema:
+       $ref: '#/definitions/ErrorResult'
 definitions:
   Meta:
     properties:
@@ -150,8 +179,7 @@ definitions:
         type: string
         description: A unique ID of pet
       type:
-        type: string
-        enum: [pet]
+        $ref: '#/definitions/PetType'
       links:
         $ref: '#/definitions/SelfLink'
       attributes:
@@ -186,6 +214,37 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/PetResource'
+  PetPostBody:
+    properties:
+      data:
+        type: object
+        properties:
+          type:
+            $ref: '#/definitions/PetType'
+          attributes:
+            type: object
+            properties:
+              name:
+                $ref: '#/definitions/PetResource/properties/attributes/properties/name'
+              owner:
+                $ref: '#/definitions/PetResource/properties/attributes/properties/owner'
+              species:
+                $ref: '#/definitions/PetResource/properties/attributes/properties/species'
+            required:
+              - name
+              - owner
+              - species
+            additionalProperties: false
+        required:
+          - type
+          - attributes
+        additionalProperties: false
+    required:
+     - data
+    additionalProperties: false
+  PetType:
+    type: string
+    enum: [pet]
   ErrorObject:
     properties:
       status:

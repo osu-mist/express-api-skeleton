@@ -1,5 +1,5 @@
 import { errorHandler } from 'errors/errors';
-import { getPets } from '../db/json/pets-dao-example';
+import { getPets, postPet } from '../db/json/pets-dao-example';
 
 /**
  * Get pets
@@ -15,4 +15,24 @@ const get = async (req, res) => {
   }
 };
 
-export { get };
+
+/**
+ * Post pets
+ *
+ * @type {RequestHandler}
+ */
+const post = async (req, res) => {
+  try {
+    const result = await postPet(req.body);
+    res.set('Location', result.data.links.self);
+    res.status(201).send(result);
+  } catch (err) {
+    errorHandler(res, err);
+  }
+};
+
+
+export {
+  get,
+  post,
+};

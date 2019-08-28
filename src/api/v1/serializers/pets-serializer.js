@@ -51,10 +51,13 @@ const serializePets = (rawPets, query) => {
  * Serialize petResource to JSON API
  *
  * @param {object} rawPet Raw data row from data source
+ * @param {boolean} postedPet true signals returning resource path as self link
  * @returns {object} Serialized petResource object
  */
-const serializePet = (rawPet) => {
-  const topLevelSelfLink = resourcePathLink(petResourceUrl, rawPet.id);
+const serializePet = (rawPet, postedPet = false) => {
+  const topLevelSelfLink = postedPet ? petResourceUrl
+    : resourcePathLink(petResourceUrl, rawPet.id);
+
   const serializerArgs = {
     identifierField: 'id',
     resourceKeys: petResourceKeys,
