@@ -30,9 +30,9 @@ const validateJsonDb = () => validateFilePath(dbPath);
  *
  * @returns {object} Contents of JSON file or undefined if the file doesn't exist
  */
-const readJsonFile = () => {
-  if (fs.existsSync(dbPath)) {
-    return JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+const readJsonFile = (filePath) => {
+  if (fs.existsSync(filePath)) {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
   }
   return undefined;
 };
@@ -43,8 +43,8 @@ const readJsonFile = () => {
  * @param {object} data JSON object to write
  * @param {object} options Additional options to pass to fs.writeFileSync()
  */
-const writeJsonFile = (data, options = {}) => {
-  fs.writeFileSync(dbPath, JSON.stringify(data, null, 2), options);
+const writeJsonFile = (filePath, data, options = {}) => {
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), options);
 };
 
 export {

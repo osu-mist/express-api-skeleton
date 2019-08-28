@@ -1,11 +1,12 @@
 import _ from 'lodash';
+import config from 'config';
 import uuidv1 from 'uuid/v1';
 
 import { serializePets, serializePet } from 'api/v1/serializers/pets-serializer';
 
 import { readJsonFile, writeJsonFile } from './fs-operations';
 
-const dbPath = 'dist/tests/unit/mock-data.json';
+const { dbPath } = config.get('dataSources.json');
 
 /**
  * Return a list of pets
@@ -57,7 +58,7 @@ const postPet = async (body) => {
   // Write new pet to DB
   newPet.id = uuidv1();
   rawPets.push(newPet);
-  writeJsonFile({ pets: rawPets });
+  writeJsonFile(dbPath, { pets: rawPets });
 
   // Return new pet resource
   return serializePet(newPet, true);
