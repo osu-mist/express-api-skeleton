@@ -52,7 +52,7 @@ const getPetById = async (id) => {
  */
 const postPet = async (body) => {
   // Read DB
-  const rawPets = readJsonFile().pets;
+  const rawPets = readJsonFile(dbPath).pets;
   const newPet = body.data.attributes;
 
   // Write new pet to DB

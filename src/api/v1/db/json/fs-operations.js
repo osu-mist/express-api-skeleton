@@ -28,6 +28,7 @@ const validateJsonDb = () => validateFilePath(dbPath);
 /**
  * Read a JSON file and return the contents as an object
  *
+* @param {string} filePath Path to file
  * @returns {object} Contents of JSON file or undefined if the file doesn't exist
  */
 const readJsonFile = (filePath) => {
@@ -40,6 +41,7 @@ const readJsonFile = (filePath) => {
 /**
  * Write an object to a JSON file with formatting
  *
+* @param {string} filePath Path to file
  * @param {object} data JSON object to write
  * @param {object} options Additional options to pass to fs.writeFileSync()
  */
