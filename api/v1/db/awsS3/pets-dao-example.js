@@ -35,7 +35,7 @@ const getPetById = async (id) => {
   if (!rawPet) {
     return undefined;
   }
-  const serializedPet = serializePet(rawPet, id);
+  const serializedPet = serializePet(rawPet);
   return serializedPet;
 };
 

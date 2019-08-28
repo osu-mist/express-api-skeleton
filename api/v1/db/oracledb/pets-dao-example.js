@@ -44,7 +44,7 @@ const getPetById = async (id) => {
       throw new Error('Expect a single object but got multiple results.');
     } else {
       const [rawPet] = rawPets;
-      const serializedPet = serializePet(rawPet, id);
+      const serializedPet = serializePet(rawPet);
       return serializedPet;
     }
   } finally {

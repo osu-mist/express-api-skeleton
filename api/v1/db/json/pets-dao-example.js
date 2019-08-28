@@ -35,7 +35,7 @@ const getPetById = async (id) => {
   if (!rawPet) {
     return undefined;
   }
-  const serializedPet = serializePet(rawPet, id);
+  const serializedPet = serializePet(rawPet);
   return serializedPet;
 };
 
@@ -60,7 +60,7 @@ const postPet = async (body) => {
   writeJsonFile({ pets: rawPets });
 
   // Return new pet resource
-  return serializePet(newPet);
+  return serializePet(newPet, true);
 };
 
 module.exports = {
