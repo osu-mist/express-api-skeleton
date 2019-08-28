@@ -52,6 +52,8 @@ const serializePets = (rawPets, query) => {
  * Serialize petResource to JSON API
  *
  * @param {object} rawPet Raw data row from data source
+ * @param {string} id Optional resource id for self link when pet is
+ * retrieved by id
  * @returns {object} Serialized petResource object
  */
 const serializePet = (rawPet, id) => {
