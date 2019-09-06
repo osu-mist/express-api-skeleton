@@ -6,7 +6,7 @@ import { openapi } from 'utils/load-openapi';
 import { paginate } from 'utils/paginator';
 import { apiBaseUrl, resourcePathLink, paramsLink } from 'utils/uri-builder';
 
-const petResourceProp = openapi.definitions.PetResource.properties;
+const petResourceProp = openapi.components.schemas.PetResource.properties;
 const petResourceType = petResourceProp.type.enum[0];
 const petResourceKeys = _.keys(petResourceProp.attributes.properties);
 const petResourcePath = 'pets';

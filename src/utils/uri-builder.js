@@ -6,11 +6,11 @@ import queryString from 'query-string';
 
 import { openapi } from 'utils/load-openapi';
 
-const { basePath } = openapi;
+const { info: { version } } = openapi;
 const { protocol, hostname } = config.get('server');
 
 /** API base URL */
-const apiBaseUrl = url.format({ protocol, hostname, pathname: basePath });
+const apiBaseUrl = url.format({ protocol, hostname, pathname: version });
 
 /**
  * Resource path link builder
