@@ -53,6 +53,7 @@ paths:
       tags:
         - pets
       parameters:
+        - $ref: '#/parameters/authorization'
         - in: body
           name: body
           required: true
@@ -85,7 +86,6 @@ paths:
           description: Unique Pet ID, UUID format
           required: true
           type: string
-          pattern: '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
       responses:
         '200':
           description: Successful response

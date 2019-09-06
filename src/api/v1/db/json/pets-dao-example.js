@@ -43,9 +43,9 @@ const getPetById = async (id) => {
 /**
  * Posts a new pet
  *
- * Reads the JSON DB as an array of objects
- * Inserts posted pet
- * Writes new array to JSON DB
+ * 1. Reads the JSON DB as an array of objects
+ * 2. Inserts posted pet into the array
+ * 3. Overwrites JSON DB with new file
  *
  * @param {object} body Request body
  * @returns {Promise} Promise object represents the posted pet
