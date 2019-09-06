@@ -41,17 +41,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/PetsResult'
         '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResult'
+          $ref: '#/components/responses/400'
         '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResult'
+          $ref: '#/components/responses/500'
   /pets/{id}:
     get:
       summary: Info for a specific pet
@@ -76,17 +68,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/PetResult'
         '404':
-          description: PetResource not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResult'
+          $ref: '#/components/responses/404'
         '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResult'
+          $ref: '#/components/responses/500'
 components:
   parameters:
     authorization:
@@ -115,6 +99,25 @@ components:
         minimum: 1
         maximum: 500
         default: 25
+  responses:
+    '400':
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResult'
+    '404':
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResult'
+    '500':
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResult'
   schemas:
     Meta:
       properties:
