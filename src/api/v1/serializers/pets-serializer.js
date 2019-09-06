@@ -55,8 +55,7 @@ const serializePets = (rawPets, query) => {
  * @returns {object} Serialized petResource object
  */
 const serializePet = (rawPet, postedPet = false) => {
-  const topLevelSelfLink = postedPet ? petResourceUrl
-    : resourcePathLink(petResourceUrl, rawPet.id);
+  const topLevelSelfLink = postedPet ? petResourceUrl : resourcePathLink(petResourceUrl, rawPet.id);
 
   const serializerArgs = {
     identifierField: 'id',
