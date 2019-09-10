@@ -46,6 +46,7 @@
     "simple-git": "^1.124.0",
     "source-map-support": "^0.5.13",
     "swagger-parser": "^8.0.0",
+    "uuid": "^3.3.3",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^3.10.0"
   },

@@ -1,10 +1,12 @@
 import _ from 'lodash';
+import config from 'config';
+import uuidv1 from 'uuid/v1';
 
 import { serializePets, serializePet } from 'api/v1/serializers/pets-serializer';
 
-import { readJsonFile } from './fs-operations';
+import { readJsonFile, writeJsonFile } from './fs-operations';
 
-const dbPath = 'dist/tests/unit/mock-data.json';
+const { dbPath } = config.get('dataSources.json');
 
 /**
  * Return a list of pets
@@ -38,4 +40,32 @@ const getPetById = async (id) => {
   return serializedPet;
 };
 
-export { getPets, getPetById };
+/**
+ * Posts a new pet
+ *
+ * 1. Reads the JSON DB as an array of objects
+ * 2. Inserts posted pet into the array
+ * 3. Overwrites JSON DB with new file
+ *
+ * @param {object} body Request body
+ * @returns {Promise} Promise object represents the posted pet
+ */
+const postPet = async (body) => {
+  // Read DB
+  const rawPets = readJsonFile(dbPath).pets;
+  const newPet = body.data.attributes;
+
+  // Write new pet to DB
+  newPet.id = uuidv1();
+  rawPets.push(newPet);
+  writeJsonFile(dbPath, { pets: rawPets });
+
+  // Return new pet resource
+  return serializePet(newPet, true);
+};
+
+export {
+  getPets,
+  getPetById,
+  postPet,
+};
