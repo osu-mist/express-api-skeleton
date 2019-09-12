@@ -74,7 +74,7 @@ This directory contains template files that run integration tests against the AP
 3. Run the integration test:
 
     ```shell
-    $ python integration-test.py -v --config path/to/configuration.json --openapi path/to/openapi.yaml
+    $ python integration_test.py -v --config path/to/configuration.json --openapi path/to/openapi.yaml
     ```
 
 ## Docker
@@ -82,10 +82,10 @@ This directory contains template files that run integration tests against the AP
 Use these commands to build and run the tests in a container. All you need installed is Docker. **Make sure you are in the root directory of the repository**.
 
 ```shell
-$ docker build -f src/tests/integration/Dockerfile -t <my-api>-integration-test .
+$ docker build -f src/tests/integration/Dockerfile -t <my-api>-integration_test .
 $ docker run --rm \
              -v "$PWD"/src/tests/integration/configuration.json:/usr/src/app/configuration.json:ro \
-             <my-api>-integration-test
+             <my-api>-integration_test
 ```
 
 ### Test on local instance from the Docker container

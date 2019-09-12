@@ -17,4 +17,4 @@ RUN /bin/bash -c \
 
 USER nobody:nogroup
 
-CMD ["python", "integration-test.py", "--config=configuration.json", "--openapi=openapi.yaml", "-v"]
+CMD ["python", "integration_test.py", "--config=configuration.json", "--openapi=openapi.yaml", "-v"]
