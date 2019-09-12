@@ -95,13 +95,12 @@ class UtilsTestCase(unittest.TestCase):
         """Helper function to make a web request and lightly validate the
         response
 
-        Keyword arguments:
-        * endpoint -- the endpoint to request
-        * expected_status_code -- expected HTTP status code
-        * params -- [optional] key-value pairs parameters (default: None)
-        * max_elapsed_seconds -- [optional] maximum elapsed times (default: 5)
-        Return:
-        A response object contains a server’s response to an HTTP request
+        :param endpoint: the endpoint to request
+        :param expected_status_code: expected HTTP status code
+        :param params: key-value pairs parameters (default: None)
+        :param max_elapsed_seconds: maximum elapsed times (default: 5)
+        :returns: A response object contains a server’s response to an HTTP
+                  request
         """
 
         requested_url = f'{self.base_url}{endpoint}'
