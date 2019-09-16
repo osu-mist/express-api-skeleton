@@ -4,7 +4,7 @@ import oracledb from 'oracledb';
 
 import { logger } from 'utils/logger';
 
-const dbConfig = config.get('dataSources').oracledb;
+const dbConfig = config.get('dataSources.oracledb');
 
 process.on('SIGINT', () => process.exit());
 oracledb.outFormat = oracledb.OBJECT;
