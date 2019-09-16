@@ -43,7 +43,7 @@ const getConnection = async () => {
 /**
  * Validate database connection and throw an error if invalid
  *
- * @throws Throws an error if unable to connect to the database
+ * @returns {Promise} resolves if database connection can be established and rejects otherwise
  */
 const validateOracleDb = async () => {
   let connection;
