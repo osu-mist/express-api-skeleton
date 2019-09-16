@@ -87,7 +87,7 @@ const removeUnknownParametersMiddleware = (req, res, next) => {
     .filter({ in: 'query' })
     .map('name')
     .value();
-  req.query = _.pickBy(req.query, (value, key) => allowedParameters.includes(key));
+  req.query = _.pick(req.query, allowedParameters);
   next();
 };
 
