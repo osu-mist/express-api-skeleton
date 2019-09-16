@@ -8,8 +8,7 @@ import { getPetById } from '../../db/json/pets-dao-example';
  */
 const get = async (req, res) => {
   try {
-    const { id } = req.params;
-    const result = await getPetById(id);
+    const result = await getPetById(req);
     if (!result) {
       errorBuilder(res, 404, 'A pet with the specified ID was not found.');
     } else {

@@ -8,7 +8,7 @@ import { getPets, postPet } from '../db/json/pets-dao-example';
  */
 const get = async (req, res) => {
   try {
-    const result = await getPets(req.query);
+    const result = await getPets(req);
     return res.send(result);
   } catch (err) {
     return errorHandler(res, err);
@@ -23,7 +23,7 @@ const get = async (req, res) => {
  */
 const post = async (req, res) => {
   try {
-    const result = await postPet(req.body);
+    const result = await postPet(req);
     res.set('Location', result.data.links.self);
     res.status(201).send(result);
   } catch (err) {
