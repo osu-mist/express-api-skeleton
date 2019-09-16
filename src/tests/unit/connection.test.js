@@ -31,12 +31,14 @@ describe('Test oracledb connection module', () => {
   };
 
   describe('getConnection', () => {
-    it('Should call createPool if pool is falsy', async () => {
+    it('Should call createPool if pool is falsy. Should not call createPool additional times', async () => {
       const createPoolStub = sinon.stub()
         .resolves({ getConnection: async () => 'test-connection' });
       createOracleDbStub({ createPool: createPoolStub });
-      const result = connection.getConnection();
-      await result.should.eventually.be.fulfilled.and.deep.equal('test-connection');
+      const firstResult = connection.getConnection();
+      await firstResult.should.eventually.be.fulfilled.and.deep.equal('test-connection');
+      const secondResult = connection.getConnection();
+      await secondResult.should.eventually.be.fulfilled.and.deep.equal('test-connection');
       createPoolStub.should.have.been.calledOnce.and.always.calledWithMatch({});
     });
   });
