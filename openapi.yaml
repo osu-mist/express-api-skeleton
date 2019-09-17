@@ -46,6 +46,30 @@ paths:
           $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
+    post:
+      summary: Add a new pet
+      tags:
+        - pets
+      operationId: postPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetPostBody'
+      responses:
+        '201':
+          description: Pet successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetResult'
+        '400':
+          $ref: '#/components/responses/400'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
   /pets/{id}:
     get:
       summary: Info for a specific pet
@@ -110,6 +134,12 @@ components:
             $ref: '#/components/schemas/ErrorResult'
     '404':
       description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResult'
+    '409':
+      description: Conflict
       content:
         application/json:
           schema:
@@ -188,6 +218,34 @@ components:
               type: string
               description: Species of pet
               example: Owl
+    PetPostBody:
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              $ref: '#/components/schemas/PetResource/properties/type'
+            attributes:
+              type: object
+              properties:
+                name:
+                  $ref: '#/components/schemas/PetResource/properties/attributes/properties/name'
+                owner:
+                  $ref: '#/components/schemas/PetResource/properties/attributes/properties/owner'
+                species:
+                  $ref: '#/components/schemas/PetResource/properties/attributes/properties/species'
+              required:
+                - name
+                - owner
+                - species
+              additionalProperties: false
+          required:
+            - type
+            - attributes
+          additionalProperties: false
+      required:
+       - data
+      additionalProperties: false
     PetResult:
       properties:
         links:
