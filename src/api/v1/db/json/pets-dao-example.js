@@ -2,8 +2,6 @@ import _ from 'lodash';
 import config from 'config';
 import uuidv1 from 'uuid/v1';
 
-import { serializePets, serializePet } from 'api/v1/serializers/pets-serializer';
-
 import { readJsonFile, writeJsonFile } from './fs-operations';
 
 const { dbPath } = config.get('dataSources.json');
@@ -11,34 +9,30 @@ const { dbPath } = config.get('dataSources.json');
 /**
  * Return a list of pets
  *
- * @param {object} req Express request object
+ * @param {object} query Query parameters
  * @returns {Promise} Promise object represents a list of pets
  */
-const getPets = async (req) => {
+const getPets = async (query) => {
   let rawPets = readJsonFile(dbPath).pets;
-  const { query: { species } } = req;
+  const { species } = query;
 
   rawPets = species ? _.filter(rawPets, { species }) : rawPets;
-
-  const serializedPet = serializePets(rawPets, req);
-  return serializedPet;
+  return rawPets;
 };
 
 /**
  * Return a specific pet by unique ID
  *
- * @param {string} req Express request object
+ * @param {string} id Unique pet ID
  * @returns {Promise} Promise object represents a specific pet
  */
-const getPetById = async (req) => {
-  const { params: { id } } = req;
+const getPetById = async (id) => {
   const rawPets = readJsonFile(dbPath).pets;
   const rawPet = _.find(rawPets, { id });
   if (!rawPet) {
     return undefined;
   }
-  const serializedPet = serializePet(rawPet, req);
-  return serializedPet;
+  return rawPet;
 };
 
 /**
@@ -48,21 +42,21 @@ const getPetById = async (req) => {
  * 2. Inserts posted pet into the array
  * 3. Overwrites JSON DB with new file
  *
- * @param {object} req Express request object
+ * @param {object} body Request body
  * @returns {Promise} Promise object represents the posted pet
  */
-const postPet = async (req) => {
+const postPet = async (body) => {
   // Read DB
   const rawPets = readJsonFile(dbPath).pets;
-  const newPet = req.body.data.attributes;
+  const newPet = body.data.attributes;
 
   // Write new pet to DB
   newPet.id = uuidv1();
   rawPets.push(newPet);
   writeJsonFile(dbPath, { pets: rawPets });
 
-  // Return new pet resource
-  return serializePet(newPet, req);
+  // Return new pet
+  return newPet;
 };
 
 export {
