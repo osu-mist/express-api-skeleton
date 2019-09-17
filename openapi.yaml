@@ -10,11 +10,14 @@ info:
     name: IS Data Architecture Team
     url: https://is.oregonstate.edu/data-architecture
     email: isdataarchitecture@oregonstate.edu
-servers:
-  - url: https://api.oregonstate.edu/v1
 externalDocs:
   description: GitHub Repository
   url: https://github.com/osu-mist/express-api-skeleton
+servers:
+  - url: https://api.oregonstate.edu/v1
+security:
+  - OAuth2:
+      - full
 paths:
   /pets:
     get:
@@ -24,7 +27,6 @@ paths:
       description: Get all pets
       operationId: getPets
       parameters:
-        - $ref: '#/components/parameters/authorization'
         - $ref: '#/components/parameters/pageNumber'
         - $ref: '#/components/parameters/pageSize'
         - in: query
@@ -52,7 +54,6 @@ paths:
       description: Get pet by unique ID
       operationId: getPetById
       parameters:
-        - $ref: '#/components/parameters/authorization'
         - name: id
           in: path
           description: Unique Pet ID
@@ -72,14 +73,15 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.oregonstate.edu/oauth2/token
+          scopes:
+            full: Full access to the API
   parameters:
-    authorization:
-      name: Authorization
-      in: header
-      required: true
-      description: '"Bearer [token]" where [token] is your OAuth2 access token'
-      schema:
-        type: string
     pageNumber:
       name: page[number]
       in: query
