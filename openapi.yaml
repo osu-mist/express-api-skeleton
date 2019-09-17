@@ -21,6 +21,9 @@ produces:
   - application/json
 consumes:
   - application/json
+security:
+  - OAuth2:
+      - full
 paths:
   /pets:
     get:
@@ -30,7 +33,6 @@ paths:
       description: Get all pets
       operationId: getPets
       parameters:
-        - $ref: '#/parameters/authorization'
         - $ref: '#/parameters/pageNumber'
         - $ref: '#/parameters/pageSize'
         - in: query
@@ -53,7 +55,6 @@ paths:
       tags:
         - pets
       parameters:
-        - $ref: '#/parameters/authorization'
         - in: body
           name: body
           required: true
@@ -80,7 +81,6 @@ paths:
       description: Get pet by unique ID
       operationId: getPetById
       parameters:
-        - $ref: '#/parameters/authorization'
         - name: id
           in: path
           description: Unique Pet ID, UUID format
@@ -98,12 +98,6 @@ paths:
         '500':
           $ref: '#/responses/500'
 parameters:
-  authorization:
-    name: Authorization
-    in: header
-    type: string
-    required: true
-    description: '"Bearer [token]" where [token] is your OAuth2 access token'
   pageNumber:
     name: page[number]
     in: query
@@ -130,6 +124,13 @@ responses:
      description: Internal server error
      schema:
        $ref: '#/definitions/ErrorResult'
+securityDefinitions:
+  OAuth2:
+    type: oauth2
+    flow: application
+    tokenUrl: https://api.oregonstate.edu/oauth2/token
+    scopes:
+      full: Full access to the API
 definitions:
   Meta:
     properties:
