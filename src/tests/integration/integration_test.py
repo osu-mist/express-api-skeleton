@@ -1,3 +1,4 @@
+"""Integration tests"""
 import json
 import logging
 import unittest
@@ -8,9 +9,13 @@ from prance import ResolvingParser
 import utils
 
 
-class integration_tests(unittest.TestCase):
+class IntegrationTests(utils.UtilsTestCase):
+    """Integration tests class"""
+
     @classmethod
     def setup(cls, config_path, openapi_path):
+        """Performs basic setup"""
+
         with open(config_path) as config_file:
             config = json.load(config_file)
             cls.base_url = utils.setup_base_url(config)
@@ -31,22 +36,24 @@ class integration_tests(unittest.TestCase):
         cls.openapi = parser.specification
 
     @classmethod
-    def cleanup(cls):
+    def tearDownClass(cls):
         cls.session.close()
 
-    # Test case: GET /pets
     def test_get_all_pets(self, endpoint='/pets'):
+        """Test case: GET /pets"""
+
         nullable_fields = ['owner']
-        utils.test_endpoint(self, endpoint, 'PetResource', 200,
+        self.check_endpoint(endpoint, 'PetResource', 200,
                             nullable_fields=nullable_fields)
 
-    # Test case: GET /pets with species filter
     def test_get_pets_with_filter(self, endpoint='/pets'):
+        """Test case: GET /pets with species filter"""
+
         testing_species = ['dog', 'CAT', 'tUrTlE']
 
         for species in testing_species:
             params = {'species': species}
-            response = utils.test_endpoint(self, endpoint, 'PetResource', 200,
+            response = self.check_endpoint(endpoint, 'PetResource', 200,
                                            query_params=params)
 
             response_data = response.json()['data']
@@ -54,8 +61,9 @@ class integration_tests(unittest.TestCase):
                 actual_species = resource['attributes']['species']
                 self.assertEqual(actual_species.lower(), species.lower())
 
-    # Test case: GET /pets with pagination parameters
     def test_get_pets_pagination(self, endpoint='/pets'):
+        """Test case: GET /pets with pagination parameters"""
+
         testing_paginations = [
             {'number': 1, 'size': 25, 'expected_status_code': 200},
             {'number': 1, 'size': None, 'expected_status_code': 200},
@@ -73,11 +81,11 @@ class integration_tests(unittest.TestCase):
                 'PetResource' if expected_status_code == 200
                 else 'ErrorObject'
             )
-            response = utils.test_endpoint(self, endpoint, resource,
+            response = self.check_endpoint(endpoint, resource,
                                            expected_status_code,
                                            query_params=params,
                                            nullable_fields=nullable_fields)
-            content = utils.get_json_content(self, response)
+            content = self.get_json_content(response)
             if expected_status_code == 200:
                 try:
                     meta = content['meta']
@@ -89,18 +97,19 @@ class integration_tests(unittest.TestCase):
                 except KeyError as error:
                     self.fail(error)
 
-    # Test case: GET /pets/{id}
     def test_get_pet_by_id(self, endpoint='/pets'):
+        """Test case: GET /pets/{id}"""
+
         valid_pet_ids = self.test_cases['valid_pet_ids']
         invalid_pet_ids = self.test_cases['invalid_pet_ids']
 
         for pet_id in valid_pet_ids:
             resource = 'PetResource'
-            utils.test_endpoint(self, f'{endpoint}/{pet_id}', resource, 200)
+            self.check_endpoint(f'{endpoint}/{pet_id}', resource, 200)
 
         for pet_id in invalid_pet_ids:
             resource = 'ErrorObject'
-            utils.test_endpoint(self, f'{endpoint}/{pet_id}', resource, 404)
+            self.check_endpoint(f'{endpoint}/{pet_id}', resource, 404)
 
 
 if __name__ == '__main__':
@@ -112,6 +121,5 @@ if __name__ == '__main__':
     else:
         logging.basicConfig(level=logging.INFO)
 
-    integration_tests.setup(arguments.config_path, arguments.openapi_path)
+    IntegrationTests.setup(arguments.config_path, arguments.openapi_path)
     unittest.main(argv=argv)
-    integration_tests.cleanup()

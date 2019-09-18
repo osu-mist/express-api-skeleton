@@ -2,7 +2,7 @@ FROM python:3.7
 
 WORKDIR /usr/src/app
 
-COPY tests/integration .
+COPY src/tests/integration .
 COPY openapi.yaml .
 
 RUN pip install --no-cache-dir -r requirements.txt
@@ -17,4 +17,4 @@ RUN /bin/bash -c \
 
 USER nobody:nogroup
 
-CMD ["python", "integration-test.py", "--config=configuration.json", "--openapi=openapi.yaml", "-v"]
+CMD ["python", "integration_test.py", "--config=configuration.json", "--openapi=openapi.yaml", "-v"]
