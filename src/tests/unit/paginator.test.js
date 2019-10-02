@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { paginate } from 'utils/paginator';
 import _ from 'lodash';
-import { pets as rows } from 'db/mock-data-example.json';
+import { pets as rows } from 'mock-db/mock-data-example.json';
 
 /**
  * Repeats an assertion for all pages of the mock data

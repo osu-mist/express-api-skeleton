@@ -15,7 +15,7 @@ authentication:
 dataSources:
   dataSources: ['json', 'oracledb', 'awsS3']
   json:
-    dbPath: 'db/mock-data.json'
+    dbPath: 'mock-db/mock-data.json'
   oracledb:
     connectString: ${DB_URL}
     user: ${DB_USER}
