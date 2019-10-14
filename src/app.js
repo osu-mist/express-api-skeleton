@@ -6,7 +6,6 @@ import { compose } from 'compose-middleware';
 import config from 'config';
 import express from 'express';
 import { initialize } from 'express-openapi';
-import _ from 'lodash';
 import moment from 'moment';
 import git from 'simple-git/promise';
 import 'source-map-support/register';
@@ -15,6 +14,7 @@ import { errorBuilder, errorHandler } from 'errors/errors';
 import { authentication } from 'middlewares/authentication';
 import { bodyParserError } from 'middlewares/body-parser-error';
 import { loggerMiddleware } from 'middlewares/logger';
+import { removeUnknownParams } from 'middlewares/remove-unknown-params';
 import { runtimeErrors } from 'middlewares/runtime-errors';
 import { openapi } from 'utils/load-openapi';
 import { validateDataSource } from 'utils/validate-data-source';
@@ -77,20 +77,6 @@ const errorTransformer = (openapiError, ajvError) => {
   return error;
 };
 
-/**
- * Middleware that removes any query parameters that don't appear in the openapi document
- *
- * @type {RequestHandler}
- */
-const removeUnknownParametersMiddleware = (req, res, next) => {
-  const allowedParameters = _(req.operationDoc.parameters)
-    .filter({ in: 'query' })
-    .map('name')
-    .value();
-  req.query = _.pick(req.query, allowedParameters);
-  next();
-};
-
 // Return API meta information at admin endpoint
 adminAppRouter.get(`${openapi.basePath}`, async (req, res) => {
   try {
@@ -116,7 +102,7 @@ initialize({
   app: appRouter,
   apiDoc: {
     ...openapi,
-    'x-express-openapi-additional-middleware': [removeUnknownParametersMiddleware],
+    'x-express-openapi-additional-middleware': [removeUnknownParams],
   },
   paths: `dist/api${openapi.basePath}/paths`,
   consumesMiddleware: {
