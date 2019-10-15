@@ -20,7 +20,8 @@ rules:
     - devDependencies:
       - 'src/tests/unit/**/*.js'
       - gulpfile.js
-      - '**/aws-operations.js'
+      - 'src/api/*/db/awsS3/aws-operations.js'
+      - 'src/api/*/db/oracledb/connection.js'
   import/prefer-default-export: 'off'
   import/no-default-export:
     - error
