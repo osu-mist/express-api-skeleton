@@ -2,8 +2,6 @@ import _ from 'lodash';
 import config from 'config';
 import uuidv1 from 'uuid/v1';
 
-import { serializePets, serializePet } from 'api/v1/serializers/pets-serializer';
-
 import { readJsonFile, writeJsonFile } from './fs-operations';
 
 const { dbPath } = config.get('dataSources.json');
@@ -19,9 +17,7 @@ const getPets = async (query) => {
   const { species } = query;
 
   rawPets = species ? _.filter(rawPets, { species }) : rawPets;
-
-  const serializedPet = serializePets(rawPets, query);
-  return serializedPet;
+  return rawPets;
 };
 
 /**
@@ -36,8 +32,7 @@ const getPetById = async (id) => {
   if (!rawPet) {
     return undefined;
   }
-  const serializedPet = serializePet(rawPet);
-  return serializedPet;
+  return rawPet;
 };
 
 /**
@@ -60,8 +55,8 @@ const postPet = async (body) => {
   rawPets.push(newPet);
   writeJsonFile(dbPath, { pets: rawPets });
 
-  // Return new pet resource
-  return serializePet(newPet, true);
+  // Return new pet
+  return newPet;
 };
 
 export {
