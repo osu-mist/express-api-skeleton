@@ -51,26 +51,26 @@ describe('Test oracledb connection module', () => {
   const testCases = [
     {
       description: 'Should resolve when connection.execute resolves',
-      executeStub: () => sinon.stub().resolves(),
-      promiseResult: (result) => result.should.eventually.be.fulfilled,
+      getExecuteStub: () => sinon.stub().resolves(),
+      testResult: (result) => result.should.eventually.be.fulfilled,
     },
     {
       description: 'Should reject when connection.execute rejects',
-      executeStub: () => sinon.stub().rejects(),
-      promiseResult: (result) => result.should.be.rejected,
+      getExecuteStub: () => sinon.stub().rejects(),
+      testResult: (result) => result.should.be.rejected,
     },
   ];
 
   describe('validateOracleDb', () => {
-    _.forEach(testCases, (testCase) => {
-      it(testCase.description, async () => {
-        const executeStub = testCase.executeStub();
+    _.forEach(testCases, ({ description, getExecuteStub, testResult }) => {
+      it(description, async () => {
+        const executeStub = getExecuteStub();
         const closeStub = sinon.stub().resolves();
         const createPoolStub = sinon.stub()
           .resolves({ getConnection: async () => ({ execute: executeStub, close: closeStub }) });
         createOracleDbStub(createPoolStub);
         const result = connection.validateOracleDb();
-        await testCase.promiseResult(result);
+        await testResult(result);
         createPoolStub.should.have.been.calledOnce;
         executeStub.should.have.been.calledOnce;
         closeStub.should.have.been.calledOnce;
