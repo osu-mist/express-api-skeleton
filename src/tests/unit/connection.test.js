@@ -1,7 +1,7 @@
 import chai from 'chai';
-import chaiExclude from 'chai-exclude';
 import chaiAsPromised from 'chai-as-promised';
 import config from 'config';
+import _ from 'lodash';
 import proxyquireModule from 'proxyquire';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
@@ -10,7 +10,6 @@ import sinonChai from 'sinon-chai';
 const proxyquire = proxyquireModule.noCallThru();
 
 chai.should();
-chai.use(chaiExclude);
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
 
@@ -49,31 +48,33 @@ describe('Test oracledb connection module', () => {
     });
   });
 
-  describe('validateOracleDb', () => {
-    it('Should resolve when connection.execute resolves', async () => {
-      const executeStub = sinon.stub().resolves();
-      const closeStub = sinon.stub().resolves();
-      const createPoolStub = sinon.stub()
-        .resolves({ getConnection: async () => ({ execute: executeStub, close: closeStub }) });
-      createOracleDbStub({ createPool: createPoolStub });
-      const result = connection.validateOracleDb();
-      await result.should.eventually.be.fulfilled;
-      createPoolStub.should.have.been.calledOnce;
-      executeStub.should.have.been.calledOnce;
-      closeStub.should.have.been.calledOnce;
-    });
+  const testCases = [
+    {
+      description: 'Should resolve when connection.execute resolves',
+      executeStub: () => sinon.stub().resolves(),
+      promiseResult: (result) => result.should.eventually.be.fulfilled,
+    },
+    {
+      description: 'Should reject when connection.execute rejects',
+      executeStub: () => sinon.stub().rejects(),
+      promiseResult: (result) => result.should.be.rejected,
+    },
+  ];
 
-    it('Should reject when connection.execute rejects', async () => {
-      const executeStub = sinon.stub().rejects();
-      const closeStub = sinon.stub().resolves();
-      const createPoolStub = sinon.stub()
-        .resolves({ getConnection: async () => ({ execute: executeStub, close: closeStub }) });
-      createOracleDbStub({ createPool: createPoolStub });
-      const result = connection.validateOracleDb();
-      await result.should.be.rejected;
-      createPoolStub.should.have.been.calledOnce;
-      executeStub.should.have.been.calledOnce;
-      closeStub.should.have.been.calledOnce;
+  describe('validateOracleDb', () => {
+    _.forEach(testCases, (testCase) => {
+      it(testCase.description, async () => {
+        const executeStub = testCase.executeStub();
+        const closeStub = sinon.stub().resolves();
+        const createPoolStub = sinon.stub()
+          .resolves({ getConnection: async () => ({ execute: executeStub, close: closeStub }) });
+        createOracleDbStub({ createPool: createPoolStub });
+        const result = connection.validateOracleDb();
+        await testCase.promiseResult(result);
+        createPoolStub.should.have.been.calledOnce;
+        executeStub.should.have.been.calledOnce;
+        closeStub.should.have.been.calledOnce;
+      });
     });
   });
 });
