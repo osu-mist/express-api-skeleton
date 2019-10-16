@@ -25,10 +25,10 @@ describe('Test oracledb connection module', () => {
       .returns({});
   });
 
-  const createOracleDbStub = (stubs) => {
+  const createOracleDbStub = (createPoolStub) => {
     connection = proxyquire('api/v1/db/oracledb/connection', {
       config: { get: configGetStub },
-      oracledb: stubs,
+      oracledb: { createPool: createPoolStub },
       // suppress logger output for testing
       '../../../../utils/logger': { logger: { error: () => {} } },
     });
@@ -38,7 +38,7 @@ describe('Test oracledb connection module', () => {
     it('Should call createPool if pool is falsy. Should not call createPool additional times', async () => {
       const createPoolStub = sinon.stub()
         .resolves({ getConnection: async () => 'test-connection' });
-      createOracleDbStub({ createPool: createPoolStub });
+      createOracleDbStub(createPoolStub);
       const firstResult = connection.getConnection();
       await firstResult.should.eventually.be.fulfilled.and.deep.equal('test-connection');
       const secondResult = connection.getConnection();
@@ -68,7 +68,7 @@ describe('Test oracledb connection module', () => {
         const closeStub = sinon.stub().resolves();
         const createPoolStub = sinon.stub()
           .resolves({ getConnection: async () => ({ execute: executeStub, close: closeStub }) });
-        createOracleDbStub({ createPool: createPoolStub });
+        createOracleDbStub(createPoolStub);
         const result = connection.validateOracleDb();
         await testCase.promiseResult(result);
         createPoolStub.should.have.been.calledOnce;
