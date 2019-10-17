@@ -10,8 +10,8 @@ import { logger } from '../utils/logger';
  * @param {object} err Error object
  * @returns {boolean} Whether the error is an OpenAPI error or not
  */
-const isOpenApiError = err => (
-  _.has(err, 'errors') && _.every(err.errors, it => _.includes(it.errorCode, 'openapi'))
+const isOpenApiError = (err) => (
+  _.has(err, 'errors') && _.every(err.errors, (it) => _.includes(it.errorCode, 'openapi'))
 );
 
 /**
@@ -47,7 +47,7 @@ const openApiError = (err, req, res, next) => {
    * @param {object} error The error object
    * @returns {string} The enum message
    */
-  const enumErrorMessage = error => (
+  const enumErrorMessage = (error) => (
     `${error.path} must be one of ['${error.params.allowedValues.join("', '")}']`
   );
 
@@ -57,7 +57,7 @@ const openApiError = (err, req, res, next) => {
     const details = err.details || [];
 
     // Return 409 if type is invalid
-    const invalidTypeError = _.find(errors, error => (
+    const invalidTypeError = _.find(errors, (error) => (
       error.path === 'data.type' && error.errorCode === 'enum.openapi.validation'
     ));
     if (invalidTypeError) {
@@ -65,7 +65,7 @@ const openApiError = (err, req, res, next) => {
     }
 
     // Return 404 if error is pattern validation and in path
-    const invalidPatternError = _.find(errors, error => (
+    const invalidPatternError = _.find(errors, (error) => (
       error.errorCode === 'pattern.openapi.validation' && error.location === 'path'
     ));
     if (invalidPatternError) {
@@ -124,4 +124,4 @@ const runtimeErrors = composeErrors([
   genericError,
 ]);
 
-export { runtimeErrors as default };
+export { runtimeErrors };

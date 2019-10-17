@@ -60,13 +60,13 @@ const serializerOptions = (serializerArgs) => {
     } = pagination;
 
     options.topLevelLinks = _.assign(options.topLevelLinks, {
-      first: paramsLink(paramsLink(resourceUrl, pageParamsBuilder(1, pageSize)), query),
-      last: paramsLink(paramsLink(resourceUrl, pageParamsBuilder(totalPages, pageSize)), query),
+      first: paramsLink(resourceUrl, { ...query, ...pageParamsBuilder(1, pageSize) }),
+      last: paramsLink(resourceUrl, { ...query, ...pageParamsBuilder(totalPages, pageSize) }),
       next: nextPage
-        ? paramsLink(paramsLink(resourceUrl, pageParamsBuilder(nextPage, pageSize)), query)
+        ? paramsLink(resourceUrl, { ...query, ...pageParamsBuilder(nextPage, pageSize) })
         : null,
       prev: prevPage
-        ? paramsLink(paramsLink(resourceUrl, pageParamsBuilder(prevPage, pageSize)), query)
+        ? paramsLink(resourceUrl, { ...query, ...pageParamsBuilder(prevPage, pageSize) })
         : null,
     });
 
@@ -81,4 +81,4 @@ const serializerOptions = (serializerArgs) => {
   return options;
 };
 
-export { serializerOptions as default };
+export { serializerOptions };

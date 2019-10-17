@@ -2,8 +2,8 @@ import config from 'config';
 import _ from 'lodash';
 
 import { serializePets, serializePet } from 'api/v1/serializers/pets-serializer';
-import conn from './connection';
-import contrib from './contrib/contrib';
+import { getConnection } from './connection';
+import { contrib } from './contrib/contrib';
 
 const { endpointUri } = config.get('server');
 
@@ -13,7 +13,7 @@ const { endpointUri } = config.get('server');
  * @returns {Promise<object[]>} Promise object represents a list of pets
  */
 const getPets = async () => {
-  const connection = await conn.getConnection();
+  const connection = await getConnection();
   try {
     const { rawPets } = await connection.execute(contrib.getPets());
     const serializedPets = serializePets(rawPets, endpointUri);
@@ -31,7 +31,7 @@ const getPets = async () => {
  *                            is not found
  */
 const getPetById = async (id) => {
-  const connection = await conn.getConnection();
+  const connection = await getConnection();
   try {
     const { rawPets } = await connection.execute(contrib.getPetById(id), id);
 

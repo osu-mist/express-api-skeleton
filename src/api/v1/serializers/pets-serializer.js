@@ -1,9 +1,9 @@
 import { Serializer as JsonApiSerializer } from 'jsonapi-serializer';
 import _ from 'lodash';
 
-import serializerOptions from 'utils/jsonapi';
-import openapi from 'utils/load-openapi';
-import paginate from 'utils/paginator';
+import { serializerOptions } from 'utils/jsonapi';
+import { openapi } from 'utils/load-openapi';
+import { paginate } from 'utils/paginator';
 import { apiBaseUrl, resourcePathLink, paramsLink } from 'utils/uri-builder';
 
 const petResourceProp = openapi.definitions.PetResource.properties;
@@ -16,10 +16,12 @@ const petResourceUrl = resourcePathLink(apiBaseUrl, petResourcePath);
  * Serialize petResources to JSON API
  *
  * @param {object[]} rawPets Raw data rows from data source
- * @param {object} query Query parameters
+ * @param {object} req Express request object
  * @returns {object} Serialized petResources object
  */
-const serializePets = (rawPets, query) => {
+const serializePets = (rawPets, req) => {
+  const { query } = req;
+
   // Add pagination links and meta information to options if pagination is enabled
   const pageQuery = {
     size: query['page[size]'],
@@ -30,6 +32,7 @@ const serializePets = (rawPets, query) => {
   pagination.totalResults = rawPets.length;
   rawPets = pagination.paginatedRows;
 
+  // TODO use req.path
   const topLevelSelfLink = paramsLink(petResourceUrl, query);
   const serializerArgs = {
     identifierField: 'id',
@@ -37,7 +40,7 @@ const serializePets = (rawPets, query) => {
     pagination,
     resourcePath: petResourcePath,
     topLevelSelfLink,
-    query: _.omit(query, 'page[size]', 'page[number]'),
+    query,
     enableDataLinks: true,
   };
 
@@ -51,15 +54,24 @@ const serializePets = (rawPets, query) => {
  * Serialize petResource to JSON API
  *
  * @param {object} rawPet Raw data row from data source
+ * @param {boolean} req Express request object
  * @returns {object} Serialized petResource object
  */
-const serializePet = (rawPet) => {
-  const topLevelSelfLink = resourcePathLink(petResourceUrl, rawPet.id);
+const serializePet = (rawPet, req) => {
+  const { query } = req;
+
+  // TODO use req.path
+  const baseUrl = req.method === 'POST'
+    ? petResourceUrl
+    : resourcePathLink(petResourceUrl, rawPet.id);
+  const topLevelSelfLink = paramsLink(baseUrl, query);
+
   const serializerArgs = {
     identifierField: 'id',
     resourceKeys: petResourceKeys,
     resourcePath: petResourcePath,
     topLevelSelfLink,
+    query,
     enableDataLinks: true,
   };
 

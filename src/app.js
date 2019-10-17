@@ -11,12 +11,13 @@ import git from 'simple-git/promise';
 import 'source-map-support/register';
 
 import { errorBuilder, errorHandler } from 'errors/errors';
-import authentication from 'middlewares/authentication';
-import bodyParserError from 'middlewares/body-parser-error';
-import loggerMiddleware from 'middlewares/logger';
-import runtimeErrors from 'middlewares/runtime-errors';
-import openapi from 'utils/load-openapi';
-import validateDataSource from 'utils/validate-data-source';
+import { authentication } from 'middlewares/authentication';
+import { bodyParserError } from 'middlewares/body-parser-error';
+import { loggerMiddleware } from 'middlewares/logger';
+import { removeUnknownParams } from 'middlewares/remove-unknown-params';
+import { runtimeErrors } from 'middlewares/runtime-errors';
+import { openapi } from 'utils/load-openapi';
+import { validateDataSource } from 'utils/validate-data-source';
 
 const serverConfig = config.get('server');
 
@@ -99,7 +100,10 @@ adminAppRouter.get(`${openapi.basePath}`, async (req, res) => {
 // Initialize API with OpenAPI specification
 initialize({
   app: appRouter,
-  apiDoc: openapi,
+  apiDoc: {
+    ...openapi,
+    'x-express-openapi-additional-middleware': [removeUnknownParams],
+  },
   paths: `dist/api${openapi.basePath}/paths`,
   consumesMiddleware: {
     'application/json': compose([bodyParser.json(), bodyParserError]),

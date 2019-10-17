@@ -16,7 +16,11 @@
     }
   },
   "test_cases": {
-    "valid_pet_ids": ["1", "2", "3"],
+    "valid_pet_ids": [
+      "57e1aab0-c50b-11e9-a7bd-1fb8646e6a06",
+      "757f4d20-c50b-11e9-a7bd-1fb8646e6a06",
+      "79b8ff30-c50b-11e9-a7bd-1fb8646e6a06"
+     ],
     "invalid_pet_ids": ["999", "-1", "invalid_id"]
   }
 }

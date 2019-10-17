@@ -1,7 +1,7 @@
 import { Error as JsonApiError } from 'jsonapi-serializer';
 import _ from 'lodash';
 
-const { logger } = require('../utils/logger');
+import { logger } from 'utils/logger';
 
 /**
  * Construct error object
@@ -28,7 +28,7 @@ const error = (status, title, code, detail) => ({
  */
 const badRequest = (details) => {
   const badRequests = [];
-  _.forEach(details, detail => badRequests.push(error(
+  _.forEach(details, (detail) => badRequests.push(error(
     '400',
     'Bad Request',
     '1400',
@@ -55,7 +55,7 @@ const unauthorized = () => new JsonApiError(error(
  * @param {string} detail A human-readable explanation
  * @returns {object} Unauthorized error object
  */
-const forbidden = detail => new JsonApiError(error(
+const forbidden = (detail) => new JsonApiError(error(
   '403',
   'Forbidden',
   '1403',
@@ -68,7 +68,7 @@ const forbidden = detail => new JsonApiError(error(
  * @param {string} detail A human-readable explanation
  * @returns {object} Not Found error object
  */
-const notFound = detail => new JsonApiError(error(
+const notFound = (detail) => new JsonApiError(error(
   '404',
   'Not found',
   '1404',
@@ -81,7 +81,7 @@ const notFound = detail => new JsonApiError(error(
  * @param {string} detail A human-readable explanation
  * @returns {object} Conflict error object
  */
-const conflict = detail => new JsonApiError(error(
+const conflict = (detail) => new JsonApiError(error(
   '409',
   'Conflict',
   '1409',
@@ -94,7 +94,7 @@ const conflict = detail => new JsonApiError(error(
  * @param {string} detail A human-readable explanation
  * @returns {object} Internal Server Error error object
  */
-const internalServerError = detail => new JsonApiError(error(
+const internalServerError = (detail) => new JsonApiError(error(
   '500',
   'Internal Server Error',
   '1500',

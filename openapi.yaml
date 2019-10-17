@@ -19,6 +19,11 @@ externalDocs:
   url: https://github.com/osu-mist/express-api-skeleton
 produces:
   - application/json
+consumes:
+  - application/json
+security:
+  - OAuth2:
+      - full
 paths:
   /pets:
     get:
@@ -28,7 +33,6 @@ paths:
       description: Get all pets
       operationId: getPets
       parameters:
-        - $ref: '#/parameters/authorization'
         - $ref: '#/parameters/pageNumber'
         - $ref: '#/parameters/pageSize'
         - in: query
@@ -42,13 +46,33 @@ paths:
           schema:
             $ref: '#/definitions/PetsResult'
         '400':
-          description: Bad request
+          $ref: '#/responses/400'
+        '500':
+          $ref: '#/responses/500'
+    post:
+      summary: Add a new pet
+      operationId: postPet
+      tags:
+        - pets
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/PetPostBody'
+      responses:
+        '201':
+          description: Pet successfully created
+          schema:
+            $ref: '#/definitions/PetResult'
+        '400':
+          $ref: '#/responses/400'
+        '409':
+          description: Conflict
           schema:
             $ref: '#/definitions/ErrorResult'
         '500':
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/ErrorResult'
+          $ref: '#/responses/500'
   /pets/{id}:
     get:
       summary: Info for a specific pet
@@ -57,13 +81,11 @@ paths:
       description: Get pet by unique ID
       operationId: getPetById
       parameters:
-        - $ref: '#/parameters/authorization'
         - name: id
           in: path
-          description: Unique Pet ID
+          description: Unique Pet ID, UUID format
           required: true
           type: string
-          pattern: '^\d+$'
       responses:
         '200':
           description: Successful response
@@ -74,16 +96,8 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResult'
         '500':
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/ErrorResult'
+          $ref: '#/responses/500'
 parameters:
-  authorization:
-    name: Authorization
-    in: header
-    type: string
-    required: true
-    description: '"Bearer [token]" where [token] is your OAuth2 access token'
   pageNumber:
     name: page[number]
     in: query
@@ -101,6 +115,22 @@ parameters:
     default: 25
     maximum: 500
     minimum: 1
+responses:
+  '400':
+     description: Bad request
+     schema:
+       $ref: '#/definitions/ErrorResult'
+  '500':
+     description: Internal server error
+     schema:
+       $ref: '#/definitions/ErrorResult'
+securityDefinitions:
+  OAuth2:
+    type: oauth2
+    flow: application
+    tokenUrl: https://api.oregonstate.edu/oauth2/token
+    scopes:
+      full: Full access to the API
 definitions:
   Meta:
     properties:
@@ -150,8 +180,7 @@ definitions:
         type: string
         description: A unique ID of pet
       type:
-        type: string
-        enum: [pet]
+        $ref: '#/definitions/PetType'
       links:
         $ref: '#/definitions/SelfLink'
       attributes:
@@ -186,6 +215,37 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/PetResource'
+  PetPostBody:
+    properties:
+      data:
+        type: object
+        properties:
+          type:
+            $ref: '#/definitions/PetType'
+          attributes:
+            type: object
+            properties:
+              name:
+                $ref: '#/definitions/PetResource/properties/attributes/properties/name'
+              owner:
+                $ref: '#/definitions/PetResource/properties/attributes/properties/owner'
+              species:
+                $ref: '#/definitions/PetResource/properties/attributes/properties/species'
+            required:
+              - name
+              - owner
+              - species
+            additionalProperties: false
+        required:
+          - type
+          - attributes
+        additionalProperties: false
+    required:
+     - data
+    additionalProperties: false
+  PetType:
+    type: string
+    enum: [pet]
   ErrorObject:
     properties:
       status:

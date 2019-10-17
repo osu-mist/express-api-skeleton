@@ -1,7 +1,7 @@
 import deasync from 'deasync';
 import SwaggerParser from 'swagger-parser';
 
-const { logger } = require('./logger');
+import { logger } from 'utils/logger';
 
 /**
  * Wrap async parser in a synchronous function. Preserve "this" context.
@@ -26,4 +26,4 @@ const parseOpenApi = () => {
 
 const openapi = parseOpenApi();
 
-export { openapi as default };
+export { openapi };

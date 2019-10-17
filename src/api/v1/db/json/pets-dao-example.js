@@ -1,10 +1,10 @@
 import _ from 'lodash';
+import config from 'config';
+import uuidv1 from 'uuid/v1';
 
-import { serializePets, serializePet } from 'api/v1/serializers/pets-serializer';
+import { readJsonFile, writeJsonFile } from './fs-operations';
 
-import { readJsonFile } from './fs-operations';
-
-const dbPath = 'dist/tests/unit/mock-data.json';
+const { dbPath } = config.get('dataSources.json');
 
 /**
  * Return a list of pets
@@ -12,19 +12,13 @@ const dbPath = 'dist/tests/unit/mock-data.json';
  * @param {object} query Query parameters
  * @returns {Promise} Promise object represents a list of pets
  */
-const getPets = query => new Promise((resolve, reject) => {
-  try {
-    let rawPets = readJsonFile(dbPath).pets;
-    const { species } = query;
+const getPets = async (query) => {
+  let rawPets = readJsonFile(dbPath).pets;
+  const { species } = query;
 
-    rawPets = species ? _.filter(rawPets, { species }) : rawPets;
-
-    const serializedPet = serializePets(rawPets, query);
-    resolve(serializedPet);
-  } catch (err) {
-    reject(err);
-  }
-});
+  rawPets = species ? _.filter(rawPets, { species }) : rawPets;
+  return rawPets;
+};
 
 /**
  * Return a specific pet by unique ID
@@ -32,19 +26,41 @@ const getPets = query => new Promise((resolve, reject) => {
  * @param {string} id Unique pet ID
  * @returns {Promise} Promise object represents a specific pet
  */
-const getPetById = id => new Promise((resolve, reject) => {
-  try {
-    const rawPets = readJsonFile(dbPath).pets;
-    const rawPet = _.find(rawPets, { id });
-    if (!rawPet) {
-      resolve(undefined);
-    } else {
-      const serializedPet = serializePet(rawPet);
-      resolve(serializedPet);
-    }
-  } catch (err) {
-    reject(err);
+const getPetById = async (id) => {
+  const rawPets = readJsonFile(dbPath).pets;
+  const rawPet = _.find(rawPets, { id });
+  if (!rawPet) {
+    return undefined;
   }
-});
+  return rawPet;
+};
 
-export { getPets, getPetById };
+/**
+ * Posts a new pet
+ *
+ * 1. Reads the JSON DB as an array of objects
+ * 2. Inserts posted pet into the array
+ * 3. Overwrites JSON DB with new file
+ *
+ * @param {object} body Request body
+ * @returns {Promise} Promise object represents the posted pet
+ */
+const postPet = async (body) => {
+  // Read DB
+  const rawPets = readJsonFile(dbPath).pets;
+  const newPet = body.data.attributes;
+
+  // Write new pet to DB
+  newPet.id = uuidv1();
+  rawPets.push(newPet);
+  writeJsonFile(dbPath, { pets: rawPets });
+
+  // Return new pet
+  return newPet;
+};
+
+export {
+  getPets,
+  getPetById,
+  postPet,
+};
