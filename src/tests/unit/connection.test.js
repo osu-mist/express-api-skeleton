@@ -39,6 +39,11 @@ describe('Test oracledb connection module', () => {
       const createPoolStub = sinon.stub()
         .resolves({ getConnection: async () => 'test-connection' });
       createOracleDbStub(createPoolStub);
+
+      /*
+       * These cases are not in a loop since a for-loop would be required. Lodash functions wouldn't
+       * work due to the need to run each async function in sequence.
+       */
       const firstResult = connection.getConnection();
       await firstResult.should.eventually.be.fulfilled.and.deep.equal('test-connection');
       const secondResult = connection.getConnection();
