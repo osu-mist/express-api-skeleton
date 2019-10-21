@@ -3,9 +3,11 @@ import chai from 'chai';
 import chaiExclude from 'chai-exclude';
 import chaiAsPromised from 'chai-as-promised';
 import config from 'config';
-import proxyquire from 'proxyquire';
+import proxyquireModule from 'proxyquire';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+
+const proxyquire = proxyquireModule.noCallThru();
 
 chai.should();
 chai.use(chaiExclude);
