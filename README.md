@@ -40,11 +40,11 @@ $ npm install
 Run the application:
 
   ```shell
-  # Build and run the app
-  $ gulp devRun
+  # Build and run the app and watch for changes using nodemon
+  $ npm run dev
 
   # Run the app without building
-  $ gulp start
+  $ npm start
   ```
 
 ## Running the tests
