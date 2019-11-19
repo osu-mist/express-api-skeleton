@@ -31,7 +31,7 @@ const resourcePathLink = (baseUrl, resourcePath) => `${baseUrl}/${resourcePath}`
 const paramsLink = (baseUrl, params) => {
   const querySeparator = _.includes(baseUrl, '?') ? '&' : '?';
   return !_.isEmpty(params)
-    ? `${baseUrl}${querySeparator}${queryString.stringify(params, { encode: false })}`
+    ? `${baseUrl}${querySeparator}${queryString.stringify(params, { encode: true })}`
     : baseUrl;
 };
 
