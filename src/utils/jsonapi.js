@@ -30,6 +30,7 @@ const serializerOptions = (serializerArgs) => {
     query,
     keyForAttribute,
     enableDataLinks,
+    transformFunction,
   } = serializerArgs;
 
   const resourceUrl = resourcePathLink(apiBaseUrl, resourcePath);
@@ -48,6 +49,8 @@ const serializerOptions = (serializerArgs) => {
     },
     topLevelLinks: { self: topLevelSelfLink },
   };
+
+  if (transformFunction) options.transform = transformFunction;
 
   if (pagination) {
     const {
