@@ -1,11 +1,9 @@
-const { spawn } = require('child_process');
-
 const del = require('del');
-const forever = require('forever-monitor');
 const gulp = require('gulp');
 const gulpBabel = require('gulp-babel');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
+const run = require('gulp-run');
 const sourcemaps = require('gulp-sourcemaps');
 
 /**
@@ -47,9 +45,9 @@ const lint = () => gulp.src(['src/**/*.js', '*.js'])
 /**
  * @summary Check Flow types
  *
- * @returns {ChildProcess}
+ * @returns {Stream}
  */
-const typecheck = () => spawn('./node_modules/.bin/flow', ['check'], { stdio: 'inherit' });
+const typecheck = () => run('./node_modules/.bin/flow check').exec();
 
 /**
  * @summary Run unit tests (requires Babel transpiling beforehand)
@@ -58,13 +56,6 @@ const typecheck = () => spawn('./node_modules/.bin/flow', ['check'], { stdio: 'i
  */
 const test = () => gulp.src('dist/tests/unit/*.js')
   .pipe(mocha({ reporter: 'spec', require: ['source-map-support/register'] }));
-
-/**
- * @summary Start application using forever
- *
- * @returns {Stream}
- */
-const start = () => new forever.Monitor('dist/app.js').start();
 
 /**
  * @summary Run all Babel tasks in series
@@ -76,11 +67,6 @@ const babel = gulp.series(babelClean, babelCopy, babelCompile);
  */
 const build = gulp.series(gulp.parallel(lint, typecheck, babel), test);
 
-/**
- * @summary Builds and starts (for development use only)
- */
-const devRun = gulp.series(build, start);
-
 module.exports = {
   babelClean,
   babelCopy,
@@ -88,8 +74,6 @@ module.exports = {
   lint,
   typecheck,
   test: gulp.series(babel, test),
-  start,
   babel,
   build,
-  devRun,
 };
