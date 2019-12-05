@@ -1,4 +1,4 @@
-# Express API Skeleton ![version](https://img.shields.io/badge/version-v1-blue.svg) [![openapi](https://img.shields.io/badge/openapi-2.0-green.svg)](./openapi.yaml) ![node](https://img.shields.io/badge/node-10.13-brightgreen.svg) ![npm](https://img.shields.io/badge/npm-6.11.1-orange.svg)
+# Express API Skeleton ![version](https://img.shields.io/badge/version-v1-blue.svg) [![openapi](https://img.shields.io/badge/openapi-2.0-green.svg)](./openapi.yaml) ![node](https://img.shields.io/badge/node-10.17-brightgreen.svg) ![npm](https://img.shields.io/badge/npm-6.11.1-orange.svg)
 
 Skeleton for Express APIs. API definition is contained in the [OpenAPI specification](./openapi.yaml).
 
@@ -193,13 +193,7 @@ The following instructions show you how to connect the API to an Oracle database
 
 1. Install [Oracle Instant Client](http://www.oracle.com/technetwork/database/database-technologies/instant-client/overview/index.html) by following [this installation guide](https://oracle.github.io/odpi/doc/installation.html). **IMPORTANT:** Download the Basic Package, not the Basic Light Package.
 
-2. Install [oracledb](https://www.npmjs.com/package/oracledb) via package management:
-
-    ```shell
-    $ npm install oracledb
-    ```
-
-3. Define `dataSources/oracledb` section in the `/config/default.yaml` to be like:
+2. Define `dataSources/oracledb` section in the `/config/default.yaml` to be like:
 
     ```yaml
     dataSources:
@@ -223,7 +217,7 @@ The following instructions show you how to connect the API to an Oracle database
 
     > Note: To avoid `ORA-02396: exceeded maximum idle time` and prevent deadlocks, the [best practice](https://github.com/oracle/node-oracledb/issues/928#issuecomment-398238519) is to keep `poolMin` the same as `poolMax`. Also, ensure [increasing the number of worker threads](https://github.com/oracle/node-oracledb/blob/node-oracledb-v1/doc/api.md#-82-connections-and-number-of-threads) available to node-oracledb. The thread pool size should be at least equal to the maximum number of connections and less than 128.
 
-4. If the SQL codes/queries contain intellectual property like Banner table names, put them into `src/api/v1/db/oracledb/contrib` folder and use [git-submodule](https://git-scm.com/docs/git-submodule) to manage submodules:
+3. If the SQL codes/queries contain intellectual property like Banner table names, put them into `src/api/v1/db/oracledb/contrib` folder and use [git-submodule](https://git-scm.com/docs/git-submodule) to manage submodules:
 
     * Add the given repository as a submodule at `src/api/v1/db/oracledb/contrib`:
 
@@ -237,13 +231,13 @@ The following instructions show you how to connect the API to an Oracle database
         $ git submodule update --init
         ```
 
-5. Copy [src/api/v1/db/oracledb/pets-dao-example.js](./src/api/v1/db/oracledb/pets-dao-example.js) to `src/api/v1/db/oracledb/<resources>-dao.js` and modify as necessary:
+4. Copy [src/api/v1/db/oracledb/pets-dao-example.js](./src/api/v1/db/oracledb/pets-dao-example.js) to `src/api/v1/db/oracledb/<resources>-dao.js` and modify as necessary:
 
     ```shell
     $ cp src/api/v1/db/oracledb/pets-dao-example.js src/api/v1/db/oracledb/<resources>-dao.js
     ```
 
-7. Make sure to use the correct path for the new DAO file at path handlers files:
+5. Make sure to use the correct path for the new DAO file at path handlers files:
 
     ```js
     import petsDao from '../db/oracledb/<resources>-dao';

@@ -11,10 +11,10 @@ const get = async (req, res) => {
   try {
     const { id } = req.params;
     const rawPet = await getPetById(id);
-    const result = serializePet(rawPet, req);
-    if (!result) {
+    if (!rawPet) {
       errorBuilder(res, 404, 'A pet with the specified ID was not found.');
     } else {
+      const result = serializePet(rawPet, req);
       res.send(result);
     }
   } catch (err) {
