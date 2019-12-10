@@ -46,7 +46,8 @@ const consoleTransport = new winston.transports.Console({
     winston.format.timestamp(),
     winston.format.colorize(),
     winston.format.printf((msg) => {
-      const { timestamp, level, message } = msg;
+      const { timestamp, [Symbol.for('message')]: message, level } = msg;
+      const parsedMessage = JSON.stringify(JSON.parse(message).message);
 
       /**
        * These fields will be printed in the initial simple message, so they don't need to be
@@ -67,7 +68,7 @@ const consoleTransport = new winston.transports.Console({
         .omit(strippedItems)
         .thru((obj) => (_.isEmpty(obj) ? '' : ` ${JSON.stringify(obj)}`))
         .value();
-      return `${timestamp} - ${level}: ${message}${simpleMessage}`;
+      return `${timestamp} - ${level}: ${parsedMessage}${simpleMessage}`;
     }),
   ),
 });
