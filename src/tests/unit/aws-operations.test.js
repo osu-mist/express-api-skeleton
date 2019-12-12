@@ -16,7 +16,6 @@ chai.use(sinonChai);
 
 const { assert } = chai;
 
-
 describe('Test aws-operations', () => {
   let configGetStub;
   let awsOperations;
