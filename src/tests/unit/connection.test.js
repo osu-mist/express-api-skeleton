@@ -13,7 +13,6 @@ chai.should();
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
 
-afterEach(() => { sinon.restore(); });
 
 describe('Test oracledb connection module', () => {
   let configGetStub;
@@ -24,6 +23,7 @@ describe('Test oracledb connection module', () => {
       .withArgs('dataSources.oracledb')
       .returns({});
   });
+  afterEach(() => { sinon.restore(); });
 
   const createOracleDbStub = (createPoolStub) => {
     connection = proxyquire('api/v1/db/oracledb/connection', {
