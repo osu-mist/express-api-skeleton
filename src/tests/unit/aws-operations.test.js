@@ -16,7 +16,6 @@ chai.use(sinonChai);
 
 const { assert } = chai;
 
-afterEach(() => { sinon.restore(); });
 
 describe('Test aws-operations', () => {
   let configGetStub;
@@ -28,6 +27,7 @@ describe('Test aws-operations', () => {
       .withArgs('dataSources.awsS3')
       .returns({ bucket: testBucket });
   });
+  afterEach(() => sinon.restore());
 
   /**
    * Get an S3 method stub from a promise stub
