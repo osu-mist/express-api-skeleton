@@ -42,7 +42,7 @@
     "jsonapi-serializer": "^3.6.5",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "oracledb": "^4.1.0",
+    "oracledb": "^4.0.1",
     "pm2": "^4.1.2",
     "query-string": "^6.8.2",
     "simple-git": "^1.124.0",
