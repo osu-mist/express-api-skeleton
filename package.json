@@ -20,7 +20,8 @@
     "lint": "gulp lint",
     "start": "pm2-runtime dist/app.js --no-auto-exit",
     "test": "gulp test",
-    "typecheck": "gulp typecheck"
+    "typecheck": "gulp typecheck",
+    "coverage": "nyc npm run test"
   },
   "pre-commit": [
     "lint",
@@ -80,6 +81,7 @@
     "gulp-run": "^1.7.1",
     "gulp-sourcemaps": "^2.6.5",
     "nodemon": "^1.19.4",
+    "nyc": "^15.0.0",
     "pre-commit": "^1.2.2",
     "proxyquire": "^2.1.3",
     "sinon": "^7.4.1",
