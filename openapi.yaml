@@ -173,25 +173,25 @@ components:
       properties:
         self:
           type: string
-          format: url
+          format: uri
           description: Self-link of current resource
     PaginationLinks:
       properties:
         first:
           type: string
-          format: url
+          format: uri
           description: The first page of data
         last:
           type: string
-          format: url
+          format: uri
           description: The last page of data
         prev:
           type: string
-          format: url
+          format: uri
           description: The previous page of data
         next:
           type: string
-          format: url
+          format: uri
           description: The next page of data
     PetResource:
       properties:
@@ -286,7 +286,7 @@ components:
           properties:
             about:
               type: string
-              format: url
+              format: uri
               description: A link to further information about the error
               example: https://developer.oregonstate.edu/documentation/error-reference#1234
     ErrorResult:
