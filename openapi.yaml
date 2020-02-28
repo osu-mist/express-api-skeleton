@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Express API Skeleton
   description: Skeleton for Express APIs
-  version: v1
+  version: v2
   license:
     name: GNU Affero General Public License Version 3
     url: http://www.gnu.org/licenses/agpl-3.0.en.html
@@ -14,7 +14,7 @@ externalDocs:
   description: GitHub Repository
   url: https://github.com/osu-mist/express-api-skeleton
 servers:
-  - url: https://api.oregonstate.edu/v1
+  - url: https://api.oregonstate.edu/v2
 security:
   - OAuth2:
       - full
