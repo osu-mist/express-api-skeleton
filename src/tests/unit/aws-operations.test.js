@@ -43,7 +43,7 @@ describe('Test aws-operations', () => {
    */
   const createS3Stub = (stubs) => {
     const s3Stub = sinon.stub(AWS, 'S3').returns(stubs);
-    awsOperations = proxyquire('api/v1/db/awsS3/aws-operations', {
+    awsOperations = proxyquire('db/awsS3/aws-operations', {
       config: { get: configGetStub },
       'aws-sdk': { S3: s3Stub },
     });

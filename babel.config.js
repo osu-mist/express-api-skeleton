@@ -18,7 +18,7 @@ const plugins = [
       extensions: ['.js', '.json'],
       alias: {
         'package.json': './package.json',
-        db: './db',
+        'mock-db': './mock-db',
       },
       transformFunctions: [
         'require',

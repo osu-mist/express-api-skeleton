@@ -16,7 +16,7 @@
   "scripts": {
     "babel": "gulp babel",
     "build": "gulp build",
-    "dev": "nodemon -i dist/ -x 'npm run babel && npm start'",
+    "dev": "nodemon -e js,yaml,json -i dist/ -x 'npm run babel && npm start'",
     "lint": "gulp lint",
     "start": "pm2-runtime dist/app.js --no-auto-exit",
     "test": "gulp test",

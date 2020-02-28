@@ -45,7 +45,7 @@ const httpsServer = https.createServer(httpsOptions, app);
 const adminHttpsServer = https.createServer(httpsOptions, adminApp);
 
 // Middlewares for routers, logger and authentication
-const baseEndpoint = `${serverConfig.basePathPrefix}`;
+const baseEndpoint = serverConfig.basePathPrefix;
 app.use(baseEndpoint, appRouter);
 adminApp.use(baseEndpoint, adminAppRouter);
 
@@ -78,7 +78,7 @@ const errorTransformer = (openapiError, ajvError) => {
 };
 
 // Return API meta information at admin endpoint
-adminAppRouter.get(`${openapi.basePath}`, async (req, res) => {
+adminAppRouter.get('/', async (req, res) => {
   try {
     const commit = await git().revparse(['--short', 'HEAD']);
     const now = moment();
@@ -104,7 +104,7 @@ initialize({
     ...openapi,
     'x-express-openapi-additional-middleware': [removeUnknownParams],
   },
-  paths: `dist/api${openapi.basePath}/paths`,
+  paths: 'dist/api-routes',
   consumesMiddleware: {
     'application/json': compose([bodyParser.json(), bodyParserError]),
   },

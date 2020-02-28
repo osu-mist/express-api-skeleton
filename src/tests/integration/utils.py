@@ -87,7 +87,7 @@ class UtilsTestCase(unittest.TestCase):
     def get_resource_schema(self, resource):
         """Get resource schema from OpenAPI specification"""
 
-        return self.openapi['definitions'][resource]['properties']
+        return self.openapi['components']['schemas'][resource]['properties']
 
     def make_request(self, endpoint, expected_status_code,
                      params=None,

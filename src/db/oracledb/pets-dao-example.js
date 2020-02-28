@@ -1,7 +1,7 @@
 import config from 'config';
 import _ from 'lodash';
 
-import { serializePets, serializePet } from 'api/v1/serializers/pets-serializer';
+import { serializePets, serializePet } from 'serializers/pets-serializer';
 import { getConnection } from './connection';
 import { contrib } from './contrib/contrib';
 
