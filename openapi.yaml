@@ -84,7 +84,7 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '^\d+$'
+            pattern: '^[A-Za-z0-9-]+$'
       responses:
         '200':
           description: Successful response
