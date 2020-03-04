@@ -12,6 +12,12 @@ const plugins = [
   '@babel/plugin-transform-runtime',
   '@babel/plugin-proposal-optional-chaining',
   [
+    'istanbul',
+    {
+      exclude: ['dist/**/*.js', '**/tests/'],
+    },
+  ],
+  [
     'module-resolver',
     {
       root: 'src',
