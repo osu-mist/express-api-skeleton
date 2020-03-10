@@ -20,7 +20,7 @@
     "lint": "gulp lint",
     "start": "pm2-runtime dist/app.js --no-auto-exit",
     "test": "gulp test",
-    "coverage": "nyc --reporter=lcov gulp test",
+    "coverage": "nyc --reporter=lcov --reporter=text gulp test",
     "typecheck": "gulp typecheck"
   },
   "pre-commit": [
@@ -28,6 +28,10 @@
     "typecheck",
     "babel"
   ],
+  "nyc": {
+    "sourceMap": false,
+    "instrument": false
+  },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
     "body-parser": "^1.19.0",
@@ -60,7 +64,6 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-flow": "^7.0.0",
     "@babel/register": "^7.8.6",
-    "@istanbuljs/nyc-config-babel": "^3.0.0",
     "aws-sdk": "^2.516.0",
     "babel-eslint": "^10.0.2",
     "babel-plugin-istanbul": "^6.0.0",
