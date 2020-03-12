@@ -14,7 +14,7 @@ const plugins = [
   [
     'istanbul',
     {
-      exclude: ['dist/**/*.js', '**/tests/'],
+      exclude: ['dist/**/*.js', '**/tests/', '**/contrib/'],
     },
   ],
   [
