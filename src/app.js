@@ -20,6 +20,7 @@ import { openapi } from 'utils/load-openapi';
 import { validateDataSource } from 'utils/validate-data-source';
 
 const serverConfig = config.get('server');
+const { version, title } = openapi.info;
 
 validateDataSource();
 
@@ -78,13 +79,13 @@ const errorTransformer = (openapiError, ajvError) => {
 };
 
 // Return API meta information at admin endpoint
-adminAppRouter.get('/', async (req, res) => {
+adminAppRouter.get(`/${version}`, async (req, res) => {
   try {
     const commit = await git().revparse(['--short', 'HEAD']);
     const now = moment();
     const info = {
       meta: {
-        name: openapi.info.title,
+        name: title,
         time: now.format('YYYY-MM-DD HH:mm:ssZZ'),
         unixTime: now.unix(),
         commit: commit.trim(),
