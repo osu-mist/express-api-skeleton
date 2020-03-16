@@ -78,7 +78,7 @@ const errorTransformer = (openapiError, ajvError) => {
 };
 
 // Return API meta information at admin endpoint
-adminAppRouter.get('/', async (req, res) => {
+adminAppRouter.get('/v2', async (req, res) => {
   try {
     const commit = await git().revparse(['--short', 'HEAD']);
     const now = moment();
