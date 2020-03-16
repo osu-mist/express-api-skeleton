@@ -25,7 +25,7 @@ describe('Test oracledb connection module', () => {
   afterEach(() => sinon.restore());
 
   const createOracleDbStub = (createPoolStub) => {
-    connection = proxyquire('api/v1/db/oracledb/connection', {
+    connection = proxyquire('db/oracledb/connection', {
       config: { get: configGetStub },
       oracledb: { createPool: createPoolStub },
       // suppress logger output for testing
