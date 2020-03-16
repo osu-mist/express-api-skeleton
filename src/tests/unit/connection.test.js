@@ -29,7 +29,7 @@ describe('Test oracledb connection module', () => {
       config: { get: configGetStub },
       oracledb: { createPool: createPoolStub },
       // suppress logger output for testing
-      '../../../../utils/logger': { logger: { error: () => {} } },
+      '../../utils/logger': { logger: { error: () => {} } },
     });
   };
 
