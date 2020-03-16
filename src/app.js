@@ -20,7 +20,7 @@ import { openapi } from 'utils/load-openapi';
 import { validateDataSource } from 'utils/validate-data-source';
 
 const serverConfig = config.get('server');
-const { version } = openapi.info;
+const { version, title } = openapi.info;
 
 validateDataSource();
 
@@ -85,7 +85,7 @@ adminAppRouter.get(`/${version}`, async (req, res) => {
     const now = moment();
     const info = {
       meta: {
-        name: openapi.info.title,
+        name: title,
         time: now.format('YYYY-MM-DD HH:mm:ssZZ'),
         unixTime: now.unix(),
         commit: commit.trim(),
