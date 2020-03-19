@@ -9,6 +9,7 @@ const dbConfig = config.get('dataSources.oracledb');
 process.on('SIGINT', () => process.exit());
 oracledb.outFormat = oracledb.OBJECT;
 oracledb.fetchAsString = [oracledb.DATE, oracledb.NUMBER];
+oracledb.fetchAsBuffer = [oracledb.BLOB];
 
 /** Increase 1 extra thread for every 5 pools but no more than 128 */
 const threadPoolSize = dbConfig.poolMax + (dbConfig.poolMax / 5);
