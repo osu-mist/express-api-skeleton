@@ -1,4 +1,5 @@
 import chai from 'chai';
+
 import { parseQuery } from 'utils/parse-query';
 
 chai.should();
