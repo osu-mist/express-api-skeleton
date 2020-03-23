@@ -188,10 +188,12 @@ components:
         prev:
           type: string
           format: uri
+          nullable: true
           description: The previous page of data
         next:
           type: string
           format: uri
+          nullable: true
           description: The next page of data
     PetResource:
       properties:

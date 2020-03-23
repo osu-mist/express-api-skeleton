@@ -6,12 +6,13 @@ import { contrib } from './contrib/contrib';
 /**
  * Return a list of pets
  *
+ * @param {object} query Query parameters
  * @returns {Promise<object>[]} Promise object represents a list of pets
  */
-const getPets = async () => {
+const getPets = async (query) => {
   const connection = await getConnection();
   try {
-    const { rawPets } = await connection.execute(contrib.getPets());
+    const { rawPets } = await connection.execute(contrib.getPets(query));
     return rawPets;
   } finally {
     connection.close();
