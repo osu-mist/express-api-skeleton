@@ -1,23 +1,19 @@
-import config from 'config';
 import _ from 'lodash';
 
-import { serializePets, serializePet } from 'serializers/pets-serializer';
 import { getConnection } from './connection';
 import { contrib } from './contrib/contrib';
-
-const { endpointUri } = config.get('server');
 
 /**
  * Return a list of pets
  *
- * @returns {Promise<object[]>} Promise object represents a list of pets
+ * @param {object} query Query parameters
+ * @returns {Promise<object>[]} Promise object represents a list of pets
  */
-const getPets = async () => {
+const getPets = async (query) => {
   const connection = await getConnection();
   try {
-    const { rawPets } = await connection.execute(contrib.getPets());
-    const serializedPets = serializePets(rawPets, endpointUri);
-    return serializedPets;
+    const { rawPets } = await connection.execute(contrib.getPets(query));
+    return rawPets;
   } finally {
     connection.close();
   }
@@ -42,8 +38,7 @@ const getPetById = async (id) => {
       throw new Error('Expect a single object but got multiple results.');
     } else {
       const [rawPet] = rawPets;
-      const serializedPet = serializePet(rawPet);
-      return serializedPet;
+      return rawPet;
     }
   } finally {
     connection.close();
