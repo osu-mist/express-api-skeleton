@@ -221,6 +221,7 @@ components:
               description: Species of pet
               example: Owl
     PetPostBody:
+      type: object
       properties:
         data:
           type: object
