@@ -16,7 +16,6 @@ import { bodyParserError } from 'middlewares/body-parser-error';
 import { loggerMiddleware } from 'middlewares/logger';
 import { removeUnknownParams } from 'middlewares/remove-unknown-params';
 import { runtimeErrors } from 'middlewares/runtime-errors';
-import { validateAllResponses } from 'middlewares/validate-all-responses';
 import { openapi } from 'utils/load-openapi';
 import { validateDataSource } from 'utils/validate-data-source';
 
@@ -104,8 +103,7 @@ initialize({
   app: appRouter,
   apiDoc: {
     ...openapi,
-    'x-express-openapi-additional-middleware': [removeUnknownParams, validateAllResponses],
-    'x-express-openapi-validation-strict': false,
+    'x-express-openapi-additional-middleware': [removeUnknownParams],
   },
   paths: 'dist/api-routes',
   consumesMiddleware: {
