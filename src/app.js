@@ -104,6 +104,7 @@ initialize({
   apiDoc: {
     ...openapi,
     'x-express-openapi-additional-middleware': [removeUnknownParams],
+    'x-express-openapi-disable-coercion-middleware': true,
   },
   paths: 'dist/api-routes',
   consumesMiddleware: {
