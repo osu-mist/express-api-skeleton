@@ -55,7 +55,6 @@ appRouter.use(loggerMiddleware);
 appRouter.use(authentication);
 appRouter.use(validateBooleanParams);
 adminAppRouter.use(authentication);
-adminAppRouter.use(validateBooleanParams);
 
 /**
  * Function that transforms OpenAPI errors. The behavior is to apply all properties from the Ajv
