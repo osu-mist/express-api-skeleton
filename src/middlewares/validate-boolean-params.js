@@ -25,7 +25,7 @@ _.reduce(openapi.paths, (result, endpoints) => {
 const validateBooleanParams = (req, res, next) => {
   let err = false;
   _.forEach(req.query, (value, query) => {
-    if (booleanParams.includes(query)) {
+    if (_.includes(booleanParams, query)) {
       if (!(value === 'true' || value === 'false')) {
         errorBuilder(res, 400, [`${query} must be either 'true' or 'false'`]);
         err = true;
