@@ -16,6 +16,7 @@ import { bodyParserError } from 'middlewares/body-parser-error';
 import { loggerMiddleware } from 'middlewares/logger';
 import { removeUnknownParams } from 'middlewares/remove-unknown-params';
 import { runtimeErrors } from 'middlewares/runtime-errors';
+import { validateBooleanParams } from 'middlewares/validate-boolean-params';
 import { openapi } from 'utils/load-openapi';
 import { validateDataSource } from 'utils/validate-data-source';
 
@@ -52,7 +53,9 @@ adminApp.use(baseEndpoint, adminAppRouter);
 
 appRouter.use(loggerMiddleware);
 appRouter.use(authentication);
+appRouter.use(validateBooleanParams);
 adminAppRouter.use(authentication);
+adminAppRouter.use(validateBooleanParams);
 
 /**
  * Function that transforms OpenAPI errors. The behavior is to apply all properties from the Ajv
@@ -104,7 +107,6 @@ initialize({
   apiDoc: {
     ...openapi,
     'x-express-openapi-additional-middleware': [removeUnknownParams],
-    'x-express-openapi-disable-coercion-middleware': true,
   },
   paths: 'dist/api-routes',
   consumesMiddleware: {
