@@ -119,6 +119,36 @@
       "name": "Jelly Bean",
       "owner": "Miguel",
       "species": "Dog"
+    },
+    {
+      "id": "2b8afb1c-07f3-4a31-b099-cb5a5d9d8dfc",
+      "name": "Lili",
+      "owner": "",
+      "species": "Cat"
+    },
+    {
+      "id": "b7cf8092-69d2-4a17-a18b-32a1928f5fc7",
+      "name": "Tiger",
+      "owner": "",
+      "species": "Cat"
+    },
+    {
+      "id": "16cdf327-8b75-46a5-a207-4ec6a2f24f2d",
+      "name": "Mocha",
+      "owner": "",
+      "species": "Cat"
+    },
+    {
+      "id": "106ab8b6-9f6a-4f06-b9a9-ff1e68088c6b",
+      "name": "Mama Odie",
+      "owner": "",
+      "species": "Dog"
+    },
+    {
+      "id": "5a0cc3c2-4e2b-4ae6-a7b5-f1231a5cc29a",
+      "name": "Luca de Puppo",
+      "owner": "",
+      "species": "Dog"
     }
   ]
 }
