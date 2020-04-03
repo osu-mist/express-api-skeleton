@@ -30,11 +30,17 @@ paths:
         - $ref: '#/components/parameters/pageNumber'
         - $ref: '#/components/parameters/pageSize'
         - in: query
-          name: species
+          name: filter[species]
           description: Search by pet species
           required: false
           schema:
             type: string
+        - in: query
+          name: filter[hasOwner]
+          description: Filter results by cat
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: Successful response

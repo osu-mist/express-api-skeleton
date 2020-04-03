@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+import { parseQuery } from 'utils/parse-query';
+
 import { getConnection } from './connection';
 import { contrib } from './contrib/contrib';
 
@@ -12,7 +14,8 @@ import { contrib } from './contrib/contrib';
 const getPets = async (query) => {
   const connection = await getConnection();
   try {
-    const { rawPets } = await connection.execute(contrib.getPets(query));
+    const parsedQuery = parseQuery(query);
+    const { rawPets } = await connection.execute(contrib.getPets(parsedQuery));
     return rawPets;
   } finally {
     connection.close();

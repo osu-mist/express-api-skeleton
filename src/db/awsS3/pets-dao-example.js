@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { parseQuery } from 'utils/parse-query';
 import { serializePets, serializePet } from 'serializers/pets-serializer';
 
 import { getObject } from './aws-operations';
@@ -15,7 +16,8 @@ const objectKey = 'pets.json';
 const getPets = async (query) => {
   const object = await getObject(objectKey);
   let rawPets = JSON.parse(object.Body.toString()).pets;
-  const { species } = query;
+  const parsedQuery = parseQuery(query);
+  const { species } = parsedQuery;
 
   rawPets = species ? _.filter(rawPets, { species }) : rawPets;
 
