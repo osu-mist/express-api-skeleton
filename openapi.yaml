@@ -30,7 +30,7 @@ paths:
         - $ref: '#/components/parameters/pageNumber'
         - $ref: '#/components/parameters/pageSize'
         - in: query
-          name: species
+          name: filter[species]
           description: Search by pet species
           required: false
           schema:
