@@ -8,14 +8,14 @@ describe('Test validate-boolean-params', () => {
   const res = undefined;
   const next = () => undefined;
 
-  const myFunc = proxyquire('middlewares/validate-boolean-params', {
+  const validateProxy = proxyquire('middlewares/validate-boolean-params', {
     '../errors/errors': { errorBuilder: () => { throw err; } },
   });
 
-  const testCases = ['test', 'cats', 1, true];
+  let testCases = ['test', 'cats', 1, true];
   _.forEach(testCases, (testCase) => {
     it(`${testCase} should be rejected`, () => {
-      const result = myFunc.validateBooleanParams.bind(
+      const result = validateProxy.validateBooleanParams.bind(
         this,
         { query: { 'filter[isCat]': testCase } },
         res,
