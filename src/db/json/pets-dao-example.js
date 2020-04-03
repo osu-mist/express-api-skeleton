@@ -17,9 +17,16 @@ const { dbPath } = config.get('dataSources.json');
 const getPets = async (query) => {
   let rawPets = readJsonFile(dbPath).pets;
   const parsedQuery = parseQuery(query);
-  const { species } = parsedQuery;
+  const { species, isCat } = parsedQuery;
 
   rawPets = species ? _.filter(rawPets, { species }) : rawPets;
+  if (isCat !== undefined) {
+    if (isCat) {
+      rawPets = _.filter(rawPets, { species: 'Cat' });
+    } else {
+      rawPets = _.remove(rawPets, (value) => value.species !== 'Cat');
+    }
+  }
   return rawPets;
 };
 

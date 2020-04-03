@@ -35,6 +35,12 @@ paths:
           required: false
           schema:
             type: string
+        - in: query
+          name: filter[isCat]
+          description: Filter results by cat
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: Successful response
