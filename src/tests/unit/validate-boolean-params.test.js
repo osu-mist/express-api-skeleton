@@ -12,7 +12,7 @@ describe('Test validate-boolean-params', () => {
     '../errors/errors': { errorBuilder: () => { throw err; } },
   });
 
-  let testCases = ['test', 'cats', 1, true];
+  let testCases = ['test', 'cats', 1, true, undefined, null];
   _.forEach(testCases, (testCase) => {
     it(`${testCase} should be rejected`, () => {
       const result = validateProxy.validateBooleanParams.bind(
