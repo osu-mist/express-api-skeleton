@@ -36,7 +36,7 @@ paths:
           schema:
             type: string
         - in: query
-          name: filter[isCat]
+          name: filter[hasOwner]
           description: Filter results by cat
           required: false
           schema:

@@ -4,7 +4,7 @@ import proxyquire from 'proxyquire';
 
 chai.should();
 describe('Test validate-boolean-params', () => {
-  const err = new Error('oops');
+  const err = new Error('Invalid boolean value');
   const res = undefined;
   const next = () => undefined;
 
@@ -17,7 +17,7 @@ describe('Test validate-boolean-params', () => {
     it(`${testCase} should be rejected`, () => {
       const result = validateProxy.validateBooleanParams.bind(
         this,
-        { query: { 'filter[isCat]': testCase } },
+        { query: { 'filter[hasOwner]': testCase } },
         res,
         next,
       );
@@ -30,7 +30,7 @@ describe('Test validate-boolean-params', () => {
     it(`'${testCase}' should be accepted`, () => {
       const result = validateProxy.validateBooleanParams.bind(
         this,
-        { query: { 'filter[isCat]': testCase } },
+        { query: { 'filter[hasOwner]': testCase } },
         res,
         next,
       );
