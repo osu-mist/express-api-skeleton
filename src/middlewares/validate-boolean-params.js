@@ -5,16 +5,14 @@ import { openapi } from 'utils/load-openapi';
 
 // get all boolean query parameters from openapi
 const booleanParams = [];
-_.reduce(openapi.paths, (result, endpoints) => {
-  _.reduce(endpoints, (res, endpoint) => {
-    res.push(..._(endpoint.parameters)
+_.forEach(openapi.paths, (endpoints) => {
+  _.forEach(endpoints, (endpoint) => {
+    booleanParams.push(..._(endpoint.parameters)
       .filter({ in: 'query', schema: { type: 'boolean' } })
       .map('name')
       .value());
-    return res;
-  }, result);
-  return result;
-}, booleanParams);
+  });
+});
 
 /**
  * Validates boolean query parameters and returns error
