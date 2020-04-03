@@ -2,6 +2,8 @@ import _ from 'lodash';
 import config from 'config';
 import uuidv1 from 'uuid/v1';
 
+import { parseQuery } from 'utils/parse-query';
+
 import { readJsonFile, writeJsonFile } from './fs-operations';
 
 const { dbPath } = config.get('dataSources.json');
@@ -14,7 +16,8 @@ const { dbPath } = config.get('dataSources.json');
  */
 const getPets = async (query) => {
   let rawPets = readJsonFile(dbPath).pets;
-  const { species } = query;
+  const parsedQuery = parseQuery(query);
+  const { species } = parsedQuery;
 
   rawPets = species ? _.filter(rawPets, { species }) : rawPets;
   return rawPets;
