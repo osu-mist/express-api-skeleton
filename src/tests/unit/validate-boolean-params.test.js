@@ -24,4 +24,17 @@ describe('Test validate-boolean-params', () => {
       result.should.throw(err);
     });
   });
+
+  testCases = ['true', 'false'];
+  _.forEach(testCases, (testCase) => {
+    it(`'${testCase}' should be accepted`, () => {
+      const result = validateProxy.validateBooleanParams.bind(
+        this,
+        { query: { 'filter[isCat]': testCase } },
+        res,
+        next,
+      );
+      result.should.not.throw(err);
+    });
+  });
 });
