@@ -21,7 +21,7 @@ const reduceQueryParams = (result, param) => {
  * @type {RequestHandler}
  */
 const validateOperationParams = (req, res, next) => {
-  let error = false;
+  const errors = [];
 
   const operationParams = _(req.operationDoc.parameters)
     .filter({ in: 'query' })
@@ -30,21 +30,23 @@ const validateOperationParams = (req, res, next) => {
 
   const { query } = req;
   const queryParams = _(query).keys().reduce(reduceQueryParams, {});
-  _.forEach(queryParams, (param, key) => {
+  _.forEach(queryParams, (params, key) => {
     if (operationParams[key]) {
-      if (param.length > 1) {
-        errorBuilder(res, 400, [`'${key}' can not have multiple operators`]);
-        error = true;
+      if (params.length > 1) {
+        errors.push(`'${key}' can not have multiple operators`);
       }
 
-      if (!_.includes(operationParams[key], param[0])) {
-        errorBuilder(res, 400, [`'${param[0]}' is not a valid operator for '${key}'`]);
-        error = true;
-      }
+      _.forEach(params, (param) => {
+        if (!_.includes(operationParams[key], param)) {
+          errors.push(`'${param}' is not a valid operator for '${key}'`);
+        }
+      });
     }
   });
 
-  if (!error) {
+  if (errors.length > 0) {
+    errorBuilder(res, 400, errors);
+  } else {
     next();
   }
 };
