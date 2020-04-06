@@ -37,10 +37,24 @@ paths:
             type: string
         - in: query
           name: filter[hasOwner]
-          description: Filter results by cat
+          description: Filter results if pet has an owner or not
           required: false
           schema:
             type: boolean
+        - in: query
+          name: filter[age][gt]
+          description: Filter results by age
+          required: false
+          schema:
+            type: number
+            format: integer
+        - in: query
+          name: filter[age][lt]
+          description: Filter results by age
+          required: false
+          schema:
+            type: number
+            format: integer
       responses:
         '200':
           description: Successful response
@@ -226,6 +240,11 @@ components:
               type: string
               description: Species of pet
               example: Owl
+            age:
+              type: number
+              format: integer
+              description: Age of pet
+              example: 5
     PetPostBody:
       type: object
       properties:
