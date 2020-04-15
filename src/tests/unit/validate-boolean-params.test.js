@@ -10,6 +10,23 @@ describe('Test validate-boolean-params', () => {
 
   const validateProxy = proxyquire('middlewares/validate-boolean-params', {
     '../errors/errors': { errorBuilder: () => { throw err; } },
+    '../utils/load-openapi': {
+      openapi: {
+        paths: [
+          [
+            {
+              parameters: [
+                {
+                  in: 'query',
+                  schema: { type: 'boolean' },
+                  name: 'filter[hasOwner]',
+                },
+              ],
+            },
+          ],
+        ],
+      },
+    },
   });
 
   let testCases = ['test', 'cats', 1, true, undefined, null];
