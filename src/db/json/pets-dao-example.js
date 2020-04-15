@@ -16,7 +16,7 @@ const { dbPath } = config.get('dataSources.json');
 const getPets = async (query) => {
   let rawPets = readJsonFile(dbPath).pets;
   const parsedQuery = parseQuery(query);
-  const { species, hasOwner } = parsedQuery;
+  const { species, hasOwner, age } = parsedQuery;
 
   rawPets = species ? _.filter(rawPets, { species }) : rawPets;
   if (hasOwner !== undefined) {
@@ -24,6 +24,13 @@ const getPets = async (query) => {
       rawPets = _.filter(rawPets, { owner: '' });
     } else {
       rawPets = _.remove(rawPets, (value) => value.owner !== '');
+    }
+  }
+  if (age) {
+    if (age.operator === 'gt') {
+      rawPets = _.remove(rawPets, (pet) => pet.age > age.value);
+    } else if (age.operator === 'lt') {
+      rawPets = _.remove(rawPets, (pet) => pet.age < age.value);
     }
   }
   return rawPets;

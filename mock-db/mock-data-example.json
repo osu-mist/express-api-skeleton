@@ -4,151 +4,176 @@
       "id": "57e1aab0-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Furball",
       "owner": "Tso-Liang Wu",
-      "species": "Cat"
+      "species": "Cat",
+      "age": 5
     },
     {
       "id": "63742920-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Zeus",
       "owner": "Jared Kosanovic",
-      "species": "Dog"
+      "species": "Dog",
+      "age": 7
     },
     {
       "id": "722043a0-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Mrs Norris",
       "owner": "Argus Filch",
-      "species": "Cat"
+      "species": "Cat",
+      "age": 21
     },
     {
       "id": "72c18cb0-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Fang",
       "owner": "Rubeus Hagrid",
-      "species": "Dog"
+      "species": "Dog",
+      "age": 8
     },
     {
       "id": "7353e1a0-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Fawkes",
       "owner": "Albus Dumbledore",
-      "species": "Phoenix"
+      "species": "Phoenix",
+      "age": 2345
     },
     {
       "id": "74e09c20-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Hedwig",
       "owner": "Harry Potter",
-      "species": "Owl"
+      "species": "Owl",
+      "age": 12
     },
     {
       "id": "757f4d20-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "pip (deceased)",
       "owner": "Ian Wilson",
-      "species": "Pea Puffer"
+      "species": "Pea Puffer",
+      "age": 3
     },
     {
       "id": "7600d930-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Benny (deceased)",
       "owner": "Ian Wilson",
-      "species": "Pea Puffer"
+      "species": "Pea Puffer",
+      "age": 4
     },
     {
       "id": "7674a9a0-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "pip3 (planned)",
       "owner": "Ian Wilson",
-      "species": "Pea Puffer"
+      "species": "Pea Puffer",
+      "age": 4
     },
     {
       "id": "772498b0-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Qwerty",
       "owner": "Elliot Anderson",
-      "species": "Beta fish"
+      "species": "Beta fish",
+      "age": 4
     },
     {
       "id": "77ad50b0-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Qwerty",
       "owner": "Mr. Robot",
-      "species": "Beta fish"
+      "species": "Beta fish",
+      "age": 3
     },
     {
       "id": "782c1da0-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Ollie",
       "owner": "David's Roommate",
-      "species": "Cat"
+      "species": "Cat",
+      "age": 11
     },
     {
       "id": "78905db0-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Darwin",
       "owner": "Ian Brown",
-      "species": "Dog"
+      "species": "Dog",
+      "age": 7
     },
     {
       "id": "78eab2b0-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Wilson",
       "owner": "Tom Hanks",
-      "species": "Volleyball"
+      "species": "Volleyball",
+      "age": 20
     },
     {
       "id": "79b8ff30-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Clifford",
       "owner": "Emily Elizabeth",
-      "species": "Big Red Dog™"
+      "species": "Big Red Dog™",
+      "age": 10
     },
     {
       "id": "b7723c60-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Toothless",
       "owner": "Ian's old roommate",
-      "species": "Axolotl"
+      "species": "Axolotl",
+      "age": 10
     },
     {
       "id": "b82a8fe0-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Peanut",
       "owner": "Ian's old roommate",
-      "species": "Dog"
+      "species": "Dog",
+      "age": 12
     },
     {
       "id": "b86db360-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Thor",
       "owner": "Ian's old roommate",
-      "species": "Cat"
+      "species": "Cat",
+      "age": 13
     },
     {
       "id": "b89d4ee0-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Fido",
       "owner": "Data Architecture Team",
-      "species": "Dog"
+      "species": "Dog",
+      "age": 6
     },
     {
       "id": "cc352d60-c50b-11e9-a7bd-1fb8646e6a06",
       "name": "Jelly Bean",
       "owner": "Miguel",
-      "species": "Dog"
+      "species": "Dog",
+      "age": 9
     },
     {
       "id": "2b8afb1c-07f3-4a31-b099-cb5a5d9d8dfc",
       "name": "Lili",
       "owner": "",
-      "species": "Cat"
+      "species": "Cat",
+      "age": 8
     },
     {
       "id": "b7cf8092-69d2-4a17-a18b-32a1928f5fc7",
       "name": "Tiger",
       "owner": "",
-      "species": "Cat"
+      "species": "Cat",
+      "age": 15
     },
     {
       "id": "16cdf327-8b75-46a5-a207-4ec6a2f24f2d",
       "name": "Mocha",
       "owner": "",
-      "species": "Cat"
+      "species": "Cat",
+      "age": 11
     },
     {
       "id": "106ab8b6-9f6a-4f06-b9a9-ff1e68088c6b",
       "name": "Mama Odie",
       "owner": "",
-      "species": "Dog"
+      "species": "Dog",
+      "age": 9
     },
     {
       "id": "5a0cc3c2-4e2b-4ae6-a7b5-f1231a5cc29a",
       "name": "Luca de Puppo",
       "owner": "",
-      "species": "Dog"
+      "species": "Dog",
+      "age": 5
     }
   ]
 }
