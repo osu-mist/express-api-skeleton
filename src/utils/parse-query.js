@@ -9,10 +9,16 @@ import _ from 'lodash';
 const parseQuery = (query) => {
   const parsedQuery = {};
   _.forEach(query, (value, key) => {
-    const matched = key.match(/^filter\[(.*)\]$/);
+    const regexPattern = /filter\[(.+?)\](\[(.+?)\]){0,1}/g;
+    const matched = regexPattern.exec(key);
     if (matched && matched.length > 1) {
-      const [, parsedKey] = matched;
-      parsedQuery[parsedKey] = value;
+      // array destructuring. only need the 1st and 3rd element
+      const [, parsedKey, , operator] = matched;
+      if (operator) {
+        parsedQuery[parsedKey] = { operator, value };
+      } else {
+        parsedQuery[parsedKey] = value;
+      }
     } else {
       parsedQuery[key] = value;
     }
