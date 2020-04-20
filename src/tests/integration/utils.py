@@ -249,17 +249,17 @@ class UtilsTestCase(unittest.TestCase):
                 ):
                     self.assertIsInstance(actual_value, expected_type)
 
-                # Get attribute pattern and format, then validate
-                pattern = (
-                    None if 'pattern' not in expected_attribute
-                    else expected_attribute['pattern']
-                )
-                formatting = (
-                    None if 'format' not in expected_attribute
-                    else expected_attribute['format']
-                )
-                if pattern is not None or formatting is not None:
-                    __validate_format(actual_value, formatting, pattern)
+                    # Get attribute pattern and format, then validate
+                    pattern = (
+                        None if 'pattern' not in expected_attribute
+                        else expected_attribute['pattern']
+                    )
+                    formatting = (
+                        None if 'format' not in expected_attribute
+                        else expected_attribute['format']
+                    )
+                    if pattern is not None or formatting is not None:
+                        __validate_format(actual_value, formatting, pattern)
 
         status_code = response.status_code
         content = self.get_json_content(response)
