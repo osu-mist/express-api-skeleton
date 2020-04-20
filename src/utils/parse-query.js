@@ -5,6 +5,7 @@ const operatorSymbols = {
   gte: '>=',
   lt: '<',
   lte: '<=',
+  neq: '!=',
 };
 
 /**
