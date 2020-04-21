@@ -1,5 +1,13 @@
 import _ from 'lodash';
 
+const operatorSymbols = {
+  gt: '>',
+  gte: '>=',
+  lt: '<',
+  lte: '<=',
+  neq: '!=',
+};
+
 /**
  * Return parsed query with keys changed to remove the "filter[]" wrapper
  *
@@ -15,7 +23,7 @@ const parseQuery = (query) => {
       // array destructuring. only need the 1st and 3rd element
       const [, parsedKey, , operator] = matched;
       if (operator) {
-        parsedQuery[parsedKey] = { operator, value };
+        parsedQuery[parsedKey] = { operator: operatorSymbols[operator] || operator, value };
       } else {
         parsedQuery[parsedKey] = value;
       }
