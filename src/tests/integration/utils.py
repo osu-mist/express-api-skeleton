@@ -152,7 +152,7 @@ class UtilsTestCase(unittest.TestCase):
             # pattern validation overrides any format validaton
             if pattern is not None:
                 self.assertRegex(attribute, pattern)
-            elif formatting == 'url' or formatting == 'uri':
+            elif formatting in ['uri', 'url']:
                 self.assertTrue(validators.url(attribute))
             elif formatting == 'email':
                 self.assertTrue(validators.email(attribute))
