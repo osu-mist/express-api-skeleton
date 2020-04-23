@@ -61,7 +61,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PetsResult'
+                $ref: '#/components/schemas/PetSetResult'
         '400':
           $ref: '#/components/responses/400'
         '500':
@@ -280,7 +280,7 @@ components:
           $ref: '#/components/schemas/SelfLink'
         data:
           $ref: '#/components/schemas/PetResource'
-    PetsResult:
+    PetSetResult:
       properties:
         links:
           allOf:
