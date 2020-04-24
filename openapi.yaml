@@ -245,6 +245,21 @@ components:
               format: integer
               description: Age of pet
               example: 5
+            size:
+              type: object
+              properties:
+                length:
+                  type: number
+                  format: float
+                  description: Length in inches
+                chest:
+                    type: number
+                    format: float
+                    description: Chest size in inches
+                weight:
+                    type: number
+                    format: float
+                    description: Weight in pounds
     PetPostBody:
       type: object
       properties:
@@ -262,6 +277,10 @@ components:
                   $ref: '#/components/schemas/PetResource/properties/attributes/properties/owner'
                 species:
                   $ref: '#/components/schemas/PetResource/properties/attributes/properties/species'
+                age:
+                  $ref: '#/components/schemas/PetResource/properties/attributes/properties/age'
+                size:
+                  $ref: '#/components/schemas/PetResource/properties/attributes/properties/size'
               required:
                 - name
                 - owner
