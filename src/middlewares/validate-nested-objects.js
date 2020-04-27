@@ -23,7 +23,7 @@ const handleValidation = (schema, body, errors, depth) => {
   });
 
   _.forOwn(bodyObjects, (value, field) => {
-    _.forOwn(value, (something, name) => {
+    _.forOwn(value, (property, name) => {
       if (!_.has(schemaObjects[field].properties, name)) {
         errors.push(
           `Unrecognized property '${name}' `
