@@ -17,10 +17,8 @@ const handleValidation = (schema, body, errors, depth) => {
 
   // check for more nested objects
   _.forOwn(schemaObjects, (value, key) => {
-    const nestedSchema = _.pickBy(value.properties, (property) => property.type === 'object');
-
-    if (!_.isEmpty(nestedSchema)) {
-      handleValidation(nestedSchema, bodyObjects[key], errors, `${depth}.${key}`);
+    if (value.type === 'object') {
+      handleValidation(value.properties, bodyObjects[key], errors, `${depth}.${key}`);
     }
   });
 
