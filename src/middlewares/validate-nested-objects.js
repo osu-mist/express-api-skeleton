@@ -54,6 +54,7 @@ const validateNestedObjects = (req, res, next) => {
       .attributes
       .properties;
 
+    // initial depth is empty
     handleValidation(bodySchema, req.body.data.attributes, errors, '');
   }
 
