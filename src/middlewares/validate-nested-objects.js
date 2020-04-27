@@ -43,6 +43,7 @@ const validateNestedObjects = (req, res, next) => {
   const errors = [];
 
   if (_.has(req.route.methods, 'post')) {
+    const { attributes } = req.body.data;
     const bodySchema = req
       .operationDoc
       .requestBody
@@ -55,7 +56,7 @@ const validateNestedObjects = (req, res, next) => {
       .properties;
 
     // initial depth is empty
-    handleValidation(bodySchema, req.body.data.attributes, errors, '');
+    handleValidation(bodySchema, attributes, errors, '');
   }
 
   if (!_.isEmpty(errors)) {
