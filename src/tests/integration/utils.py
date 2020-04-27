@@ -9,6 +9,7 @@ import urllib
 import unittest
 
 import requests
+import validators
 
 
 def parse_arguments():
@@ -146,6 +147,16 @@ class UtilsTestCase(unittest.TestCase):
         def __get_schema_attributes():
             return schema['attributes']['properties']
 
+        # Validates returned attributes using pattern or format
+        def __validate_format(attribute, formatting, pattern):
+            # pattern validation overrides any format validaton
+            if pattern is not None:
+                self.assertRegex(attribute, pattern)
+            elif formatting in ['uri', 'url']:
+                self.assertTrue(validators.url(attribute))
+            elif formatting == 'email':
+                self.assertTrue(validators.email(attribute))
+
         def __get_attribute_type(attribute):
             """Helper function to map between OpenAPI data types and python
             data types"""
@@ -222,10 +233,10 @@ class UtilsTestCase(unittest.TestCase):
                 # Check item schema if attribute is an array
                 if (
                     expected_type is list
-                    and 'properties' in expected_attributes[field]['items']
+                    and 'properties' in expected_attribute['items']
                 ):
                     expected_item = (
-                        expected_attributes[field]['items']['properties']
+                        expected_attribute['items']['properties']
                     )
                     actual_items = actual_attributes[field]
 
@@ -237,6 +248,18 @@ class UtilsTestCase(unittest.TestCase):
                     or field not in nullable_fields
                 ):
                     self.assertIsInstance(actual_value, expected_type)
+
+                    # Get attribute pattern and format, then validate
+                    pattern = (
+                        None if 'pattern' not in expected_attribute
+                        else expected_attribute['pattern']
+                    )
+                    formatting = (
+                        None if 'format' not in expected_attribute
+                        else expected_attribute['format']
+                    )
+                    if pattern is not None or formatting is not None:
+                        __validate_format(actual_value, formatting, pattern)
 
         status_code = response.status_code
         content = self.get_json_content(response)
