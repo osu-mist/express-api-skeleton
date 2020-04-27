@@ -3,6 +3,40 @@ import _ from 'lodash';
 import { errorBuilder } from 'errors/errors';
 
 /**
+ * Recursively handle validation in nested objects
+ *
+ * @param {object} schema schema definition from openapi
+ * @param {object} body attributes from body passed in with request
+ * @param {string[]} errors list of errors found
+ * @param {string} depth current path through nested objects. used to build error string
+ */
+const handleValidation = (schema, body, errors, depth) => {
+  const schemaObjects = _.pickBy(schema, (value) => value.type === 'object');
+
+  const bodyObjects = _.pickBy(body, (value, key) => _.has(schemaObjects, key));
+
+  // check for more nested objects
+  _.forOwn(schemaObjects, (value, key) => {
+    const nestedSchema = _.pickBy(value.properties, (property) => property.type === 'object');
+
+    if (!_.isEmpty(nestedSchema)) {
+      handleValidation(nestedSchema, bodyObjects[key], errors, `${depth}.${key}`);
+    }
+  });
+
+  _.forOwn(bodyObjects, (value, field) => {
+    _.forOwn(value, (something, name) => {
+      if (!_.has(schemaObjects[field].properties, name)) {
+        errors.push(
+          `Unrecognized property '${name}' `
+          + `in path: 'data.attributes${depth}.${field}', location: 'body'`,
+        );
+      }
+    });
+  });
+};
+
+/**
  * Validates properties in fields that are nested properties
  *
  * @type {RequestHandler}
@@ -21,19 +55,8 @@ const validateNestedObjects = (req, res, next) => {
       .properties
       .attributes
       .properties;
-    const objectSchema = _.pickBy(bodySchema, (value) => value.type === 'object');
 
-    const postBody = _.pickBy(req.body.data.attributes, (value, key) => _.has(objectSchema, key));
-
-    _.forEach(postBody, (value, field) => {
-      _.forOwn(value, (something, name) => {
-        if (!_.has(objectSchema[field].properties, name)) {
-          errors.push(
-            `Unrecognized property '${name}' in path: 'data.attributes.${field}', location: 'body'`,
-          );
-        }
-      });
-    });
+    handleValidation(bodySchema, req.body.data.attributes, errors, '');
   }
 
   if (!_.isEmpty(errors)) {
