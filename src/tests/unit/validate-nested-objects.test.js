@@ -1,5 +1,5 @@
 import chai from 'chai';
-// import _ from 'lodash';
+import _ from 'lodash';
 import proxyquire from 'proxyquire';
 
 chai.should();
@@ -24,6 +24,14 @@ describe('Test validate-nested-objects', () => {
                           length: {
                             type: 'string',
                           },
+                          nestedObject: {
+                            type: 'object',
+                            properties: {
+                              nestedAttribute: {
+                                type: 'string',
+                              },
+                            },
+                          },
                         },
                       },
                     },
@@ -41,25 +49,58 @@ describe('Test validate-nested-objects', () => {
     '../errors/errors': { errorBuilder: () => { throw err; } },
   });
 
-  it('Invalid attribute should be rejected', () => {
-    const result = validateProxy.validateNestedObjects.bind(
-      this,
-      {
-        body: {
-          data: {
-            attributes: {
-              size: {
-                badAttribute: 'test',
-              },
+  const testCases = [
+    {
+      message: "Invalid attribute 'badAttribute' should be rejected",
+      accept: false,
+      attributes: {
+        size: {
+          badAttribute: 'test',
+        },
+      },
+    },
+    {
+      message: "Doubly nested attribute 'badAttribute' should be rejected",
+      accept: false,
+      attributes: {
+        size: {
+          nestedObject: {
+            badAttribute: 'test',
+          },
+        },
+      },
+    },
+    {
+      message: "Valid attribute 'length' should be accepted",
+      accept: true,
+      attributes: {
+        size: {
+          length: 5,
+        },
+      },
+    },
+  ];
+  _.forEach(testCases, ({ message, accept, attributes }) => {
+    it(message, () => {
+      const result = validateProxy.validateNestedObjects.bind(
+        this,
+        {
+          route,
+          operationDoc,
+          body: {
+            data: {
+              attributes,
             },
           },
         },
-        route,
-        operationDoc,
-      },
-      res,
-      next,
-    );
-    result.should.throw(err);
+        res,
+        next,
+      );
+      if (accept) {
+        result.should.not.throw(err);
+      } else {
+        result.should.throw(err);
+      }
+    });
   });
 });
