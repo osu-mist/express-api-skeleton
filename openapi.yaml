@@ -252,14 +252,17 @@ components:
                   type: number
                   format: float
                   description: Length in inches
+                  example: 18
                 chest:
                   type: number
                   format: float
                   description: Chest size in inches
+                  example: 16
                 weight:
                   type: number
                   format: float
                   description: Weight in pounds
+                  example: 8
     PetPostBody:
       type: object
       properties:
