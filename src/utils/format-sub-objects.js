@@ -13,6 +13,9 @@ const formatSubObjects = (rawData) => {
       const splitKey = key.split('.');
       if (splitKey.length > 1) {
         _.set(data, splitKey, value);
+        delete data[key];
+      } else if (Array.isArray(value)) {
+        formatSubObjects(value);
       }
     });
   });
