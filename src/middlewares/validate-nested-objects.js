@@ -44,7 +44,7 @@ const validateNestedObjects = (req, res, next) => {
 
   if (_.has(req.route.methods, 'post')) {
     const { attributes } = req.body.data;
-    const bodySchema = req
+    let schemaAttributes = req
       .operationDoc
       .requestBody
       .content['application/json']
@@ -52,8 +52,13 @@ const validateNestedObjects = (req, res, next) => {
       .properties
       .data
       .properties
-      .attributes
-      .properties;
+      .attributes;
+
+    if (_.has(schemaAttributes, 'allOf')) {
+      const { allOf } = schemaAttributes;
+      schemaAttributes = _.merge(allOf[0], allOf[1]);
+    }
+    const { properties: bodySchema } = schemaAttributes;
 
     // initial depth is empty
     handleValidation(bodySchema, attributes, errors, '');
