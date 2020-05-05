@@ -13,7 +13,7 @@ This directory contains template files that run integration tests against the AP
     ```json
     "local_test": true,
     "api": {
-        "local_base_url": "https://localhost:8080/api/v1",
+        "local_base_url": "https://localhost:8080/api/v2",
         ...
     },
     "auth": {
@@ -36,7 +36,7 @@ This directory contains template files that run integration tests against the AP
     "local_test": false,
     "api": {
         ...
-        "base_url": "https://api.oregonstate.edu/v1"
+        "base_url": "https://api.oregonstate.edu/v2"
     },
     "auth": {
         ...

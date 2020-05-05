@@ -52,7 +52,7 @@ class IntegrationTests(utils.UtilsTestCase):
         testing_species = ['dog', 'CAT', 'tUrTlE']
 
         for species in testing_species:
-            params = {'species': species}
+            params = {'filter[species]': species}
             response = self.check_endpoint(endpoint, 'PetResource', 200,
                                            query_params=params)
 
