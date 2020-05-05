@@ -143,13 +143,15 @@ class UtilsTestCase(unittest.TestCase):
             'object': dict
         }
 
-        # Helper function to get attributes of the schema
         def __get_schema_attributes():
+            """Helper function to get attributes of the schema"""
+
             return schema['attributes']['properties']
 
-        # Validates returned attributes using pattern or format
         def __validate_format(attribute, formatting, pattern):
-            # pattern validation overrides any format validaton
+            """Validates returned attributes using pattern or format. Pattern
+            validation overrides any format validation"""
+
             if pattern is not None:
                 self.assertRegex(attribute, pattern)
             elif formatting in ['uri', 'url']:
