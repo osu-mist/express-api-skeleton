@@ -56,7 +56,11 @@ const validateNestedObjects = (req, res, next) => {
 
     if (_.has(schemaAttributes, 'allOf')) {
       const { allOf } = schemaAttributes;
-      schemaAttributes = _.merge(allOf[0], allOf[1]);
+      const mergedAllOf = {};
+      _.forEach(allOf, (obj) => {
+        _.merge(mergedAllOf, obj);
+      });
+      schemaAttributes = mergedAllOf;
     }
     const { properties: bodySchema } = schemaAttributes;
 
