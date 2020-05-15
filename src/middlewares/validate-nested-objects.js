@@ -11,7 +11,10 @@ import { errorBuilder } from 'errors/errors';
  * @param {string} depth current path through nested objects. used to build error string
  */
 const handleValidation = (schema, body, errors, depth) => {
-  const schemaObjects = _.pickBy(schema, (value) => value.type === 'object');
+  const schemaObjects = _.pickBy(
+    schema,
+    (value) => value.type === 'object' || value.type === 'array',
+  );
 
   const bodyObjects = _.pickBy(body, (value, key) => _.has(schemaObjects, key));
 
@@ -23,14 +26,27 @@ const handleValidation = (schema, body, errors, depth) => {
   });
 
   _.forOwn(bodyObjects, (value, field) => {
-    _.forOwn(value, (property, name) => {
-      if (!_.has(schemaObjects[field].properties, name)) {
-        errors.push(
-          `Unrecognized property '${name}' `
-          + `in path: 'data.attributes${depth}.${field}', location: 'body'`,
-        );
-      }
-    });
+    if (schemaObjects[field].type === 'array') {
+      _.forEach(value, (element, index) => {
+        _.forOwn(element, (property, name) => {
+          if (!_.has(schemaObjects[field].items.properties, name)) {
+            errors.push(
+              `Unrecognized property '${name}' `
+              + `in path: 'data.attributes${depth}.${field}.${index}', location: 'body'`,
+            );
+          }
+        });
+      });
+    } else {
+      _.forOwn(value, (property, name) => {
+        if (!_.has(schemaObjects[field].properties, name)) {
+          errors.push(
+            `Unrecognized property '${name}' `
+            + `in path: 'data.attributes${depth}.${field}', location: 'body'`,
+          );
+        }
+      });
+    }
   });
 };
 
@@ -41,8 +57,7 @@ const handleValidation = (schema, body, errors, depth) => {
  */
 const validateNestedObjects = (req, res, next) => {
   const errors = [];
-
-  if (_.has(req.route.methods, 'post')) {
+  if (_.includes(['post', 'put', 'patch'], _.keys(req.route.methods)[0])) {
     const { attributes } = req.body.data;
     let schemaAttributes = req
       .operationDoc
