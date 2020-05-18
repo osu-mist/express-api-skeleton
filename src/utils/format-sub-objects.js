@@ -14,7 +14,7 @@ const formatSubObjects = (rawData) => {
       if (splitKey.length > 1) {
         _.set(data, splitKey, value);
         delete data[key];
-      } else if (Array.isArray(value)) {
+      } else if (_.isArray(value)) {
         formatSubObjects(value);
       }
     });
