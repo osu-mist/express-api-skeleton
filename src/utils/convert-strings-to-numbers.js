@@ -1,5 +1,11 @@
 import _ from 'lodash';
 
+/**
+ * Converts values that are strings but should be numbers according to openapi
+ *
+ * @param {object} rows raw data from data source
+ * @param {object} properties openapi properties for the resource type of rows
+ */
 const stringsToNumbers = (rows, properties) => {
   const fields = _.pickBy(
     properties,
