@@ -11,7 +11,7 @@ describe('Test format-sub-objects', () => {
       'phoneType.description': 'The superior mobile phone',
       phoneNumber: '5554443333',
     };
-    const expected = _.cloneDeep(testCase);
+    const expected = _.pick(testCase, ['phoneNumber']);
     expected.phoneType = {
       code: 'Android',
       description: 'The superior mobile phone',
