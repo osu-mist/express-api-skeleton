@@ -9,7 +9,7 @@ import _ from 'lodash';
 const stringsToNumbers = (rows, properties) => {
   const fields = _.pickBy(
     properties,
-    (value) => value.type === 'number' || value.type === 'object',
+    (value) => _.includes(['number', 'object', 'array'], value.type),
   );
 
   _.forEach(rows, (row) => {
@@ -21,6 +21,8 @@ const stringsToNumbers = (rows, properties) => {
           row[key] = parseFloat(row[key]);
         } else if (field.type === 'object') {
           stringsToNumbers([row[key]], field.properties);
+        } else if (field.type === 'array') {
+          stringsToNumbers(row[key], field.items.properties);
         }
       }
     });
