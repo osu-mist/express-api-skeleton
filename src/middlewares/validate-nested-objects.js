@@ -13,7 +13,7 @@ import { errorBuilder } from 'errors/errors';
 const handleValidation = (schema, body, errors, depth) => {
   const schemaObjects = _.pickBy(
     schema,
-    (value) => value.type === 'object' || value.type === 'array',
+    (value) => _.includes(['object', 'array'], value.type),
   );
 
   const bodyObjects = _.pickBy(body, (value, key) => _.has(schemaObjects, key));
