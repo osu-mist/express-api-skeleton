@@ -1,6 +1,7 @@
 import { Serializer as JsonApiSerializer } from 'jsonapi-serializer';
 import _ from 'lodash';
 
+import { stringsToNumbers } from 'utils/convert-strings-to-numbers';
 import { serializerOptions } from 'utils/jsonapi';
 import { openapi } from 'utils/load-openapi';
 import { paginate } from 'utils/paginator';
@@ -21,6 +22,7 @@ const petResourceUrl = resourcePathLink(apiBaseUrl, petResourcePath);
  */
 const serializePets = (rawPets, req) => {
   const { query } = req;
+  stringsToNumbers(rawPets, petResourceProp.attributes.properties);
 
   // Add pagination links and meta information to options if pagination is enabled
   const pageQuery = {
@@ -59,6 +61,7 @@ const serializePets = (rawPets, req) => {
  */
 const serializePet = (rawPet, req) => {
   const { query } = req;
+  stringsToNumbers([rawPet], petResourceProp.attributes.properties);
 
   // TODO use req.path
   const baseUrl = req.method === 'POST'
