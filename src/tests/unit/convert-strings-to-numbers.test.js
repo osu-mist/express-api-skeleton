@@ -7,14 +7,10 @@ chai.should();
 const testProperties = {
   name: {
     type: 'string',
-    description: 'Name of pet',
-    example: 'Hedwig',
   },
   age: {
     type: 'number',
     format: 'integer',
-    description: 'Age of pet',
-    example: 5,
   },
   size: {
     type: 'object',
@@ -22,8 +18,6 @@ const testProperties = {
       length: {
         type: 'number',
         format: 'float',
-        description: 'Length in inches',
-        example: 18,
       },
     },
   },
