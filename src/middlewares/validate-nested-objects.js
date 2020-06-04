@@ -2,6 +2,16 @@ import _ from 'lodash';
 
 import { errorBuilder } from 'errors/errors';
 
+/**
+ * Generates and pushes error string to errors
+ *
+ * @param {string[]} errors list of errors
+ * @param {*} name value of invalid property
+ * @param {*} depth path in attributes object
+ * @param {*} field name of invalid property
+ * @param {*} index array index
+ * @returns {number} size of errors array with new value
+ */
 const pushError = (errors, name, depth, field, index) => errors.push(
   `Unrecognized property '${name}'`
   + ` in path: 'data.attributes${depth}.${field}`
