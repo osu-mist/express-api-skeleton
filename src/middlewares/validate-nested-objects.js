@@ -2,6 +2,12 @@ import _ from 'lodash';
 
 import { errorBuilder } from 'errors/errors';
 
+const pushError = (errors, name, depth, field, index) => errors.push(
+  `Unrecognized property '${name}'`
+  + ` in path: 'data.attributes${depth}.${field}`
+  + `${index || index === 0 ? `.${index}` : ''}', location: 'body'`,
+);
+
 /**
  * Recursively handle validation in nested objects
  *
@@ -30,20 +36,14 @@ const handleValidation = (schema, body, errors, depth) => {
       _.forEach(value, (element, index) => {
         _.forOwn(element, (property, name) => {
           if (!_.has(schemaObjects[field].items.properties, name)) {
-            errors.push(
-              `Unrecognized property '${name}' `
-              + `in path: 'data.attributes${depth}.${field}.${index}', location: 'body'`,
-            );
+            pushError(errors, name, depth, field, index);
           }
         });
       });
     } else {
       _.forOwn(value, (property, name) => {
         if (!_.has(schemaObjects[field].properties, name)) {
-          errors.push(
-            `Unrecognized property '${name}' `
-            + `in path: 'data.attributes${depth}.${field}', location: 'body'`,
-          );
+          pushError(errors, name, depth, field);
         }
       });
     }
