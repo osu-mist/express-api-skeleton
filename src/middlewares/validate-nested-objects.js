@@ -57,7 +57,7 @@ const handleValidation = (schema, body, errors, depth) => {
  */
 const validateNestedObjects = (req, res, next) => {
   const errors = [];
-  if (_.includes(['post', 'put', 'patch'], _.keys(req.route.methods)[0])) {
+  if (_.includes(['post', 'patch'], _.keys(req.route.methods)[0])) {
     const { attributes } = req.body.data;
     let schemaAttributes = req
       .operationDoc
