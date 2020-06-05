@@ -6,10 +6,10 @@ import { errorBuilder } from 'errors/errors';
  * Generates and pushes error string to errors
  *
  * @param {string[]} errors list of errors
- * @param {*} name value of invalid property
- * @param {*} depth path in attributes object
- * @param {*} field name of invalid property
- * @param {*} index array index
+ * @param {string} name value of invalid property
+ * @param {string} depth path in attributes object
+ * @param {string} field name of invalid property
+ * @param {string} index array index
  * @returns {number} size of errors array with new value
  */
 const pushError = (errors, name, depth, field, index) => errors.push(
