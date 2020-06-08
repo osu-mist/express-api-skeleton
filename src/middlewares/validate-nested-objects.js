@@ -3,6 +3,22 @@ import _ from 'lodash';
 import { errorBuilder } from 'errors/errors';
 
 /**
+ * Generates and pushes error string to errors
+ *
+ * @param {string[]} errors list of errors
+ * @param {string} name value of invalid property
+ * @param {string} depth path in attributes object
+ * @param {string} field name of invalid property
+ * @param {string} index array index
+ * @returns {number} size of errors array with new value
+ */
+const pushError = (errors, name, depth, field, index) => errors.push(
+  `Unrecognized property '${name}'`
+  + ` in path: 'data.attributes${depth}.${field}`
+  + `${index || index === 0 ? `.${index}` : ''}', location: 'body'`,
+);
+
+/**
  * Recursively handle validation in nested objects
  *
  * @param {object} schema schema definition from openapi
@@ -11,7 +27,10 @@ import { errorBuilder } from 'errors/errors';
  * @param {string} depth current path through nested objects. used to build error string
  */
 const handleValidation = (schema, body, errors, depth) => {
-  const schemaObjects = _.pickBy(schema, (value) => value.type === 'object');
+  const schemaObjects = _.pickBy(
+    schema,
+    (value) => _.includes(['object', 'array'], value.type),
+  );
 
   const bodyObjects = _.pickBy(body, (value, key) => _.has(schemaObjects, key));
 
@@ -23,14 +42,21 @@ const handleValidation = (schema, body, errors, depth) => {
   });
 
   _.forOwn(bodyObjects, (value, field) => {
-    _.forOwn(value, (property, name) => {
-      if (!_.has(schemaObjects[field].properties, name)) {
-        errors.push(
-          `Unrecognized property '${name}' `
-          + `in path: 'data.attributes${depth}.${field}', location: 'body'`,
-        );
-      }
-    });
+    if (schemaObjects[field].type === 'array') {
+      _.forEach(value, (element, index) => {
+        _.forOwn(element, (property, name) => {
+          if (!_.has(schemaObjects[field].items.properties, name)) {
+            pushError(errors, name, depth, field, index);
+          }
+        });
+      });
+    } else {
+      _.forOwn(value, (property, name) => {
+        if (!_.has(schemaObjects[field].properties, name)) {
+          pushError(errors, name, depth, field);
+        }
+      });
+    }
   });
 };
 
@@ -41,8 +67,7 @@ const handleValidation = (schema, body, errors, depth) => {
  */
 const validateNestedObjects = (req, res, next) => {
   const errors = [];
-
-  if (_.has(req.route.methods, 'post')) {
+  if (_.includes(['post', 'patch'], _.keys(req.route.methods)[0])) {
     const { attributes } = req.body.data;
     let schemaAttributes = req
       .operationDoc
