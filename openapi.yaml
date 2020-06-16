@@ -216,6 +216,7 @@ definitions:
         items:
           $ref: '#/definitions/PetResource'
   PetPostBody:
+    type: object
     properties:
       data:
         type: object

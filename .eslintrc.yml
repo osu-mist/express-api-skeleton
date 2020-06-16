@@ -11,6 +11,8 @@ env:
   mocha: true
 rules:
   no-param-reassign: "off"
+  import/extensions:
+      - off
   import/no-unresolved:
     - error
     - commonjs: true
