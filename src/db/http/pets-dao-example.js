@@ -11,7 +11,7 @@ const { baseUri } = config.get('dataSources.http');
  * @returns {Promise} Promise object represents a list of pets
  */
 const getPets = async () => {
-  const rawPets = await rp({ ...{ uri: baseUri }, ...httpOptions });
+  const rawPets = await rp.get({ ...{ uri: baseUri }, ...httpOptions });
   return rawPets;
 };
 
@@ -23,7 +23,7 @@ const getPets = async () => {
  */
 const getPetById = async (id) => {
   try {
-    const rawPet = await rp({ ...{ uri: `${baseUri}/${id}` }, ...httpOptions });
+    const rawPet = await rp.get({ ...{ uri: `${baseUri}/${id}` }, ...httpOptions });
     return rawPet;
   } catch (err) {
     if (err.statusCode === 404) {

@@ -17,7 +17,7 @@ const httpOptions = {
  */
 const validateHttp = async () => {
   try {
-    await rp({ ...{ uri: baseUri }, ...httpOptions });
+    await rp.head({ ...{ uri: baseUri }, ...httpOptions });
   } catch (err) {
     logger.error(err);
     throw new Error('Unable to connect to HTTP data source');
