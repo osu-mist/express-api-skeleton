@@ -1,3 +1,5 @@
+/* eslint jsdoc/require-jsdoc:0 */
+
 const presets = [
   [
     '@babel/preset-env',

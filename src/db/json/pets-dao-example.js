@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import config from 'config';
-import uuidv1 from 'uuid/v1';
+import uuidv1 from 'uuid';
 
 import { parseQuery } from 'utils/parse-query';
 import { readJsonFile, writeJsonFile } from './fs-operations';
