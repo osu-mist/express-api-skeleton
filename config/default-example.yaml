@@ -13,7 +13,7 @@ authentication:
   password: ${PASSWD}
 
 dataSources:
-  dataSources: ['json', 'oracledb', 'awsS3']
+  dataSources: ['json', 'oracledb', 'awsS3', 'http']
   json:
     dbPath: 'mock-db/mock-data.json'
   oracledb:
@@ -32,3 +32,6 @@ dataSources:
     # These values are for local or proxy S3 instances
     endpoint: null
     s3ForcePathStyle: false
+  http:
+    baseUri: https://api.example.com
+    headers: null
