@@ -1,8 +1,8 @@
 import { expect } from 'chai';
+import config from 'config';
 import _ from 'lodash';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
-import config from 'config';
 
 import { logger } from 'utils/logger';
 import { fakeBaseUrl, fakeOsuId } from './mock-data';
