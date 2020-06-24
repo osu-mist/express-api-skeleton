@@ -1,10 +1,9 @@
 import config from 'config';
 import rp from 'request-promise-native';
 
-import { serializePets, serializePet } from 'serializers/pets-serializer';
+import { httpOptions } from './connection';
 
-const { sourceUri } = config.get('httpDataSource');
-const { endpointUri } = config.get('server');
+const { baseUri } = config.get('dataSources.http');
 
 /**
  * Return a list of pets
@@ -12,10 +11,8 @@ const { endpointUri } = config.get('server');
  * @returns {Promise} Promise object represents a list of pets
  */
 const getPets = async () => {
-  const options = { uri: sourceUri, json: true };
-  const rawPets = await rp(options);
-  const serializedPets = serializePets(rawPets, endpointUri);
-  return serializedPets;
+  const rawPets = await rp.get({ ...{ uri: baseUri }, ...httpOptions });
+  return rawPets;
 };
 
 /**
@@ -25,13 +22,15 @@ const getPets = async () => {
  * @returns {Promise} Promise object represents a specific pet
  */
 const getPetById = async (id) => {
-  const options = { uri: `${sourceUri}/${id}`, json: true };
-  const rawPet = await rp(options);
-  if (!rawPet) {
-    return undefined;
+  try {
+    const rawPet = await rp.get({ ...{ uri: `${baseUri}/${id}` }, ...httpOptions });
+    return rawPet;
+  } catch (err) {
+    if (err.statusCode === 404) {
+      return undefined;
+    }
+    throw new Error('Internal Server Error');
   }
-  const serializedPet = serializePet(rawPet, endpointUri);
-  return serializedPet;
 };
 
 export { getPets, getPetById };

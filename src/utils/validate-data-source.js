@@ -7,6 +7,9 @@ const { dataSources } = config.get('dataSources');
 const awsS3 = dataSources.includes('awsS3')
   ? require('db/awsS3/aws-operations').validateAwsS3
   : null;
+const http = dataSources.includes('http')
+  ? require('db/http/connection').validateHttp
+  : null;
 const json = dataSources.includes('json')
   ? require('db/json/fs-operations').validateJsonDb
   : null;
@@ -18,7 +21,7 @@ const oracledb = dataSources.includes('oracledb')
 const validateDataSource = () => {
   const validationMethods = {
     awsS3,
-    http: null, // TODO: add HTTP validation method
+    http,
     json,
     oracledb,
   };

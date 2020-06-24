@@ -17,7 +17,6 @@ const get = async (req, res) => {
   }
 };
 
-
 /**
  * Post pets
  *
@@ -33,7 +32,6 @@ const post = async (req, res) => {
     errorHandler(res, err);
   }
 };
-
 
 export {
   get,
