@@ -76,6 +76,17 @@ $ gulp test
 $ npm test
 ```
 
+### Test Coverage
+
+Run the nyc tool against the unit tests:
+
+```shell
+# Using npm
+$ npm run coverage
+```
+
+After task is run, a more detailed test coverage report will be available by opening `./coverage/lcov-report/index.html` in your browser.
+
 ### Type checking
 
 This API is configured to use [Flow static type checking](https://flow.org/).
