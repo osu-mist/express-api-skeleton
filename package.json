@@ -41,7 +41,7 @@
     "express-winston": "^3.3.0",
     "js-yaml": "^3.13.1",
     "jsonapi-serializer": "^3.6.5",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "oracledb": "^4.1.0",
     "pm2": "^4.1.2",
