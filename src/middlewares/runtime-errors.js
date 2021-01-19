@@ -58,7 +58,7 @@ const openApiError = (err, req, res, next) => {
 
     // Return 409 if type is invalid
     const invalidTypeError = _.find(errors, (error) => (
-      error.path === 'data.type' && error.errorCode === 'enum.openapi.validation'
+      error.path === 'data.type' && error.errorCode === 'enum.openapi.requestValidation'
     ));
     if (invalidTypeError) {
       return errorBuilder(res, 409, enumErrorMessage(invalidTypeError));
@@ -66,7 +66,7 @@ const openApiError = (err, req, res, next) => {
 
     // Return 404 if error is pattern validation and in path
     const invalidPatternError = _.find(errors, (error) => (
-      error.errorCode === 'pattern.openapi.validation' && error.location === 'path'
+      error.errorCode === 'pattern.openapi.requestValidation' && error.location === 'path'
     ));
     if (invalidPatternError) {
       return errorBuilder(
@@ -84,9 +84,9 @@ const openApiError = (err, req, res, next) => {
         location,
       } = error;
 
-      if (errorCode === 'enum.openapi.validation') {
+      if (errorCode === 'enum.openapi.requestValidation') {
         details.push(enumErrorMessage(error));
-      } else if (errorCode === 'additionalProperties.openapi.validation') {
+      } else if (errorCode === 'additionalProperties.openapi.requestValidation') {
         const { additionalProperty } = error.params;
         details.push(`Unrecognized property '${additionalProperty}' in path: '${path}', location: '${location}'`);
       } else {
