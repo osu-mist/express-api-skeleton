@@ -60,6 +60,9 @@ const validateOracleDb = async () => {
   }
 };
 
+// Close the pool when application is stopped
+process.on('exit', () => { if (pool) pool.close(); });
+
 export {
   getConnection, validateOracleDb,
 };
