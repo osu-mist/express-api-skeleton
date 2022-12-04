@@ -34,7 +34,7 @@
     "compose-middleware": "^5.0.1",
     "config": "^3.2.2",
     "deasync": "^0.1.15",
-    "decode-uri-component": "^0.2.0",
+    "decode-uri-component": "^0.2.1",
     "express": "^4.17.1",
     "express-basic-auth": "^1.2.0",
     "express-openapi": "^5.0.0",
