@@ -80,7 +80,7 @@
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-eslint": "^6.0.0",
-    "gulp-mocha": "^7.0.1",
+    "gulp-mocha": "^8.0.0",
     "gulp-run": "^1.7.1",
     "gulp-sourcemaps": "^2.6.5",
     "nodemon": "^2.0.2",
